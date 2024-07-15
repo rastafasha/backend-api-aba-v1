@@ -36,8 +36,15 @@ class Bip extends Model
         'assestment_conducted',
         'assestment_conducted_options',//json
         'prevalent_setting_event_and_atecedents',//json
+        'assestmentEvaluationSettings',//json
         'interventions',//json
         'reduction_id',
+        'strengths',
+        'weakneses',
+        'hypothesis_based_intervention',
+        'access_to_tangibles',//json
+        'phiysical_and_medical',
+        'phiysical_and_medical_status',//json
 
         //no borrar
         // 'behavior',

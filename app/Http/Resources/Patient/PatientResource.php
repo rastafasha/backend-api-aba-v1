@@ -83,7 +83,7 @@ class PatientResource extends JsonResource
             // "insuranceId_secundary"=>$this->resource->insuranceId_secundary,          
             "elegibility_date"=>$this->resource->elegibility_date ? Carbon::parse($this->resource->elegibility_date)->format("Y/m/d") : NULL,
             // "pos_covered"=>$this->resource->pos_covered ,
-            "pos_covered"=> json_decode($this->resource->pos_covered)? : null,
+            
             "deductible_individual_I_F"=>$this->resource->deductible_individual_I_F,
             "balance"=>$this->resource->balance,
             "coinsurance"=>$this->resource->coinsurance,
@@ -110,46 +110,41 @@ class PatientResource extends JsonResource
             //pas
             "pa_assessments"=>json_decode($this->resource->pa_assessments)? : null,
             
+            "pos_covered"=> json_decode($this->resource->pos_covered)? : null,
 
-            // "location" =>implode($this->resource->location_id),
-            
-            
+            "rbt_home_id" =>$this->resource->rbt_home_id,
+            'rbt_home'=>$this->resource-> rbt_home,
+                'rbt_home'=>[
+                    // 'id'=> $this->resource->rbt_home->rbt_home_id,
+                    'name'=> $this->resource->rbt_home->name,
+                    'surname'=> $this->resource->rbt_home->surname,
+                    'npi'=> $this->resource->rbt_home->npi,
+                ],
 
-            
-
-            // "rbt_home_id" =>$this->resource->rbt_home_id,
-            // 'rbt_home'=>$this->resource-> rbt_home,
-            //     'rbt_home'=>[
-            //         // 'id'=> $this->resource->rbt_home->rbt_home_id,
-            //         'name'=> $this->resource->rbt_home->name,
-            //         'surname'=> $this->resource->rbt_home->surname,
-            //         'npi'=> $this->resource->rbt_home->npi,
-            //     ],
-
-            // "rbt2_school_id"=>$this->resource->rbt2_school_id,
-            // 'rbt2_school'=>$this->resource-> rbt2_school,
-            //     'rbt2_school'=>[
-            //         // 'id'=> $this->resource->rbt2_school->rbt2_school_id,
-            //         'name'=> $this->resource->rbt2_school->name,
-            //         'surname'=> $this->resource->rbt2_school->surname,
-            //         'npi'=> $this->resource->rbt2_school->npi,
-            //     ],
-            // "bcba_home_id"=>$this->resource->bcba_home_id,
-            // 'bcba_home'=>$this->resource-> bcba_home,
-            //     'bcba_home'=>[
-            //         // 'id'=> $this->resource->bcba_home->bcba_home_id,
-            //         'name'=> $this->resource->bcba_home->name,
-            //         'surname'=> $this->resource->bcba_home->surname,
-            //         'npi'=> $this->resource->bcba_home->npi,
-            //     ],
-            // "bcba2_school_id"=>$this->resource->bcba2_school_id,
-            // 'bcba2_school'=>$this->resource-> bcba2_school,
-            //     'bcba2_school'=>[
-            //         // 'id'=> $this->resource->bcba2_school->bcba2_school_id,
-            //         'name'=> $this->resource->bcba2_school->name,
-            //         'surname'=> $this->resource->bcba2_school->surname,
-            //         'npi'=> $this->resource->bcba2_school->npi,
-            //     ],
+            "rbt2_school_id"=>$this->resource->rbt2_school_id,
+            'rbt2_school'=>$this->resource-> rbt2_school,
+                'rbt2_school'=>[
+                    // 'id'=> $this->resource->rbt2_school->rbt2_school_id,
+                    'name'=> $this->resource->rbt2_school->name,
+                    'surname'=> $this->resource->rbt2_school->surname,
+                    'npi'=> $this->resource->rbt2_school->npi,
+                ],
+            "bcba_home_id"=>$this->resource->bcba_home_id,
+            'bcba_home'=>$this->resource-> bcba_home,
+                'bcba_home'=>[
+                    // 'id'=> $this->resource->bcba_home->bcba_home_id,
+                    'name'=> $this->resource->bcba_home->name,
+                    'surname'=> $this->resource->bcba_home->surname,
+                    'npi'=> $this->resource->bcba_home->npi,
+                ],
+            "bcba2_school_id"=>$this->resource->bcba2_school_id,
+            'bcba2_school'=>$this->resource-> bcba2_school,
+                'bcba2_school'=>[
+                    // 'id'=> $this->resource->bcba2_school->bcba2_school_id,
+                    'name'=> $this->resource->bcba2_school->name,
+                    'surname'=> $this->resource->bcba2_school->surname,
+                    'npi'=> $this->resource->bcba2_school->npi,
+                ],
             "clin_director_id"=>$this->resource->clin_director_id,
             'clin_director'=>$this->resource-> clin_director,
                 'clin_director'=>[

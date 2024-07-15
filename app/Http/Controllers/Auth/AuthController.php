@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Models\Role;
 use App\Models\User;
+use App\Models\UserLocation;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use App\Http\Requests\AuthRequest;
@@ -46,9 +47,14 @@ class AuthController extends Controller
 
         $user = User::where('email', request('email'))->firstOrFail();
 
+
+        $locations= UserLocation::where("user_id",'=', $user->id)
+        ->get();
+
         $permissions = auth('api')->user()->getAllPermissions()->map(function($perm){
             return $perm->name;
         });
+        
         return response()->json([
             'message' => "Inicio de sesión exitoso",
             'access_token' => $this->respondWithToken($token),
@@ -62,7 +68,7 @@ class AuthController extends Controller
                 // "rolename"=>auth('api')->user()->rolename,
                 "roles"=>auth('api')->user()->getRoleNames(),
                 "email"=>auth('api')->user()->email,
-                "location_id"=>auth('api')->user()->location_id,
+                "location_id"=> $locations[0]->location_id,
                 "permissions"=>$permissions,
 
             ],

@@ -47,17 +47,24 @@ class BipResource extends JsonResource
             "education_status"=>$this->resource->education_status,
             "phisical_and_medical_status"=>$this->resource->phisical_and_medical_status,
             "assestment_conducted"=>$this->resource->assestment_conducted,
+            "strengths"=>$this->resource->strengths,
+            "weakneses"=>$this->resource->weakneses,
             
             'documents_reviewed'=> json_decode($this->resource-> documents_reviewed),
             'maladaptives'=> json_decode($this->resource-> maladaptives),
             "assestment_conducted_options"=>json_decode($this->resource-> assestment_conducted_options),
+            "assestmentEvaluationSettings"=>json_decode($this->resource-> assestmentEvaluationSettings),
             "prevalent_setting_event_and_atecedents"=>json_decode($this->resource-> prevalent_setting_event_and_atecedents),
             "interventions"=>json_decode($this->resource-> interventions),
             "goal_stos"=>json_decode($this->resource->goal_stos),
             "goal_ltos"=>json_decode($this->resource->goal_ltos),
             
             
-
+            "hypothesis_based_intervention"=>$this->resource->hypothesis_based_intervention ,
+            "access_to_tangibles"=>json_decode($this->resource->access_to_tangibles),
+            
+            "phiysical_and_medical"=>$this->resource->phiysical_and_medical,
+            "phiysical_and_medical_status"=>json_decode($this->resource->phiysical_and_medical_status),
 
             "reduction_goal"=>$this->resource->reduction_goals ,
             "sustitution_goal"=>$this->resource->sustitution_goals , 

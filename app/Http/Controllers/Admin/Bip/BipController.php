@@ -80,6 +80,9 @@ class BipController extends Controller
         $request->request->add(["assestment_conducted_options"=>json_encode($request->assestment_conducted_options)]);
         $request->request->add(["prevalent_setting_event_and_atecedents"=>json_encode($request->prevalent_setting_event_and_atecedents)]);
         $request->request->add(["interventions"=>json_encode($request->interventions)]);
+        $request->request->add(["assestmentEvaluationSettings"=>json_encode($request->assestmentEvaluationSettings)]);
+        $request->request->add(["access_to_tangibles"=>json_encode($request->access_to_tangibles)]);
+        $request->request->add(["phiysical_and_medical_status"=>json_encode($request->phiysical_and_medical_status)]);
 
         $bip = Bip::create($request->all());
         
@@ -91,6 +94,9 @@ class BipController extends Controller
             "documents_reviewed"=>json_decode($bip-> documents_reviewed),
             "maladaptives"=>json_decode($bip-> maladaptives),
             "assestment_conducted_options"=>json_decode($bip-> assestment_conducted_options),
+            "assestmentEvaluationSettings"=>json_decode($bip-> assestmentEvaluationSettings),
+            "access_to_tangibles"=>json_decode($bip-> access_to_tangibles),
+            "phiysical_and_medical_status"=>json_decode($bip-> phiysical_and_medical_status),
             "prevalent_setting_event_and_atecedents"=>json_decode($bip-> prevalent_setting_event_and_atecedents),
             "interventions"=>json_decode($bip-> interventions),
             "client_id"=>$bip->client_id,
@@ -178,6 +184,9 @@ class BipController extends Controller
             "assestment_conducted_options"=>json_decode($bip-> assestment_conducted_options),
             "prevalent_setting_event_and_atecedents"=>json_decode($bip-> prevalent_setting_event_and_atecedents),
             "interventions"=>json_decode($bip-> interventions),
+            "assestmentEvaluationSettings"=>json_decode($bip-> assestmentEvaluationSettings),
+            "access_to_tangibles"=>json_decode($bip-> access_to_tangibles),
+            "phiysical_and_medical_status"=>json_decode($bip-> phiysical_and_medical_status),
             // "consent_to_treatment"=>$bip->consent_to_treatment,
             
             
@@ -202,7 +211,10 @@ class BipController extends Controller
             "documents_reviewed"=>json_decode($bip-> documents_reviewed),
             "maladaptives"=>json_decode($bip-> maladaptives),
             "assestment_conducted_options"=>json_decode($bip-> assestment_conducted_options),
+            "assestmentEvaluationSettings"=>json_decode($bip-> assestmentEvaluationSettings),
+            "access_to_tangibles"=>json_decode($bip-> access_to_tangibles),
             "prevalent_setting_event_and_atecedents"=>json_decode($bip-> prevalent_setting_event_and_atecedents),
+            "phiysical_and_medical_status"=>json_decode($bip-> phiysical_and_medical_status),
             "interventions"=>json_decode($bip-> interventions),
             
             
@@ -317,6 +329,9 @@ class BipController extends Controller
         $request->request->add(["documents_reviewed"=>json_encode($request->documents_reviewed)]);
         $request->request->add(["maladaptives"=>json_encode($request->maladaptives)]);
         $request->request->add(["assestment_conducted_options"=>json_encode($request->assestment_conducted_options)]);
+        $request->request->add(["assestmentEvaluationSettings"=>json_encode($request->assestmentEvaluationSettings)]);
+        $request->request->add(["access_to_tangibles"=>json_encode($request->access_to_tangibles)]);
+        $request->request->add(["phiysical_and_medical_status"=>json_encode($request->phiysical_and_medical_status)]);
         $request->request->add(["prevalent_setting_event_and_atecedents"=>json_encode($request->prevalent_setting_event_and_atecedents)]);
         $request->request->add(["interventions"=>json_encode($request->interventions)]);
         
@@ -329,7 +344,10 @@ class BipController extends Controller
             "documents_reviewed"=>json_decode($bip-> documents_reviewed),
             "maladaptives"=>json_decode($bip-> maladaptives),
             "assestment_conducted_options"=>json_decode($bip-> assestment_conducted_options),
+            "assestmentEvaluationSettings"=>json_decode($bip-> assestmentEvaluationSettings),
+            "access_to_tangibles"=>json_decode($bip-> access_to_tangibles),
             "prevalent_setting_event_and_atecedents"=>json_decode($bip-> prevalent_setting_event_and_atecedents),
+            "phiysical_and_medical_status"=>json_decode($bip-> phiysical_and_medical_status),
             "interventions"=>json_decode($bip-> interventions),
             // "doctor_id" => $bip->doctor_id,
             // "doctor"=>$bip->doctor_id ? 

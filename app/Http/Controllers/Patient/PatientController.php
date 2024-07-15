@@ -111,7 +111,7 @@ class PatientController extends Controller
         //esta es la funcion con la tabla aparte del multilocation
 
 
-        $user = User::whereHas('locations', function ($query) use ($location_id) {
+        $users = User::whereHas('locations', function ($query) use ($location_id) {
             $query->where('location_id', $location_id);
         })->get();
 
@@ -133,19 +133,13 @@ class PatientController extends Controller
         
         return response()->json([
             // "user" => $user,
-            "user" => UserCollection::make($user),
-            "user"=>$user->map(function($user){
+            // "users" => UserCollection::make($users),
+            "users"=>$users->map(function($user){
                 return[
                     "id"=> $user->id,
                     "full_name"=> $user->name.' '. $user->surname,
                     "status"=> $user->status,
                     "roles"=> $user->roles,
-                    // "roles"=>$roles->map(function($rol){
-                    //     return[
-                    //         "name"=> $rol->name,
-                            
-                    //     ];
-                    //  }),
                     
                 ];
             }),
@@ -339,6 +333,7 @@ class PatientController extends Controller
         return response()->json([
             "patient" => PatientResource::make($patient),
             "pa_assessments"=>json_decode($patient->pa_assessments) ? : null,
+            "pos_covered"=>json_decode($patient->pos_covered) ? : null,
         ]);
     }
     public function showPatientId($patient_id)
