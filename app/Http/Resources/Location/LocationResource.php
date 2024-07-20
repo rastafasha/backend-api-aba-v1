@@ -27,10 +27,7 @@ class LocationResource extends JsonResource
             "user_id"=>$this->resource->user_id,
             "client_id"=>$this->resource->client_id,
             "zip"=>$this->resource->zip,
-<<<<<<< HEAD
             "telfax"=>$this->resource->telfax,
-=======
->>>>>>> 9b62d24237c89e188573e548b26fa09827c71bb6
             "avatar"=> $this->resource->avatar ? env("APP_URL")."storage/".$this->resource->avatar : null,
             // "avatar"=> $this->resource->avatar ? env("APP_URL").$this->resource->avatar : null,
             

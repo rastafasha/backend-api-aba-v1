@@ -308,19 +308,14 @@ class ClientReportController extends Controller
                     "first_name"=>$patient->first_name,
                     "last_name"=>$patient->last_name,
                     "diagnosis_code"=>$patient->diagnosis_code,
-<<<<<<< HEAD
                     // "pos_covered"=>$patient->pos_covered,
                     "pos_covered"=>$patient->pos_covered ? json_decode($patient->pos_covered) : null,
-=======
-                    "pos_covered"=>$patient->pos_covered,
->>>>>>> 9b62d24237c89e188573e548b26fa09827c71bb6
                     "insurer_id"=>$patient->insurer_id,
                     "rbt_home_id"=>$patient->rbt_home_id,
                     "rbt2_school_id"=>$patient->rbt2_school_id,
                     "bcba_home_id"=>$patient->bcba_home_id,
                     "bcba2_school_id"=>$patient->bcba2_school_id,
                     // "bcba2_school"=>$patient->bcba2_school_id ? [
-<<<<<<< HEAD
                         //     "id"=> $bcba2_school->bcba2_school_id,
                         //     "name"=>$bcba2_school->name,
                         //     "surname"=>$bcba2_school->surname,
@@ -329,15 +324,6 @@ class ClientReportController extends Controller
                         
                         
                         "pos_covered"=>$patient->pos_covered ? json_decode($patient->pos_covered) : null,
-=======
-                    //     "id"=> $bcba2_school->bcba2_school_id,
-                    //     "name"=>$bcba2_school->name,
-                    //     "surname"=>$bcba2_school->surname,
-                    // ]:NULL,
-                ]:NULL,
-           
-            
->>>>>>> 9b62d24237c89e188573e548b26fa09827c71bb6
             
 
             "pa_assessments"=>$patient->pa_assessments ? json_decode($patient->pa_assessments) : null,
@@ -470,11 +456,8 @@ class ClientReportController extends Controller
         
 
         $clientReport = ClientReport::create($request->all());
-<<<<<<< HEAD
 
         
-=======
->>>>>>> 9b62d24237c89e188573e548b26fa09827c71bb6
         
         return response()->json([
             "message"=>200,
