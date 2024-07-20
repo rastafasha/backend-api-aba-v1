@@ -456,6 +456,8 @@ class ClientReportController extends Controller
         
 
         $clientReport = ClientReport::create($request->all());
+
+        
         
         return response()->json([
             "message"=>200,

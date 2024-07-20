@@ -24,3 +24,6 @@ Route::post('note_rbt/storeReplacemts', [NoteRbtController::class, 'storeReplace
 
 Route::put('/note_rbt/update/status/{note_rbt:id}', [NoteRbtController::class, 'updateStatus'])
     ->name('note_rbt.updateStatus');
+
+Route::put('/note_rbt/update/modifier/{note_rbt:id}', [NoteRbtController::class, 'updateModifier'])
+    ->name('note_rbt.updateModifier');

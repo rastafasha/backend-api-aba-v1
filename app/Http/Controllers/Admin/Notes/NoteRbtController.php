@@ -599,4 +599,15 @@ class NoteRbtController extends Controller
         return $noteRbt;
         
     }
+    public function updateModifier(Request $request, $id)
+    {
+        $noteRbt = NoteRbt::findOrfail($id);
+        $noteRbt->billed = $request->billed;
+        $noteRbt->pay = $request->pay;
+        $noteRbt->md = $request->md;
+        $noteRbt->md2 = $request->md2;
+        $noteRbt->update();
+        return $noteRbt;
+        
+    }
 }
