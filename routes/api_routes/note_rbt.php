@@ -23,7 +23,11 @@ Route::delete('note_rbt/destroy/{id}', [NoteRbtController::class, 'destroy'])->n
 Route::post('note_rbt/storeReplacemts', [NoteRbtController::class, 'storeReplacemts'])->name('storeReplacemts');
 
 Route::put('/note_rbt/update/status/{note_rbt:id}', [NoteRbtController::class, 'updateStatus'])
+<<<<<<< HEAD
     ->name('note_rbt.updateStatus');
 
 Route::put('/note_rbt/update/modifier/{note_rbt:id}', [NoteRbtController::class, 'updateModifier'])
     ->name('note_rbt.updateModifier');
+=======
+    ->name('note_rbt.updateStatus');
+>>>>>>> 9b62d24237c89e188573e548b26fa09827c71bb6

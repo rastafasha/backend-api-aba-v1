@@ -205,11 +205,17 @@ class DoctorController extends Controller
                     "time_out"=> $notes_rbt->time_out,
                     "time_in2"=> $notes_rbt->time_in2,
                     "time_out2"=> $notes_rbt->time_out2,
+<<<<<<< HEAD
                     "maladaptives"=> $notes_rbt->maladaptives,
                     "replacements"=> $notes_rbt->replacements,
                     "md"=> $notes_rbt->md,
                     "md2"=> $notes_rbt->md2,
                     "billed"=> $notes_rbt->billed,
+=======
+                    "billed"=> $notes_rbt->billed,
+                    "maladaptives"=> $notes_rbt->maladaptives,
+                    "replacements"=> $notes_rbt->replacements,
+>>>>>>> 9b62d24237c89e188573e548b26fa09827c71bb6
                     "pay"=> $notes_rbt->pay,
                     "meet_with_client_at"=> $notes_rbt->meet_with_client_at,
                     "total_hours"=> $notes_rbt->total_hours,

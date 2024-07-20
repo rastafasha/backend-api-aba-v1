@@ -50,12 +50,17 @@ class NoteRbt extends Model
         'supervisor_signature',
         'supervisor_name',
 
+<<<<<<< HEAD
 
         
         'billed',
         'pay',
         'md',
         'md2',
+=======
+        'billed',
+        'pay',
+>>>>>>> 9b62d24237c89e188573e548b26fa09827c71bb6
 
     ];
 

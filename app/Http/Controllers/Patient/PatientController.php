@@ -104,12 +104,37 @@ class PatientController extends Controller
         $doctores= UserLocation::where("location_id",'=', $location_id)
         ->get();
         
+<<<<<<< HEAD
+=======
+        // $user = UserLocation::where('location_id',"=",$location_id)
+        // ->where('user_id',"=",$location->user_id)
+        // ->get();
+        
+        //esta es la funcion con la tabla aparte del multilocation
+
+>>>>>>> 9b62d24237c89e188573e548b26fa09827c71bb6
 
         $users = User::whereHas('locations', function ($query) use ($location_id) {
             $query->where('location_id', $location_id);
         })->get();
 
         
+<<<<<<< HEAD
+=======
+        // $role_rbt= UserLocation::orderBy("id", "desc")
+        // ->whereHas("locals", function($q)
+        // {
+        //     $q->where("location_id",'=', $location_id);
+        //     })
+        //     ->whereHas("roles", function($q){
+        //         $q->where("name","like","%RBT%");
+        //         })
+        //         ->get(['id','name', 'surname', 'status']);
+
+        
+
+       
+>>>>>>> 9b62d24237c89e188573e548b26fa09827c71bb6
         
         
         return response()->json([

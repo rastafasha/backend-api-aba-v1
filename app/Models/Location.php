@@ -23,7 +23,10 @@ class Location extends Model
         'zip',
         'email',
         'avatar',
+<<<<<<< HEAD
         'telfax',
+=======
+>>>>>>> 9b62d24237c89e188573e548b26fa09827c71bb6
         'user_id',
         'client_id',
     ];

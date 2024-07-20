@@ -80,7 +80,10 @@ class BipController extends Controller
         $request->request->add(["assestment_conducted_options"=>json_encode($request->assestment_conducted_options)]);
         $request->request->add(["prevalent_setting_event_and_atecedents"=>json_encode($request->prevalent_setting_event_and_atecedents)]);
         $request->request->add(["interventions"=>json_encode($request->interventions)]);
+<<<<<<< HEAD
         $request->request->add(["pos_covered"=>json_encode($request->pos_covered)]);
+=======
+>>>>>>> 9b62d24237c89e188573e548b26fa09827c71bb6
         $request->request->add(["assestmentEvaluationSettings"=>json_encode($request->assestmentEvaluationSettings)]);
         $request->request->add(["access_to_tangibles"=>json_encode($request->access_to_tangibles)]);
         $request->request->add(["phiysical_and_medical_status"=>json_encode($request->phiysical_and_medical_status)]);
@@ -100,7 +103,10 @@ class BipController extends Controller
             "phiysical_and_medical_status"=>json_decode($bip-> phiysical_and_medical_status),
             "prevalent_setting_event_and_atecedents"=>json_decode($bip-> prevalent_setting_event_and_atecedents),
             "interventions"=>json_decode($bip-> interventions),
+<<<<<<< HEAD
             "pos_covered"=>json_decode($bip-> pos_covered),
+=======
+>>>>>>> 9b62d24237c89e188573e548b26fa09827c71bb6
             "client_id"=>$bip->client_id,
             "patient_id"=>$bip->patient_id,
             "doctor_id" => $bip->doctor_id,
@@ -159,8 +165,12 @@ class BipController extends Controller
                 "address"=>$patient->address,
                 "age"=>$patient->age,
                 "birth_date"=>$patient->birth_date,
+<<<<<<< HEAD
                 "pos_covered"=>json_decode($patient->pos_covered),
                 // "pos_covered"=>$patient->pos_covered,
+=======
+                "pos_covered"=>$patient->pos_covered,
+>>>>>>> 9b62d24237c89e188573e548b26fa09827c71bb6
                 "diagnosis_code"=>$patient->diagnosis_code,
                 "insurer_id"=>$patient->insurer_id,
             ]:NULL,

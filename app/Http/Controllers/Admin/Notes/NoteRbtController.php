@@ -599,6 +599,7 @@ class NoteRbtController extends Controller
         return $noteRbt;
         
     }
+<<<<<<< HEAD
     public function updateModifier(Request $request, $id)
     {
         $noteRbt = NoteRbt::findOrfail($id);
@@ -610,4 +611,6 @@ class NoteRbtController extends Controller
         return $noteRbt;
         
     }
+=======
+>>>>>>> 9b62d24237c89e188573e548b26fa09827c71bb6
 }
