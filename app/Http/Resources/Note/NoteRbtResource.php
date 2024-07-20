@@ -74,14 +74,14 @@ class NoteRbtResource extends JsonResource
             "progress_noted_this_session_compared_to_previous_session" =>$this->resource->progress_noted_this_session_compared_to_previous_session,
             
             
-            "provider_signature"=> $this->resource->provider_signature ? env("APP_URL")."storage/".$this->resource->provider_signature : null,
-            // "provider_signature"=> $this->resource->provider_signature ? env("APP_URL").$this->resource->provider_signature : null,
+            // "provider_signature"=> $this->resource->provider_signature ? env("APP_URL")."storage/".$this->resource->provider_signature : null,
+            "provider_signature"=> $this->resource->provider_signature ? env("APP_URL").$this->resource->provider_signature : null,
             "provider_name" =>$this->resource->provider_name,
 
             
             
-            "supervisor_signature"=> $this->resource->supervisor_signature ? env("APP_URL")."storage/".$this->resource->supervisor_signature : null,
-            // "supervisor_signature"=> $this->resource->supervisor_signature ? env("APP_URL").$this->resource->supervisor_signature : null,
+            // "supervisor_signature"=> $this->resource->supervisor_signature ? env("APP_URL")."storage/".$this->resource->supervisor_signature : null,
+            "supervisor_signature"=> $this->resource->supervisor_signature ? env("APP_URL").$this->resource->supervisor_signature : null,
             
             "supervisor_name" =>$this->resource->supervisor_name,
             'supervisor'=>$this->resource-> supervisor,
@@ -103,11 +103,8 @@ class NoteRbtResource extends JsonResource
             "billed" => $this->resource->billed,
             "pay" => $this->resource->pay,
             "status" => $this->resource->status,
-<<<<<<< HEAD
             "md" => $this->resource->md,
             "md2" => $this->resource->md2,
-=======
->>>>>>> 9b62d24237c89e188573e548b26fa09827c71bb6
             
             
             "created_at"=>$this->resource->created_at ? Carbon::parse($this->resource->created_at)->format("Y-m-d h:i A") : NULL,

@@ -11,10 +11,7 @@ use App\Models\Bip\FamilyEnvolment;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Bip\MonitoringEvaluating;
-<<<<<<< HEAD
 use App\Http\Resources\User\UserCollection;
-=======
->>>>>>> 9b62d24237c89e188573e548b26fa09827c71bb6
 use App\Http\Resources\Note\NoteBcbaResource;
 use App\Http\Resources\Note\NoteBcbaCollection;
 use App\Http\Resources\Bip\FamilyEnvolmentGoalsCollection;
@@ -51,7 +48,6 @@ class NoteBcbaController extends Controller
         })->get();
 
         return response()->json([
-<<<<<<< HEAD
             // "specialists" => $specialists,
             // "roles_rbt" => $role_rbt,
             // "roles_bcba" => $role_bcba,
@@ -94,11 +90,6 @@ class NoteBcbaController extends Controller
                     
                 ];
             }),
-=======
-            "specialists" => $specialists,
-            "roles_rbt" => $role_rbt,
-            "roles_bcba" => $role_bcba,
->>>>>>> 9b62d24237c89e188573e548b26fa09827c71bb6
             
         ]);
     }
