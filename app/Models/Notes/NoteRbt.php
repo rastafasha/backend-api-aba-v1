@@ -56,6 +56,7 @@ class NoteRbt extends Model
         'pay',
         'md',
         'md2',
+        'cpt_code',
 
     ];
 

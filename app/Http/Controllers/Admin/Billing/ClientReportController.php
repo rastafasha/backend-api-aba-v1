@@ -244,10 +244,15 @@ class ClientReportController extends Controller
                 'session_date' => $note->session_date,
                 'time_in' => $note->time_in,
                 'time_out' => $note->time_out,
+                'meet_with_client_at' => $note->meet_with_client_at,
                 'unidades_sesion_1' => $unidades1,
                 'time_in2' => $note->time_in2,
                 'time_out2' => $note->time_out2,
                 "total_hours" => date("H:i",strtotime($note->time_out) - strtotime($note->time_in) + strtotime($note->time_out2) - strtotime($note->time_in2)  ),
+                
+                'cpt_code' => $note->cpt_code,
+                'md' => $note->md,
+                'md2' => $note->md2,
                 
                 'unidades_sesion_2' => $unidades2,
                 'session_units_total' => $unidadesTotal,

@@ -105,6 +105,7 @@ class NoteRbtResource extends JsonResource
             "status" => $this->resource->status,
             "md" => $this->resource->md,
             "md2" => $this->resource->md2,
+            "cpt_code" => $this->resource->cpt_code,
             
             
             "created_at"=>$this->resource->created_at ? Carbon::parse($this->resource->created_at)->format("Y-m-d h:i A") : NULL,
