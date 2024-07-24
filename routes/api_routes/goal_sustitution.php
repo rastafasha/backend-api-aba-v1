@@ -17,6 +17,8 @@ Route::get('sustitutiongoal/showbyGoal/{goal}', [SustitutionGoalController::clas
 Route::get('sustitutiongoal/showBipId/{bip_id}', [SustitutionGoalController::class, 'showGoalsbBipId'])->name('showGoalsbBipId');
 Route::get('sustitutiongoal/showgbyPatientId/{patient_id}', [SustitutionGoalController::class, 'showgbyPatientId'])->name('showgbyPatientId');
 
+Route::get('sustitutiongoal/showStogbyGoal/{goal}', [SustitutionGoalController::class, 'showgbyPatientIdFilterGoal'])->name('showgbyPatientIdFilterGoal');
+
 Route::post('sustitutiongoal/update/{goal}', [SustitutionGoalController::class, 'update'])->name('update');
 Route::delete('sustitutiongoal/destroy/{id}', [SustitutionGoalController::class, 'destroy'])->name('destroy');
 Route::put('/sustitutiongoal/update/sto/{goal:id}', [SustitutionGoalController::class, 'updateSto'])

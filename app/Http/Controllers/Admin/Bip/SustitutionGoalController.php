@@ -164,4 +164,62 @@ class SustitutionGoalController extends Controller
 
         
     }
+   
+
+    public function showInsuranceCpt(Request $request, string $insurer_name, string $code,$patient_id )
+    {
+        // $patient_id = Patient::where("patient_id", $patient_id)->first();
+        // $codes = Insurance::where("insurer_name", $insurer_name)
+        // ->where("services", $code)->first();
+
+        $goalSto = SustitutionGoal::where("insurer_name", $insurer_name)
+        ->where("services", "like", "%". $code. "%")
+        ->first();
+
+        if ($insurance) {
+            $services = json_decode($insurance->services, true);
+            $unit_prize = isset($services['unit_prize']) ? $services['unit_prize'] : null;
+        } else {
+            $unit_prize = null;
+        }
+
+        return response()->json([
+            // "goal"=>$goal,
+            // "patient_id"=>$patient_id,
+            "code" => $code,
+            "unit_prize" => $unit_prize,
+            "insurance" => $insurance,
+            
+            
+        ]);
+
+        
+    }
+
+     // string $code,$patient_id
+     public function showgbyPatientIdFilterGoal(Request $request, string $goal,  )
+     {
+         $goal = SustitutionGoal::where("goal", $goal)->first();
+ 
+         $goalstos = json_decode($goal->goalstos, true);
+
+         $stoInprogress = array_filter($goalstos, function ($sto) {
+            return $sto['sustitution_status_sto'] === 'inprogress' && $sto['sustitution_status_sto_edit'] === 'inprogress';
+        });
+
+        //  $stoInprogress = collect($goal->goalstos)
+        //      ->where('sustitution_status_sto', '=', 'inprogress')
+        //      ->where('sustitution_status_sto_edit', '=', 'inprogress');
+ 
+         return response()->json([
+            //  "goal" => $goal->goal,
+             "goalstos" => [
+                //  "all" => $goal->goalstos,
+                 "in_progress" => $stoInprogress, // Agrega ->all() para obtener los resultados
+                //  "status" => $goal->goalstos->sustitution_status_sto,
+                 "in_progress" => $stoInprogress, // Agrega ->all() para obtener los resultados
+             ],
+         ]);
+         
+     }
 }

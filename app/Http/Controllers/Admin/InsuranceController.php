@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
+use App\Models\Patient\Patient;
 use Illuminate\Support\Facades\DB;
 use App\Models\Insurance\Insurance;
+use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Insurance\InsuranceResource;
 use App\Http\Resources\Insurance\InsuranceCollection;
@@ -108,5 +110,58 @@ class InsuranceController extends Controller
         return response()->json([
             "message" => 200
         ]);
+    }
+    //  
+    public function showInsuranceCpt(Request $request, string $insurer_name, string $code, string $provider, )
+    {
+        // $patient_id = Patient::where("patient_id", $patient_id)->first();
+        // $codes = Insurance::where("insurer_name", $insurer_name)
+        // ->where("services", $code)->first();
+
+        $insurance = Insurance::where("insurer_name", $insurer_name)
+        ->where("services", "like", "%". $code. "%")
+        ->where("services", "like", "%". $provider. "%")
+        ->first();
+
+        // $insurance = Insurance::where([
+        //     "insurer_name" => $insurer_name,
+        //     "services" => [
+        //         "like" => "%". $code. "%",
+        //         // "like" => "%". $provider. "%"
+        //     ]
+        // ])->first();
+        
+        if ($insurance) {
+            Log::info("Insurance data found");
+            $services = json_decode($insurance->services, true);
+            $unit_prize = null; // Define $unit_prize here
+            if (is_array($services)) {
+                foreach ($services as $service) {
+                    if ($service['code'] == $code && $service['provider'] == $provider) {
+                        $unit_prize = $service['unit_prize'];
+                        break;
+                    }
+                }
+            }
+        } else {
+            Log::error("Insurance data not found");
+            Log::info("Query: ". Insurance::where([
+                "insurer_name" => $insurer_name,
+                "services" => [
+                    "like" => "%". $code. "%",
+                    "like" => "%". $provider. "%"
+                ]
+            ])->toSql());
+            throw new \Exception("Insurance data not found");
+        }
+        
+        return response()->json([
+            "code" => $code,
+            "provider" => $provider,
+            "unit_prize" => $unit_prize,
+            "insurer_name" => $insurance->insurer_name
+        ]);
+
+        
     }
 }

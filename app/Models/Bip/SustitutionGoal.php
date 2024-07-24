@@ -37,4 +37,11 @@ class SustitutionGoal extends Model
     {
         return $this->hasMany(Patient::class,'client_id');
     }
+
+    // public function goalstos()
+    // {
+    //     return $this->hasMany(Goalsto::class);
+    // }
+
+    
 }

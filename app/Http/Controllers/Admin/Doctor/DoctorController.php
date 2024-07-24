@@ -36,7 +36,7 @@ class DoctorController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function indexDoctor(Request $request)
     {
 
         $search = $request->search;
@@ -55,7 +55,7 @@ class DoctorController extends Controller
             
         ]);            
     }
-    public function config()
+    public function configDoctor()
     {
         
         $roles = Role::get();
@@ -71,7 +71,7 @@ class DoctorController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function profile($id)
+    public function profileDoctor($id)
     {
            
         $doctor = User::findOrFail($id);
@@ -241,7 +241,7 @@ class DoctorController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function storeDoctor(Request $request)
     {
         
         // if(!auth('api')->user()->can('create_doctor')){
@@ -321,7 +321,7 @@ class DoctorController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function showDoctor($id)
     {
         
         // if(!auth('api')->user()->can('edit_doctor')){
@@ -346,7 +346,7 @@ class DoctorController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, string $id)
+    public function updateDoctor(Request $request, string $id)
     {
         
         $user_is_valid = User::where("id", "<>", $id)->where("email", $request->email)->first();
@@ -437,7 +437,7 @@ class DoctorController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(string $id)
+    public function destroyDoctor(string $id)
     {
         // if(!auth('api')->user()->can('delete_doctor')){
         //     return response()->json(["message"=>"El usuario no esta autenticado"],403);

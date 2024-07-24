@@ -11,6 +11,9 @@ Route::post('/insurance/store', [InsuranceController::class, 'store'])
     
 Route::get('/insurance/show/{insurance}', [InsuranceController::class, 'show'])
     ->name('insurance.show');
+
+Route::get('insurance/showInsuranceCpt/{insurer_name}/{code}/{provider}', [InsuranceController::class, 'showInsuranceCpt'])
+    ->name('showInsuranceCpt');
     
 Route::put('/insurance/update/{id}', [InsuranceController::class, 'update'])
     ->name('insurance.update');

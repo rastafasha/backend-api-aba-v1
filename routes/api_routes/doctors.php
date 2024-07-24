@@ -5,13 +5,15 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\Doctor\DoctorController;
 
 
-Route::get('doctors', [DoctorController::class, 'index'])->name('index');
-Route::get('doctors/config', [DoctorController::class, 'config'])->name('config');
-Route::post('doctors/store', [DoctorController::class, 'store'])->name('store');
-Route::get('doctors/show/{id}', [DoctorController::class, 'show'])->name('show');
-Route::post('doctors/update/{id}', [DoctorController::class, 'update'])->name('update');
-Route::delete('doctors/destroy/{id}', [DoctorController::class, 'destroy'])->name('destroy');
+Route::get('doctors', [DoctorController::class, 'indexDoctor'])->name('indexDoctor');
+Route::get('doctors/config', [DoctorController::class, 'configDoctor'])->name('configDoctor');
+
+Route::post('doctors/store', [DoctorController::class, 'storeDoctor'])->name('storeDoctor');
+
+Route::get('doctors/show/{id}', [DoctorController::class, 'showDoctor'])->name('showDoctor');
+Route::post('doctors/update/{id}', [DoctorController::class, 'updateDoctor'])->name('updateDoctor');
+Route::delete('doctors/destroy/{id}', [DoctorController::class, 'destroyDoctor'])->name('destroyDoctor');
 Route::put('/doctors/update/status/{id}', [DoctorController::class, 'updateStatus'])
     ->name('doctors.updateStatus');
-Route::get('doctors/profile/{id}', [DoctorController::class, 'profile'])->name('profile');
+Route::get('doctors/profile/{id}', [DoctorController::class, 'profileDoctor'])->name('profileDoctor');
 
