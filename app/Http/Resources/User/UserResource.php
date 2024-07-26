@@ -60,7 +60,7 @@ class UserResource extends JsonResource
             "dob"=>$this->resource->dob,
             "ss_number"=>$this->resource->ss_number,
             "date_of_hire"=>$this->resource->date_of_hire ? Carbon::parse($this->resource->date_of_hire)->format("Y/m/d") : NULL,
-            "start_pay"=>$this->resource->start_pay ? Carbon::parse($this->resource->start_pay)->format("Y/m/d") : NULL,
+            "start_pay"=>$this->resource->start_pay ,
             "driver_license_expiration"=>$this->resource->driver_license_expiration ? Carbon::parse($this->resource->driver_license_expiration)->format("Y/m/d") : NULL,
             "cpr_every_2_years"=>$this->resource->cpr_every_2_years,
             "background_every_5_years"=>$this->resource->background_every_5_years,

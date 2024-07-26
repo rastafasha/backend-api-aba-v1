@@ -242,10 +242,9 @@ class ClientReportController extends Controller
                 
                 'pos' => $note->pos,
                 'session_date' => $note->session_date,
+                'meet_with_client_at' => $note->meet_with_client_at,
                 'time_in' => $note->time_in,
                 'time_out' => $note->time_out,
-                'meet_with_client_at' => $note->meet_with_client_at,
-                'unidades_sesion_1' => $unidades1,
                 'time_in2' => $note->time_in2,
                 'time_out2' => $note->time_out2,
                 "total_hours" => date("H:i",strtotime($note->time_out) - strtotime($note->time_in) + strtotime($note->time_out2) - strtotime($note->time_in2)  ),
@@ -254,6 +253,7 @@ class ClientReportController extends Controller
                 'md' => $note->md,
                 'md2' => $note->md2,
                 
+                'unidades_sesion_1' => $unidades1,
                 'unidades_sesion_2' => $unidades2,
                 'session_units_total' => $unidadesTotal,
                 'billed' => $note->billed,
@@ -265,41 +265,133 @@ class ClientReportController extends Controller
                 // 'Doctor' => $note->doctor,
                 
             ];
+
+            
+        }
+
+        $noteBcbas = [];
+
+        foreach ($noteBcba as $notebcba) {
+
+            /*Session 1*/
+            $timeIn = Carbon::parse($notebcba->time_in);
+            $timeOut = Carbon::parse($notebcba->time_out);
+
+            $diferenciaMinutos = $timeOut->diffInMinutes($timeIn);
+
+            $unidades1 = round($diferenciaMinutos / 15);
+
+            /*Session 2*/
+            $timeIn2 = Carbon::parse($notebcba->time_in2);
+            $timeOut2 = Carbon::parse($notebcba->time_out2);
+
+            $diferenciaMinutos2 = $timeOut2->diffInMinutes($timeIn2);
+
+            $unidades2 = round($diferenciaMinutos2 / 15);
+
+            /*Tontal de minutos*/
+            $totalMinutosTotales2 = $diferenciaMinutos + $diferenciaMinutos2;
+
+            /*Tontal de unidades*/
+            $unidadesTotal = round($totalMinutosTotales2 / 15); 
+            
+            /*Costo por unidad*/
+            $costoUnidad = 12.51;
+
+            /*Pagar*/
+            $pagar = $unidadesTotal * $costoUnidad;
+
+            $xe = $unidadesTotal * 0; // es excento por medicare, el seguro cubre todo
+
+            
+            $notesBcbas[] =[              
+                'id' => $notebcba->id,
+                // 'Doctor id' => $note->doctor_id,
+                'Paciente' => $notebcba->patient_id,
+                'bip_id' => $notebcba->bip_id,
+                "cpt_code"=> $notebcba->cpt_code,
+                    "provider_name"=> $notebcba->provider_name,
+                    "session_date"=> $notebcba->session_date,
+                    'tecnico'=>$notebcba-> tecnico,
+                    // 'time_in' => $noteBcba->time_in,
+                    // 'time_out' => $noteBcba->time_out,
+                    // 'time_in2' => $noteBcba->time_in2,
+                    // 'time_out2' => $noteBcba->time_out2,
+                    "total_hours" => date("H:i",strtotime($notebcba->time_out) - strtotime($notebcba->time_in) + strtotime($notebcba->time_out2) - strtotime($notebcba->time_in2)  ),
+                    'tecnico'=>[
+                        'name'=> $notebcba->tecnico->name,
+                        'surname'=> $notebcba->tecnico->surname,
+                        'npi'=> $notebcba->tecnico->npi,
+                    ],
+                    "supervisor_name"=> $notebcba->supervisor_name,
+                    'supervisor'=>$notebcba-> supervisor,
+                    'supervisor'=>[
+                        'name'=> $notebcba->supervisor->name,
+                        'surname'=> $notebcba->supervisor->surname,
+                        'npi'=> $notebcba->supervisor->npi,
+                    ],
+                    "aba_supervisor"=> $notebcba->aba_supervisor,
+                    'abasupervisor'=>$notebcba-> abasupervisor,
+                    'abasupervisor'=>[
+                        'name'=> $notebcba->abasupervisor->name,
+                        'surname'=> $notebcba->abasupervisor->surname,
+                        'npi'=> $notebcba->abasupervisor->npi,
+                    ],
+                'cpt_code' => $notebcba->cpt_code,
+                'md' => $notebcba->md,
+                'md2' => $notebcba->md2,
+                
+                'unidades_sesion_1' => $unidades1,
+                'unidades_sesion_2' => $unidades2,
+                'session_units_total' => $unidadesTotal,
+                'billed' => $notebcba->billed,
+                'pay' => $notebcba->pay,
+                'created_at' => $notebcba->created_at,
+    
+                // 'Costo por unidad' => $costoUnidad,
+                // 'Total a pagar' => $pagar,
+                // 'Doctor' => $note->doctor,
+                
+            ];
+
+            
         }
         
         
-        
-
-        
-
         return response()->json([
-            'noteBcba'=> $noteBcba,
-            "noteBcba"=>$noteBcba->map(function($noteBcba){
-                return[
-                    "cpt_code"=> $noteBcba->cpt_code,
-                    "provider_name"=> $noteBcba->provider_name,
-                    'tecnico'=>$noteBcba-> tecnico,
-                    'tecnico'=>[
-                        'name'=> $noteBcba->tecnico->name,
-                        'surname'=> $noteBcba->tecnico->surname,
-                        'npi'=> $noteBcba->tecnico->npi,
-                    ],
-                    "supervisor_name"=> $noteBcba->supervisor_name,
-                    'supervisor'=>$noteBcba-> supervisor,
-                    'supervisor'=>[
-                        'name'=> $noteBcba->supervisor->name,
-                        'surname'=> $noteBcba->supervisor->surname,
-                        'npi'=> $noteBcba->supervisor->npi,
-                    ],
-                    "aba_supervisor"=> $noteBcba->aba_supervisor,
-                    'abasupervisor'=>$noteBcba-> abasupervisor,
-                    'abasupervisor'=>[
-                        'name'=> $noteBcba->abasupervisor->name,
-                        'surname'=> $noteBcba->abasupervisor->surname,
-                        'npi'=> $noteBcba->abasupervisor->npi,
-                    ],
-                ];
-            }),
+            'noteBcbas'=> $notesBcbas,
+            // "noteBcba"=>$notesBcbas->map(function($noteBcba){
+            //     return[
+            //         "cpt_code"=> $noteBcba->cpt_code,
+            //         "provider_name"=> $noteBcba->provider_name,
+            //         "session_date"=> $noteBcba->session_date,
+            //         'tecnico'=>$noteBcba-> tecnico,
+            //         // 'time_in' => $noteBcba->time_in,
+            //         // 'time_out' => $noteBcba->time_out,
+            //         // 'time_in2' => $noteBcba->time_in2,
+            //         // 'time_out2' => $noteBcba->time_out2,
+            //         "total_hours" => date("H:i",strtotime($noteBcba->time_out) - strtotime($noteBcba->time_in) + strtotime($noteBcba->time_out2) - strtotime($noteBcba->time_in2)  ),
+            //         'tecnico'=>[
+            //             'name'=> $noteBcba->tecnico->name,
+            //             'surname'=> $noteBcba->tecnico->surname,
+            //             'npi'=> $noteBcba->tecnico->npi,
+            //         ],
+            //         "supervisor_name"=> $noteBcba->supervisor_name,
+            //         'supervisor'=>$noteBcba-> supervisor,
+            //         'supervisor'=>[
+            //             'name'=> $noteBcba->supervisor->name,
+            //             'surname'=> $noteBcba->supervisor->surname,
+            //             'npi'=> $noteBcba->supervisor->npi,
+            //         ],
+            //         "aba_supervisor"=> $noteBcba->aba_supervisor,
+            //         'abasupervisor'=>$noteBcba-> abasupervisor,
+            //         'abasupervisor'=>[
+            //             'name'=> $noteBcba->abasupervisor->name,
+            //             'surname'=> $noteBcba->abasupervisor->surname,
+            //             'npi'=> $noteBcba->abasupervisor->npi,
+            //         ],
+            //     ];
+            // }),
             // "doctors" =>$doctors,
            
             "noteRbts" =>$notes,

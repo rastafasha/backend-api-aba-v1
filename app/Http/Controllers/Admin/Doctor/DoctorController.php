@@ -127,7 +127,7 @@ class DoctorController extends Controller
                         "dob"=>$doctor->dob,
                         "ss_number"=>$doctor->ss_number,
                         "date_of_hire"=>$doctor->date_of_hire ? Carbon::parse($doctor->date_of_hire)->format("Y/m/d") : NULL,
-                        "start_pay"=>$doctor->start_pay ? Carbon::parse($doctor->start_pay)->format("Y/m/d") : NULL,
+                        "start_pay"=>$doctor->start_pay ,
                         "driver_license_expiration"=>$doctor->driver_license_expiration ? Carbon::parse($doctor->driver_license_expiration)->format("Y/m/d") : NULL,
                         "cpr_every_2_years"=>$doctor->cpr_every_2_years,
                         "background_every_5_years"=>$doctor->background_every_5_years,
@@ -281,10 +281,7 @@ class DoctorController extends Controller
             $date_clean1 = preg_replace('/\(.*\)|[A-Z]{3}-\d{4}/', '',$request->date_of_hire );
             $request->request->add(["date_of_hire" => Carbon::parse($date_clean1)->format('Y-m-d h:i:s')]);
         }
-        if($request->start_pay){
-            $date_clean2 = preg_replace('/\(.*\)|[A-Z]{3}-\d{4}/', '',$request->start_pay );
-            $request->request->add(["start_pay" => Carbon::parse($date_clean2)->format('Y-m-d h:i:s')]);
-        }
+        
         if($request->bacb_license_expiration){
             $date_clean3 = preg_replace('/\(.*\)|[A-Z]{3}-\d{4}/', '',$request->bacb_license_expiration );
             $request->request->add(["bacb_license_expiration" => Carbon::parse($date_clean3)->format('Y-m-d h:i:s')]);
@@ -392,10 +389,7 @@ class DoctorController extends Controller
             $date_clean1 = preg_replace('/\(.*\)|[A-Z]{3}-\d{4}/', '',$request->date_of_hire );
             $request->request->add(["date_of_hire" => Carbon::parse($date_clean1)->format('Y-m-d h:i:s')]);
         }
-        if($request->start_pay){
-            $date_clean2 = preg_replace('/\(.*\)|[A-Z]{3}-\d{4}/', '',$request->start_pay );
-            $request->request->add(["start_pay" => Carbon::parse($date_clean2)->format('Y-m-d h:i:s')]);
-        }
+        
         if($request->bacb_license_expiration){
             $date_clean3 = preg_replace('/\(.*\)|[A-Z]{3}-\d{4}/', '',$request->bacb_license_expiration );
             $request->request->add(["bacb_license_expiration" => Carbon::parse($date_clean3)->format('Y-m-d h:i:s')]);
