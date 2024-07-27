@@ -63,6 +63,20 @@ class DoctorController extends Controller
         return response()->json([
             "roles" => $roles,
             "locations" => $locations,
+
+        ]);
+    }
+    public function configDoctorLocation($location_id)
+    {
+        
+        $roles = Role::get();
+        $location = Location::where('id',$location_id)->first();
+        $locations = Location::get();
+        return response()->json([
+            "roles" => $roles,
+            "location" => $location,
+            "locations" => $locations,
+
         ]);
     }
 

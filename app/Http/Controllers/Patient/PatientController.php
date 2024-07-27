@@ -66,6 +66,23 @@ class PatientController extends Controller
             // "total"=>$patients->total(),
             // "patients"=> $patients,
             "patients"=> PatientCollection::make($patients),
+            // "patients"=>$patients->map(function($patient){
+            //     return[
+            //         "id"=> $patient->id,
+            //         "full_name"=> $patient->full_name,
+            //         "name"=> $patient->name,
+            //         "surname"=> $patient->surname,
+            //         "avatar"=> $patient->avatar,
+            //         "location_id"=> $patient->location_id,
+            //         "patient_id"=> $patient->patient_id,
+            //         "phone"=> $patient->phone,
+            //         "email"=> $patient->email,
+            //         "status"=> $patient->status,
+            //         "city"=> $patient->city,
+            //         "created_at"=> $patient->created_at,
+                    
+            //     ];
+            // }),
             
         ]);
 

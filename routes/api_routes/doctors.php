@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\Doctor\DoctorController;
 
 Route::get('doctors', [DoctorController::class, 'indexDoctor'])->name('indexDoctor');
 Route::get('doctors/config', [DoctorController::class, 'configDoctor'])->name('configDoctor');
+Route::get('doctors/configlocation/{location_id}', [DoctorController::class, 'configDoctorLocation'])->name('configDoctorLocation');
 
 Route::post('doctors/store', [DoctorController::class, 'storeDoctor'])->name('storeDoctor');
 
