@@ -19,5 +19,8 @@ Route::post('note_bcba/store', [NoteBcbaController::class, 'storebcba'])->name('
 Route::post('note_bcba/update/{id}', [NoteBcbaController::class, 'update'])->name('update');
 Route::delete('note_bcba/destroy/{id}', [NoteBcbaController::class, 'destroy'])->name('destroy');
 
+Route::put('/note_bcba/update/modifier/{note_bcba:id}', [NoteBcbaController::class, 'updateModifier'])
+    ->name('note_bcba.updateModifier');
+
 Route::put('/note_bcba/update/status/{note_bcba:id}', [NoteBcbaController::class, 'updateStatus'])
     ->name('note_bcba.updateStatus');

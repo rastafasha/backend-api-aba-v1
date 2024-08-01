@@ -190,6 +190,12 @@ class DoctorController extends Controller
                     "note_description"=> $notes_bcba->note_description,
                     "cpt_code"=> $notes_bcba->cpt_code,
                     "provider_name"=> $notes_bcba->provider_name,
+                    "mdbcba"=> $notes_bcba->mdbcba,
+                    "md2bcba"=> $notes_bcba->md2bcba,
+                    "billedbcba"=> $notes_bcba->billedbcba,
+                    "paybcba"=> $notes_bcba->paybcba,
+                    "meet_with_client_at"=> $notes_bcba->meet_with_client_at,
+                    "total_hours"=> $notes_bcba->total_hours,
                     'provider_name'=>[
                         'id'=> $notes_bcba->provider_name,
                         'name'=> $notes_bcba->tecnico->name,

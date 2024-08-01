@@ -42,6 +42,12 @@ class NoteBcba extends Model
         'session_length_total',
         'session_length_total2',
         'environmental_changes',
+        
+        'meet_with_client_at',
+        'billedbcba',
+        'paybcba',
+        'mdbcba',
+        'md2bcba',
 
     ];
 

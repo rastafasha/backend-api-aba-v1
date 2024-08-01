@@ -142,9 +142,11 @@ class ClientReportController extends Controller
 
         $patient = Patient::where("patient_id", $patient_id)->first();
 
-        $noteBcba = NoteBcba::where("patient_id", $patient_id)->get();
+        $noteBcba = NoteBcba::where("patient_id", $patient_id)
+        ->orderBy('session_date','desc')->get();
 
-        $noteRbt = NoteRbt::where("patient_id", $patient_id) 
+        $noteRbt = NoteRbt::where("patient_id", $patient_id)
+        ->orderBy('session_date','desc')
             ->get();
         $tecnicoRbts = NoteRbt::where("patient_id", $patient_id) 
             ->with('doctor', 'desc')
@@ -338,14 +340,16 @@ class ClientReportController extends Controller
                         'npi'=> $notebcba->abasupervisor->npi,
                     ],
                 'cpt_code' => $notebcba->cpt_code,
-                'md' => $notebcba->md,
-                'md2' => $notebcba->md2,
+                'mdbcba' => $notebcba->mdbcba,
+                'md2bcba' => $notebcba->md2bcba,
+                'billedbcba' => $notebcba->billedbcba,
+                'paybcba' => $notebcba->paybcba,
+                'meet_with_client_at' => $notebcba->meet_with_client_at,
                 
                 'unidades_sesion_1' => $unidades1,
                 'unidades_sesion_2' => $unidades2,
                 'session_units_total' => $unidadesTotal,
-                'billed' => $notebcba->billed,
-                'pay' => $notebcba->pay,
+
                 'created_at' => $notebcba->created_at,
     
                 // 'Costo por unidad' => $costoUnidad,

@@ -5,10 +5,11 @@ namespace App\Models\Billing;
 use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Notes\NoteRbt;
+use App\Models\Notes\NoteBcba;
 use App\Models\Patient\Patient;
+use Illuminate\Support\Facades\DB;
 use App\Models\Insurance\Insurance;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class ClientReport extends Model
@@ -17,15 +18,24 @@ class ClientReport extends Model
     protected $fillable=[
         'patient_id',
         'sponsor_id',
-        'charges',
-        'billed',
-        'cpt_code',
         'insurer_id',
+        'note_rbt_id',
+        'note_bcba_id',
+        'chargesrbt',
+        'chargesbcba',
+        'billed',
+        'billedbcba',
+        'cpt_code',
+
         'md',
+        'mdbcba',
         'md2',
+        'md2bcba',
+        
         'n_units',
         'pa_number',
         'pay',
+        'paybcba',
         'pos',
         'session_date',
         'total_hours',
@@ -49,7 +59,11 @@ class ClientReport extends Model
     }
     public function note_rbt()
     {
-        return $this->belongsTo(NoteRbt::class);
+        return $this->belongsTo(NoteRbt::class, 'note_rbt_id');
+    }
+    public function note_bcba()
+    {
+        return $this->belongsTo(NoteBcba::class, 'note_bcba_id');
     }
 
      // filtro buscador

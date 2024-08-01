@@ -298,4 +298,16 @@ class NoteBcbaController extends Controller
         return $noteBcba;
         
     }
+
+    public function updateModifier(Request $request, $id)
+    {
+        $noteBcba = NoteBcba::findOrfail($id);
+        $noteBcba->billedbcba = $request->billedbcba;
+        $noteBcba->paybcba = $request->paybcba;
+        $noteBcba->mdbcba = $request->mdbcba;
+        $noteBcba->md2bcba = $request->md2bcba;
+        $noteBcba->update();
+        return $noteBcba;
+        
+    }
 }

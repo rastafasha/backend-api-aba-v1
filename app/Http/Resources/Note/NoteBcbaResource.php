@@ -61,11 +61,12 @@ class NoteBcbaResource extends JsonResource
                     'npi'=> $this->resource->supervisor->npi,
                 ],
 
-                "billed" => $this->resource->billed,
-                "pay" => $this->resource->pay,
-                "md" => $this->resource->md,
-                "md2" => $this->resource->md2,
-
+                "billedbcba" => $this->resource->billedbcba,
+                "paybcba" => $this->resource->paybcba,
+                "bcba" => $this->resource->bcba,
+                "mdbcba" => $this->resource->mdbcba,
+                "md2bcba" => $this->resource->md2bcba,
+                "meet_with_client_at" =>$this->resource->meet_with_client_at,
                 "status" => $this->resource->status,
                 "session_date" => $this->resource->session_date ? Carbon::parse($this->resource->session_date)->format("Y-m-d") : NULL,
                 "time_in" =>$this->resource->time_in ? Carbon::parse($this->resource->time_in)->format(" H:i:s") : NULL,
