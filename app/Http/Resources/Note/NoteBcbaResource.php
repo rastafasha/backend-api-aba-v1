@@ -41,7 +41,8 @@ class NoteBcbaResource extends JsonResource
                     'npi'=> $this->resource->rendering->npi,
                 ],
             // "provider_signature"=> $this->resource->provider_signature ? env("APP_URL")."storage/".$this->resource->provider_signature : null,
-            "provider_signature"=> $this->resource->provider_signature ? env("APP_URL").$this->resource->provider_signature : null,
+            // "provider_signature"=> $this->resource->provider_signature ? env("APP_URL").$this->resource->provider_signature : null,
+            "provider_signature"=> $this->resource->provider_signature ? $this->resource->provider_signature : null,
             "provider_name" =>$this->resource->provider_name,
             'tecnico'=>$this->resource-> tecnico,
                 'tecnico'=>[
@@ -51,7 +52,8 @@ class NoteBcbaResource extends JsonResource
                     'npi'=> $this->resource->tecnico->npi,
                 ],
             // "supervisor_signature"=> $this->resource->supervisor_signature ? env("APP_URL")."storage/".$this->resource->supervisor_signature : null,
-            "supervisor_signature"=> $this->resource->supervisor_signature ? env("APP_URL").$this->resource->supervisor_signature : null,
+            // "supervisor_signature"=> $this->resource->supervisor_signature ? env("APP_URL").$this->resource->supervisor_signature : null,
+            "supervisor_signature"=> $this->resource->supervisor_signature ? $this->resource->supervisor_signature : null,
             "supervisor_name" =>$this->resource->supervisor_name,
             'supervisor'=>$this->resource-> supervisor,
                 'supervisor'=>[
