@@ -109,14 +109,21 @@ class NoteBcbaController extends Controller
         $request->request->add(["caregiver_goals"=>json_encode($request->caregiver_goals)]);
         $request->request->add(["rbt_training_goals"=>json_encode($request->rbt_training_goals)]);
 
-        if($request->hasFile('imagen')){
-            $path = Storage::putFile("notebcbas", $request->file('imagen'));
-            $request->request->add(["provider_signature"=>$path]);
+        if($request->imagen){
+            $request->request->add(["provider_signature"=>$imagen]);
         }
-        if($request->hasFile('imagenn')){
-            $path = Storage::putFile("notebcbas", $request->file('imagenn'));
-            $request->request->add(["supervisor_signature"=>$path]);
+
+        if($request->imagenn){
+            $request->request->add(["supervisor_signature"=>$imagenn]);
         }
+        // if($request->hasFile('imagen')){
+        //     $path = Storage::putFile("notebcbas", $request->file('imagen'));
+        //     $request->request->add(["provider_signature"=>$path]);
+        // }
+        // if($request->hasFile('imagenn')){
+        //     $path = Storage::putFile("notebcbas", $request->file('imagenn'));
+        //     $request->request->add(["supervisor_signature"=>$path]);
+        // }
 
         if($request->birth_date){
             $date_clean = preg_replace('/\(.*\)|[A-Z]{3}-\d{4}/', '',$request->birth_date );
@@ -233,14 +240,21 @@ class NoteBcbaController extends Controller
         $request->request->add(["caregiver_goals"=>json_encode($request->caregiver_goals)]);
         $request->request->add(["rbt_training_goals"=>json_encode($request->rbt_training_goals)]);
 
-        if($request->hasFile('imagen')){
-            $path = Storage::putFile("notebcbas", $request->file('imagen'));
-            $request->request->add(["provider_signature"=>$path]);
+        if($request->imagen){
+            $request->request->add(["provider_signature"=>$imagen]);
         }
-        if($request->hasFile('imagenn')){
-            $path = Storage::putFile("notebcbas", $request->file('imagenn'));
-            $request->request->add(["supervisor_signature"=>$path]);
+
+        if($request->imagenn){
+            $request->request->add(["supervisor_signature"=>$imagenn]);
         }
+        // if($request->hasFile('imagen')){
+        //     $path = Storage::putFile("notebcbas", $request->file('imagen'));
+        //     $request->request->add(["provider_signature"=>$path]);
+        // }
+        // if($request->hasFile('imagenn')){
+        //     $path = Storage::putFile("notebcbas", $request->file('imagenn'));
+        //     $request->request->add(["supervisor_signature"=>$path]);
+        // }
 
         if($request->birth_date){
             $date_clean = preg_replace('/\(.*\)|[A-Z]{3}-\d{4}/', '',$request->birth_date );

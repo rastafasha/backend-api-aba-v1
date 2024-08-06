@@ -347,19 +347,19 @@ class NoteRbtController extends Controller
         if($request->imagen){
             $request->request->add(["provider_signature"=>$imagen]);
         }
-
-        if($request->hasFile('imagen')){
-            $path = Storage::putFile("noterbts", $request->file('imagen'));
-            $request->request->add(["provider_signature"=>$path]);
-        }
-
+        
         if($request->imagenn){
             $request->request->add(["supervisor_signature"=>$imagenn]);
         }
-        if($request->hasFile('imagenn')){
-            $path = Storage::putFile("noterbts", $request->file('imagenn'));
-            $request->request->add(["supervisor_signature"=>$path]);
-        }
+        // if($request->hasFile('imagen')){
+        //     $path = Storage::putFile("noterbts", $request->file('imagen'));
+        //     $request->request->add(["provider_signature"=>$path]);
+        // }
+
+        // if($request->hasFile('imagenn')){
+        //     $path = Storage::putFile("noterbts", $request->file('imagenn'));
+        //     $request->request->add(["supervisor_signature"=>$path]);
+        // }
 
         if($request->session_date){
             $date_clean = preg_replace('/\(.*\)|[A-Z]{3}-\d{4}/', '',$request->session_date );
@@ -527,20 +527,20 @@ class NoteRbtController extends Controller
             print_r('imagen');
         }
 
-        if($request->hasFile('imagen')){
-            print_r('imagen');
-            $path = Storage::putFile("noterbts", $request->file('imagen'));
-            $request->request->add(["provider_signature"=>$path]);
-        }
-
-
+        
+        
         if($request->imagenn){
             $request->request->add(["supervisor_signature"=>$imagenn]);
         }
-        if($request->hasFile('imagenn')){
-            $path = Storage::putFile("noterbts", $request->file('imagenn'));
-            $request->request->add(["supervisor_signature"=>$path]);
-        }
+        // if($request->hasFile('imagen')){
+        //     print_r('imagen');
+        //     $path = Storage::putFile("noterbts", $request->file('imagen'));
+        //     $request->request->add(["provider_signature"=>$path]);
+        // }
+        // if($request->hasFile('imagenn')){
+        //     $path = Storage::putFile("noterbts", $request->file('imagenn'));
+        //     $request->request->add(["supervisor_signature"=>$path]);
+        // }
 
         if($request->session_date){
             $date_clean = preg_replace('/\(.*\)|[A-Z]{3}-\d{4}/', '',$request->session_date );
