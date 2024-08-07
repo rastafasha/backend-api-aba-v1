@@ -13,6 +13,7 @@ Route::get('note_rbt/byclient/{client_id}', [NoteRbtController::class, 'showByCl
 
 Route::get('/note_rbt/showReplacementBypatient/{id}', [NoteRbtController::class, 'showReplacementsByPatient'] )->name('showReplacementsByPatient');
 Route::get('/note_rbt/showNoteBypatient/{id}', [NoteRbtController::class, 'showNoteRbtByPatient'] )->name('showNoteRbtByPatient');
+Route::get('/note_rbt/showCptNoteRbt/{cpt_code}/{patient_id}', [NoteRbtController::class, 'showCptRbt'] )->name('showCptRbt');
 
 
 Route::post('note_rbt/store', [NoteRbtController::class, 'store'])->name('store');

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Patient;
 use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Billing;
+use App\Models\Bip\Bip;
 use App\Models\Location;
 use App\Models\Bip\BipFile;
 use App\Models\UserLocation;
@@ -60,14 +61,17 @@ class PatientController extends Controller
         $location_id = $request->location_id;
         // $date = $request->date;
 
+        // $bip = Bip::findOrFail($patient_id);
+
         $patients = Patient::filterAdvancePatient($patient_id, $name_patient, $email_patient, $status,$location_id)->orderBy("id", "desc")
                             ->paginate(10);
         return response()->json([
             // "total"=>$patients->total(),
             // "patients"=> $patients,
+            // "bip"=> $bip,
             "patients"=> PatientCollection::make($patients),
             // "patients"=>$patients->map(function($patient){
-            //     return[
+            //     return [
             //         "id"=> $patient->id,
             //         "full_name"=> $patient->full_name,
             //         "name"=> $patient->name,
@@ -83,6 +87,7 @@ class PatientController extends Controller
                     
             //     ];
             // }),
+            
             
         ]);
 

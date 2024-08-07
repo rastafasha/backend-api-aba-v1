@@ -4,10 +4,10 @@ namespace App\Http\Controllers\Admin\Notes;
 
 use Carbon\Carbon;
 use App\Models\User;
-use App\Models\Billing\Billing;
 use App\Models\Bip\Bip;
 use Illuminate\Http\Request;
 use App\Models\Notes\NoteRbt;
+use App\Models\Billing\Billing;
 use App\Models\Patient\Patient;
 use App\Models\Bip\ReductionGoal;
 use App\Models\Notes\Maladaptive;
@@ -15,6 +15,7 @@ use App\Models\Notes\Replacement;
 use App\Models\Bip\SustitutionGoal;
 use App\Models\Insurance\Insurance;
 use App\Http\Controllers\Controller;
+use App\Models\Billing\ClientReport;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Resources\Note\NoteRbtResource;
 use App\Http\Resources\Note\NoteRbtCollection;
@@ -498,6 +499,46 @@ class NoteRbtController extends Controller
     
         return response()->json([
             "replacementGoals" => $replacementGoals,
+        ]);
+
+        
+    }
+
+    public function showCptRbt(Request $request, string $cpt_code, string $patient_id)
+    {
+        $noteRbt = ClientReport::where("cpt_code", $cpt_code)
+        ->where("patient_id", $patient_id)
+        ->get();
+
+        $patient = Patient::where("patient_id", $patient_id)
+        // ->where("services", "like", "%". $code. "%")
+        ->first();
+    
+        return response()->json([
+            "patient_id"=>$patient->patient_id,
+            // "noteRbts" => $noteRbt,
+            "noteRbts"=> NoteRbtCollection::make($noteRbt),
+            "noteRbts"=>$noteRbt->map(function($noteRbt){
+                return [
+                    "id"=> $noteRbt->id,
+                    "patient_id"=> $noteRbt->patient_id,
+                    "note_rbt_id"=> $noteRbt->note_rbt_id,
+                    // "total_units"=>
+                     "total_hours" => date("H:i", strtotime($noteRbt->time_out2) - strtotime($noteRbt->time_in2) + strtotime($noteRbt->time_out) - strtotime($noteRbt->time_in) ),
+                    // sacamos el total de las unidades trabajadas del cpt_code
+                    "total_units" => $noteRbt->total_units,
+
+                    "cpt_code"=> $noteRbt->cpt_code,
+                    
+                ];
+            }),
+
+            // "patient"=>$patient->map(function($patient){
+            //     return [
+            //         "patient_id"=>$patient->patient_id,
+                    
+            //     ];
+            // })
         ]);
 
         
