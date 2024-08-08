@@ -17,8 +17,10 @@ use App\Models\Insurance\Insurance;
 use App\Http\Controllers\Controller;
 use App\Models\Billing\ClientReport;
 use Illuminate\Support\Facades\Storage;
+use App\Http\Resources\User\UserCollection;
 use App\Http\Resources\Note\NoteRbtResource;
 use App\Http\Resources\Note\NoteRbtCollection;
+use App\Http\Resources\Note\NoteBcbaCollection;
 
 class NoteRbtController extends Controller
 {
@@ -296,20 +298,55 @@ class NoteRbtController extends Controller
         
         // $replacements = Replacement::get(["patient_id"]);
 
-        $role_rbt= User::orderBy("id", "desc")
+        $roles_rbt= User::orderBy("id", "desc")
         ->whereHas("roles", function($q){
             $q->where("name","like","%RBT%");
         })->get();
-        $role_bcba= User::orderBy("id", "desc")
+        $roles_bcba= User::orderBy("id", "desc")
         ->whereHas("roles", function($q){
             $q->where("name","like","%BCBA%");
         })->get();
 
         return response()->json([
-            "specialists" => $specialists,
+            "roles_rbt"=> NoteRbtCollection::make($roles_rbt),
+            "roles_rbt"=>$roles_rbt->map(function($roles_rbt){
+                return [
+                    "id"=> $roles_rbt->id,
+                    "name"=> $roles_rbt->name,
+                    "surname"=> $roles_rbt->surname,
+                    "electronic_signature"=> $roles_rbt->electronic_signature,
+                    "certificate_number"=> $roles_rbt->certificate_number,
+                    
+                ];
+            }),
+            "roles_bcba"=> NoteBcbaCollection::make($roles_bcba),
+            "roles_bcba"=>$roles_bcba->map(function($roles_bcba){
+                return [
+                    "id"=> $roles_bcba->id,
+                    "name"=> $roles_bcba->name,
+                    "surname"=> $roles_bcba->surname,
+                    "electronic_signature"=> $roles_bcba->electronic_signature,
+                    "certificate_number"=> $roles_bcba->certificate_number,
+                    
+                ];
+            }),
+            // "specialists" => $specialists,
+            "specialists"=> UserCollection::make($specialists),
+            "specialists"=>$specialists->map(function($specialists){
+                return [
+                    "id"=> $specialists->id,
+                    "name"=> $specialists->name,
+                    "surname"=> $specialists->surname,
+                    "electronic_signature"=> $specialists->electronic_signature,
+                    "certificate_number"=> $specialists->certificate_number,
+                    
+                ];
+            }),
             "hours" => $hours,
-            "roles_rbt" => $role_rbt,
-            "roles_bcba" => $role_bcba,
+            // "roles_bcba" => $roles_bcba,
+            // "roles_rbt" => $role_rbt,
+
+            
             // "roles_bcba"=>$role_bcba->map(function($role_bcba){
             //     return[
             //         "id"=> $role_bcba->id,
@@ -504,41 +541,43 @@ class NoteRbtController extends Controller
         
     }
 
-    public function showCptRbt(Request $request, string $cpt_code, string $patient_id)
+    public function showCptRbt(Request $request, string $cpt_code, string $patient_id, string $provider)
     {
-        $noteRbt = ClientReport::where("cpt_code", $cpt_code)
+        // $noteRbt = ClientReport::where("cpt_code", $cpt_code)
+        // ->where("patient_id", $patient_id)
+        // ->get();
+        $noteRbts = NoteRbt::where("cpt_code", $cpt_code)
         ->where("patient_id", $patient_id)
+        ->where("provider", $provider)
         ->get();
 
+
         $patient = Patient::where("patient_id", $patient_id)
-        // ->where("services", "like", "%". $code. "%")
         ->first();
+
+        $result = $noteRbts->map(function ($noteRbt) {
+            $totalHours = Carbon::parse($noteRbt->time_out2)->diffInSeconds(Carbon::parse($noteRbt->time_in2)) / 3600 + Carbon::parse($noteRbt->time_out)->diffInSeconds(Carbon::parse($noteRbt->time_in)) / 3600;
+            $totalUnits = $totalHours * 4;
+    
+            return [
+                "id" => $noteRbt->id,
+                "patient_id" => $noteRbt->patient_id,
+                "total_hours" => date("H:i", strtotime($noteRbt->time_out2) - strtotime($noteRbt->time_in2) + strtotime($noteRbt->time_out) - strtotime($noteRbt->time_in)),
+                "total_units" => $totalUnits,
+                "cpt_code" => $noteRbt->cpt_code,
+                "provider" => $noteRbt->provider,
+            ];
+        });
+
+        //sumamos el total de las unidades de las notas rbt extraidas
+        $totalSumUnits = $result->sum('total_units');
+
     
         return response()->json([
             "patient_id"=>$patient->patient_id,
-            // "noteRbts" => $noteRbt,
-            "noteRbts"=> NoteRbtCollection::make($noteRbt),
-            "noteRbts"=>$noteRbt->map(function($noteRbt){
-                return [
-                    "id"=> $noteRbt->id,
-                    "patient_id"=> $noteRbt->patient_id,
-                    "note_rbt_id"=> $noteRbt->note_rbt_id,
-                    // "total_units"=>
-                     "total_hours" => date("H:i", strtotime($noteRbt->time_out2) - strtotime($noteRbt->time_in2) + strtotime($noteRbt->time_out) - strtotime($noteRbt->time_in) ),
-                    // sacamos el total de las unidades trabajadas del cpt_code
-                    "total_units" => $noteRbt->total_units,
-
-                    "cpt_code"=> $noteRbt->cpt_code,
-                    
-                ];
-            }),
-
-            // "patient"=>$patient->map(function($patient){
-            //     return [
-            //         "patient_id"=>$patient->patient_id,
-                    
-            //     ];
-            // })
+            "noteRbts" => $result,
+            "total_sum_units" => $totalSumUnits,
+            
         ]);
 
         

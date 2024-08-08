@@ -24,7 +24,7 @@ class NoteBcba extends Model
         'birth_date',
         'aba_supervisor',
         'note_description',
-        'cpt_code',
+        
         
         'caregiver_goals',//json
         'rbt_training_goals',//json
@@ -48,6 +48,8 @@ class NoteBcba extends Model
         'paybcba',
         'mdbcba',
         'md2bcba',
+        'cpt_code',
+        'provider',
 
     ];
 

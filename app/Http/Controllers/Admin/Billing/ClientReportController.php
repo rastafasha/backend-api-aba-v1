@@ -44,7 +44,8 @@ class ClientReportController extends Controller
             $search_tecnicoRbt, 
             $search_supervisor, 
             // $search_patient,
-            $date_start,$date_end)
+            $date_start,$date_end
+            )
                             ->paginate(10);
         return response()->json([
             "total"=>$clientReports->total(),
