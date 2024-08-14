@@ -275,6 +275,8 @@ class Patient extends Model
 
     
 
+    
+
 
     //filtro buscador
     public function scopefilterAdvancePatient($query,

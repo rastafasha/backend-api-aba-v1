@@ -552,8 +552,11 @@ class NoteRbtController extends Controller
         ->get();
 
 
-        $patient = Patient::where("patient_id", $patient_id)
-        ->first();
+        $patient = Patient::where("patient_id", $patient_id)->first();
+
+        
+        $unitsCollection = collect();
+
 
         $result = $noteRbts->map(function ($noteRbt) {
             $totalHours = Carbon::parse($noteRbt->time_out2)->diffInSeconds(Carbon::parse($noteRbt->time_in2)) / 3600 + Carbon::parse($noteRbt->time_out)->diffInSeconds(Carbon::parse($noteRbt->time_in)) / 3600;
@@ -561,11 +564,13 @@ class NoteRbtController extends Controller
     
             return [
                 "id" => $noteRbt->id,
-                "patient_id" => $noteRbt->patient_id,
+                
                 "total_hours" => date("H:i", strtotime($noteRbt->time_out2) - strtotime($noteRbt->time_in2) + strtotime($noteRbt->time_out) - strtotime($noteRbt->time_in)),
                 "total_units" => $totalUnits,
                 "cpt_code" => $noteRbt->cpt_code,
                 "provider" => $noteRbt->provider,
+                "patient_id" => $noteRbt->patient_id,
+                
             ];
         });
 
@@ -575,7 +580,14 @@ class NoteRbtController extends Controller
     
         return response()->json([
             "patient_id"=>$patient->patient_id,
+             "patient"=>$patient_id ? 
+                        [
+                            "id"=> $patient->id,
+                            "email"=> $patient->email,
+                          
+                        ]: NULL,
             "noteRbts" => $result,
+            
             "total_sum_units" => $totalSumUnits,
             
         ]);
