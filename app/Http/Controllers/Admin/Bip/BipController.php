@@ -82,7 +82,10 @@ class BipController extends Controller
         $request->request->add(["interventions"=>json_encode($request->interventions)]);
         $request->request->add(["pos_covered"=>json_encode($request->pos_covered)]);
         $request->request->add(["assestmentEvaluationSettings"=>json_encode($request->assestmentEvaluationSettings)]);
-        $request->request->add(["access_to_tangibles"=>json_encode($request->access_to_tangibles)]);
+        $request->request->add(["tangibles"=>json_encode($request->tangibles)]);
+        $request->request->add(["attention"=>json_encode($request->attention)]);
+        $request->request->add(["escape"=>json_encode($request->escape)]);
+        $request->request->add(["sensory"=>json_encode($request->sensory)]);
         $request->request->add(["phiysical_and_medical_status"=>json_encode($request->phiysical_and_medical_status)]);
 
         $bip = Bip::create($request->all());
@@ -188,7 +191,10 @@ class BipController extends Controller
             "prevalent_setting_event_and_atecedents"=>json_decode($bip-> prevalent_setting_event_and_atecedents),
             "interventions"=>json_decode($bip-> interventions),
             "assestmentEvaluationSettings"=>json_decode($bip-> assestmentEvaluationSettings),
-            "access_to_tangibles"=>json_decode($bip-> access_to_tangibles),
+            "tangibles"=>json_decode($bip-> tangibles),
+            "attention"=>json_decode($bip-> attention),
+            "escape"=>json_decode($bip-> escape),
+            "sensory"=>json_decode($bip-> sensory),
             "phiysical_and_medical_status"=>json_decode($bip-> phiysical_and_medical_status),
             // "consent_to_treatment"=>$bip->consent_to_treatment,
             
@@ -215,7 +221,10 @@ class BipController extends Controller
             "maladaptives"=>json_decode($bip-> maladaptives),
             "assestment_conducted_options"=>json_decode($bip-> assestment_conducted_options),
             "assestmentEvaluationSettings"=>json_decode($bip-> assestmentEvaluationSettings),
-            "access_to_tangibles"=>json_decode($bip-> access_to_tangibles),
+            "tangibles"=>json_decode($bip-> tangibles),
+            "attention"=>json_decode($bip-> attention),
+            "escape"=>json_decode($bip-> escape),
+            "sensory"=>json_decode($bip-> sensory),
             "prevalent_setting_event_and_atecedents"=>json_decode($bip-> prevalent_setting_event_and_atecedents),
             "phiysical_and_medical_status"=>json_decode($bip-> phiysical_and_medical_status),
             "interventions"=>json_decode($bip-> interventions),
@@ -334,7 +343,10 @@ class BipController extends Controller
         $request->request->add(["maladaptives"=>json_encode($request->maladaptives)]);
         $request->request->add(["assestment_conducted_options"=>json_encode($request->assestment_conducted_options)]);
         $request->request->add(["assestmentEvaluationSettings"=>json_encode($request->assestmentEvaluationSettings)]);
-        $request->request->add(["access_to_tangibles"=>json_encode($request->access_to_tangibles)]);
+        $request->request->add(["tangibles"=>json_encode($request->tangibles)]);
+        $request->request->add(["attention"=>json_encode($request->attention)]);
+        $request->request->add(["escape"=>json_encode($request->escape)]);
+        $request->request->add(["sensory"=>json_encode($request->sensory)]);
         $request->request->add(["phiysical_and_medical_status"=>json_encode($request->phiysical_and_medical_status)]);
         $request->request->add(["prevalent_setting_event_and_atecedents"=>json_encode($request->prevalent_setting_event_and_atecedents)]);
         $request->request->add(["interventions"=>json_encode($request->interventions)]);
@@ -349,7 +361,10 @@ class BipController extends Controller
             "maladaptives"=>json_decode($bip-> maladaptives),
             "assestment_conducted_options"=>json_decode($bip-> assestment_conducted_options),
             "assestmentEvaluationSettings"=>json_decode($bip-> assestmentEvaluationSettings),
-            "access_to_tangibles"=>json_decode($bip-> access_to_tangibles),
+            "tangibles"=>json_decode($bip-> tangibles),
+            "attention"=>json_decode($bip-> attention),
+            "escape"=>json_decode($bip-> escape),
+            "sensory"=>json_decode($bip-> sensory),
             "prevalent_setting_event_and_atecedents"=>json_decode($bip-> prevalent_setting_event_and_atecedents),
             "phiysical_and_medical_status"=>json_decode($bip-> phiysical_and_medical_status),
             "interventions"=>json_decode($bip-> interventions),

@@ -42,9 +42,14 @@ class Bip extends Model
         'strengths',
         'weakneses',
         'hypothesis_based_intervention',
-        'access_to_tangibles',//json
+
         'phiysical_and_medical',
         'phiysical_and_medical_status',//json
+        
+        'tangibles',//json
+        'attention',//json
+        'escape',//json
+        'sensory',//json
 
         //no borrar
         // 'behavior',

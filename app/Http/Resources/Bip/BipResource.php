@@ -61,7 +61,11 @@ class BipResource extends JsonResource
             
             
             "hypothesis_based_intervention"=>$this->resource->hypothesis_based_intervention ,
-            "access_to_tangibles"=>json_decode($this->resource->access_to_tangibles),
+            
+            "tangibles"=>json_decode($this->resource->tangibles),
+            "attention"=>json_decode($this->resource->attention),
+            "escape"=>json_decode($this->resource->escape),
+            "sensory"=>json_decode($this->resource->sensory),
             
             "phiysical_and_medical"=>$this->resource->phiysical_and_medical,
             "phiysical_and_medical_status"=>json_decode($this->resource->phiysical_and_medical_status),
