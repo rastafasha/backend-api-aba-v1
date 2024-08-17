@@ -143,12 +143,21 @@ class ClientReportController extends Controller
 
         $patient = Patient::where("patient_id", $patient_id)->first();
 
-        $noteBcba = NoteBcba::where("patient_id", $patient_id)
-        ->orderBy('session_date','desc')->get();
+        $startDate = $request->date_start;
+        $endDate = $request->date_end;
 
-        $noteRbt = NoteRbt::where("patient_id", $patient_id)
-        ->orderBy('session_date','desc')
-            ->get();
+        $noteBcba = NoteBcba::where("patient_id", $patient_id);
+        $noteRbt = NoteRbt::where("patient_id", $patient_id);
+        if ($startDate && $endDate) {
+            $noteBcba->whereBetween('session_date', [$startDate, $endDate]);
+            $noteRbt->whereBetween('session_date', [$startDate, $endDate]);
+        }
+
+        if($request->noteType === 'bcba' || !$request->noteType)
+            $noteBcba = $noteBcba->orderBy('session_date', 'desc')->get();
+        if($request->noteType === 'rbt' || !$request->noteType) 
+            $noteRbt = $noteRbt->orderBy('session_date', 'desc')->get();
+
         $tecnicoRbts = NoteRbt::where("patient_id", $patient_id) 
             ->with('doctor', 'desc')
             ->where('provider_name_g', $id)
@@ -272,7 +281,7 @@ class ClientReportController extends Controller
             
         }
 
-        $noteBcbas = [];
+        $notesBcbas = [];
 
         foreach ($noteBcba as $notebcba) {
 
