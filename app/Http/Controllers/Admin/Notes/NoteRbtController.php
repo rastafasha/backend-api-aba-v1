@@ -389,15 +389,6 @@ class NoteRbtController extends Controller
         if($request->imagenn){
             $request->request->add(["supervisor_signature"=>$imagenn]);
         }
-        // if($request->hasFile('imagen')){
-        //     $path = Storage::putFile("noterbts", $request->file('imagen'));
-        //     $request->request->add(["provider_signature"=>$path]);
-        // }
-
-        // if($request->hasFile('imagenn')){
-        //     $path = Storage::putFile("noterbts", $request->file('imagenn'));
-        //     $request->request->add(["supervisor_signature"=>$path]);
-        // }
 
         if($request->session_date){
             $date_clean = preg_replace('/\(.*\)|[A-Z]{3}-\d{4}/', '',$request->session_date );
@@ -442,21 +433,24 @@ class NoteRbtController extends Controller
         //     })))
         // ]);
 
-        $billing = Billing::create([
-            "sponsor_id" => $request->doctor_id,
-            "patient_id" => $request->patient_id,
-            "date" => $request->session_date,
-            "total_hours" => date("H:i", strtotime($request->time_out2) - strtotime($request->time_in2) + strtotime($request->time_out) - strtotime($request->time_in) ),
+        // $billing = Billing::create([
+        //     "sponsor_id" => $request->doctor_id,
+        //     "patient_id" => $request->patient_id,
+        //     "date" => $request->session_date,
+        //     "total_hours" => date("H:i", strtotime($request->time_out2) - strtotime($request->time_in2) + strtotime($request->time_out) - strtotime($request->time_in) ),
             
-            // "total_hours" => ($request->time_out - $request->time_in + $request->time_out2 - $request->time_out2)/100,
-            // "total_units" => ($request->time_out - $request->time_in + $request->time_out2 - $request->time_in2)/100*4,
-            // "total_units" => date("H:i", strtotime($request->time_out)-strtotime($request->time_in) + strtotime($request->time_out2)-strtotime($request->time_out2) )*4,
+        //     // "total_hours" => ($request->time_out - $request->time_in + $request->time_out2 - $request->time_out2)/100,
+        //     // "total_units" => ($request->time_out - $request->time_in + $request->time_out2 - $request->time_in2)/100*4,
+        //     // "total_units" => date("H:i", strtotime($request->time_out)-strtotime($request->time_in) + strtotime($request->time_out2)-strtotime($request->time_out2) )*4,
 
-        ]);
+        // ]);
         
             //envia un correo al doctor
         // Mail::to($appointment->patient->email)->send(new RegisterAppointment($appointment));
         // Mail::to($doctor->email)->send(new NewAppointmentRegisterMail($appointment));
+
+
+
 
         return response()->json([
             "message" => 200,
@@ -481,14 +475,6 @@ class NoteRbtController extends Controller
         return response()->json([
             "noteRbt" => NoteRbtResource::make($noteRbt),
             
-            // "id"=>$noteRbt->id,
-            // "bip_id"=>$noteRbt->bip_id,
-            // "patient_id"=>$noteRbt->patient_id,
-            // "provider_credential"=>$noteRbt->provider_credential,
-            // "as_evidenced_by"=>$noteRbt->as_evidenced_by,
-            // "client_appeared"=>$noteRbt->client_appeared,
-            // "client_response_to_treatment_this_session"=>$noteRbt->client_response_to_treatment_this_session,
-            // "pos"=>$noteRbt->pos,
 
             "interventions"=>json_decode($noteRbt-> interventions),
             "maladaptives"=>json_decode($noteRbt-> maladaptives),
@@ -541,60 +527,7 @@ class NoteRbtController extends Controller
         
     }
 
-    public function showCptRbt(Request $request, string $cpt_code, string $patient_id, string $provider)
-    {
-        // $noteRbt = ClientReport::where("cpt_code", $cpt_code)
-        // ->where("patient_id", $patient_id)
-        // ->get();
-        $noteRbts = NoteRbt::where("cpt_code", $cpt_code)
-        ->where("patient_id", $patient_id)
-        ->where("provider", $provider)
-        ->get();
-
-
-        $patient = Patient::where("patient_id", $patient_id)->first();
-
-        
-        $unitsCollection = collect();
-
-
-        $result = $noteRbts->map(function ($noteRbt) {
-            $totalHours = Carbon::parse($noteRbt->time_out2)->diffInSeconds(Carbon::parse($noteRbt->time_in2)) / 3600 + Carbon::parse($noteRbt->time_out)->diffInSeconds(Carbon::parse($noteRbt->time_in)) / 3600;
-            $totalUnits = $totalHours * 4;
-    
-            return [
-                "id" => $noteRbt->id,
-                
-                "total_hours" => date("H:i", strtotime($noteRbt->time_out2) - strtotime($noteRbt->time_in2) + strtotime($noteRbt->time_out) - strtotime($noteRbt->time_in)),
-                "total_units" => $totalUnits,
-                "cpt_code" => $noteRbt->cpt_code,
-                "provider" => $noteRbt->provider,
-                "patient_id" => $noteRbt->patient_id,
-                
-            ];
-        });
-
-        //sumamos el total de las unidades de las notas rbt extraidas
-        $totalSumUnits = $result->sum('total_units');
-
-    
-        return response()->json([
-            "patient_id"=>$patient->patient_id,
-             "patient"=>$patient_id ? 
-                        [
-                            "id"=> $patient->id,
-                            "email"=> $patient->email,
-                          
-                        ]: NULL,
-            "noteRbts" => $result,
-            
-            "total_sum_units" => $totalSumUnits,
-            
-        ]);
-
-        
-    }
-
+   
     
 
     /**
@@ -702,4 +635,11 @@ class NoteRbtController extends Controller
         return $noteRbt;
         
     }
+
+
+
+
+   
+
+
 }

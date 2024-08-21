@@ -52,28 +52,6 @@ class ClientReportController extends Controller
             "clientReports"=> NoteRbtCollection::make($clientReports)
         ]);
 
-        // $name_doctor = $request->search;
-        // $doctor_id = $request->doctor_id;
-        // $session_date = $request->session_date;
-        // $patient_id = $request->patient_id;
-        // $provider_name_g = $request->provider_name_g;
-        // // $npi = $request->npi;
-
-        // $clientReports = NoteRbt::filterAdvanceClientReport(
-        //     $provider_name_g,
-        //     $session_date, 
-        //     $patient_id,
-        //     $doctor_id
-        //     )->orderBy("id", "desc")
-        //                     ->paginate(10);
-        // return response()->json([
-        //     "total"=>$clientReports->total(),
-        //     "clientReports"=> NoteRbtCollection::make($clientReports)
-        //     // "clientReports"=> ClientReportCollection::make($clientReports)
-        // ]);
-
-        
-
         
     }
 
@@ -117,23 +95,6 @@ class ClientReportController extends Controller
     public function showByPatientId(Request $request)
     {
 
-        //search
-        // $search_doctor = $request->search_doctor;
-        // $search_tecnicoRbt = $request->search_tecnicoRbt;
-        // $search_supervisor = $request->search_supervisor;
-        // // $search_patient = $request->search_patient;
-        // $date_start = $request->date_start;
-        // $date_end = $request->date_end;
-
-        // $clientReports = NoteRbt::filterAdvanceClientReport(
-        //     $search_doctor, 
-        //     $search_tecnicoRbt, 
-        //     $search_supervisor, 
-        //     // $search_patient,
-        //     $date_start,$date_end)
-        //                     ->paginate(10);
-        //search
-
         $name_doctor = $request->search;
         $session_date = $request->session_date;
         $patient_id = $request->patient_id;
@@ -176,21 +137,6 @@ class ClientReportController extends Controller
         $doctor = NoteRbt::where("provider_name_g", $provider_name_g)->get();
         $tecnicoRbts = NoteRbt::where("provider_name_g" , $provider_name_g)->get();
         $supervisor = NoteRbt::where("supervisor_name", $supervisor_name)->get();
-
-        // $doctors = NoteRbt::join('users', 'noterbt.provider_name_g', '=', 'users.id')
-        // ->select(
-        //     'noterbt.provider_name_g as id',
-        //     'users.name'
-        //     )
-        // ->get();
-        
-        // if ($name_doctor != ""){
-        //     $doctor = $this->filterDoctorName($doctor,$name_doctor);
-        // }
-        // if ($session_date != ""){
-        //     $doctor = $this->filterDate($doctor,$session_date);
-        // }
-
         
         if($request->{'xe'}){
             $request->request->add($xe);
@@ -426,11 +372,6 @@ class ClientReportController extends Controller
                     "rbt2_school_id"=>$patient->rbt2_school_id,
                     "bcba_home_id"=>$patient->bcba_home_id,
                     "bcba2_school_id"=>$patient->bcba2_school_id,
-                    // "bcba2_school"=>$patient->bcba2_school_id ? [
-                        //     "id"=> $bcba2_school->bcba2_school_id,
-                        //     "name"=>$bcba2_school->name,
-                        //     "surname"=>$bcba2_school->surname,
-                        // ]:NULL,
                         ]:NULL,
                         
                         
@@ -443,123 +384,9 @@ class ClientReportController extends Controller
 
 
 
-    // public function showByPatientId(Request $request)
-    // {
-    //     $name_doctor = $request->search;
-    //     $session_date = $request->session_date;
-    //     $patient_id = $request->patient_id;
-    //     $id = $request->provider_name_g;
-    //     $provider_name_g = $request->provider_name_g;
-
-    //     $patient = Patient::where("patient_id", $patient_id)->first();
-    //     $tecnicoRbts = User::orderBy("id","desc")->get();
-    //     // $tecnicorbt = NoteRbt::where("provider_name_g", $provider_name_g)->get();
-    //     // $supervisorbcba = NoteRbt::where("supervisor_name", $supervisor_name)->get();
-        
-    //     if ($name_doctor != ""){
-    //         $doctor = $this->filterDoctorName($doctor,$name_doctor);
-    //     }
-    //     if ($session_date != ""){
-    //         $doctor = $this->filterDate($doctor,$session_date);
-    //     }
-
-        
-        
-    //     $noteRbt = NoteRbt::where("patient_id", $patient_id) 
-    //     ->orderby('session_date', 'desc')
-    //     ->get();
-        
-    //     $noteBcba = NoteBcba::where("patient_id", $patient_id) 
-    //     ->get();
-        
-
-    //     $clientReports = ClientReport::filterAdvance($name_doctor, $session_date)->where("patient_id", $patient_id)
-    //     ->orderby('session_date', 'asc')
-    //     ->get();
-
-        
-
-    //     return response()->json([
-    //         "full_name"=> $patient->first_name.' '.$patient->last_name,
-    //         "patient_id"=> $patient->patient_id,
-    //         "patient" => $patient,
-    //         "patient"=>$patient->id ? [
-    //             "id"=> $patient->id,
-    //             "patient_id"=>$patient->patient_id,
-    //             "first_name"=>$patient->first_name,
-    //             "last_name"=>$patient->last_name,
-    //             "diagnosis_code"=>$patient->diagnosis_code,
-    //             "pos_covered"=>$patient->pos_covered,
-    //             "insurer_id"=>$patient->insurer_id,
-    //         ]:NULL,
-
-             
-            
-            
-    //         "noteRbt" => NoteRbtCollection::make($noteRbt),
-    //         "noteRbt"=>$noteRbt->map(function($noteRbt){
-    //             return[
-    //                 "id"=> $noteRbt->id,
-    //                 "pos" => $noteRbt->pos,
-    //                 "billed" => $noteRbt->billed,
-    //                 "pay" => $noteRbt->pay,
-    //                 "tecnicoRbt" => $noteRbt->provider_name_g,
-    //                 "provider_name_g" => $tecnicoRbt->map(function($tecnicorbt){
-    //                     return [
-    //                         "id" => $noteRbt->provider_name_g,
-    //                         // "full_name" => $tecnicorbt->name.' '.$tecnicoRbt->surname,
-    //                     ];
-    //                 }),
-    //                 "supervisor_name" =>$noteRbt->supervisor_name,
-
-    //                 // "supervisor_name"=>$noteRbt->supervisor_name ? [
-    //                 //     "id"=>$noteRbt->supervisor_name,
-    //                 //     "full_name"=>$noteRbt->supervisor_name->name.' '.$noteRbt->supervisor_name->surname,
-    //                 // ]:NULL,
-
-                   
-
-    //                 "time_in" => ($noteRbt->time_in),
-    //                 "time_out" => ($noteRbt->time_out),
-    //                 "time_in2" => ($noteRbt->time_in2),
-    //                 "time_out2" => ($noteRbt->time_out2),
-
-    //                 "session_1" => date("H:i", strtotime($noteRbt->time_out) - strtotime($noteRbt->time_in) ),
-    //                 "session_2" => date("H:i", strtotime($noteRbt->time_out2) - strtotime($noteRbt->time_in2) ),
-    //                 // "session_f2" => ($noteRbt->time_out2 - $noteRbt->time_in2/100)*1.66666666666667,
-
-    //                 "total_hours" => date("H:i", strtotime($noteRbt->time_out2) - strtotime($noteRbt->time_in2) + strtotime($noteRbt->time_out) - strtotime($noteRbt->time_in) ),
-    //                 //1
-    //                 "hour_to_minute" => strtotime(strtotime(date("H:i", strtotime($noteRbt->time_out2) - strtotime($noteRbt->time_in2) + strtotime($noteRbt->time_out) - strtotime($noteRbt->time_in)) ) *60)*24,
-    //                 //
-    //                 "total_hoursFactor" => strtotime(date("H:i", strtotime($noteRbt->time_out2) - strtotime($noteRbt->time_in2) + strtotime($noteRbt->time_out) - strtotime($noteRbt->time_in)) ) *1.66666666666667,
-    //                 "total_units" => (strtotime(strtotime(date("H:i", strtotime($noteRbt->time_out2) - strtotime($noteRbt->time_in2) + strtotime($noteRbt->time_out) - strtotime($noteRbt->time_in)) ) *60)*24)*1.66666666666667 /100 *4,
-                    
-    //                 "session_date" => $noteRbt->session_date ? Carbon::parse($noteRbt->session_date)->format("Y-m-d") : NULL,
-    //             ];
-    //         }),
-    //         "noteBcba" => NoteBcbaCollection::make($noteBcba),
-    //         "noteBcba"=>$noteBcba->map(function($noteBcba){
-    //             return[
-    //                 "cpt_code"=> $noteBcba->cpt_code,
-    //             ];
-    //         }),
-    //         "pa_assessments"=>$patient->pa_assessments ? json_decode($patient->pa_assessments) : null,
-            
-            
-    //     ]);
-
-        
-    // }
-
-
     public function store(Request $request)
     {
         $patient = null;
-        // $noteRbt = NoteRbt::where("id", $request->noterbt_id)->first();
-        // $billed = NoteRbt::where('billed', 0)->update(['billed' => $request->billed]);
-        // $pay = NoteRbt::where('pay', 0)->update(['pay' => $request->pay]);
-        // $appointment_attention = $request->session_date;
 
         $patient = Patient::where("patient_id", $request->patient_id)->first();
         $patient = Patient::where("patient_id", $request->patient_id)->first();
@@ -567,8 +394,6 @@ class ClientReportController extends Controller
         
 
         $clientReport = ClientReport::create($request->all());
-
-        
         
         return response()->json([
             "message"=>200,
@@ -597,6 +422,9 @@ class ClientReportController extends Controller
             
         ]);
     }
+
+
+
     //traer el perfil con los datos del insurer aplicados en el registro
     public function showProfile($patient_id)
     {
@@ -725,6 +553,88 @@ class ClientReportController extends Controller
         ];
 
     }
+
+
+
+
+
+    //uniadades disponibles segun el cpt y el provider para el cliente
+     public function showCptUnits(Request $request, string $patient_id, string $cpt_code,  string $provider)
+    {
+        //obtenemos de la nota
+        $noteRbts = NoteRbt::where("cpt_code", $cpt_code)
+        ->where("patient_id", $patient_id)
+        ->where("provider", $provider)
+        ->get();
+
+
+        $cpt = $cpt_code;
+        $provider = $provider;
+
+        $patient = Patient::where("patient_id", $patient_id)->first();
+
+        
+        $unitsCollection = collect();
+
+
+        $result = $noteRbts->map(function ($noteRbt) {
+            $totalHours = Carbon::parse($noteRbt->time_out2)->diffInSeconds(Carbon::parse($noteRbt->time_in2)) / 3600 + Carbon::parse($noteRbt->time_out)->diffInSeconds(Carbon::parse($noteRbt->time_in)) / 3600;
+            $totalUnits = $totalHours * 4;
+    
+            return [
+                "id" => $noteRbt->id,
+                
+                "total_hours" => date("H:i", strtotime($noteRbt->time_out2) - strtotime($noteRbt->time_in2) + strtotime($noteRbt->time_out) - strtotime($noteRbt->time_in)),
+                "total_units" => $totalUnits,
+                "cpt_code" => $noteRbt->cpt_code,
+                "provider" => $noteRbt->provider,
+                "patient_id" => $noteRbt->patient_id,
+                
+                
+            ];
+        });
+
+        //sumamos el total de las unidades de las notas rbt extraidas
+        $totalSumUnits = $result->sum('total_units');
+
+        //extraemos de los pa_assestment las unidades asiganadas
+        // $assessments = json_decode($patient->pa_assessments);
+        // $units = $assessments->n_units;
+        // $unitsCollection = collect($units);
+        // $unitsCollection = $unitsCollection->filter(function ($unit) use ($cpt) {
+        //     return $unit->cpt_code == $cpt;
+        //     });
+        //     $unitsCollection = $unitsCollection->map(function ($unit) {
+        //         return $unit->units;
+        //         });
+        //         $totalUnitsAssigned = $unitsCollection->sum();
+        //         $totalUnitsAssigned = $totalUnitsAssigned + $totalSumUnits;
+               
+    
+        return response()->json([
+            
+            "patient_id"=>$patient->patient_id,
+             "patient"=>$patient_id ? 
+                        [
+                            "id"=> $patient->id,
+                            "email"=> $patient->email,
+                            "pa_assessments"=>json_decode($patient->pa_assessments) ? : null,
+                            // "pa_assessment_cpt_provider" => $filteredAssessments,
+                          
+                        ]: NULL,
+            "notes" => $result,
+            // "total_units_assigned" => $totalUnitsAssigned,
+            "total_sum_units" => $totalSumUnits,
+            
+        ]);
+
+        
+    }
+
+
+
+    
+
 
 
 }

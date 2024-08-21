@@ -11,10 +11,10 @@ Route::get('note_rbt/byprofile/{patient_id}', [NoteRbtController::class, 'showBy
 Route::get('note_rbt/byclient/{client_id}', [NoteRbtController::class, 'showByClienttId'])->name('showByClienttId');
 
 
-Route::get('/note_rbt/showReplacementBypatient/{id}', [NoteRbtController::class, 'showReplacementsByPatient'] )->name('showReplacementsByPatient');
-Route::get('/note_rbt/showNoteBypatient/{id}', [NoteRbtController::class, 'showNoteRbtByPatient'] )->name('showNoteRbtByPatient');
-Route::get('/note_rbt/showCptNoteRbt/{cpt_code}/{patient_id}/{provider}', [NoteRbtController::class, 'showCptRbt'] )->name('showCptRbt');
+Route::get('note_rbt/showReplacementBypatient/{id}', [NoteRbtController::class, 'showReplacementsByPatient'] )->name('showReplacementsByPatient');
+Route::get('note_rbt/showNoteBypatient/{id}', [NoteRbtController::class, 'showNoteRbtByPatient'] )->name('showNoteRbtByPatient');
 
+Route::get('note_rbt/showCptUnits/{patient_id}/{cpt_code}/{provider}/', [NoteRbtController::class, 'showCptUnits'] )->name('showCptUnits');
 
 Route::post('note_rbt/store', [NoteRbtController::class, 'store'])->name('store');
 Route::post('note_rbt/update/{id}', [NoteRbtController::class, 'update'])->name('update');
@@ -23,8 +23,8 @@ Route::delete('note_rbt/destroy/{id}', [NoteRbtController::class, 'destroy'])->n
 
 Route::post('note_rbt/storeReplacemts', [NoteRbtController::class, 'storeReplacemts'])->name('storeReplacemts');
 
-Route::put('/note_rbt/update/status/{note_rbt:id}', [NoteRbtController::class, 'updateStatus'])
+Route::put('note_rbt/update/status/{note_rbt:id}', [NoteRbtController::class, 'updateStatus'])
     ->name('note_rbt.updateStatus');
 
-Route::put('/note_rbt/update/modifier/{note_rbt:id}', [NoteRbtController::class, 'updateModifier'])
+Route::put('note_rbt/update/modifier/{note_rbt:id}', [NoteRbtController::class, 'updateModifier'])
     ->name('note_rbt.updateModifier');
