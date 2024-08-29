@@ -114,10 +114,22 @@ class ClientReportController extends Controller
             $noteRbt->whereBetween('session_date', [$startDate, $endDate]);
         }
 
+        $totalRbt = $noteRbt->count();
+        $totalBcba = $noteBcba->count();
+
+        $maxCant = $totalBcba > $totalRbt ? $totalBcba : $totalRbt;
+        $pages = floor($maxCant / 1);
+        $remainder = $maxCant % 1;
+        $pages = $remainder > 0 ? $pages++ : $pages;
+        $arrayPages = [];
+        for ($i=1; $i <= $pages; $i++) { 
+            $arrayPages[] = $i;
+        }
+
         if($request->noteType === 'bcba' || !$request->noteType)
-            $noteBcba = $noteBcba->orderBy('session_date', 'desc')->get();
+            $noteBcba = $noteBcba->orderBy('session_date', 'desc')->paginate(10);
         if($request->noteType === 'rbt' || !$request->noteType) 
-            $noteRbt = $noteRbt->orderBy('session_date', 'desc')->get();
+            $noteRbt = $noteRbt->orderBy('session_date', 'desc')->paginate(10);
 
         $tecnicoRbts = NoteRbt::where("patient_id", $patient_id) 
             ->with('doctor', 'desc')
@@ -379,6 +391,8 @@ class ClientReportController extends Controller
             
 
             "pa_assessments"=>$patient->pa_assessments ? json_decode($patient->pa_assessments) : null,
+            "totalPages" => $pages,
+            "arrayPages" => $arrayPages
         ]);
     }
 
