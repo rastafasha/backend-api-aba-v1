@@ -284,8 +284,17 @@ class PatientController extends Controller
         if($patient_is_valid){
             return response()->json([
                 "message"=>403,
-                "message_text"=> 'el paciente ya existe'
+                "message_text"=> 'the user with this email already exist'
             ]);
+        }
+
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|email|unique:patients',
+            // ...
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['error' => $validator->messages()], 422);
         }
 
         if($request->hasFile('imagen')){
@@ -358,6 +367,7 @@ class PatientController extends Controller
             "pos_covered"=>json_decode($patient->pos_covered) ? : null,
         ]);
     }
+
     public function showPatientId($patient_id)
     {
 
@@ -616,6 +626,26 @@ class PatientController extends Controller
         ]);
     }
 
+    public function emailExist(Request $request, $email)
+    {
+        $email = $request->input('email');
+        $exists = Patient::where("email", $request->email)->first();
+        if ($exists) {
+            return response()->json([
+                'exist' => [
+                    'email' => $exists->email,
+                ]
+            ]);
+        } else {
+            return response()->json([
+                'exist' => [
+                    'email' => null,
+                ]
+            ]);
+        }
+    }
+
+
 
     /**
      * Update the specified resource in storage.
@@ -634,7 +664,14 @@ class PatientController extends Controller
         $request->request->add(["pa_assessments"=>json_encode($request->pa_assessments)]);
         $request->request->add(["pos_covered"=>json_encode($request->pos_covered)]);
 
-        
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|email|unique:patients',
+            // ...
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['error' => $validator->messages()], 422);
+        }
         
         $patient = Patient::findOrFail($id);
 

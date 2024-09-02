@@ -219,6 +219,14 @@ class ReductionGoalController extends Controller
         ->where("maladaptive", $maladaptive)
         ->orderBy("id", "desc")
         ->get();
+
+        if(!$goalsmaladaptive){
+            return response()->json([
+                "message"=>403,
+                "goalsmaladaptive"=>$goalsmaladaptive,
+                "message_text"=> 'no hay goals maladaptativos'
+            ]);
+        }
        
         // $goalsmaladaptive = ReductionGoal::where("maladaptive", $maladaptive)
         // ->where("patient_id", $patient_id)
