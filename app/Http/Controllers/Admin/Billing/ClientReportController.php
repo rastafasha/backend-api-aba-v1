@@ -95,6 +95,7 @@ class ClientReportController extends Controller
     public function showByPatientId(Request $request)
     {
 
+        $size_pagination = 10;
         $name_doctor = $request->search;
         $session_date = $request->session_date;
         $patient_id = $request->patient_id;
@@ -117,19 +118,25 @@ class ClientReportController extends Controller
         $totalRbt = $noteRbt->count();
         $totalBcba = $noteBcba->count();
 
-        $maxCant = $totalBcba > $totalRbt ? $totalBcba : $totalRbt;
-        $pages = floor($maxCant / 1);
-        $remainder = $maxCant % 1;
-        $pages = $remainder > 0 ? $pages++ : $pages;
+        if($request->noteType === 'bcba')
+            $maxCant = $totalBcba;
+        else if($request->noteType === 'rbt') 
+            $maxCant = $totalRbt;
+        else
+            $maxCant = $totalBcba > $totalRbt ? $totalBcba : $totalRbt;
+
+        $pages = floor($maxCant / $size_pagination);
+        $remainder = $maxCant % $size_pagination;
+        $pages = $remainder > 0 ? $pages+1 : $pages;
         $arrayPages = [];
         for ($i=1; $i <= $pages; $i++) { 
             $arrayPages[] = $i;
         }
 
         if($request->noteType === 'bcba' || !$request->noteType)
-            $noteBcba = $noteBcba->orderBy('session_date', 'desc')->paginate(10);
+            $noteBcba = $noteBcba->orderBy('session_date', 'desc')->paginate($size_pagination);
         if($request->noteType === 'rbt' || !$request->noteType) 
-            $noteRbt = $noteRbt->orderBy('session_date', 'desc')->paginate(10);
+            $noteRbt = $noteRbt->orderBy('session_date', 'desc')->paginate($size_pagination);
 
         $tecnicoRbts = NoteRbt::where("patient_id", $patient_id) 
             ->with('doctor', 'desc')
