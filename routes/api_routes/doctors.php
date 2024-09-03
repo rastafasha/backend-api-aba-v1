@@ -11,6 +11,8 @@ Route::get('doctors/configlocation/{location_id}', [DoctorController::class, 'co
 
 Route::post('doctors/store', [DoctorController::class, 'storeDoctor'])->name('storeDoctor');
 
+Route::get('doctors/check-email-exist/{email}', [DoctorController::class, 'emailExist'])->name('emailExist');
+
 Route::get('doctors/show/{id}', [DoctorController::class, 'showDoctor'])->name('showDoctor');
 Route::post('doctors/update/{id}', [DoctorController::class, 'updateDoctor'])->name('updateDoctor');
 Route::delete('doctors/destroy/{id}', [DoctorController::class, 'destroyDoctor'])->name('destroyDoctor');

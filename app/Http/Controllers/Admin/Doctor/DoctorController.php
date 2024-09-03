@@ -274,8 +274,17 @@ class DoctorController extends Controller
         if($user_is_valid){
             return response()->json([
                 "message"=>403,
-                "message_text"=> 'el usuario con este email ya existe'
+                "message_text"=> 'the user with this email already exist'
             ]);
+        }
+
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|email|unique:users',
+            // ...
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['error' => $validator->messages()], 422);
         }
 
         if($request->hasFile('imagen')){
@@ -356,6 +365,26 @@ class DoctorController extends Controller
     }
 
 
+    public function emailExist(Request $request, $email)
+    {
+        $email = $request->input('email');
+        $exists = User::where("email", $request->email)->first();
+        if ($exists) {
+            return response()->json([
+                'exist' => [
+                    'email' => $exists->email,
+                ]
+            ]);
+        } else {
+            return response()->json([
+                'exist' => [
+                    'email' => null,
+                ]
+            ]);
+        }
+    }
+
+
     /**
      * Update the specified resource in storage.
      *
@@ -371,8 +400,17 @@ class DoctorController extends Controller
         if($user_is_valid){
             return response()->json([
                 "message"=>403,
-                "message_text"=> 'el usuario con este email ya existe'
+                "message_text"=> 'the user with this email already exist'
             ]);
+        }
+
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|email|unique:users',
+            // ...
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['error' => $validator->messages()], 422);
         }
         
         $user = User::findOrFail($id);

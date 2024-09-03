@@ -13,8 +13,12 @@ Route::get('patients/shobypatientid/{patient_id}', [PatientController::class, 's
 Route::get('patients/shobypatienLocation/{location_id}', [PatientController::class, 'showPatientbyLocation'])->name('showPatientbyLocation');
 
 Route::get('patients/byDoctor/{doctor_id}', [PatientController::class, 'patientsByDoctor'])->name('patientsByDoctor');
+Route::get('patients/check-email-exist/{email}', [PatientController::class, 'emailExist'])->name('emailExist');
 
 Route::get('patients/config/{location_id}', [PatientController::class, 'config'])->name('config');
+
+
+
 Route::post('patients/store', [PatientController::class, 'store'])->name('store');
 Route::post('patients/update/{patient}', [PatientController::class, 'update'])->name('update');
 Route::post('patients/patientupdate/{patient}', [PatientController::class, 'patientUpdate'])->name('patientUpdate');
