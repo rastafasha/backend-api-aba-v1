@@ -10,6 +10,8 @@ Route::get('client_report/config', [ClientReportController::class, 'config'])->n
 Route::get('client_report/show/{id}', [ClientReportController::class, 'show'])->name('show');
 Route::get('client_report/byprofile/{patient_id}', [ClientReportController::class, 'showByPatientId'])->name('showByPatientId');
 
+Route::get('client_report/byemployee/{doctor_id}/{patient_id}', [ClientReportController::class, 'showByPatientByDoctorId'])->name('showByPatientByDoctorId');
+
 Route::get('client_report/showCptUnits/{patient_id}/{cpt_code}/{provider}/', [ClientReportController::class, 'showCptUnits'] )->name('showCptUnits');
 
 

@@ -95,7 +95,7 @@ class ClientReportController extends Controller
     public function showByPatientId(Request $request)
     {
 
-        $size_pagination = 10;
+        $size_pagination = 7;
         $name_doctor = $request->search;
         $session_date = $request->session_date;
         $patient_id = $request->patient_id;
@@ -403,6 +403,335 @@ class ClientReportController extends Controller
         ]);
     }
 
+
+
+
+    // mostrar data del paciente por doctor
+
+    public function showByPatientByDoctorId(Request $request)
+    {
+
+        $size_pagination = 7;
+        $name_doctor = $request->search;
+        $session_date = $request->session_date;
+        $patient_id = $request->patient_id;
+        $doctor_id = $request->doctor_id;
+        $id = $request->provider_name_g;
+        $provider_name_g = $request->provider_name_g;
+        $supervisor_name = $request->supervisor_name;
+
+        $doctor = User::where("id", $doctor_id)->first();
+
+        $patient = Patient::where("patient_id", $patient_id)->first();
+
+        $startDate = $request->date_start;
+        $endDate = $request->date_end;
+
+        $noteBcba = NoteBcba::
+        where("provider_name", $doctor_id)
+        ->where("patient_id", $patient_id);
+        
+        $noteRbt = NoteRbt::
+        where("provider_name", $doctor_id)
+        ->where("patient_id", $patient_id);
+
+        if ($startDate && $endDate) {
+            $noteBcba->whereBetween('session_date', [$startDate, $endDate]);
+            $noteRbt->whereBetween('session_date', [$startDate, $endDate]);
+        }
+
+        $totalRbt = $noteRbt->count();
+        $totalBcba = $noteBcba->count();
+
+        if($request->noteType === 'bcba')
+            $maxCant = $totalBcba;
+        else if($request->noteType === 'rbt') 
+            $maxCant = $totalRbt;
+        else
+            $maxCant = $totalBcba > $totalRbt ? $totalBcba : $totalRbt;
+
+        $pages = floor($maxCant / $size_pagination);
+        $remainder = $maxCant % $size_pagination;
+        $pages = $remainder > 0 ? $pages+1 : $pages;
+        $arrayPages = [];
+        for ($i=1; $i <= $pages; $i++) { 
+            $arrayPages[] = $i;
+        }
+
+        if($request->noteType === 'bcba' || !$request->noteType)
+            $noteBcba = $noteBcba->orderBy('session_date', 'desc')->paginate($size_pagination);
+        if($request->noteType === 'rbt' || !$request->noteType) 
+            $noteRbt = $noteRbt->orderBy('session_date', 'desc')->paginate($size_pagination);
+
+        $tecnicoRbts = NoteRbt::where("patient_id", $patient_id) 
+            ->with('doctor', 'desc')
+            ->where('provider_name_g', $id)
+            ->orderby('session_date', 'desc')
+            ->get();
+
+        $doctors = Patient::join('users', 'patients.id', '=', 'users.id')
+            ->select(
+                
+                'patients.id as id',
+                'users.name',
+                )
+            ->get();
+
+        
+        // $doctor = NoteRbt::where("provider_name_g", $provider_name_g)->get();
+        $tecnicoRbts = NoteRbt::where("provider_name_g" , $provider_name_g)->get();
+        $supervisor = NoteRbt::where("supervisor_name", $supervisor_name)->get();
+        
+        if($request->{'xe'}){
+            $request->request->add($xe);
+        }
+
+       
+        $notes = [];
+
+        foreach ($noteRbt as $note) {
+
+            /*Session 1*/
+            $timeIn = Carbon::parse($note->time_in);
+            $timeOut = Carbon::parse($note->time_out);
+
+            $diferenciaMinutos = $timeOut->diffInMinutes($timeIn);
+
+            $unidades1 = round($diferenciaMinutos / 15);
+
+            /*Session 2*/
+            $timeIn2 = Carbon::parse($note->time_in2);
+            $timeOut2 = Carbon::parse($note->time_out2);
+
+            $diferenciaMinutos2 = $timeOut2->diffInMinutes($timeIn2);
+
+            $unidades2 = round($diferenciaMinutos2 / 15);
+
+            /*Tontal de minutos*/
+            $totalMinutosTotales2 = $diferenciaMinutos + $diferenciaMinutos2;
+
+            /*Tontal de unidades*/
+            $unidadesTotal = round($totalMinutosTotales2 / 15); 
+            
+            /*Costo por unidad*/
+            $costoUnidad = 12.51;
+
+            /*Pagar*/
+            $pagar = $unidadesTotal * $costoUnidad;
+
+            $xe = $unidadesTotal * 0; // es excento por medicare, el seguro cubre todo
+
+            $notes[] =[              
+                'id' => $note->id,
+                // 'Doctor id' => $note->doctor_id,
+                'Paciente' => $note->patient_id,
+                'bip_id' => $note->bip_id,
+                'supervisor' => $note->supervisor_name,
+                'supervisor'=>$note-> supervisor,
+                'supervisor'=>[
+                    'name'=> $note->supervisor->name,
+                    'surname'=> $note->supervisor->surname,
+                    'npi'=> $note->supervisor->npi,
+                ],
+                'tecnicoRbts' => $note->provider_name_g,
+                'tecnicoRbt'=>$note-> tecnicoRbt,
+                'tecnicoRbt'=>[
+                    'name'=> $note->tecnicoRbt->name,
+                    'surname'=> $note->tecnicoRbt->surname,
+                    'npi'=> $note->tecnicoRbt->npi,
+                ],
+                
+                
+                'pos' => $note->pos,
+                'session_date' => $note->session_date,
+                'meet_with_client_at' => $note->meet_with_client_at,
+                'time_in' => $note->time_in,
+                'time_out' => $note->time_out,
+                'time_in2' => $note->time_in2,
+                'time_out2' => $note->time_out2,
+                "total_hours" => date("H:i",strtotime($note->time_out) - strtotime($note->time_in) + strtotime($note->time_out2) - strtotime($note->time_in2)  ),
+                
+                'cpt_code' => $note->cpt_code,
+                'md' => $note->md,
+                'md2' => $note->md2,
+                
+                'unidades_sesion_1' => $unidades1,
+                'unidades_sesion_2' => $unidades2,
+                'session_units_total' => $unidadesTotal,
+                'billed' => $note->billed,
+                'pay' => $note->pay,
+                'created_at' => $note->created_at,
+
+                // 'Costo por unidad' => $costoUnidad,
+                // 'Total a pagar' => $pagar,
+                // 'Doctor' => $note->doctor,
+                
+            ];
+
+            
+        }
+
+        $notesBcbas = [];
+
+        foreach ($noteBcba as $notebcba) {
+
+            /*Session 1*/
+            $timeIn = Carbon::parse($notebcba->time_in);
+            $timeOut = Carbon::parse($notebcba->time_out);
+
+            $diferenciaMinutos = $timeOut->diffInMinutes($timeIn);
+
+            $unidades1 = round($diferenciaMinutos / 15);
+
+            /*Session 2*/
+            $timeIn2 = Carbon::parse($notebcba->time_in2);
+            $timeOut2 = Carbon::parse($notebcba->time_out2);
+
+            $diferenciaMinutos2 = $timeOut2->diffInMinutes($timeIn2);
+
+            $unidades2 = round($diferenciaMinutos2 / 15);
+
+            /*Tontal de minutos*/
+            $totalMinutosTotales2 = $diferenciaMinutos + $diferenciaMinutos2;
+
+            /*Tontal de unidades*/
+            $unidadesTotal = round($totalMinutosTotales2 / 15); 
+            
+            /*Costo por unidad*/
+            $costoUnidad = 12.51;
+
+            /*Pagar*/
+            $pagar = $unidadesTotal * $costoUnidad;
+
+            $xe = $unidadesTotal * 0; // es excento por medicare, el seguro cubre todo
+
+            
+            $notesBcbas[] =[              
+                'id' => $notebcba->id,
+                // 'Doctor id' => $note->doctor_id,
+                'Paciente' => $notebcba->patient_id,
+                'bip_id' => $notebcba->bip_id,
+                "cpt_code"=> $notebcba->cpt_code,
+                    "provider_name"=> $notebcba->provider_name,
+                    "session_date"=> $notebcba->session_date,
+                    'tecnico'=>$notebcba-> tecnico,
+                    // 'time_in' => $noteBcba->time_in,
+                    // 'time_out' => $noteBcba->time_out,
+                    // 'time_in2' => $noteBcba->time_in2,
+                    // 'time_out2' => $noteBcba->time_out2,
+                    "total_hours" => date("H:i",strtotime($notebcba->time_out) - strtotime($notebcba->time_in) + strtotime($notebcba->time_out2) - strtotime($notebcba->time_in2)  ),
+                    'tecnico'=>[
+                        'name'=> $notebcba->tecnico->name,
+                        'surname'=> $notebcba->tecnico->surname,
+                        'npi'=> $notebcba->tecnico->npi,
+                    ],
+                    "supervisor_name"=> $notebcba->supervisor_name,
+                    'supervisor'=>$notebcba-> supervisor,
+                    'supervisor'=>[
+                        'name'=> $notebcba->supervisor->name,
+                        'surname'=> $notebcba->supervisor->surname,
+                        'npi'=> $notebcba->supervisor->npi,
+                    ],
+                    "aba_supervisor"=> $notebcba->aba_supervisor,
+                    'abasupervisor'=>$notebcba-> abasupervisor,
+                    'abasupervisor'=>[
+                        'name'=> $notebcba->abasupervisor->name,
+                        'surname'=> $notebcba->abasupervisor->surname,
+                        'npi'=> $notebcba->abasupervisor->npi,
+                    ],
+                'cpt_code' => $notebcba->cpt_code,
+                'mdbcba' => $notebcba->mdbcba,
+                'md2bcba' => $notebcba->md2bcba,
+                'billedbcba' => $notebcba->billedbcba,
+                'paybcba' => $notebcba->paybcba,
+                'meet_with_client_at' => $notebcba->meet_with_client_at,
+                
+                'unidades_sesion_1' => $unidades1,
+                'unidades_sesion_2' => $unidades2,
+                'session_units_total' => $unidadesTotal,
+
+                'created_at' => $notebcba->created_at,
+    
+                // 'Costo por unidad' => $costoUnidad,
+                // 'Total a pagar' => $pagar,
+                // 'Doctor' => $note->doctor,
+                
+            ];
+
+            
+        }
+        
+        
+        return response()->json([
+            'noteBcbas'=> $notesBcbas,
+            // "noteBcba"=>$notesBcbas->map(function($noteBcba){
+            //     return[
+            //         "cpt_code"=> $noteBcba->cpt_code,
+            //         "provider_name"=> $noteBcba->provider_name,
+            //         "session_date"=> $noteBcba->session_date,
+            //         'tecnico'=>$noteBcba-> tecnico,
+            //         // 'time_in' => $noteBcba->time_in,
+            //         // 'time_out' => $noteBcba->time_out,
+            //         // 'time_in2' => $noteBcba->time_in2,
+            //         // 'time_out2' => $noteBcba->time_out2,
+            //         "total_hours" => date("H:i",strtotime($noteBcba->time_out) - strtotime($noteBcba->time_in) + strtotime($noteBcba->time_out2) - strtotime($noteBcba->time_in2)  ),
+            //         'tecnico'=>[
+            //             'name'=> $noteBcba->tecnico->name,
+            //             'surname'=> $noteBcba->tecnico->surname,
+            //             'npi'=> $noteBcba->tecnico->npi,
+            //         ],
+            //         "supervisor_name"=> $noteBcba->supervisor_name,
+            //         'supervisor'=>$noteBcba-> supervisor,
+            //         'supervisor'=>[
+            //             'name'=> $noteBcba->supervisor->name,
+            //             'surname'=> $noteBcba->supervisor->surname,
+            //             'npi'=> $noteBcba->supervisor->npi,
+            //         ],
+            //         "aba_supervisor"=> $noteBcba->aba_supervisor,
+            //         'abasupervisor'=>$noteBcba-> abasupervisor,
+            //         'abasupervisor'=>[
+            //             'name'=> $noteBcba->abasupervisor->name,
+            //             'surname'=> $noteBcba->abasupervisor->surname,
+            //             'npi'=> $noteBcba->abasupervisor->npi,
+            //         ],
+            //     ];
+            // }),
+            // "doctors" =>$doctors,
+           
+            "noteRbts" =>$notes,
+            // "noteRbts" => NoteRbtCollection::make($notes),
+            
+            "patient" => $patient,
+                "patient"=>$patient->id ? [
+                    "patient_id"=> $patient->patient_id,
+                    "full_name"=> $patient->first_name.' '.$patient->last_name,
+                    "patient_id"=>$patient->patient_id,
+                    "first_name"=>$patient->first_name,
+                    "last_name"=>$patient->last_name,
+                    "diagnosis_code"=>$patient->diagnosis_code,
+                    // "pos_covered"=>$patient->pos_covered,
+                    "pos_covered"=>$patient->pos_covered ? json_decode($patient->pos_covered) : null,
+                    "insurer_id"=>$patient->insurer_id,
+                    "rbt_home_id"=>$patient->rbt_home_id,
+                    "rbt2_school_id"=>$patient->rbt2_school_id,
+                    "bcba_home_id"=>$patient->bcba_home_id,
+                    "bcba2_school_id"=>$patient->bcba2_school_id,
+                        ]:NULL,
+            "doctor" => $doctor,
+                "doctor"=>$doctor->id ? [
+                    "doctor_id"=> $doctor->id,
+                    "email"=> $doctor->email,
+                    "full_name"=> $doctor->name.' '.$doctor->surname,
+                    
+                        ]:NULL,
+                        
+                        
+            "pos_covered"=>$patient->pos_covered ? json_decode($patient->pos_covered) : null,
+            "pa_assessments"=>$patient->pa_assessments ? json_decode($patient->pa_assessments) : null,
+            "totalPages" => $pages,
+            "arrayPages" => $arrayPages
+        ]);
+    }
 
 
     public function store(Request $request)
