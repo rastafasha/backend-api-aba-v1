@@ -433,6 +433,7 @@ class ClientReportController extends Controller
         
         $noteRbt = NoteRbt::
         where("provider_name", $doctor_id)
+        ->where("provider_name_g", $doctor_id)
         ->where("patient_id", $patient_id);
 
         if ($startDate && $endDate) {

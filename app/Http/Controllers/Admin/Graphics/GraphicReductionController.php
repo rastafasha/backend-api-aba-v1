@@ -11,6 +11,7 @@ use App\Models\Notes\NoteRbt;
 use App\Models\Patient\Patient;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
+use App\Models\Bip\SustitutionGoal;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Note\NoteRbtResource;
@@ -284,7 +285,25 @@ public function showGragphicbyReplacement(Request $request, string $replacements
         $noteRbtGoal = NoteRbt::where('replacements', 'LIKE', '%'.$replacements.'%')
             ->where("patient_id", $patient_id)
             ->get();
-        
+
+            $searchTerm = 'sustitution_status_sto';
+            $sustitutionStatus = SustitutionGoal::where('goalstos', 'LIKE', '%' . $searchTerm . '%')
+                ->where("patient_id", $patient_id)
+                ->first();
+
+            $sustitutionStatusStoValues = [];
+            if ($sustitutionStatus) {
+                $goalstos = json_decode($sustitutionStatus->goalstos, true);
+                foreach ($goalstos as $goalsto) {
+                    $sustitutionStatusStoValues[] = $goalsto['sustitution_status_sto'];
+                }
+
+                // Filter the values after the loop
+                $datosFiltrados = array_filter($sustitutionStatusStoValues, function($dato) {
+                    // Check if $dato is an array before trying to access 'modo'
+                    return is_array($dato) && isset($dato['modo']) && $dato['modo'] == 'inprogress';
+                });
+            }
         
         // Retrieve all unique session dates from the NoteRbt records
         // $sessions = NoteRbt::pluck('session_date'); // trae toda las fechas
@@ -350,11 +369,6 @@ public function showGragphicbyReplacement(Request $request, string $replacements
             $replacementsCollection->push($total_trials);
         }
 
-        // Log::debug("JSON strings: " . json_encode($json_strings, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT));
-
-       
-        
-        
         // Convert replacements from string to JSON array
         $replacements = json_decode($item->replacements, false);
         Log::debug("replacements: " . $replacements);
@@ -396,9 +410,10 @@ public function showGragphicbyReplacement(Request $request, string $replacements
             
         // 'decoded' => $mald, 
         'goal' => $goal, // trae el nombre  del comportamiento que se busco
-         
+        'sustitutionStatusStoValues' => $sustitutionStatusStoValues,
+        'datosFiltrados' => $datosFiltrados,
+
         'filtered_goals' => $filtered_goals, // lo filtra pero trae el ultimo 
-        // 'total_total_trials' => array_sum(array_column($filtered_goals, 'total_trials')),
         'total_count_this_in_notes_rbt'=> count($replacementsCollection), //cuenta el total de este maladative en la nota    
         // 'sessions_dates' => $sessions, 
         "sessions_dates"=>$sessions->map(function($session){
