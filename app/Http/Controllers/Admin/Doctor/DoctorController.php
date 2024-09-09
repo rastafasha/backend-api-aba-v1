@@ -4,9 +4,9 @@ namespace App\Http\Controllers\Admin\Doctor;
 
 use Carbon\Carbon;
 use App\Models\User;
-use App\Models\UserLocation;
 use App\Models\Bip\Bip;
 use App\Models\Location;
+use App\Models\UserLocation;
 use Illuminate\Http\Request;
 use App\Models\Notes\NoteRbt;
 use App\Models\Notes\NoteBcba;
@@ -15,9 +15,11 @@ use App\Mail\NewUserRegisterMail;
 use App\Models\Doctor\Specialitie;
 use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
+use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Validation\Validator;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Resources\Bip\BipCollection;
 use App\Http\Resources\User\UserResource;
@@ -27,7 +29,6 @@ use App\Http\Resources\Note\NoteBcbaCollection;
 use App\Http\Resources\Patient\PatientCollection;
 use App\Http\Resources\Location\LocationCollection;
 use App\Http\Resources\Appointment\AppointmentCollection;
-use Illuminate\Support\Facades\Log;
 
 class DoctorController extends Controller
 {
@@ -278,6 +279,7 @@ class DoctorController extends Controller
             ]);
         }
 
+        
         $validator = Validator::make($request->all(), [
             'email' => 'required|email|unique:users',
             // ...
@@ -394,6 +396,13 @@ class DoctorController extends Controller
      */
     public function updateDoctor(Request $request, string $id)
     {
+        // $emailExists = $this->emailExist($request->email);
+        // if ($emailExists) {
+        //     return response()->json([
+        //         "message" => 403,
+        //         "message_text" => 'the user with this email already exist'
+        //     ]);
+        // }
         
         $user_is_valid = User::where("id", "<>", $id)->where("email", $request->email)->first();
 
@@ -404,14 +413,16 @@ class DoctorController extends Controller
             ]);
         }
 
-        $validator = Validator::make($request->all(), [
-            'email' => 'required|email|unique:users',
-            // ...
-        ]);
+        
 
-        if ($validator->fails()) {
-            return response()->json(['error' => $validator->messages()], 422);
-        }
+        // $validator = Validator::make($request->all(), [
+        //     'email' => 'required|email|unique:users',
+        //     // ...
+        // ]);
+
+        // if ($validator->fails()) {
+        //     return response()->json(['error' => $validator->messages()], 422);
+        // }
         
         $user = User::findOrFail($id);
         
