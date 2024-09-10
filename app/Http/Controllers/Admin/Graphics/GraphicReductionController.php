@@ -291,19 +291,27 @@ public function showGragphicbyReplacement(Request $request, string $replacements
                 ->where("patient_id", $patient_id)
                 ->first();
 
-            $sustitutionStatusStoValues = [];
-            if ($sustitutionStatus) {
-                $goalstos = json_decode($sustitutionStatus->goalstos, true);
-                foreach ($goalstos as $goalsto) {
-                    $sustitutionStatusStoValues[] = $goalsto['sustitution_status_sto'];
-                }
+                $sustitutionStatusStoValues = [];
+                $sustitutionStatusStoNameValues = [];
+                if ($sustitutionStatus) {
+                    $goalstos = json_decode($sustitutionStatus->goalstos, true);
+                    foreach ($goalstos as $goalsto) {
+                        $sustitutionStatusStoValues[] = $goalsto['sustitution_status_sto'];
+                        $sustitutionStatusStoNameValues[] = $goalsto['sustitution_sto'];
+                    }
+                
+                    // Filter the values after the loop
+                    $filtered_data = array_filter($sustitutionStatusStoValues, function($row) {
+                        return strpos($row, 'initiated') !== false;
+                    });
 
-                // Filter the values after the loop
-                $datosFiltrados = array_filter($sustitutionStatusStoValues, function($dato) {
-                    // Check if $dato is an array before trying to access 'modo'
-                    return is_array($dato) && isset($dato['modo']) && $dato['modo'] == 'inprogress';
-                });
-            }
+                    // Get the indices of the filtered values
+                    $filtered_indices = array_keys($filtered_data);
+                    
+                    // Filter the names based on the indices
+                    $filtered_names = array_intersect_key($sustitutionStatusStoNameValues, array_flip($filtered_indices));
+                    
+                }
         
         // Retrieve all unique session dates from the NoteRbt records
         // $sessions = NoteRbt::pluck('session_date'); // trae toda las fechas
@@ -405,13 +413,19 @@ public function showGragphicbyReplacement(Request $request, string $replacements
         $last_date->add(new DateInterval('P7D')); // add 7 days to the first date
         // echo $last_date->format('Y-m-d'); // print the resulting date in the desired format
 
+        
+
+        
 
         return response()->json([
             
         // 'decoded' => $mald, 
         'goal' => $goal, // trae el nombre  del comportamiento que se busco
         'sustitutionStatusStoValues' => $sustitutionStatusStoValues,
-        'datosFiltrados' => $datosFiltrados,
+        'sustitutionStatusStoNameValues' => $sustitutionStatusStoNameValues,
+        'datosFiltrados' => $filtered_data,
+        'nameSto' => $filtered_names,
+        
 
         'filtered_goals' => $filtered_goals, // lo filtra pero trae el ultimo 
         'total_count_this_in_notes_rbt'=> count($replacementsCollection), //cuenta el total de este maladative en la nota    
