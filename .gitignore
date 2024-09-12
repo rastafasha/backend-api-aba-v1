@@ -15,3 +15,5 @@ yarn-error.log
 /.idea
 /.vscode
 Envoy.blade.php
+composer.lock
+*.lock
