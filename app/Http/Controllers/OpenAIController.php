@@ -20,6 +20,7 @@ class OpenAIController extends Controller
             'startTime2' => 'sometimes|nullable|date_format:H:i',
             'endTime2' => 'sometimes|nullable|date_format:H:i',
             'mood' => 'string',
+            'pos' => 'string',
             'maladaptives' => 'required|array',
             'maladaptives.*.behavior' => 'required|string',
             'maladaptives.*.frequency' => 'required|integer',
@@ -78,6 +79,9 @@ class OpenAIController extends Controller
         $prompt = "Create a summary note as an RBT treating a child with {$request->diagnosis} " .
                   "born on {$request->birthDate} using the following data collected during the session(s):\n\n";
 
+        if ($request->pos) {
+            $prompt .= "Place of Service: {$request->pos}\n";
+        }
         if ($request->startTime && $request->endTime) {
             $prompt .= "Morning session: {$request->startTime} to {$request->endTime}\n";
         }
