@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\Notes\NoteRbtController;
+use App\Http\Controllers\OpenAIController;
 
 Route::get('note_rbt', [NoteRbtController::class, 'index'])->name('index');
 Route::get('note_rbt/config', [NoteRbtController::class, 'config'])->name('config');
@@ -28,3 +29,6 @@ Route::put('note_rbt/update/status/{note_rbt:id}', [NoteRbtController::class, 'u
 
 Route::put('note_rbt/update/modifier/{note_rbt:id}', [NoteRbtController::class, 'updateModifier'])
     ->name('note_rbt.updateModifier');
+
+Route::post("note_rbt/generate-summary", [OpenAIController::class, "generateSummary"])
+    ->name("note_rbt.generateSummary");
