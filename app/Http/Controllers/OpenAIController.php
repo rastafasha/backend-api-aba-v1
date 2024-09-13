@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Rules\TimeFormat;
 use Illuminate\Http\Request;
 use OpenAI;
 use Illuminate\Support\Facades\Log;
@@ -14,11 +15,11 @@ class OpenAIController extends Controller
     {
         $request->validate([
             'diagnosis' => 'required|string',
-            'birthDate' => 'required|date',
-            'startTime' => 'sometimes|nullable|date_format:H:i',
-            'endTime' => 'sometimes|nullable|date_format:H:i',
-            'startTime2' => 'sometimes|nullable|date_format:H:i',
-            'endTime2' => 'sometimes|nullable|date_format:H:i',
+            'birthDate' => 'sometimes|nullable|date',
+            'startTime' => ['sometimes', 'nullable', new TimeFormat],
+            'endTime' => ['sometimes', 'nullable', new TimeFormat],
+            'startTime2' => ['sometimes', 'nullable', new TimeFormat],
+            'endTime2' => ['sometimes', 'nullable', new TimeFormat],
             'mood' => 'string',
             'pos' => 'string',
             'maladaptives' => 'required|array',
@@ -76,8 +77,13 @@ class OpenAIController extends Controller
 
         $interventions = implode(', ', $request->interventions);
 
-        $prompt = "Create a summary note as an RBT treating a child with {$request->diagnosis} " .
-                  "born on {$request->birthDate} using the following data collected during the session(s):\n\n";
+        $prompt = "Create a summary note as an RBT treating a child with {$request->diagnosis} ";
+
+        if ($request->birthDate) {
+            $prompt .= "born on {$request->birthDate}\n";
+        }
+
+        $prompt .= "using the following data collected during the session(s):\n\n";
 
         if ($request->pos) {
             $prompt .= "Place of Service: {$request->pos}\n";
