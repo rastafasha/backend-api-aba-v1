@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost:8889
--- Tiempo de generación: 07-09-2024 a las 00:45:06
+-- Tiempo de generación: 10-09-2024 a las 05:19:41
 -- Versión del servidor: 5.7.34
 -- Versión de PHP: 8.0.8
 
@@ -849,7 +849,8 @@ CREATE TABLE `reduction_goals` (
 INSERT INTO `reduction_goals` (`id`, `maladaptive`, `current_status`, `patient_id`, `client_id`, `bip_id`, `goalstos`, `goalltos`, `created_at`, `updated_at`, `deleted_at`) VALUES
 (1, 'test', 'test', 'test1', 1, 1, '[{\"sto\": \"test\", \"nombre\": \"Nuevo nombre\", \"date_sto\": \"2024-07-12T04:00:00.000Z\", \"status_sto\": \"inprogress\", \"maladaptive\": \"test\", \"end_date_sto\": \"2024-09-18T04:00:00.000Z\", \"decription_sto\": \"test\", \"status_sto_edit\": \"inprogress\"}]', '[{\"lto\": \"test\", \"nombre\": \"Nuevo nombre\", \"date_lto\": \"2024-07-12T04:00:00.000Z\", \"status_lto\": \"initiated\", \"end_date_lto\": \"2024-09-11T04:00:00.000Z\", \"decription_lto\": \"test\", \"initial_date_lto\": \"2024-09-03T04:00:00.000Z\"}]', '2024-07-12 22:54:29', '2024-09-02 22:04:47', NULL),
 (2, 'Physical aggression', '15 incidents per week', '985590391', 5, 2, '[{\"sto\": \"1\", \"date_sto\": \"2024-07-15T04:00:00.000Z\", \"status_sto\": \"inprogress\", \"maladaptive\": \"Physical aggression\", \"decription_sto\": \"dsa\", \"status_sto_edit\": \"inprogress\"}]', '[{\"lto\": \"lt022\", \"date_lto\": \"2024-07-16T04:00:00.000Z\", \"status_lto\": \"inprogress\", \"decription_lto\": \"test\"}]', '2024-07-15 20:39:11', '2024-07-15 20:39:11', NULL),
-(3, 'Spitting', '35 incidents per week', '985590391', 5, 2, '[{\"sto\": \"st01\", \"date_sto\": \"2024-07-22T04:00:00.000Z\", \"status_sto\": \"inprogress\", \"maladaptive\": \"Spitting\", \"decription_sto\": \"item\", \"status_sto_edit\": \"inprogress\"}]', '[{\"lto\": \"LTO1\", \"date_lto\": \"2024-07-22T04:00:00.000Z\", \"status_lto\": \"inprogress\", \"decription_lto\": \"das\"}]', '2024-07-23 05:01:25', '2024-07-23 05:01:25', NULL);
+(3, 'Spitting', '35 incidents per week', '985590391', 5, 2, '[{\"sto\": \"st01\", \"date_sto\": \"2024-07-22T04:00:00.000Z\", \"status_sto\": \"inprogress\", \"maladaptive\": \"Spitting\", \"decription_sto\": \"item\", \"status_sto_edit\": \"inprogress\"}]', '[{\"lto\": \"LTO1\", \"date_lto\": \"2024-07-22T04:00:00.000Z\", \"status_lto\": \"inprogress\", \"decription_lto\": \"das\"}]', '2024-07-23 05:01:25', '2024-07-23 05:01:25', NULL),
+(5, 'Elopement', 'Elopement', '985590391', NULL, 2, '[{\"sto\": \"Elopement\", \"index\": 2, \"status_sto\": \"inprogress\", \"maladaptive\": \"Elopement\", \"end_date_sto\": \"2024-09-18T04:00:00.000Z\", \"decription_sto\": \"Elopement\", \"status_sto_edit\": \"inprogress\", \"initial_date_sto\": \"2024-09-11T04:00:00.000Z\"}]', '[{\"lto\": \"Elopement\", \"index\": 2, \"status_lto\": \"mastered\", \"end_date_lto\": \"2024-09-18T04:00:00.000Z\", \"decription_lto\": \"Elopement\", \"initial_date_lto\": \"2024-09-11T04:00:00.000Z\"}]', '2024-09-10 02:38:55', '2024-09-10 02:38:55', NULL);
 
 -- --------------------------------------------------------
 
@@ -960,9 +961,9 @@ CREATE TABLE `sustitution_goals` (
 
 INSERT INTO `sustitution_goals` (`id`, `goal`, `current_status`, `description`, `patient_id`, `client_id`, `bip_id`, `goalstos`, `goalltos`, `created_at`, `updated_at`, `deleted_at`) VALUES
 (1, 'test', 'test', 'test', 'test1', NULL, 1, '[{\"index\": 1, \"target\": \"45\", \"sustitution_sto\": \"1\", \"sustitution_date_sto\": \"2024-09-02T04:00:00.000Z\", \"sustitution_status_sto\": \"inprogress\", \"end_sustitution_date_sto\": \"2024-09-03T04:00:00.000Z\", \"sustitution_decription_sto\": \"dasdas\", \"sustitution_status_sto_edit\": \"inprogress\"}]', '[{\"sustitution_lto\": \"test\", \"sustitution_date_lto\": \"2024-07-12T04:00:00.000Z\", \"sustitution_status_lto\": \"inprogress\", \"sustitution_decription_lto\": \"test\"}]', '2024-07-12 22:55:00', '2024-09-02 22:29:27', NULL),
-(2, 'Group goal', 'Average of 72% per week. (In progress STO 2) APR, 2024', 'description', '985590391', NULL, 2, '[{\"target\": \"100\", \"sustitution_sto\": \"4\", \"sustitution_date_sto\": \"2024-07-25T04:00:00.000Z\", \"sustitution_status_sto\": \"on hold\", \"sustitution_decription_sto\": \"target\", \"sustitution_status_sto_edit\": \"on hold\"}, {\"index\": 2, \"target\": \"dasdas\", \"sustitution_sto\": \"das\", \"sustitution_date_sto\": \"2024-09-06T04:00:00.000Z\", \"sustitution_status_sto\": \"initiated\", \"end_sustitution_date_sto\": \"2024-09-18T04:00:00.000Z\", \"sustitution_decription_sto\": \"das\", \"sustitution_status_sto_edit\": \"initiated\"}]', '[{\"sustitution_lto\": \"lt01\", \"sustitution_date_lto\": \"2024-07-15T04:00:00.000Z\", \"sustitution_status_lto\": \"inprogress\", \"sustitution_decription_lto\": \"environmental changes\"}]', '2024-07-15 18:55:11', '2024-09-05 18:18:17', NULL),
+(2, 'Group goal', 'Average of 72% per week. (In progress STO 2) APR, 2024', 'description', '985590391', NULL, 2, '[{\"nombre\": \"Nuevo nombre\", \"target\": \"100\", \"sustitution_sto\": \"4\", \"sustitution_date_sto\": \"2024-07-25T04:00:00.000Z\", \"sustitution_status_sto\": \"initiated\", \"end_sustitution_date_sto\": \"2024-09-11T04:00:00.000Z\", \"sustitution_decription_sto\": \"target\", \"sustitution_status_sto_edit\": \"on hold\"}, {\"index\": 2, \"nombre\": \"Nuevo nombre\", \"target\": \"dasdas\", \"sustitution_sto\": \"das\", \"sustitution_date_sto\": \"2024-09-06T04:00:00.000Z\", \"sustitution_status_sto\": \"maintenance\", \"end_sustitution_date_sto\": \"2024-09-18T04:00:00.000Z\", \"sustitution_decription_sto\": \"das\", \"sustitution_status_sto_edit\": \"initiated\"}]', '[{\"sustitution_lto\": \"lt01\", \"sustitution_date_lto\": \"2024-07-15T04:00:00.000Z\", \"sustitution_status_lto\": \"inprogress\", \"sustitution_decription_lto\": \"environmental changes\"}]', '2024-07-15 18:55:11', '2024-09-10 04:33:04', NULL),
 (3, 'peo', 'adsdas', 'das', 'test1', NULL, 1, '[{\"target\": \"ads\", \"sustitution_sto\": \"1\", \"sustitution_date_sto\": \"2024-08-30T04:00:00.000Z\", \"sustitution_status_sto\": \"initiated\", \"end_sustitution_date_sto\": \"2024-08-31T04:00:00.000Z\", \"sustitution_decription_sto\": \"das\", \"sustitution_status_sto_edit\": \"initiated\"}]', '[{\"sustitution_lto\": \"11\", \"sustitution_date_lto\": \"2024-08-31T04:00:00.000Z\", \"sustitution_status_lto\": \"inprogress\", \"sustitution_decription_lto\": \"dsa\"}]', '2024-08-31 06:08:32', '2024-09-02 22:38:46', '2024-09-02 22:38:46'),
-(4, 'Otro', 'dsadsa', 'adsdas', '985590391', NULL, 2, '[]', '[]', '2024-09-02 17:31:17', '2024-09-02 17:31:17', NULL),
+(4, 'Otro', 'dsadsa', 'adsdas', '985590391', NULL, 2, '[{\"index\": 1, \"target\": \"das\", \"sustitution_sto\": \"sto1\", \"sustitution_date_sto\": \"2024-09-10T04:00:00.000Z\", \"sustitution_status_sto\": \"initiated\", \"end_sustitution_date_sto\": \"2024-09-19T04:00:00.000Z\", \"sustitution_decription_sto\": \"asd\", \"sustitution_status_sto_edit\": \"initiated\"}]', '[{\"index\": 1, \"sustitution_lto\": \"das\", \"sustitution_date_lto\": \"2024-09-10T04:00:00.000Z\", \"sustitution_status_lto\": \"mastered\", \"end_sustitution_date_lto\": \"2024-09-18T04:00:00.000Z\", \"sustitution_decription_lto\": \"ads\"}]', '2024-09-02 17:31:17', '2024-09-10 04:45:40', NULL),
 (5, NULL, NULL, NULL, 'test1', NULL, 1, '[{\"index\": 1, \"target\": \"ads\", \"sustitution_sto\": \"dasdas\", \"sustitution_date_sto\": \"2024-09-03T04:00:00.000Z\", \"sustitution_status_sto\": \"initiated\", \"end_sustitution_date_sto\": \"2024-09-05T04:00:00.000Z\", \"sustitution_decription_sto\": \"dsadas\", \"sustitution_status_sto_edit\": \"initiated\"}]', '[]', '2024-09-02 23:20:20', '2024-09-02 23:20:35', '2024-09-02 23:20:35'),
 (6, 'dsadas', NULL, NULL, 'test1', NULL, 1, '[{\"index\": 1, \"target\": \"ads\", \"sustitution_sto\": \"dasdas\", \"sustitution_date_sto\": \"2024-09-03T04:00:00.000Z\", \"sustitution_status_sto\": \"initiated\", \"end_sustitution_date_sto\": \"2024-09-05T04:00:00.000Z\", \"sustitution_decription_sto\": \"dsadas\", \"sustitution_status_sto_edit\": \"initiated\"}]', '[]', '2024-09-02 23:20:29', '2024-09-02 23:20:37', '2024-09-02 23:20:37'),
 (7, NULL, NULL, NULL, 'test1', NULL, 1, '[]', '[{\"index\": 1, \"sustitution_lto\": \"32\", \"sustitution_date_lto\": \"2024-09-03T04:00:00.000Z\", \"sustitution_status_lto\": \"inprogress\", \"end_sustitution_date_lto\": \"2024-09-04T04:00:00.000Z\", \"sustitution_decription_lto\": \"end_sustitution_date_lto\"}]', '2024-09-02 23:27:20', '2024-09-02 23:30:27', '2024-09-02 23:30:27');
@@ -1041,7 +1042,7 @@ INSERT INTO `users` (`id`, `name`, `email`, `surname`, `phone`, `birth_date`, `g
 (5, 'Maria Eugenia', 'apontemariae@gmail.com', 'Aponte', '+584122070144', '2024-01-10 15:00:00', 2, 'rbt address', 'staffs/mfSN3ItHhmfR5yHlXCt4ev2RVsq7Nkjh1cXJHQzx.jpg', 'active', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, '$2y$10$lncqhyTE4SIRBjMhRvh88.qReitT3T4jQS8C9KGdz74umYY1QohNy', NULL, '2024-07-14 23:54:02', '2024-07-17 00:07:43', NULL),
 (6, 'Alain', 'alain@practice-mgmt.com', 'Hernandez', '2397101864', '2024-03-11 15:00:00', 1, 'practice', 'staffs/phfsftyDEGE3UGXNk6JHWoeTOYLuSNLYIHjvFCd8.png', 'active', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, '$2y$10$m0MGwf63QGvzEFE3I3N1lePzmOzbwS8WpN6BSnt.yw9/EDYvm.IHW', NULL, '2024-07-15 19:12:44', '2024-07-27 01:02:14', NULL),
 (7, 'Amber', 'manager@practice-mgmt.com', 'McKinney', '1234567', '2024-07-15 08:00:00', 2, NULL, 'staffs/TA5dFrrEJdsFkG5m4e4v5I0cdO2KiKk1VrXozLzi.jpg', 'active', NULL, NULL, NULL, NULL, 'signatures/ZtgOSP3pUdWOjkvpDU69RP0pazdLmneI1NgGa0ra.jpg', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, '$2y$10$aw.DFJtlh85Emy5LP0yIwuMmkYFeu9V70BN2E3Adc33Q8Cv.f1pnK', NULL, '2024-07-15 19:14:40', '2024-08-06 18:17:47', NULL),
-(8, 'Michelle', 'michelleguimoye@gmail.com', 'Guimoye', '239-634-9514', '1970-01-01 08:00:00', 2, 'Fort Myers', 'staffs/RQNkg0k73hswagNlsYh0mYVS4hUJT8VUUY5CeN7a.jpg', 'active', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, '$2y$10$IClgEjs0svQgRMIm9/IBauBemi81gQ0liufj/It.u2JkVbiKsJBUC', NULL, '2024-07-15 19:16:20', '2024-08-06 18:16:16', NULL),
+(8, 'Michelle', 'michelleguimoye@gmail.com', 'Guimoye', '239-634-9514', '1970-01-01 08:00:00', 2, 'Fort Myers', 'staffs/RQNkg0k73hswagNlsYh0mYVS4hUJT8VUUY5CeN7a.jpg', 'active', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, '$2y$10$i72XiskyG2HPE51oRd0RluJciOxdhV3C0bsSTXyX6ywFpXqg2yDqu', NULL, '2024-07-15 19:16:20', '2024-09-09 20:43:52', NULL),
 (9, 'Guyvenel', 'dumeusguyvenel@gmail.com', 'Dumeus', '239-823-3543', '2002-12-08 08:00:00', 1, 'Lehigh Acres', 'staffs/oGKYwkj34Yf9tBE6yR9dlzRxjRdDNQhh3cXE812O.jpg', 'active', NULL, NULL, NULL, NULL, 'signatures/gW9ap1aVO6VHLPXdWFWf6qvyl5sQwIkEeW8OwisA.jpg', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, '$2y$10$W812AhxTBc.ILPUgoU1./OC5nCQjPE36EYl7KrBhH.uxmmNREwD5y', NULL, '2024-07-15 19:17:44', '2024-08-06 18:13:11', NULL),
 (10, 'Mary', 'pinskeraba@gmail', 'Pinsker', '757-403-9287', '1970-10-19 08:00:00', 2, 'Telehealth', 'staffs/knrWsl0u3FK0fG92WkWA9nRY2ZQYtWOYvtzcw1pU.jpg', 'active', NULL, NULL, NULL, NULL, 'signatures/Bo2iRD8mPmhaNfMnOwBjkeT5qeZLGtb6NVFSJqYZ.jpg', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'NPIMAryPinsk1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, '$2y$10$OahddVzU4O4B.AE4FVWrqOP6zh5VFf8DWaEHLBR9JVlJUVNpt/qjK', NULL, '2024-07-15 19:21:03', '2024-08-07 02:13:45', NULL),
 (11, 'Sucel', 'suceltejeda@yahoo.com', 'Tejeda', '2396286999', '2024-04-30 15:00:00', 2, '6660 Estero Blvd', 'staffs/1z543G2aNf1UgWNgrcyTFOPOu0KRadY6c9UHaJC3.jpg', 'active', NULL, NULL, NULL, NULL, 'signatures/CJEhvzn17gCPfT5lU1FqgcYlqWWZ7yLNpJyziX61.jpg', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, '$2y$10$h27cdyHoTSk3Low7nJyckuJ0frh2lVmOM1IJN02XTy1r3DDr1R352', NULL, '2024-07-15 19:22:20', '2024-07-16 23:59:06', NULL),
@@ -1077,7 +1078,6 @@ INSERT INTO `user_locations` (`id`, `user_id`, `location_id`) VALUES
 (178, 13, 6),
 (179, 9, 2),
 (180, 9, 3),
-(181, 8, 3),
 (182, 7, 4),
 (183, 4, 2),
 (184, 10, 1),
@@ -1085,7 +1085,8 @@ INSERT INTO `user_locations` (`id`, `user_id`, `location_id`) VALUES
 (187, 15, 1),
 (188, 15, 2),
 (189, 15, 4),
-(190, 15, 5);
+(190, 15, 5),
+(192, 8, 3);
 
 --
 -- Índices para tablas volcadas
@@ -1405,7 +1406,7 @@ ALTER TABLE `personal_access_tokens`
 -- AUTO_INCREMENT de la tabla `reduction_goals`
 --
 ALTER TABLE `reduction_goals`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de la tabla `roles`
@@ -1429,7 +1430,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT de la tabla `user_locations`
 --
 ALTER TABLE `user_locations`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=191;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=193;
 
 --
 -- Restricciones para tablas volcadas
