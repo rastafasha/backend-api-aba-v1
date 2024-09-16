@@ -16,6 +16,7 @@ use Spatie\Permission\Models\Role;
 use App\Models\Insurance\Insurance;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Validator;
 use App\Models\Patient\PatientPerson;
 use App\Models\Appointment\Appointment;
 use Illuminate\Support\Facades\Storage;

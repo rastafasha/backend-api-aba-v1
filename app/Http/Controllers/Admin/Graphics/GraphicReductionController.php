@@ -302,7 +302,8 @@ public function showGragphicbyReplacement(Request $request, string $replacements
                 
                     // Filter the values after the loop
                     $filtered_data = array_filter($sustitutionStatusStoValues, function($row) {
-                        return strpos($row, 'initiated') !== false;
+                        // return strpos($row, 'initiated') !== false;
+                        return strpos($row, 'inprogress') !== false;
                     });
 
                     // Get the indices of the filtered values

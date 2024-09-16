@@ -196,7 +196,7 @@ class SustitutionGoalController extends Controller
         
     }
 
-     // string $code,$patient_id
+    // trae el STO del goal cuando  sustitution_status_sto es igual a inprogress, pero solo trae uno
      public function showgbyPatientIdFilterGoal(Request $request, string $goal,  )
      {
          $goal = SustitutionGoal::where("goal", $goal)->first();
@@ -207,19 +207,36 @@ class SustitutionGoalController extends Controller
             return $sto['sustitution_status_sto'] === 'inprogress' && $sto['sustitution_status_sto_edit'] === 'inprogress';
         });
 
-        //  $stoInprogress = collect($goal->goalstos)
-        //      ->where('sustitution_status_sto', '=', 'inprogress')
-        //      ->where('sustitution_status_sto_edit', '=', 'inprogress');
- 
+       
          return response()->json([
             //  "goal" => $goal->goal,
              "goalstos" => [
                 //  "all" => $goal->goalstos,
                  "in_progress" => $stoInprogress, // Agrega ->all() para obtener los resultados
                 //  "status" => $goal->goalstos->sustitution_status_sto,
-                 "in_progress" => $stoInprogress, // Agrega ->all() para obtener los resultados
              ],
          ]);
          
      }
+
+     // trae todos los stos de todos los goals del paciente, donde sustitution_status_sto sean iguales a  inprogress
+     public function showgbyPatientIdFilterGoalAll(Request $request, string $patient_id,
+     string $insurer_name, string $goal, string $code)
+     {
+        $goals = SustitutionGoal::where("patient_id", $patient_id)
+        ->where("insurer_name", $insurer_name)
+        ->where("goal", $goal)
+        ->where("code", $code)
+        ->get();
+
+     }
+
+
+    
+
+
+     
+     
+        
+        
 }
