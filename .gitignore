@@ -17,3 +17,4 @@ yarn-error.log
 Envoy.blade.php
 composer.lock
 *.lock
+.DS_Store
