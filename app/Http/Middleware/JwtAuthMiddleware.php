@@ -32,6 +32,7 @@ class JwtAuthMiddleware extends BaseMiddleware
               return response()->json(['status' => 'El Token de Autorización no sé encuentra'], 404);
           }
         }
+
             return $next($request);
     }
 }

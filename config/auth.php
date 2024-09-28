@@ -39,12 +39,17 @@ return [
         'web' => [
             'driver' => 'session',
             'provider' => 'users',
+            'provider' => 'parents',
         ],
 
         'api' => [
             'driver' => 'jwt',
             'provider' => 'users',
             'hash' => false,
+        ],
+        'apiparent' => [
+            'driver' => 'jwt',
+            'provider' => 'parents',
         ],
     ],
 
@@ -69,6 +74,10 @@ return [
         'users' => [
             'driver' => 'eloquent',
             'model' => App\Models\User::class,
+        ],
+        'parents' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Parents::class,
         ],
 
         // 'users' => [
@@ -95,6 +104,12 @@ return [
     'passwords' => [
         'users' => [
             'provider' => 'users',
+            'table' => 'password_resets',
+            'expire' => 60,
+            'throttle' => 60,
+        ],
+        'parents' => [
+            'provider' => 'parents',
             'table' => 'password_resets',
             'expire' => 60,
             'throttle' => 60,

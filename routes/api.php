@@ -112,6 +112,9 @@ Route::group(['middleware' => 'api'], function ($router) {
     // dashboard
     require __DIR__ . '/api_routes/dashboard.php';
     
+    // parents
+    require __DIR__ . '/api_routes/parents.php';
+    
 
 
 

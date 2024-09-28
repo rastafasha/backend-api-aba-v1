@@ -21,6 +21,7 @@ class UserResource extends JsonResource
             "id"=>$this->resource->id,
              // "location_id"=>$this->resource->location_id,
             //  "location_id"=>json_decode($this->resource-> location_id),
+             "patient_id" =>$this->resource->patient_id,
              "location_id" =>$this->resource->location_id,
                 // 'locals'=>$this->resource-> locals,
                 //     'locals'=>[
