@@ -58,6 +58,7 @@ class NoteRbt extends Model
         'md2',
         'cpt_code',
         'provider',
+        'status',
 
     ];
 

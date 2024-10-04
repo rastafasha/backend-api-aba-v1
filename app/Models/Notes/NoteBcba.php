@@ -50,6 +50,7 @@ class NoteBcba extends Model
         'md2bcba',
         'cpt_code',
         'provider',
+        'status',
 
     ];
 

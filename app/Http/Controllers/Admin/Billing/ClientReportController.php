@@ -235,6 +235,7 @@ class ClientReportController extends Controller
                 'session_units_total' => $unidadesTotal,
                 'billed' => $note->billed,
                 'pay' => $note->pay,
+                'status' => $note->status,
                 'created_at' => $note->created_at,
 
                 // 'Costo por unidad' => $costoUnidad,
@@ -324,6 +325,7 @@ class ClientReportController extends Controller
                 'unidades_sesion_1' => $unidades1,
                 'unidades_sesion_2' => $unidades2,
                 'session_units_total' => $unidadesTotal,
+                'status' => $notebcba->status,
 
                 'created_at' => $notebcba->created_at,
     

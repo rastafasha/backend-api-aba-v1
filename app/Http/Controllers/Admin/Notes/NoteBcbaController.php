@@ -162,6 +162,7 @@ class NoteBcbaController extends Controller
 
         return response()->json([
             "message" => 200,
+            "noteBcba" => $noteBcba 
         ]);
     }
 
@@ -310,7 +311,7 @@ class NoteBcbaController extends Controller
         $noteBcba->status = $request->status;
         $noteBcba->update();
         return $noteBcba;
-        
+
     }
 
     public function updateModifier(Request $request, $id)
