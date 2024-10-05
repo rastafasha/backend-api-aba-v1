@@ -2,8 +2,10 @@
 
 namespace App\Models\Notes;
 
+use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Bip\Bip;
+use App\Models\Location;
 use App\Models\Patient\Patient;
 use App\Models\Notes\Maladaptive;
 use App\Models\Notes\Replacement;
@@ -59,6 +61,7 @@ class NoteRbt extends Model
         'cpt_code',
         'provider',
         'status',
+        'location_id',
 
     ];
 
@@ -66,6 +69,7 @@ class NoteRbt extends Model
     {
         return $this->belongsTo(Patient::class, 'patient_id');
     }
+    
 
     public function doctor() {
         return $this->hasMany(User::class,);
@@ -90,6 +94,11 @@ class NoteRbt extends Model
     {
         return $this->hasMany(Replacement::class);
     }
+
+    public function location()
+        {
+            return $this->belongsTo(Location::class,'location_id');
+        }
 
 
     // public function scopefilterAdvanceClientReport(

@@ -46,7 +46,7 @@ class ClientReport extends Model
 
     public function patient()
     {
-        return $this->hasMany(Patient::class);
+        return $this->hasMany(Patient::class, 'patient_id');
     }
     public function doctor()
     {
@@ -55,7 +55,7 @@ class ClientReport extends Model
 
     public function insurance()
     {
-        return $this->hasMany(Insurance::class);
+        return $this->belongsTo(Insurance::class, 'insurer_id');
     }
     public function note_rbt()
     {

@@ -71,6 +71,7 @@ class NoteBcbaResource extends JsonResource
                 "meet_with_client_at" =>$this->resource->meet_with_client_at,
                 "provider" => $this->resource->provider,
                 "status" => $this->resource->status,
+                "location_id" => $this->resource->location_id,
                 
                 "session_date" => $this->resource->session_date ? Carbon::parse($this->resource->session_date)->format("Y-m-d") : NULL,
                 "time_in" =>$this->resource->time_in ? Carbon::parse($this->resource->time_in)->format(" H:i:s") : NULL,
