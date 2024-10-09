@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Auth;
 
 use App\Models\Role;
 use App\Models\User;
+use App\Models\Parents;
 use App\Models\UserLocation;
 use Illuminate\Http\Request;
+use App\Models\Patient\Patient;
 use Illuminate\Validation\Rule;
 use App\Http\Requests\AuthRequest;
 use Tymon\JWTAuth\Facades\JWTAuth;
@@ -18,7 +20,6 @@ use Illuminate\Support\Facades\Validator;
 use App\Http\Requests\ChangePasswordRequest;
 use Symfony\Component\HttpFoundation\Response;
 
-;
 
 class AuthController extends Controller
 {
@@ -40,6 +41,8 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         $credentials = request()->only('email', 'password');
+        $token = Auth::shouldUse('api');
+        $token = JWTAuth::attempt($credentials);
 
         if (! $token = JWTAuth::attempt($credentials)) {
             return response()->json(['error' => 'Unauthorized - Credenciales incorrectas'], 401);
@@ -76,6 +79,40 @@ class AuthController extends Controller
         
     }
 
+    public function loginParent(Request $request)
+{
+    $credentials = request()->only('email', 'password');
+    $token = Auth::shouldUse('apiparent');
+    $token = JWTAuth::attempt($credentials);
+
+
+    if(!$token){
+        return response()->json(['error' => 'Unauthorized - Credenciales incorrectas'], 401);
+    }
+
+    $parent = Parents::where('email', request('email'))->firstOrFail();
+
+    $permissions = $parent->getAllPermissions()->map(function($perm){
+        return $perm->name;
+    });
+    
+    return response()->json([
+        'message' => "Inicio de sesión exitoso",
+        'access_token' => $this->respondWithTokenParent($token),
+        'token_type' => 'Bearer',
+        'user'=>[
+            "id"=>$parent->id,
+            "name"=>$parent->name,
+            "surname"=>$parent->surname,
+            "avatar"=>$parent->avatar,
+            "roles"=>$parent->getRoleNames(),
+            "email"=>$parent->email,
+            "location_id"=> $parent->location_id,
+
+        ],
+    ], 201);
+}
+
     /**
      * Register a User
      * @return \Illuminate\Http\JsonResponse
@@ -84,6 +121,7 @@ class AuthController extends Controller
 
         $data = $request->only('name', 'email', 'password');
 
+        
         $validator = Validator::make($data, [
             'name' => 'required|string|between:2,100',
             'email' => 'required|string|email|max:100|unique:users',
@@ -168,6 +206,27 @@ class AuthController extends Controller
                 "surname"=>auth('api')->user()->surname,
                 // "rolename"=>auth('api')->user()->rolename,
                 "email"=>auth('api')->user()->email,
+                "permissions"=>$permissions,
+
+            ],
+        ]);
+    }
+
+    protected function respondWithTokenParent($token)
+    {
+        $permissions = auth('apiparent')->user()->getAllPermissions()->map(function($perm){
+            return $perm->name;
+        });
+        return response()->json([
+            'access_token' => $token,
+            'token_type' => 'bearer',
+            'expires_in' => auth('apiparent')->factory()->getTTL() * 180,
+            // 'user'=>auth('api')->user(),
+            'user'=>[
+                "name"=>auth('apiparent')->user()->name,
+                "surname"=>auth('apiparent')->user()->surname,
+                // "rolename"=>auth('api')->user()->rolename,
+                "email"=>auth('apiparent')->user()->email,
                 "permissions"=>$permissions,
 
             ],

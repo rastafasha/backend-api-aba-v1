@@ -4,6 +4,7 @@ namespace App\Models\Notes;
 
 use App\Models\User;
 use App\Models\Bip\Bip;
+use App\Models\Location;
 use App\Models\Patient\Patient;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -52,6 +53,8 @@ class NoteBcba extends Model
         'md2bcba',
         'cpt_code',
         'provider',
+        'status',
+        'location_id',
 
     ];
 
@@ -78,4 +81,9 @@ class NoteBcba extends Model
     {
         return $this->belongsTo(Bip::class, 'bip_id');
     }
+
+    public function location()
+        {
+            return $this->belongsTo(Location::class,'location_id');
+        }
 }

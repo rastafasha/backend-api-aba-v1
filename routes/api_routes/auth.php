@@ -8,11 +8,17 @@ use App\Http\Controllers\Auth\AuthController;
 Route::post('register', [AuthController::class, 'register'])
     ->name('register');
 
+Route::post('register-parent', [AuthController::class, 'registerParent'])
+    ->name('registerParent');
+
 Route::post('me', [AuthController::class, 'me'])
     ->name('me');
 
 Route::post('login', [AuthController::class, 'login'])
     ->name('login');
+
+Route::post('login-parent', [AuthController::class, 'loginParent'])
+    ->name('loginParent');
 
 Route::get('user', [AuthController::class, 'me'])
     ->name('user');

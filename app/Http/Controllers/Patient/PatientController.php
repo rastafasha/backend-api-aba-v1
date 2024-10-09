@@ -16,7 +16,7 @@ use Spatie\Permission\Models\Role;
 use App\Models\Insurance\Insurance;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\Validator;
+use Illuminate\Support\Facades\Validator;
 use App\Models\Patient\PatientPerson;
 use App\Models\Appointment\Appointment;
 use Illuminate\Support\Facades\Storage;
@@ -282,17 +282,17 @@ class PatientController extends Controller
         $request->request->add(["pos_covered"=>json_encode($request->pos_covered)]);
         // $request->request->add(["pa_services"=>json_encode($request->services)]);
 
-        if($patient_is_valid){
-            return response()->json([
-                "message"=>403,
-                "message_text"=> 'the user with this email already exist'
-            ]);
-        }
+        // if($patient_is_valid){
+        //     return response()->json([
+        //         "message"=>403,
+        //         "message_text"=> 'the user with this email already exist'
+        //     ]);
+        // }
 
-        $validator = Validator::make($request->all(), [
-            'email' => 'required|email|unique:patients',
-            // ...
-        ]);
+        // $validator = Validator::make($request->all(), [
+        //     'email' => 'required|email|unique:patients',
+        //     // ...
+        // ]);
 
         if ($validator->fails()) {
             return response()->json(['error' => $validator->messages()], 422);
@@ -665,14 +665,14 @@ class PatientController extends Controller
         $request->request->add(["pa_assessments"=>json_encode($request->pa_assessments)]);
         $request->request->add(["pos_covered"=>json_encode($request->pos_covered)]);
 
-        $validator = Validator::make($request->all(), [
-            'email' => 'required|email|unique:patients',
-            // ...
-        ]);
+        // $validator = Validator::make($request->all(), [
+        //     'email' => 'required|email|unique:patients',
+        //     // ...
+        // ]);
 
-        if ($validator->fails()) {
-            return response()->json(['error' => $validator->messages()], 422);
-        }
+        // if ($validator->fails()) {
+        //     return response()->json(['error' => $validator->messages()], 422);
+        // }
         
         $patient = Patient::findOrFail($id);
 

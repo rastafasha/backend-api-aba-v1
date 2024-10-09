@@ -257,6 +257,7 @@ class BipController extends Controller
             "patient"=>$patient->id ? [
                 "id"=> $patient->id,
                 "patient_id"=>$patient->patient_id,
+                "location_id"=>$patient->location_id,
                 "first_name"=>$patient->first_name,
                 "last_name"=>$patient->last_name,
                 "diagnosis_code"=>$patient->diagnosis_code,

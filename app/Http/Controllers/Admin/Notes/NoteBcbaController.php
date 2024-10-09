@@ -164,6 +164,7 @@ class NoteBcbaController extends Controller
 
         return response()->json([
             "message" => 200,
+            "noteBcba" => $noteBcba 
         ]);
     }
 

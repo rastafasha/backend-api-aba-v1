@@ -22,14 +22,12 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable implements JWTSubject
 {
-    use HasApiTokens, HasFactory, Notifiable, HavePermission,  HasRoles;
-    use SoftDeletes;
+    use HasApiTokens, HasFactory, Notifiable, HavePermission, HasRoles, SoftDeletes;
     /*
     |--------------------------------------------------------------------------
     | goblan variables
     |--------------------------------------------------------------------------
     */
-
     /**
      * The attributes that are mass assignable.
      *
@@ -113,6 +111,7 @@ class User extends Authenticatable implements JWTSubject
 
     const SUPERADMIN = 'SUPERADMIN';
     const GUEST = 'GUEST';
+    const PARENT = 'PARENT';
 
     const inactive = 'inactive';
     const active = 'active';
