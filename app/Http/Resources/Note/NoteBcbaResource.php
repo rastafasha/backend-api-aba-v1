@@ -21,17 +21,19 @@ class NoteBcbaResource extends JsonResource
             "patient_id" => $this->resource->patient_id,
             "doctor_id" => $this->resource->doctor_id,
             "note_description" => $this->resource->note_description,
-            
+
             "caregiver_goals"=>json_decode($this->resource-> caregiver_goals) ? : null,
             "rbt_training_goals"=>json_decode($this->resource-> rbt_training_goals) ? : null,
             "location" => $this->resource->location,
-            
+
+            "summary_note" => $this->resource->summary_note,
+
             // "birth_date" => $this->resource->birth_date,
             "birth_date"=>$this->resource->birth_date ? Carbon::parse($this->resource->birth_date)->format("Y-m-d") : NULL,
             "aba_supervisor" => $this->resource->aba_supervisor,
             "cpt_code" =>$this->resource->cpt_code,
             "diagnosis_code" =>$this->resource->diagnosis_code,
-            
+
             "rendering_provider" => $this->resource->rendering_provider,
             'rendering'=>$this->resource-> rendering,
                 'rendering'=>[
@@ -70,6 +72,7 @@ class NoteBcbaResource extends JsonResource
                 "md2bcba" => $this->resource->md2bcba,
                 "meet_with_client_at" =>$this->resource->meet_with_client_at,
                 "provider" => $this->resource->provider,
+
                 "status" => $this->resource->status,
                 "location_id" => $this->resource->location_id,
                 
@@ -78,7 +81,7 @@ class NoteBcbaResource extends JsonResource
                 "time_out" =>$this->resource->time_out ? Carbon::parse($this->resource->time_out)->format(" H:i:s") : NULL,
                 "time_in2" =>$this->resource->time_in2 ? Carbon::parse($this->resource->time_in2)->format(" H:i:s") : NULL,
                 "time_out2" =>$this->resource->time_out2 ? Carbon::parse($this->resource->time_out2)->format(" H:i:s") : NULL,
-                // al obtener las horas trabajadas se suman 
+                // al obtener las horas trabajadas se suman
                 //convertimos las horas para poder sumarlas
                 //sumamos la hora de inicio con la hora final y le restamos los minutos de descanso.
                 "session_length_total" => date("H:i", strtotime($this->resource->time_out) - strtotime($this->resource->time_in) ),
@@ -87,7 +90,7 @@ class NoteBcbaResource extends JsonResource
 
             "created_at"=>$this->resource->created_at ? Carbon::parse($this->resource->created_at)->format("Y-m-d h:i A") : NULL,
             "updated_at"=>$this->resource->updated_at ? Carbon::parse($this->resource->updated_at)->format("Y-m-d h:i A") : NULL,
-            
+
         ];
     }
 }

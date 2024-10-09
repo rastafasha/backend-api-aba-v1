@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\Notes\NoteBcbaController;
+use App\Http\Controllers\OpenAIController;
 
 Route::get('note_bcba', [NoteBcbaController::class, 'index'])->name('index');
 Route::get('note_bcba/config', [NoteBcbaController::class, 'config'])->name('config');
@@ -24,3 +25,6 @@ Route::put('/note_bcba/update/modifier/{note_bcba:id}', [NoteBcbaController::cla
 
 Route::put('/note_bcba/update/status/{note_bcba:id}', [NoteBcbaController::class, 'updateStatus'])
     ->name('note_bcba.updateStatus');
+
+Route::post('/note_bcba/generate-summary', [OpenAIController::class, 'generateBcbaSummary'])
+    ->name('note_bcba.generateSummary');

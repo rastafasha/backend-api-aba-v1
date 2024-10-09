@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use Carbon\Carbon;
-use App\Models\User;
 use App\Models\Location;
 use App\Models\UserLocation;
 use App\Traits\HavePermission;
@@ -38,7 +37,7 @@ class User extends Authenticatable implements JWTSubject
         'name',
         'email',
         'password',
-        
+
         //
         'surname',
         'phone',
@@ -89,7 +88,7 @@ class User extends Authenticatable implements JWTSubject
 
     ];
 
-    
+
 
     /**
      * The attributes that should be hidden for serialization.
@@ -177,7 +176,7 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->hasMany(Patient::class);
     }
-    
+
 
 
     // public function locations()

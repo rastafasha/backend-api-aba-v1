@@ -60,10 +60,10 @@ class NoteBcbaController extends Controller
                     "electronic_signature"=> $specialist->electronic_signature,
                     "name"=> $specialist->name,
                     "surname"=> $specialist->surname,
-                    
+
                 ];
             }),
-            
+
 
             "roles_rbt" => UserCollection::make($role_rbt),
              "roles_rbt"=>$role_rbt->map(function($rol_rbt){
@@ -74,10 +74,10 @@ class NoteBcbaController extends Controller
                     "electronic_signature"=> $rol_rbt->electronic_signature,
                     "name"=> $rol_rbt->name,
                     "surname"=> $rol_rbt->surname,
-                    
+
                 ];
             }),
-            
+
             "roles_bcba" => UserCollection::make($role_bcba),
              "roles_bcba"=>$role_bcba->map(function($rol_bcba){
                 return[
@@ -87,10 +87,10 @@ class NoteBcbaController extends Controller
                     "electronic_signature"=> $rol_bcba->electronic_signature,
                     "name"=> $rol_bcba->name,
                     "surname"=> $rol_bcba->surname,
-                    
+
                 ];
             }),
-            
+
         ]);
     }
 
@@ -109,12 +109,14 @@ class NoteBcbaController extends Controller
         $request->request->add(["caregiver_goals"=>json_encode($request->caregiver_goals)]);
         $request->request->add(["rbt_training_goals"=>json_encode($request->rbt_training_goals)]);
 
+        $request->request->add(["summary_note" => $request->summary_note]);
+
         if($request->imagen){
-            $request->request->add(["provider_signature"=>$imagen]);
+            $request->request->add(["provider_signature"=>$request->imagen]);
         }
 
         if($request->imagenn){
-            $request->request->add(["supervisor_signature"=>$imagenn]);
+            $request->request->add(["supervisor_signature"=>$request->imagenn]);
         }
         // if($request->hasFile('imagen')){
         //     $path = Storage::putFile("notebcbas", $request->file('imagen'));
@@ -158,7 +160,7 @@ class NoteBcbaController extends Controller
         }
 
         $noteBcba = NoteBcba::create($request->all());
-        
+
 
         return response()->json([
             "message" => 200,
@@ -188,12 +190,12 @@ class NoteBcbaController extends Controller
     {
         $noteBcbas = NoteBcba::where("patient_id", $patient_id)->orderBy('id', 'desc')->get();
         $patient = Patient::where("patient_id", $patient_id)->first();
-    
+
         return response()->json([
             "noteBcbas" => NoteBcbaCollection::make($noteBcbas),
         ]);
 
-        
+
     }
 
 
@@ -201,14 +203,14 @@ class NoteBcbaController extends Controller
     {
         $noteBcba = NoteBcba::where("patient_id", $patient_id)->get();
         $patient = Patient::findOrFail($patient_id);
-    
+
         return response()->json([
             // "noteBcba" => $noteBcba,
             "noteBcba" => NoteBcbaCollection::make($noteBcba),
             "pa_assessments"=>$patient->pa_assessments ? json_decode($patient->pa_assessments) : [],
         ]);
 
-        
+
     }
     public function showReplacementsByPatient($patient_id)
     {
@@ -222,10 +224,10 @@ class NoteBcbaController extends Controller
             // "rbt_training_goals"=>json_decode($monitoringEvaluatingPatientIds-> rbt_training_goals),
         ]);
 
-        
+
     }
 
-    
+
 
     /**
      * Update the specified resource in storage.
@@ -241,12 +243,14 @@ class NoteBcbaController extends Controller
         $request->request->add(["caregiver_goals"=>json_encode($request->caregiver_goals)]);
         $request->request->add(["rbt_training_goals"=>json_encode($request->rbt_training_goals)]);
 
+        $request->request->add(["summary_note" => $request->summary_note]);
+
         if($request->imagen){
-            $request->request->add(["provider_signature"=>$imagen]);
+            $request->request->add(["provider_signature"=>$request->imagen]);
         }
 
         if($request->imagenn){
-            $request->request->add(["supervisor_signature"=>$imagenn]);
+            $request->request->add(["supervisor_signature"=>$request->imagenn]);
         }
         // if($request->hasFile('imagen')){
         //     $path = Storage::putFile("notebcbas", $request->file('imagen'));
@@ -295,7 +299,7 @@ class NoteBcbaController extends Controller
 
     public function atendidas()
     {
-        
+
         $noteBcbas = NoteBcba::where('status', 2)->orderBy("id", "desc")
                             ->paginate(10);
         return response()->json([
@@ -323,6 +327,6 @@ class NoteBcbaController extends Controller
         $noteBcba->md2bcba = $request->md2bcba;
         $noteBcba->update();
         return $noteBcba;
-        
+
     }
 }
