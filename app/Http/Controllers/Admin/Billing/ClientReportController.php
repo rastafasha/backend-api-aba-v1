@@ -96,7 +96,7 @@ class ClientReportController extends Controller
     public function showByPatientId(Request $request)
     {
 
-        $size_pagination = 7;
+        $size_pagination = 50;
         $name_doctor = $request->search;
         $session_date = $request->session_date;
         $patient_id = $request->patient_id;
@@ -190,10 +190,10 @@ class ClientReportController extends Controller
             $unidadesTotal = round($totalMinutosTotales2 / 15); 
             
             /*Costo por unidad*/
-            $costoUnidad = 12.51;
+            // $costoUnidad = 12.51;
 
             /*Pagar*/
-            $pagar = $unidadesTotal * $costoUnidad;
+            // $pagar = $unidadesTotal * $costoUnidad;
 
             $xe = $unidadesTotal * 0; // es excento por medicare, el seguro cubre todo
 
@@ -275,10 +275,10 @@ class ClientReportController extends Controller
             $unidadesTotal = round($totalMinutosTotales2 / 15); 
             
             /*Costo por unidad*/
-            $costoUnidad = 12.51;
+            // $costoUnidad = 12.51;
 
             /*Pagar*/
-            $pagar = $unidadesTotal * $costoUnidad;
+            // $pagar = $unidadesTotal * $costoUnidad;
 
             $xe = $unidadesTotal * 0; // es excento por medicare, el seguro cubre todo
 
@@ -413,7 +413,7 @@ class ClientReportController extends Controller
     public function showByLocationId(Request $request)
     {
 
-        $size_pagination = 7;
+        $size_pagination = 50;
         $name_doctor = $request->search;
         $session_date = $request->session_date;
         $location_id = $request->location_id;
