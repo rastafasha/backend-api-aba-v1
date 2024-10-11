@@ -414,7 +414,7 @@ class NoteRbtController extends Controller
 
         if($request->time_in){
             $time_clean = preg_replace('/\(.*\)|[A-Z]{3}-\d{4}/', '',$request->time_in );
-            $request->request->add(["time_in" => Carbon::parse($time_clean)->format('h:i:s')]);
+            $request->request->add(["time_in" => Carbon::parse($time_clean)->format('h:i:s')]) ;
         }
         if($request->time_out){
             $time_clean1 = preg_replace('/\(.*\)|[A-Z]{3}-\d{4}/', '',$request->time_out );
