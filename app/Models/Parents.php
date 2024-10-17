@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use Carbon\Carbon;
-use App\Models\Parents;
 use App\Models\Location;
 use App\Models\UserLocation;
 use App\Traits\HavePermission;
@@ -27,7 +26,7 @@ class Parents extends Authenticatable implements JWTSubject
 {
     use HasApiTokens, HasFactory, HasRoles, SoftDeletes;
 
-    
+
     public function getJWTIdentifier()
     {
         return $this->getKey();
@@ -54,7 +53,7 @@ class Parents extends Authenticatable implements JWTSubject
         'avatar',
         'status',
         'documents_pending',
-        
+
 
     ];
 
