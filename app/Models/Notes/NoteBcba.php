@@ -55,12 +55,18 @@ class NoteBcba extends Model
         'provider',
         'status',
         'location_id',
+        'pa_service_id',
 
     ];
 
     public function patient()
     {
         return $this->belongsTo(Patient::class, 'patient_id');
+    }
+
+    public function paService()
+    {
+        return $this->belongsTo(PaService::class, 'pa_service_id');
     }
 
     public function supervisor() {

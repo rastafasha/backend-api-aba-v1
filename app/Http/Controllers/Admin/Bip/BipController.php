@@ -10,12 +10,32 @@ use App\Models\Patient\Patient;
 use App\Models\Bip\ReductionGoal;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Bip\BipResource;
+use App\Services\UnitCalculationService;
 use App\Http\Resources\Bip\BipCollection;
 use App\Http\Resources\Patient\PatientCollection;
 use App\Http\Resources\Bip\ConsentToTreatmentResource;
 
 class BipController extends Controller
 {
+    protected $unitCalculationService;
+
+    public function __construct(UnitCalculationService $unitCalculationService)
+    {
+        $this->unitCalculationService = $unitCalculationService;
+    }
+
+    public function getAvailableUnits(Request $request, string $patientId, string $cptCode)
+    {
+        $provider = $request->query('provider');
+        $availableUnits = $this->unitCalculationService->calculateAvailableUnits($patientId, $cptCode, $provider);
+
+        return response()->json([
+            'patient_id' => $patientId,
+            'cpt_code' => $cptCode,
+            'provider' => $provider,
+            'available_units' => $availableUnits
+        ]);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -37,12 +57,12 @@ class BipController extends Controller
 
         // $bips = Bip::orderBy("id", "desc")
         //                     ->paginate(10);
-                    
+
         // return response()->json([
         //     // "total"=>$payments->total(),
         //     "bips" => BipCollection::make($bips) ,
-            
-        // ]); 
+
+        // ]);
     }
 
     public function config(){
@@ -62,7 +82,7 @@ class BipController extends Controller
         ]);
     }
 
-    
+
     /**
      * Store a newly created resource in storage.
      *
@@ -89,8 +109,8 @@ class BipController extends Controller
         $request->request->add(["phiysical_and_medical_status"=>json_encode($request->phiysical_and_medical_status)]);
 
         $bip = Bip::create($request->all());
-        
-        
+
+
         return response()->json([
             "message"=>200,
             "bip"=>$bip,
@@ -107,7 +127,7 @@ class BipController extends Controller
             "client_id"=>$bip->client_id,
             "patient_id"=>$bip->patient_id,
             "doctor_id" => $bip->doctor_id,
-            "doctor"=>$bip->doctor_id ? 
+            "doctor"=>$bip->doctor_id ?
                         [
                             "id"=> $doctor->id,
                             "email"=> $doctor->email,
@@ -128,7 +148,7 @@ class BipController extends Controller
     {
         $bip = Bip::findOrFail($id);
 
-        
+
 
         return response()->json([
             "id"=>$bip->id,
@@ -140,38 +160,44 @@ class BipController extends Controller
             // "assestment_conducted_options"=>json_decode($bip-> assestment_conducted_options),
             // "prevalent_setting_event_and_atecedents"=>json_decode($bip-> prevalent_setting_event_and_atecedents),
             // "interventions"=>json_decode($bip-> interventions),
-            
+
         ]);
-        
-        
+
+
     }
     //se obtiene el usuario
     public function showProfile($patient_id)
     {
         $patient = Patient::where("patient_id", $patient_id)->first();
-        return response()->json([
-            // "patient" => $patient,
-            "patient"=>$patient->patient_id ? [
-                "id"=> $patient->id,
-                "patient_id"=>$patient->patient_id,
-                "location_id"=>$patient->location_id,
-                "first_name"=>$patient->first_name,
-                "last_name"=>$patient->last_name,
-                "phone"=>$patient->phone,
-                "parent_guardian_name"=>$patient->parent_guardian_name,
-                "relationship"=>$patient->relationship,
-                "address"=>$patient->address,
-                "age"=>$patient->age,
-                "birth_date"=>$patient->birth_date,
-                "pos_covered"=>json_decode($patient-> pos_covered),
-                "pa_assessments"=>json_decode($patient-> pa_assessments),
-                "diagnosis_code"=>$patient->diagnosis_code,
-                "insurer_id"=>$patient->insurer_id,
-            ]:NULL,
-            
-        ]);
 
-        
+        if (!$patient) {
+            return response()->json([
+                'error' => 'Patient not found'
+            ], 404);
+        }
+
+        $paServices = $this->getFormattedPaServices($patient_id);
+
+        return response()->json([
+            "patient" => $patient->patient_id ? [
+                "id" => $patient->id,
+                "patient_id" => $patient->patient_id,
+                "location_id" => $patient->location_id,
+                "first_name" => $patient->first_name,
+                "last_name" => $patient->last_name,
+                "phone" => $patient->phone,
+                "parent_guardian_name" => $patient->parent_guardian_name,
+                "relationship" => $patient->relationship,
+                "address" => $patient->address,
+                "age" => $patient->age,
+                "birth_date" => $patient->birth_date,
+                "pos_covered" => json_decode($patient->pos_covered),
+                "pa_assessments" => json_encode($paServices),
+                "pa_services" => $paServices,
+                "diagnosis_code" => $patient->diagnosis_code,
+                "insurer_id" => $patient->insurer_id,
+            ] : NULL
+        ]);
     }
 
     //se obtiene el bip del usuario
@@ -179,8 +205,8 @@ class BipController extends Controller
     {
         $bip = Bip::where("patient_id", $patient_id)->first();
         // $reduction_goal = ReductionGoal::where("patient_id", $patient_id)->first();
-        
-    
+
+
         return response()->json([
             "patient_id"=>$bip->patient_id,
             // "bip" => $bip,
@@ -198,19 +224,19 @@ class BipController extends Controller
             "sensory"=>json_decode($bip-> sensory),
             "phiysical_and_medical_status"=>json_decode($bip-> phiysical_and_medical_status),
             // "consent_to_treatment"=>$bip->consent_to_treatment,
-            
-            
+
+
         ]);
 
-        
+
     }
     public function showbyUserPatientId($patient_id)
     {
         $bip = Bip::where("patient_id", $patient_id)->first();
         $goalsmaladaptive = ReductionGoal::where("maladaptive", $maladaptive)->orderBy("id", "desc")->get();
         $reduction_goal = ReductionGoal::where("patient_id", $patient_id)->first();
-        
-    
+
+
         return response()->json([
             "id"=>$bip->id,
             "bip" => $bip,
@@ -229,11 +255,11 @@ class BipController extends Controller
             "prevalent_setting_event_and_atecedents"=>json_decode($bip-> prevalent_setting_event_and_atecedents),
             "phiysical_and_medical_status"=>json_decode($bip-> phiysical_and_medical_status),
             "interventions"=>json_decode($bip-> interventions),
-            
-            
+
+
         ]);
 
-        
+
     }
 
     public function showBipPatientIdProfile($patient_id)
@@ -242,36 +268,34 @@ class BipController extends Controller
         $reduction_goal = ReductionGoal::where("patient_id", $patient_id)->first();
         // $goalsmaladaptive = ReductionGoal::where("patient_id", $patient_id)->first();
         $patient = Patient::where("patient_id", $patient_id)->first();
-    
+        if (!$patient) {
+            return response()->json([
+                'error' => 'Patient not found'
+            ], 404);
+        }
+
+        $paServices = $this->getFormattedPaServices($patient_id);
+
         return response()->json([
-            // "bip" => BipResource::make($bip),
-            // "bip" => $bip,
             "id" => $bip->id,
-            // "sustitution_goal"=>json_decode($bip-> sustitution_goal),
-            "maladaptives"=>json_decode($bip-> maladaptives),
-            "interventions"=>json_decode($bip-> interventions),
-            "reduction_goal"=> json_decode($bip-> reduction_goal),
-            "sustitution_goal"=> $bip->sustitution_goal,
-
+            "maladaptives" => json_decode($bip->maladaptives),
+            "interventions" => json_decode($bip->interventions),
+            "reduction_goal" => json_decode($bip->reduction_goal),
+            "sustitution_goal" => $bip->sustitution_goal,
             "doctor_id" => $bip->doctor_id,
-            "patient" => $patient,
-            "patient"=>$patient->id ? [
-                "id"=> $patient->id,
-                "patient_id"=>$patient->patient_id,
-                "location_id"=>$patient->location_id,
-                "first_name"=>$patient->first_name,
-                "last_name"=>$patient->last_name,
-                "diagnosis_code"=>$patient->diagnosis_code,
-                "pos_covered"=>json_decode($patient-> pos_covered),
-                "pa_assessments"=>json_decode($patient-> pa_assessments),
-                "insurer_id"=>$patient->insurer_id,
-            ]:NULL,
-            
-            
-            
+            "patient" => $patient->id ? [
+                "id" => $patient->id,
+                "patient_id" => $patient->patient_id,
+                "location_id" => $patient->location_id,
+                "first_name" => $patient->first_name,
+                "last_name" => $patient->last_name,
+                "diagnosis_code" => $patient->diagnosis_code,
+                "pos_covered" => json_decode($patient->pos_covered),
+                "pa_services" => $paServices,
+                "pa_assessments" => json_encode($paServices),
+                "insurer_id" => $patient->insurer_id,
+            ] : NULL,
         ]);
-
-        
     }
 
     public function showBipPatientIdProfilePdf($patient_id)
@@ -280,7 +304,7 @@ class BipController extends Controller
         $reduction_goal = ReductionGoal::where("patient_id", $patient_id)->first();
         // $goalsmaladaptive = ReductionGoal::where("patient_id", $patient_id)->first();
         $patient = Patient::where("patient_id", $patient_id)->first();
-    
+
         return response()->json([
             "bip" => BipResource::make($bip),
             "patient" => $patient,
@@ -298,7 +322,7 @@ class BipController extends Controller
             ]:NULL,
         ]);
 
-        
+
     }
 
     //filtro por  patientID o n_doc para busquedas y asiganciones al paciente
@@ -337,8 +361,8 @@ class BipController extends Controller
     {
         // $bip = Bip::findOrFail("id", $id)->first();
         // $bip_is_valid = Bip::where("id", "<>", $id)->first();
-        
-        
+
+
         $bip = Bip::findOrFail($id);
 
         $request->request->add(["documents_reviewed"=>json_encode($request->documents_reviewed)]);
@@ -352,9 +376,9 @@ class BipController extends Controller
         $request->request->add(["phiysical_and_medical_status"=>json_encode($request->phiysical_and_medical_status)]);
         $request->request->add(["prevalent_setting_event_and_atecedents"=>json_encode($request->prevalent_setting_event_and_atecedents)]);
         $request->request->add(["interventions"=>json_encode($request->interventions)]);
-        
+
         $bip->update($request->all());
-        
+
         return response()->json([
             "message"=>200,
             "bip"=>$bip,
@@ -371,7 +395,7 @@ class BipController extends Controller
             "phiysical_and_medical_status"=>json_decode($bip-> phiysical_and_medical_status),
             "interventions"=>json_decode($bip-> interventions),
             // "doctor_id" => $bip->doctor_id,
-            // "doctor"=>$bip->doctor_id ? 
+            // "doctor"=>$bip->doctor_id ?
             //             [
             //                 "id"=> $doctor->id,
             //                 "email"=> $doctor->email,
@@ -385,10 +409,45 @@ class BipController extends Controller
         //     "message" => 200
         // ]);
 
-        
 
 
-        
+
+
+    }
+
+    /**
+      * Get formatted PA services for a patient
+      *
+      * @param string $patient_id
+      * @return array
+      */
+    private function getFormattedPaServices($patient_id)
+    {
+        $patient = Patient::where("patient_id", $patient_id)->first();
+
+        if (!$patient) {
+            return [];
+        }
+
+        return $patient->paServices()
+            ->where('status', 'active')
+            ->get()
+            ->map(function ($service) use ($patient_id) {
+                return [
+                    'id' => $service->id,
+                    'pa_services' => $service->pa_services,
+                    'cpt' => $service->cpt,
+                    'n_units' => $service->n_units,
+                    'available_units' => $this->unitCalculationService->calculateAvailableUnits(
+                        $patient_id,
+                        $service->id,
+                    ),
+                    'start_date' => $service->start_date->format('Y-m-d'),
+                    'end_date' => $service->end_date->format('Y-m-d'),
+                    'status' => $service->status
+                ];
+            })
+            ->toArray();
     }
 
     /**
