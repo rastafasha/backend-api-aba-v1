@@ -1,0 +1,21 @@
+deployment:
+  tasks:
+    - export DEPLOYPATH=/home/z779cvj9zm4g//aba-dev.malcolmcordova.com/backend-api-aba/ # Reemplaza con tu ruta de despliegue
+    - echo Starting>> $DEPLOYPATH/deploy.log 2>&1
+    - /bin/cp -R * $DEPLOYPATH >> $DEPLOYPATH/deploy.log 2>&1
+    - rm -rf $DEPLOYPATH/.git >> $DEPLOYPATH/deploy.log 2>&1 # Eliminar la carpeta .git
+    - /bin/cp -R .cpanel.yml $DEPLOYPATH >> $DEPLOYPATH/deploy.log 2>&1
+    - /bin/cp -R .env $DEPLOYPATH >> $DEPLOYPATH/deploy.log 2>&1
+    - /bin/cp -R .htaccess $DEPLOYPATH >> $DEPLOYPATH/deploy.log 2>&1
+    - cd $DEPLOYPATH >> $DEPLOYPATH/deploy.log 2>&1
+    - ea-php81 /opt/cpanel/composer/bin/composer update >> $DEPLOYPATH/deploy.log 2>&1
+    # - ea-php81 /opt/cpanel/composer/bin/composer install --optimize-autoloader
+    # - ea-php81 /opt/cpanel/composer/bin/composer install --no-dev --optimize-autoloader
+    - ea-php81 artisan l5-swagger:generate >> $DEPLOYPATH/deploy.log 2>&1
+    # - ea-php81 artisan migrate --force
+    # - ea-php81 artisan config:cache
+    # - ea-php81 artisan route:cache
+    # - ea-php81 artisan view:cache
+    # - ea-php81 artisan migrate:fresh --seed
+    - ea-php81 artisan migrate
+    - ea-php81 artisan db:seed --class=TipoDemoraSeeder
