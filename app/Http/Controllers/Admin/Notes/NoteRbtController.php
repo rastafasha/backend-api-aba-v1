@@ -21,6 +21,7 @@ use App\Http\Resources\User\UserCollection;
 use App\Http\Resources\Note\NoteRbtResource;
 use App\Http\Resources\Note\NoteRbtCollection;
 use App\Http\Resources\Note\NoteBcbaCollection;
+use App\Models\PaService;
 
 class NoteRbtController extends Controller
 {
@@ -71,6 +72,7 @@ class NoteRbtController extends Controller
 
     public function config()
     {
+      $paServices = PaService::all();
         $hours =[
             [
                 "id"=>"800",
@@ -377,7 +379,10 @@ class NoteRbtController extends Controller
         $doctor = User::where("id", $request->doctor_id)->first();
         $insurance = Insurance::get();
 
-        $request->request->add(["interventions"=>json_encode($request->interventions)]);
+        $request->request->add([
+          "interventions"=>json_encode($request->interventions),
+          "pa_service_id" => $request->pa_service_id,
+        ]);
         $request->request->add(["maladaptives"=>json_encode($request->maladaptives)]);
         $request->request->add(["replacements"=>json_encode($request->replacements)]);
 
@@ -604,6 +609,7 @@ class NoteRbtController extends Controller
             ], 422);
         }
 
+        $request->request->add(["pa_service_id" => $request->pa_service_id]);
         $request->request->add(["interventions"=>json_encode($request->interventions)]);
         $request->request->add(["maladaptives"=>json_encode($request->maladaptives)]);
         $request->request->add(["replacements"=>json_encode($request->replacements)]);

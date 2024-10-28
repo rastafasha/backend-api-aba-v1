@@ -7,6 +7,7 @@ use App\Models\Bip\Bip;
 use App\Models\Location;
 use App\Models\Bip\ReductionGoal;
 use App\Models\Insurance\Insurance;
+use App\Models\PaService;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -81,7 +82,7 @@ class Patient extends Model
         'cde',
         'submitted',
         'interview',
-        
+
         //pas
         'pa_assessments',
         'status',
@@ -100,7 +101,7 @@ class Patient extends Model
         // 'analyst_bcba',
         // 'data_report_and_rbt_correction',
 
-        
+
     ];
 
 
@@ -112,12 +113,12 @@ class Patient extends Model
     const psycho_eval = 'psycho eval';
     const yes = 'yes';
     const no = 'no';
-    
+
     public static function welcomeTypes()
     {
         return [
-            self::waiting, self::requested, 
-            self::reviewing, self::requested, 
+            self::waiting, self::requested,
+            self::reviewing, self::requested,
             self::need_new, self::psycho_eval,
             self::insurance, self::no, self::yes,
         ];
@@ -125,8 +126,8 @@ class Patient extends Model
     public static function consentTypes()
     {
         return [
-            self::waiting, self::requested, 
-            self::reviewing, self::requested, 
+            self::waiting, self::requested,
+            self::reviewing, self::requested,
             self::need_new, self::psycho_eval,
             self::insurance, self::no, self::yes,
         ];
@@ -134,8 +135,8 @@ class Patient extends Model
     public static function insurance_cardTypes()
     {
         return [
-            self::waiting, self::requested, 
-            self::reviewing, self::requested, 
+            self::waiting, self::requested,
+            self::reviewing, self::requested,
             self::need_new, self::psycho_eval,
             self::insurance, self::no, self::yes,
         ];
@@ -143,8 +144,8 @@ class Patient extends Model
     public static function mnlTypes()
     {
         return [
-            self::waiting, self::requested, 
-            self::reviewing, self::requested, 
+            self::waiting, self::requested,
+            self::reviewing, self::requested,
             self::need_new, self::psycho_eval,
             self::insurance, self::no, self::yes,
         ];
@@ -152,8 +153,8 @@ class Patient extends Model
     public static function referralTypes()
     {
         return [
-            self::waiting, self::requested, 
-            self::reviewing, self::requested, 
+            self::waiting, self::requested,
+            self::reviewing, self::requested,
             self::need_new, self::psycho_eval,
             self::insurance, self::no, self::yes,
         ];
@@ -161,8 +162,8 @@ class Patient extends Model
     public static function adosTypes()
     {
         return [
-            self::waiting, self::requested, 
-            self::reviewing, self::requested, 
+            self::waiting, self::requested,
+            self::reviewing, self::requested,
             self::need_new, self::psycho_eval,
             self::insurance, self::no, self::yes,
         ];
@@ -170,8 +171,8 @@ class Patient extends Model
     public static function iepTypes()
     {
         return [
-            self::waiting, self::requested, 
-            self::reviewing, self::requested, 
+            self::waiting, self::requested,
+            self::reviewing, self::requested,
             self::need_new, self::psycho_eval,
             self::insurance, self::no, self::yes,
         ];
@@ -179,8 +180,8 @@ class Patient extends Model
     public static function asd_diagnosisTypes()
     {
         return [
-            self::waiting, self::requested, 
-            self::reviewing, self::requested, 
+            self::waiting, self::requested,
+            self::reviewing, self::requested,
             self::need_new, self::psycho_eval,
             self::insurance, self::no, self::yes,
         ];
@@ -188,8 +189,8 @@ class Patient extends Model
     public static function cdeTypes()
     {
         return [
-            self::waiting, self::requested, 
-            self::reviewing, self::requested, 
+            self::waiting, self::requested,
+            self::reviewing, self::requested,
             self::need_new, self::psycho_eval,
             self::insurance, self::no, self::yes,
         ];
@@ -197,8 +198,8 @@ class Patient extends Model
     public static function submittedTypes()
     {
         return [
-            self::waiting, self::requested, 
-            self::reviewing, self::requested, 
+            self::waiting, self::requested,
+            self::reviewing, self::requested,
             self::need_new, self::psycho_eval,
             self::insurance, self::no, self::yes,
         ];
@@ -207,16 +208,16 @@ class Patient extends Model
 
 
     public function setCreateAttribute($value){
-        date_default_timezone_set("America/Caracas"); 
+        date_default_timezone_set("America/Caracas");
         $this->attribute['created_at']= Carbon::now();
     }
 
     public function setUpdateAttribute($value){
-        date_default_timezone_set("America/Caracas"); 
+        date_default_timezone_set("America/Caracas");
         $this->attribute['updated_at']= Carbon::now();
     }
 
-    
+
 
 
     public function rbt_home()
@@ -267,22 +268,22 @@ class Patient extends Model
         return $this->belongsTo(Bip::class, 'patient_id');
         // se relaciona con el patient_id, para que en algun caso se ingrese de nuevo, se verifique si ya existe
     }
-    
+
     public function reductiongoal()
     {
         return $this->hasMany(ReductionGoal::class, 'patient_id');
     }
 
-    
 
-    
+
+
 
 
     //filtro buscador
     public function scopefilterAdvancePatient($query,
     $patient_id, $name_patient, $email_patient,$status
     ){
-        
+
         if($patient_id){
             $query->where("patient_id", $patient_id);
         }
@@ -290,13 +291,13 @@ class Patient extends Model
         if($name_patient){
             $query->whereHas("patient", function($q)use($name_patient){
                 $q->where(DB::raw("CONCAT(patients.first_name,' ',IFNULL(patients.last_name,''),' ',IFNULL(patients.email,''))"),"like","%".$name_patient."%");
-                   
+
             });
         }
         if($status){
             $query->where('status', $status);
         }
-        
+
 
         // if($date_start && $date_end){
         //     $query->whereBetween("date_appointment", [
@@ -315,9 +316,9 @@ class Patient extends Model
     //         $bcba_home,
     //         $bcba2_school,
     //         $clin_director,
-    
+
     ){
-        
+
         if($patient_id){
             $query->where("patient_id", $patient_id);
         }
@@ -325,19 +326,19 @@ class Patient extends Model
         if($name_patient){
             $query->whereHas("patient", function($q)use($name_patient){
                 $q->where(DB::raw("CONCAT(patients.first_name,' ',IFNULL(patients.last_name,''),' ',IFNULL(patients.email,''))"),"like","%".$name_patient."%");
-                   
+
             });
         }
         // if($rbt_home){
         //     $query->whereHas("rbt_home", function($q)use($rbt_home){
         //         $q->where(DB::raw("CONCAT(users.name,' ',IFNULL(users.surname,''),' ',IFNULL(users.email,''))"),"like","%".$rbt_home."%");
-                   
+
         //     });
         // }
         if($status){
             $query->where('status', $status);
         }
-        
+
 
         // if($date_start && $date_end){
         //     $query->whereBetween("date_appointment", [
@@ -346,5 +347,10 @@ class Patient extends Model
         //     ]);
         // }
         return $query;
+    }
+
+    public function paServices()
+    {
+        return $this->hasMany(PaService::class);
     }
 }

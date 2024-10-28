@@ -106,7 +106,10 @@ class NoteBcbaController extends Controller
         $patient = Patient::where("patient_id", $request->patient_id)->first();
         $doctor = User::where("id", $request->doctor_id)->first();
 
-        $request->request->add(["caregiver_goals"=>json_encode($request->caregiver_goals)]);
+        $request->request->add([
+          "caregiver_goals"=>json_encode($request->caregiver_goals),
+          "pa_service_id" => $request->pa_service_id,
+        ]);
         $request->request->add(["rbt_training_goals"=>json_encode($request->rbt_training_goals)]);
 
         $request->request->add(["summary_note" => $request->summary_note]);
@@ -164,7 +167,7 @@ class NoteBcbaController extends Controller
 
         return response()->json([
             "message" => 200,
-            "noteBcba" => $noteBcba 
+            "noteBcba" => $noteBcba
         ]);
     }
 
@@ -240,7 +243,10 @@ class NoteBcbaController extends Controller
     {
         $noteBcba = NoteBcba::findOrFail($id);
 
-        $request->request->add(["caregiver_goals"=>json_encode($request->caregiver_goals)]);
+        $request->request->add([
+          "caregiver_goals"=>json_encode($request->caregiver_goals),
+          "pa_service_id" => $request->pa_service_id,
+        ]);
         $request->request->add(["rbt_training_goals"=>json_encode($request->rbt_training_goals)]);
 
         $request->request->add(["summary_note" => $request->summary_note]);
