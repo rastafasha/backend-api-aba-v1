@@ -18,7 +18,6 @@ class PaService extends Model
         'n_units',
         'start_date',
         'end_date',
-        'status'
     ];
 
     protected $casts = [

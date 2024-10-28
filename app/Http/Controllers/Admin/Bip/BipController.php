@@ -430,7 +430,6 @@ class BipController extends Controller
         }
 
         return $patient->paServices()
-            ->where('status', 'active')
             ->get()
             ->map(function ($service) use ($patient_id) {
                 return [
@@ -444,7 +443,6 @@ class BipController extends Controller
                     ),
                     'start_date' => $service->start_date->format('Y-m-d'),
                     'end_date' => $service->end_date->format('Y-m-d'),
-                    'status' => $service->status
                 ];
             })
             ->toArray();

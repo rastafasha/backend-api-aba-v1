@@ -72,7 +72,7 @@ class NoteRbtController extends Controller
 
     public function config()
     {
-      $paServices = PaService::where('status', 'active')->get();
+      $paServices = PaService::all();
         $hours =[
             [
                 "id"=>"800",

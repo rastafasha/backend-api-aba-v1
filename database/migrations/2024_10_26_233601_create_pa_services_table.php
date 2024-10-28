@@ -21,7 +21,6 @@ class CreatePaServicesTable extends Migration
           $table->integer('n_units');
           $table->date('start_date');
           $table->date('end_date');
-          $table->enum('status', ['active', 'inactive', 'expired'])->default('active');
           $table->timestamps();
           $table->softDeletes();
       });

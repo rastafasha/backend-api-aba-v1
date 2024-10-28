@@ -20,7 +20,6 @@ class UnitCalculationService
         // Get the specific PA service
         $paService = PaService::where('id', $serviceId)
             ->where('patient_id', $patient->id)
-            ->where('status', 'active')
             ->where('start_date', '<=', now())
             ->where('end_date', '>=', now())
             ->first();

@@ -51,7 +51,6 @@ class PaServiceController extends Controller
             'n_units' => 'required|integer|min:0',
             'start_date' => 'required|date',
             'end_date' => 'required|date|after:start_date',
-            'status' => 'required|in:active,inactive,pending,expired',
         ]);
 
         if ($validator->fails()) {
@@ -124,7 +123,6 @@ class PaServiceController extends Controller
             'n_units' => 'sometimes|required|integer|min:0',
             'start_date' => 'sometimes|required|date',
             'end_date' => 'sometimes|required|date|after:start_date',
-            'status' => 'sometimes|required|in:active,inactive,pending,expired',
         ]);
 
         if ($validator->fails()) {
