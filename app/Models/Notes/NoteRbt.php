@@ -62,6 +62,7 @@ class NoteRbt extends Model
         'provider',
         'status',
         'location_id',
+        'insuranceId',
 
     ];
 

@@ -59,14 +59,13 @@ class NoteRbtResource extends JsonResource
             // al obtener las horas trabajadas se suman 
             //convertimos las horas para poder sumarlas
             //sumamos la hora de inicio con la hora final y le restamos los minutos de descanso.
-            "session_length_total" => date("H:i", strtotime($this->resource->time_out) - strtotime($this->resource->time_in) ),
-            "session_length_total2" => date("H:i", strtotime($this->resource->time_out2) - strtotime($this->resource->time_in2) ),
-            "total_hours" => date("H:i", strtotime($this->resource->time_out2) - strtotime($this->resource->time_in2) + strtotime($this->resource->time_out) - strtotime($this->resource->time_in) ),
-            // "session_length_total" =>$this->resource->time_out - $this->resource->time_in,
-            // "session_length_total2" =>($this->resource->time_out2 - $this->resource->time_in2) /100,
-            // "total_hours" => ($this->resource->time_out + $this->resource->time_in + $this->resource->time_out2 + $this->resource->time_in2)/100,
-            // // // // "total_units" => ($this->resource->time_out + $this->resource->time_in + $this->resource->time_out2 + $this->resource->time_in2)/100*4,
-
+            "session_length_morning_total" => date("H:i", strtotime($this->resource->time_out) - strtotime($this->resource->time_in) ),
+            "session_length_afternon_total" => date("H:i", strtotime($this->resource->time_out2) - strtotime($this->resource->time_in2) ),
+            
+            "session_length_total" => date("H:i", strtotime($this->resource->time_out2) - strtotime($this->resource->time_in2) + strtotime($this->resource->time_out) - strtotime($this->resource->time_in) ),
+            
+            // "total_hours" => date("H:i", strtotime($this->resource->time_out2) - strtotime($this->resource->time_in2) + strtotime($this->resource->time_out) - strtotime($this->resource->time_in) ),
+            
             "client_appeared" =>$this->resource->client_appeared,
             "as_evidenced_by" =>$this->resource->as_evidenced_by,
             "rbt_modeled_and_demonstrated_to_caregiver" =>$this->resource->rbt_modeled_and_demonstrated_to_caregiver,
@@ -108,6 +107,7 @@ class NoteRbtResource extends JsonResource
             "md" => $this->resource->md,
             "md2" => $this->resource->md2,
             "cpt_code" => $this->resource->cpt_code,
+            "insuranceId"=>$this->resource->insuranceId,
             "provider" => $this->resource->provider,
             "location_id" => $this->resource->location_id,
             

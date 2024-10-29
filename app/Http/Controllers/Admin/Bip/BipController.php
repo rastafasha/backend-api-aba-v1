@@ -167,6 +167,7 @@ class BipController extends Controller
                 "pa_assessments"=>json_decode($patient-> pa_assessments),
                 "diagnosis_code"=>$patient->diagnosis_code,
                 "insurer_id"=>$patient->insurer_id,
+                "insuranceId"=>$patient->insuranceId,
             ]:NULL,
             
         ]);
@@ -231,6 +232,7 @@ class BipController extends Controller
             "interventions"=>json_decode($bip-> interventions),
             
             
+            
         ]);
 
         
@@ -265,6 +267,7 @@ class BipController extends Controller
                 "pos_covered"=>json_decode($patient-> pos_covered),
                 "pa_assessments"=>json_decode($patient-> pa_assessments),
                 "insurer_id"=>$patient->insurer_id,
+                "insuranceId"=>$patient->insuranceId,
             ]:NULL,
             
             

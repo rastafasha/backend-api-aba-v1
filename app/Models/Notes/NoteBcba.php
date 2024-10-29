@@ -55,6 +55,7 @@ class NoteBcba extends Model
         'provider',
         'status',
         'location_id',
+        'insuranceId',
 
     ];
 
