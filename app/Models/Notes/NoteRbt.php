@@ -54,6 +54,7 @@ class NoteRbt extends Model
         'status',
         'location_id',
         'pa_service_id',
+        'insuranceId',
     ];
 
     public function patient()
@@ -66,13 +67,16 @@ class NoteRbt extends Model
         return $this->belongsTo(PaService::class, 'pa_service_id');
     }
 
-    public function doctor() {
+    public function doctor()
+    {
         return $this->hasMany(User::class,);
     }
-    public function supervisor() {
-        return $this->belongsTo(User::class,'supervisor_name');
+    public function supervisor()
+    {
+        return $this->belongsTo(User::class, 'supervisor_name');
     }
-    public function tecnicoRbt() {
+    public function tecnicoRbt()
+    {
         return $this->belongsTo(User::class, 'provider_name_g');
     }
 
@@ -91,9 +95,9 @@ class NoteRbt extends Model
     }
 
     public function location()
-        {
-            return $this->belongsTo(Location::class,'location_id');
-        }
+    {
+        return $this->belongsTo(Location::class, 'location_id');
+    }
 
 
     // public function scopefilterAdvanceClientReport(
@@ -130,34 +134,34 @@ class NoteRbt extends Model
     // }
 
 
-    public function scopefilterAdvanceClientReport($query,
-    // $speciality_id,
-    $search_doctor,
-    $search_tecnicoRbt,
-    $search_supervisor,
-    // $search_patient,
-    $date_start,$date_end){
+    public function scopefilterAdvanceClientReport(
+        $query,
+        // $speciality_id,
+        $search_doctor,
+        $search_tecnicoRbt,
+        $search_supervisor,
+        // $search_patient,
+        $date_start,
+        $date_end
+    ) {
 
         // if($speciality_id){
         //     $query->where("speciality_id", $speciality_id);
         // }
 
-        if($search_doctor){
-            $query->whereHas("doctor", function($q)use($search_doctor){
-                $q->where(DB::raw("CONCAT(users.name,' ',IFNULL(users.surname,''),' ',IFNULL(users.email,''))"),"like","%".$search_doctor."%");
-
+        if ($search_doctor) {
+            $query->whereHas("doctor", function ($q) use ($search_doctor) {
+                $q->where(DB::raw("CONCAT(users.name,' ',IFNULL(users.surname,''),' ',IFNULL(users.email,''))"), "like", "%" . $search_doctor . "%");
             });
         }
-        if($search_tecnicoRbt){
-            $query->whereHas("doctor", function($q)use($search_tecnicoRbt){
-                $q->where(DB::raw("CONCAT(users.name,' ',IFNULL(users.surname,''),' ',IFNULL(users.email,''))"),"like","%".$search_tecnicoRbt."%");
-
+        if ($search_tecnicoRbt) {
+            $query->whereHas("doctor", function ($q) use ($search_tecnicoRbt) {
+                $q->where(DB::raw("CONCAT(users.name,' ',IFNULL(users.surname,''),' ',IFNULL(users.email,''))"), "like", "%" . $search_tecnicoRbt . "%");
             });
         }
-        if($search_supervisor){
-            $query->whereHas("doctor", function($q)use($search_supervisor){
-                $q->where(DB::raw("CONCAT(users.name,' ',IFNULL(users.surname,''),' ',IFNULL(users.email,''))"),"like","%".$search_supervisor."%");
-
+        if ($search_supervisor) {
+            $query->whereHas("doctor", function ($q) use ($search_supervisor) {
+                $q->where(DB::raw("CONCAT(users.name,' ',IFNULL(users.surname,''),' ',IFNULL(users.email,''))"), "like", "%" . $search_supervisor . "%");
             });
         }
         // if($search_patient){
@@ -167,7 +171,7 @@ class NoteRbt extends Model
         //     });
         // }
 
-        if($date_start && $date_end){
+        if ($date_start && $date_end) {
             $query->whereBetween("session_date", [
                 Carbon::parse($date_start)->format("Y-m-d"),
                 Carbon::parse($date_end)->format("Y-m-d"),

@@ -65,18 +65,19 @@ class BipController extends Controller
         // ]);
     }
 
-    public function config(){
-        $users= User::orderBy("id", "desc")
-        // ->whereHas("roles", function($q){
-        //     $q->where("name","like","%DOCTOR%");
-        // })
-        ->get();
+    public function config()
+    {
+        $users = User::orderBy("id", "desc")
+            // ->whereHas("roles", function($q){
+            //     $q->where("name","like","%DOCTOR%");
+            // })
+            ->get();
 
         return response()->json([
-            "doctors"=>$users->map(function($user){
-                return[
-                    "id"=> $user->id,
-                    "full_name"=> $user->name.' '.$user->surname,
+            "doctors" => $users->map(function ($user) {
+                return [
+                    "id" => $user->id,
+                    "full_name" => $user->name . ' ' . $user->surname,
                 ];
             })
         ]);
@@ -95,47 +96,45 @@ class BipController extends Controller
         $patient = Patient::where("patient_id", $request->patient_id)->first();
         $doctor = User::where("id", $request->doctor_id)->first();
 
-        $request->request->add(["documents_reviewed"=>json_encode($request->documents_reviewed)]);
-        $request->request->add(["maladaptives"=>json_encode($request->maladaptives)]);
-        $request->request->add(["assestment_conducted_options"=>json_encode($request->assestment_conducted_options)]);
-        $request->request->add(["prevalent_setting_event_and_atecedents"=>json_encode($request->prevalent_setting_event_and_atecedents)]);
-        $request->request->add(["interventions"=>json_encode($request->interventions)]);
-        $request->request->add(["pos_covered"=>json_encode($request->pos_covered)]);
-        $request->request->add(["assestmentEvaluationSettings"=>json_encode($request->assestmentEvaluationSettings)]);
-        $request->request->add(["tangibles"=>json_encode($request->tangibles)]);
-        $request->request->add(["attention"=>json_encode($request->attention)]);
-        $request->request->add(["escape"=>json_encode($request->escape)]);
-        $request->request->add(["sensory"=>json_encode($request->sensory)]);
-        $request->request->add(["phiysical_and_medical_status"=>json_encode($request->phiysical_and_medical_status)]);
+        $request->request->add(["documents_reviewed" => json_encode($request->documents_reviewed)]);
+        $request->request->add(["maladaptives" => json_encode($request->maladaptives)]);
+        $request->request->add(["assestment_conducted_options" => json_encode($request->assestment_conducted_options)]);
+        $request->request->add(["prevalent_setting_event_and_atecedents" => json_encode($request->prevalent_setting_event_and_atecedents)]);
+        $request->request->add(["interventions" => json_encode($request->interventions)]);
+        $request->request->add(["pos_covered" => json_encode($request->pos_covered)]);
+        $request->request->add(["assestmentEvaluationSettings" => json_encode($request->assestmentEvaluationSettings)]);
+        $request->request->add(["tangibles" => json_encode($request->tangibles)]);
+        $request->request->add(["attention" => json_encode($request->attention)]);
+        $request->request->add(["escape" => json_encode($request->escape)]);
+        $request->request->add(["sensory" => json_encode($request->sensory)]);
+        $request->request->add(["phiysical_and_medical_status" => json_encode($request->phiysical_and_medical_status)]);
 
         $bip = Bip::create($request->all());
 
 
         return response()->json([
-            "message"=>200,
-            "bip"=>$bip,
-            "type_of_assessment" =>$bip->type_of_assessment,
-            "documents_reviewed"=>json_decode($bip-> documents_reviewed),
-            "maladaptives"=>json_decode($bip-> maladaptives),
-            "assestment_conducted_options"=>json_decode($bip-> assestment_conducted_options),
-            "assestmentEvaluationSettings"=>json_decode($bip-> assestmentEvaluationSettings),
-            "access_to_tangibles"=>json_decode($bip-> access_to_tangibles),
-            "phiysical_and_medical_status"=>json_decode($bip-> phiysical_and_medical_status),
-            "prevalent_setting_event_and_atecedents"=>json_decode($bip-> prevalent_setting_event_and_atecedents),
-            "interventions"=>json_decode($bip-> interventions),
-            "pos_covered"=>json_decode($bip-> pos_covered),
-            "client_id"=>$bip->client_id,
-            "patient_id"=>$bip->patient_id,
+            "message" => 200,
+            "bip" => $bip,
+            "type_of_assessment" => $bip->type_of_assessment,
+            "documents_reviewed" => json_decode($bip->documents_reviewed),
+            "maladaptives" => json_decode($bip->maladaptives),
+            "assestment_conducted_options" => json_decode($bip->assestment_conducted_options),
+            "assestmentEvaluationSettings" => json_decode($bip->assestmentEvaluationSettings),
+            "access_to_tangibles" => json_decode($bip->access_to_tangibles),
+            "phiysical_and_medical_status" => json_decode($bip->phiysical_and_medical_status),
+            "prevalent_setting_event_and_atecedents" => json_decode($bip->prevalent_setting_event_and_atecedents),
+            "interventions" => json_decode($bip->interventions),
+            "pos_covered" => json_decode($bip->pos_covered),
+            "client_id" => $bip->client_id,
+            "patient_id" => $bip->patient_id,
             "doctor_id" => $bip->doctor_id,
-            "doctor"=>$bip->doctor_id ?
-                        [
-                            "id"=> $doctor->id,
-                            "email"=> $doctor->email,
-                            "full_name" =>$doctor->name.' '.$doctor->surname,
-                        ]: NULL,
+            "doctor" => $bip->doctor_id ?
+                [
+                    "id" => $doctor->id,
+                    "email" => $doctor->email,
+                    "full_name" => $doctor->name . ' ' . $doctor->surname,
+                ] : NULL,
         ]);
-
-
     }
 
     /**
@@ -151,9 +150,9 @@ class BipController extends Controller
 
 
         return response()->json([
-            "id"=>$bip->id,
+            "id" => $bip->id,
             "bip" => $bip,
-            "type_of_assessment" =>$bip->type_of_assessment,
+            "type_of_assessment" => $bip->type_of_assessment,
             // "bip" => BipResource::make($bip),
             // "documents_reviewed"=>json_decode($bip-> documents_reviewed),
             // "maladaptives"=>json_decode($bip-> maladaptives),
@@ -162,14 +161,11 @@ class BipController extends Controller
             // "interventions"=>json_decode($bip-> interventions),
 
         ]);
-
-
     }
     //se obtiene el usuario
     public function showProfile($patient_id)
     {
         $patient = Patient::where("patient_id", $patient_id)->first();
-
         if (!$patient) {
             return response()->json([
                 'error' => 'Patient not found'
@@ -195,7 +191,8 @@ class BipController extends Controller
                 "pa_assessments" => json_encode($paServices),
                 "pa_services" => $paServices,
                 "diagnosis_code" => $patient->diagnosis_code,
-                "insurer_id" => $patient->insurer_id,
+                "insurer_id" => $patient->insurer_id, // el id interno del insuerer
+                "insuranceId" => $patient->insuranceId, // el id externo (o code) del insuerer
             ] : NULL
         ]);
     }
@@ -208,27 +205,25 @@ class BipController extends Controller
 
 
         return response()->json([
-            "patient_id"=>$bip->patient_id,
+            "patient_id" => $bip->patient_id,
             // "bip" => $bip,
             "bip" => BipResource::make($bip),
-            "type_of_assessment" =>$bip->type_of_assessment,
-            "documents_reviewed"=>json_decode($bip-> documents_reviewed),
-            "maladaptives"=>json_decode($bip-> maladaptives),
-            "assestment_conducted_options"=>json_decode($bip-> assestment_conducted_options),
-            "prevalent_setting_event_and_atecedents"=>json_decode($bip-> prevalent_setting_event_and_atecedents),
-            "interventions"=>json_decode($bip-> interventions),
-            "assestmentEvaluationSettings"=>json_decode($bip-> assestmentEvaluationSettings),
-            "tangibles"=>json_decode($bip-> tangibles),
-            "attention"=>json_decode($bip-> attention),
-            "escape"=>json_decode($bip-> escape),
-            "sensory"=>json_decode($bip-> sensory),
-            "phiysical_and_medical_status"=>json_decode($bip-> phiysical_and_medical_status),
+            "type_of_assessment" => $bip->type_of_assessment,
+            "documents_reviewed" => json_decode($bip->documents_reviewed),
+            "maladaptives" => json_decode($bip->maladaptives),
+            "assestment_conducted_options" => json_decode($bip->assestment_conducted_options),
+            "prevalent_setting_event_and_atecedents" => json_decode($bip->prevalent_setting_event_and_atecedents),
+            "interventions" => json_decode($bip->interventions),
+            "assestmentEvaluationSettings" => json_decode($bip->assestmentEvaluationSettings),
+            "tangibles" => json_decode($bip->tangibles),
+            "attention" => json_decode($bip->attention),
+            "escape" => json_decode($bip->escape),
+            "sensory" => json_decode($bip->sensory),
+            "phiysical_and_medical_status" => json_decode($bip->phiysical_and_medical_status),
             // "consent_to_treatment"=>$bip->consent_to_treatment,
 
 
         ]);
-
-
     }
     public function showbyUserPatientId($patient_id)
     {
@@ -238,28 +233,24 @@ class BipController extends Controller
 
 
         return response()->json([
-            "id"=>$bip->id,
+            "id" => $bip->id,
             "bip" => $bip,
             "reduction_goal" => $reduction_goal,
             "goalsmaladaptive" => $goalsmaladaptive,
             // "bip" => BipResource::make($bip),
-            "type_of_assessment" =>$bip->type_of_assessment,
-            "documents_reviewed"=>json_decode($bip-> documents_reviewed),
-            "maladaptives"=>json_decode($bip-> maladaptives),
-            "assestment_conducted_options"=>json_decode($bip-> assestment_conducted_options),
-            "assestmentEvaluationSettings"=>json_decode($bip-> assestmentEvaluationSettings),
-            "tangibles"=>json_decode($bip-> tangibles),
-            "attention"=>json_decode($bip-> attention),
-            "escape"=>json_decode($bip-> escape),
-            "sensory"=>json_decode($bip-> sensory),
-            "prevalent_setting_event_and_atecedents"=>json_decode($bip-> prevalent_setting_event_and_atecedents),
-            "phiysical_and_medical_status"=>json_decode($bip-> phiysical_and_medical_status),
-            "interventions"=>json_decode($bip-> interventions),
-
-
+            "type_of_assessment" => $bip->type_of_assessment,
+            "documents_reviewed" => json_decode($bip->documents_reviewed),
+            "maladaptives" => json_decode($bip->maladaptives),
+            "assestment_conducted_options" => json_decode($bip->assestment_conducted_options),
+            "assestmentEvaluationSettings" => json_decode($bip->assestmentEvaluationSettings),
+            "tangibles" => json_decode($bip->tangibles),
+            "attention" => json_decode($bip->attention),
+            "escape" => json_decode($bip->escape),
+            "sensory" => json_decode($bip->sensory),
+            "prevalent_setting_event_and_atecedents" => json_decode($bip->prevalent_setting_event_and_atecedents),
+            "phiysical_and_medical_status" => json_decode($bip->phiysical_and_medical_status),
+            "interventions" => json_decode($bip->interventions),
         ]);
-
-
     }
 
     public function showBipPatientIdProfile($patient_id)
@@ -294,6 +285,7 @@ class BipController extends Controller
                 "pa_services" => $paServices,
                 "pa_assessments" => json_encode($paServices),
                 "insurer_id" => $patient->insurer_id,
+                "insuranceId" => $patient->insuranceId,
             ] : NULL,
         ]);
     }
@@ -308,45 +300,42 @@ class BipController extends Controller
         return response()->json([
             "bip" => BipResource::make($bip),
             "patient" => $patient,
-            "patient"=>$patient->id ? [
-                "id"=> $patient->id,
-                "patient_id"=>$patient->patient_id,
-                "first_name"=>$patient->first_name,
-                "last_name"=>$patient->last_name,
-                "age"=>$patient->age,
-                "birth_date"=>$patient->birth_date,
-                "phone"=>$patient->phone,
-                "avatar"=> $patient->avatar ? env("APP_URL")."storage/".$patient->avatar : null,
+            "patient" => $patient->id ? [
+                "id" => $patient->id,
+                "patient_id" => $patient->patient_id,
+                "first_name" => $patient->first_name,
+                "last_name" => $patient->last_name,
+                "age" => $patient->age,
+                "birth_date" => $patient->birth_date,
+                "phone" => $patient->phone,
+                "avatar" => $patient->avatar ? env("APP_URL") . "storage/" . $patient->avatar : null,
                 // "avatar"=> $patient->avatar ? env("APP_URL").$patient->avatar : null,
-                "address"=>$patient->address,
-            ]:NULL,
+                "address" => $patient->address,
+            ] : NULL,
         ]);
-
-
     }
 
     //filtro por  patientID o n_doc para busquedas y asiganciones al paciente
     public function query_patient(Request $request)
     {
-        $patientID =$request->get("patientID");
+        $patientID = $request->get("patientID");
 
         $patient = Patient::where("patientID", $patientID)->first();
 
-        if(!$patient){
+        if (!$patient) {
             return response()->json([
-                "message"=>403,
+                "message" => 403,
             ]);
         }
 
         return response()->json([
-            "message"=>200,
-            "id"=>$patient->id,
-            "first_name"=>$patient->first_name,
-            "last_name"=>$patient->last_name,
-            "phone"=>$patient->phone,
-            "patientID"=>$patient->patientID,
+            "message" => 200,
+            "id" => $patient->id,
+            "first_name" => $patient->first_name,
+            "last_name" => $patient->last_name,
+            "phone" => $patient->phone,
+            "patientID" => $patient->patientID,
         ]);
-
     }
 
 
@@ -365,35 +354,35 @@ class BipController extends Controller
 
         $bip = Bip::findOrFail($id);
 
-        $request->request->add(["documents_reviewed"=>json_encode($request->documents_reviewed)]);
-        $request->request->add(["maladaptives"=>json_encode($request->maladaptives)]);
-        $request->request->add(["assestment_conducted_options"=>json_encode($request->assestment_conducted_options)]);
-        $request->request->add(["assestmentEvaluationSettings"=>json_encode($request->assestmentEvaluationSettings)]);
-        $request->request->add(["tangibles"=>json_encode($request->tangibles)]);
-        $request->request->add(["attention"=>json_encode($request->attention)]);
-        $request->request->add(["escape"=>json_encode($request->escape)]);
-        $request->request->add(["sensory"=>json_encode($request->sensory)]);
-        $request->request->add(["phiysical_and_medical_status"=>json_encode($request->phiysical_and_medical_status)]);
-        $request->request->add(["prevalent_setting_event_and_atecedents"=>json_encode($request->prevalent_setting_event_and_atecedents)]);
-        $request->request->add(["interventions"=>json_encode($request->interventions)]);
+        $request->request->add(["documents_reviewed" => json_encode($request->documents_reviewed)]);
+        $request->request->add(["maladaptives" => json_encode($request->maladaptives)]);
+        $request->request->add(["assestment_conducted_options" => json_encode($request->assestment_conducted_options)]);
+        $request->request->add(["assestmentEvaluationSettings" => json_encode($request->assestmentEvaluationSettings)]);
+        $request->request->add(["tangibles" => json_encode($request->tangibles)]);
+        $request->request->add(["attention" => json_encode($request->attention)]);
+        $request->request->add(["escape" => json_encode($request->escape)]);
+        $request->request->add(["sensory" => json_encode($request->sensory)]);
+        $request->request->add(["phiysical_and_medical_status" => json_encode($request->phiysical_and_medical_status)]);
+        $request->request->add(["prevalent_setting_event_and_atecedents" => json_encode($request->prevalent_setting_event_and_atecedents)]);
+        $request->request->add(["interventions" => json_encode($request->interventions)]);
 
         $bip->update($request->all());
 
         return response()->json([
-            "message"=>200,
-            "bip"=>$bip,
-            "type_of_assessment" =>$bip->type_of_assessment,
-            "documents_reviewed"=>json_decode($bip-> documents_reviewed),
-            "maladaptives"=>json_decode($bip-> maladaptives),
-            "assestment_conducted_options"=>json_decode($bip-> assestment_conducted_options),
-            "assestmentEvaluationSettings"=>json_decode($bip-> assestmentEvaluationSettings),
-            "tangibles"=>json_decode($bip-> tangibles),
-            "attention"=>json_decode($bip-> attention),
-            "escape"=>json_decode($bip-> escape),
-            "sensory"=>json_decode($bip-> sensory),
-            "prevalent_setting_event_and_atecedents"=>json_decode($bip-> prevalent_setting_event_and_atecedents),
-            "phiysical_and_medical_status"=>json_decode($bip-> phiysical_and_medical_status),
-            "interventions"=>json_decode($bip-> interventions),
+            "message" => 200,
+            "bip" => $bip,
+            "type_of_assessment" => $bip->type_of_assessment,
+            "documents_reviewed" => json_decode($bip->documents_reviewed),
+            "maladaptives" => json_decode($bip->maladaptives),
+            "assestment_conducted_options" => json_decode($bip->assestment_conducted_options),
+            "assestmentEvaluationSettings" => json_decode($bip->assestmentEvaluationSettings),
+            "tangibles" => json_decode($bip->tangibles),
+            "attention" => json_decode($bip->attention),
+            "escape" => json_decode($bip->escape),
+            "sensory" => json_decode($bip->sensory),
+            "prevalent_setting_event_and_atecedents" => json_decode($bip->prevalent_setting_event_and_atecedents),
+            "phiysical_and_medical_status" => json_decode($bip->phiysical_and_medical_status),
+            "interventions" => json_decode($bip->interventions),
             // "doctor_id" => $bip->doctor_id,
             // "doctor"=>$bip->doctor_id ?
             //             [
@@ -416,11 +405,11 @@ class BipController extends Controller
     }
 
     /**
-      * Get formatted PA services for a patient
-      *
-      * @param string $patient_id
-      * @return array
-      */
+     * Get formatted PA services for a patient
+     *
+     * @param string $patient_id
+     * @return array
+     */
     private function getFormattedPaServices($patient_id)
     {
         $patient = Patient::where("patient_id", $patient_id)->first();
