@@ -40,7 +40,7 @@ jobs:
         id: deploy
         uses: pinkasey/cpanel-deploy-action@v1.0.0
         with:
-          hostname: 'https://malcolmcordova.com'
+          hostname: 'http://107.180.116.171'
           repository_root: '/home/z779cvj9zm4g/repositories/backend-api-aba-v1'
           branch: main
           cpanel_token: '${{ secrets.CPANEL_TOKEN }}'
