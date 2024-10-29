@@ -1,8 +1,7 @@
 name: Deploy to Cpanel
 'on':
   push:
-    branches:
-      - hotfix, feature/**
+    branches: ["hotfix", "feature/**"]
 jobs:
   laravel-tests:
 
