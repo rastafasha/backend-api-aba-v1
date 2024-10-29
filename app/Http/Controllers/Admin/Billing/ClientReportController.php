@@ -401,6 +401,7 @@ class ClientReportController extends Controller
             
 
             "pa_assessments"=>$patient->pa_assessments ? json_decode($patient->pa_assessments) : null,
+            "pa_services"=>$patient->paServices,
             "totalPages" => $pages,
             "arrayPages" => $arrayPages
         ]);

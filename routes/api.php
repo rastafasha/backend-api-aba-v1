@@ -37,35 +37,35 @@ Route::group(['middleware' => 'api'], function ($router) {
 
     // users
     require __DIR__ . '/api_routes/users.php';
-    
+
     // roles
     require __DIR__ . '/api_routes/roles.php';
-    
+
     // doctors
     require __DIR__ . '/api_routes/doctors.php';
 
     // patient
     require __DIR__ . '/api_routes/patient.php';
-    
+
     // patientfile
     require __DIR__ . '/api_routes/patientfile.php';
-    
+
     // insurance
     require __DIR__ . '/api_routes/insurance.php';
-    
+
     // bip
     require __DIR__ . '/api_routes/bip.php';
 
     // goals
     // reduction goals
     require __DIR__ . '/api_routes/goal.php';
-    
+
     // goal sustitution
     require __DIR__ . '/api_routes/goal_sustitution.php';
-    
+
     // goal family_envolments
     require __DIR__ . '/api_routes/family_envolments.php';
-    
+
     // goal behavior_asistant
     require __DIR__ . '/api_routes/behavior_asistant.php';
 
@@ -84,16 +84,16 @@ Route::group(['middleware' => 'api'], function ($router) {
     // goal monitoring_evaluating
     require __DIR__ . '/api_routes/monitoring_evaluating.php';
 
-    
+
     // goals
-    
+
     // note_rbt
     require __DIR__ . '/api_routes/note_rbt.php';
-    
+
     // note_bcba
     require __DIR__ . '/api_routes/note_bcba.php';
 
-    
+
     // location
     require __DIR__ . '/api_routes/location.php';
 
@@ -108,14 +108,15 @@ Route::group(['middleware' => 'api'], function ($router) {
 
     // clientlogreport
     require __DIR__ . '/api_routes/clientlogreport.php';
-    
+
     // dashboard
     require __DIR__ . '/api_routes/dashboard.php';
-    
+
     // parents
     require __DIR__ . '/api_routes/parents.php';
-    
 
+    // PA Services
+    require __DIR__ . '/api_routes/pa_services.php';
 
 
 

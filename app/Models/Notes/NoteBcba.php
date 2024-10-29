@@ -14,7 +14,7 @@ class NoteBcba extends Model
 {
     use HasFactory;
     use SoftDeletes;
-    protected $fillable=[
+    protected $fillable = [
         'patient_id',
         'doctor_id',
         'bip_id',
@@ -29,8 +29,8 @@ class NoteBcba extends Model
         'note_description',
 
 
-        'caregiver_goals',//json
-        'rbt_training_goals',//json
+        'caregiver_goals', //json
+        'rbt_training_goals', //json
 
         'provider_signature',
         'provider_name',
@@ -55,8 +55,8 @@ class NoteBcba extends Model
         'provider',
         'status',
         'location_id',
+        'pa_service_id',
         'insuranceId',
-
     ];
 
     public function patient()
@@ -64,17 +64,26 @@ class NoteBcba extends Model
         return $this->belongsTo(Patient::class, 'patient_id');
     }
 
-    public function supervisor() {
-        return $this->belongsTo(User::class,"supervisor_name");
+    public function paService()
+    {
+        return $this->belongsTo(PaService::class, 'pa_service_id');
     }
 
-    public function abasupervisor() {
-        return $this->belongsTo(User::class,'aba_supervisor');
+    public function supervisor()
+    {
+        return $this->belongsTo(User::class, "supervisor_name");
     }
-    public function rendering() {
+
+    public function abasupervisor()
+    {
+        return $this->belongsTo(User::class, 'aba_supervisor');
+    }
+    public function rendering()
+    {
         return $this->belongsTo(User::class, 'rendering_provider');
     }
-    public function tecnico() {
+    public function tecnico()
+    {
         return $this->belongsTo(User::class, 'provider_name');
     }
 
@@ -84,7 +93,7 @@ class NoteBcba extends Model
     }
 
     public function location()
-        {
-            return $this->belongsTo(Location::class,'location_id');
-        }
+    {
+        return $this->belongsTo(Location::class, 'location_id');
+    }
 }

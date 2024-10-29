@@ -18,12 +18,10 @@ class NoteRbt extends Model
 {
     use HasFactory;
     use SoftDeletes;
-    protected $fillable=[
+    protected $fillable = [
         'patient_id',
         'doctor_id',
         'bip_id',
-
-        
         'provider_credential',
         'pos',
         'session_date',
@@ -31,14 +29,10 @@ class NoteRbt extends Model
         'time_out',
         'time_in2',
         'time_out2',
-        'session_length_total',
-        'session_length_total2',
         'environmental_changes',
-        
-        'maladaptives',//json
-        'replacements',//json
-        'interventions',//json
-
+        'maladaptives',
+        'replacements',
+        'interventions',
         'meet_with_client_at',
         'client_appeared',
         'as_evidenced_by',
@@ -51,9 +45,6 @@ class NoteRbt extends Model
         'provider_name',
         'supervisor_signature',
         'supervisor_name',
-
-
-        
         'billed',
         'pay',
         'md',
@@ -62,23 +53,30 @@ class NoteRbt extends Model
         'provider',
         'status',
         'location_id',
+        'pa_service_id',
         'insuranceId',
-
     ];
 
     public function patient()
     {
         return $this->belongsTo(Patient::class, 'patient_id');
     }
-    
 
-    public function doctor() {
+    public function paService()
+    {
+        return $this->belongsTo(PaService::class, 'pa_service_id');
+    }
+
+    public function doctor()
+    {
         return $this->hasMany(User::class,);
     }
-    public function supervisor() {
-        return $this->belongsTo(User::class,'supervisor_name');
+    public function supervisor()
+    {
+        return $this->belongsTo(User::class, 'supervisor_name');
     }
-    public function tecnicoRbt() {
+    public function tecnicoRbt()
+    {
         return $this->belongsTo(User::class, 'provider_name_g');
     }
 
@@ -97,24 +95,24 @@ class NoteRbt extends Model
     }
 
     public function location()
-        {
-            return $this->belongsTo(Location::class,'location_id');
-        }
+    {
+        return $this->belongsTo(Location::class, 'location_id');
+    }
 
 
     // public function scopefilterAdvanceClientReport(
     //     $query,
     //     $provider_name_g,
-    //     $session_date, 
+    //     $session_date,
     //     $patient_id,
     //     $doctor_id
     //     ){
-        
+
 
     //     if($provider_name_g){
     //         $query->whereHas("doctor", function($q)use($provider_name_g){
     //             $q->where(DB::raw("CONCAT(users.name,' ',IFNULL(users.surname,''),' ',IFNULL(users.email,''))"),"like","%".$provider_name_g."%");
-                   
+
     //         });
     //     }
 
@@ -122,7 +120,7 @@ class NoteRbt extends Model
     //         $query->where("provider_name_g", $provider_name_g);
     //     }
 
-        
+
     //     if($patient_id){
     //         $query->where("patient_id", $patient_id);
     //     }
@@ -136,49 +134,54 @@ class NoteRbt extends Model
     // }
 
 
-    public function scopefilterAdvanceClientReport($query,
-    // $speciality_id, 
-    $search_doctor, 
-    $search_tecnicoRbt, 
-    $search_supervisor, 
-    // $search_patient,
-    $date_start,$date_end){
-        
+    public function scopefilterAdvanceClientReport(
+        $query,
+        // $speciality_id,
+        $search_doctor,
+        $search_tecnicoRbt,
+        $search_supervisor,
+        // $search_patient,
+        $date_start,
+        $date_end
+    ) {
+
         // if($speciality_id){
         //     $query->where("speciality_id", $speciality_id);
         // }
 
-        if($search_doctor){
-            $query->whereHas("doctor", function($q)use($search_doctor){
-                $q->where(DB::raw("CONCAT(users.name,' ',IFNULL(users.surname,''),' ',IFNULL(users.email,''))"),"like","%".$search_doctor."%");
-                   
+        if ($search_doctor) {
+            $query->whereHas("doctor", function ($q) use ($search_doctor) {
+                $q->where(DB::raw("CONCAT(users.name,' ',IFNULL(users.surname,''),' ',IFNULL(users.email,''))"), "like", "%" . $search_doctor . "%");
             });
         }
-        if($search_tecnicoRbt){
-            $query->whereHas("doctor", function($q)use($search_tecnicoRbt){
-                $q->where(DB::raw("CONCAT(users.name,' ',IFNULL(users.surname,''),' ',IFNULL(users.email,''))"),"like","%".$search_tecnicoRbt."%");
-                   
+        if ($search_tecnicoRbt) {
+            $query->whereHas("doctor", function ($q) use ($search_tecnicoRbt) {
+                $q->where(DB::raw("CONCAT(users.name,' ',IFNULL(users.surname,''),' ',IFNULL(users.email,''))"), "like", "%" . $search_tecnicoRbt . "%");
             });
         }
-        if($search_supervisor){
-            $query->whereHas("doctor", function($q)use($search_supervisor){
-                $q->where(DB::raw("CONCAT(users.name,' ',IFNULL(users.surname,''),' ',IFNULL(users.email,''))"),"like","%".$search_supervisor."%");
-                   
+        if ($search_supervisor) {
+            $query->whereHas("doctor", function ($q) use ($search_supervisor) {
+                $q->where(DB::raw("CONCAT(users.name,' ',IFNULL(users.surname,''),' ',IFNULL(users.email,''))"), "like", "%" . $search_supervisor . "%");
             });
         }
         // if($search_patient){
         //     $query->whereHas("patient", function($q)use($search_patient){
         //         $q->where(DB::raw("CONCAT(patients.name,' ',IFNULL(patients.surname,''),' ',IFNULL(patients.email,''))"),"like","%".$search_patient."%");
-                
+
         //     });
         // }
 
-        if($date_start && $date_end){
+        if ($date_start && $date_end) {
             $query->whereBetween("session_date", [
                 Carbon::parse($date_start)->format("Y-m-d"),
                 Carbon::parse($date_end)->format("Y-m-d"),
             ]);
         }
         return $query;
+    }
+
+    public function provider()
+    {
+        return $this->belongsTo(User::class, 'provider')->withDefault();
     }
 }
