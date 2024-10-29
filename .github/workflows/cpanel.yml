@@ -3,6 +3,7 @@ name: Deploy to Cpanel
   push:
     branches:
       - main
+      - hotfix
 jobs:
   laravel-tests:
 
@@ -40,7 +41,7 @@ jobs:
         id: deploy
         uses: pinkasey/cpanel-deploy-action@v1.0.0
         with:
-          hostname: 'http://107.180.116.171'
+          hostname: 'https://p3plzcpnl504985.prod.phx3.secureserver.net'
           repository_root: '/home/z779cvj9zm4g/repositories/backend-api-aba-v1'
           branch: main
           cpanel_token: '${{ secrets.CPANEL_TOKEN }}'
