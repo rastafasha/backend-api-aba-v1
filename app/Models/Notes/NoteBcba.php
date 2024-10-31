@@ -26,7 +26,7 @@ class NoteBcba extends Model
         'diagnosis_code',
         'birth_date',
         'aba_supervisor',
-        'note_description',
+        // 'note_description',
 
 
         'caregiver_goals', //json

@@ -20,7 +20,7 @@ class NoteBcbaResource extends JsonResource
             "bip_id" => $this->resource->bip_id,
             "patient_id" => $this->resource->patient_id,
             "doctor_id" => $this->resource->doctor_id,
-            "note_description" => $this->resource->note_description,
+            // "note_description" => $this->resource->note_description,
 
             "caregiver_goals"=>json_decode($this->resource-> caregiver_goals) ? : null,
             "rbt_training_goals"=>json_decode($this->resource-> rbt_training_goals) ? : null,
