@@ -16,6 +16,7 @@ use App\Models\Bip\DeEscalationTechnique;
 use App\Models\Bip\GeneralizationTraining;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Carbon;
 
 class Bip extends Model
 {
@@ -45,7 +46,7 @@ class Bip extends Model
 
         'phiysical_and_medical',
         'phiysical_and_medical_status',//json
-        
+
         'tangibles',//json
         'attention',//json
         'escape',//json
@@ -65,6 +66,19 @@ class Bip extends Model
         // 'chaining',
         // 'maladaptive_id',
     ];
+
+    // protected $casts = [
+    //     'documents_reviewed' => 'array',
+    //     'maladaptives' => 'array',
+    //     'assestment_conducted_options' => 'array',
+    //     'prevalent_setting_event_and_atecedents' => 'array',
+    //     'interventions' => 'array',
+    //     'tangibles' => 'array',
+    //     'attention' => 'array',
+    //     'escape' => 'array',
+    //     'sensory' => 'array',
+    //     'phiysical_and_medical_status' => 'array',
+    // ];
 
 
      public function patient()
@@ -124,12 +138,12 @@ class Bip extends Model
     {
         return $this->hasMany(ConsentToTreatment::class);
     }
-    
-    
-    
-    
-    
-    
+
+
+
+
+
+
 
     // public function bip_files(){
     //     return $this->hasMany(BipFile::class, "documents_reviewed");
@@ -138,10 +152,10 @@ class Bip extends Model
     // filtro buscador
 
     public function scopefilterAdvanceBip($query,
-    $patientID, 
-    $name_doctor, 
+    $patientID,
+    $name_doctor,
     $date){
-        
+
         if($patientID){
             $query->where("patientID", $patientID);
         }
