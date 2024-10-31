@@ -24,18 +24,18 @@ class Location extends Model
         'email',
         'avatar',
         'telfax',
-        'user_id',
-        'client_id',
     ];
 
     //relations
     public function patients()
     {
-        return $this->hasMany(Patient::class, 'client_id');
+        return $this->hasMany(Patient::class);
     }
 
-    public function specialists() {
-        return $this->belongsToMany(User::class, 'user_id');
+    public function specialists()
+    {
+        return $this->belongsToMany(User::class, 'user_locations')
+            ->withTimestamps();
     }
 
     //filtro buscador
@@ -44,40 +44,40 @@ class Location extends Model
         $client_id, $name_client, $email_client,
         $doctor_id, $name_doctor, $email_doctor,
         ){
-        
+
         if($client_id){
             $query->where("client_id", $client_id);
         }
-        
+
         if($name_client){
             $query->whereHas("patient", function($q)use($name_client){
                 $q->where(DB::raw("CONCAT(patients.first_name,' ',IFNULL(patients.last_name,''),' ',IFNULL(patients.email,''))"),"like","%".$name_patient."%");
-                
+
             });
         }
         if($email_client){
             $query->whereHas("patient", function($q)use($email_client){
                 $query->where("patientID", $patientID);
-                   
+
             });
         }
         if($doctor_id){
             $query->where("doctor_id", $doctor_id);
         }
-        
+
         if($name_doctor){
             $query->whereHas("doctor", function($q)use($name_doctor){
                 $q->where(DB::raw("CONCAT(doctors.first_name,' ',IFNULL(doctors.last_name,''),' ',IFNULL(doctors.email,''))"),"like","%".$name_doctor."%");
-                
+
             });
         }
         if($email_doctor){
             $query->whereHas("doctor", function($q)use($email_doctor){
                 $query->where("doctor_id", $doctor_id);
-                   
+
             });
         }
-        
+
 
         // if($date_start && $date_end){
         //     $query->whereBetween("date_appointment", [

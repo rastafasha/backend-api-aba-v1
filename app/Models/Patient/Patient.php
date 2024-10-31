@@ -265,8 +265,7 @@ class Patient extends Model
     }
     public function bip()
     {
-        return $this->belongsTo(Bip::class, 'patient_id');
-        // se relaciona con el patient_id, para que en algun caso se ingrese de nuevo, se verifique si ya existe
+        return $this->hasOne(Bip::class, 'patient_id');
     }
 
     public function reductiongoal()

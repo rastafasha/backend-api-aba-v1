@@ -17,8 +17,13 @@ class Insurance extends Model
         'notes',//description
     ];
 
+    // protected $casts = [
+    //     'services' => 'json',
+    //     'notes' => 'json',
+    // ];
+
     public function scopefilterAdvanceInsurance($query,
-    $insurer_name, 
+    $insurer_name
     ){
         
         if($insurer_name){
