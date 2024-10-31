@@ -309,7 +309,7 @@ class Patient extends Model
 
     //filtro buscador
     public function scopefilterAdvanceClientLog($query,
-    $patient_id, $name_patient, $email_patient,$status,
+    $patient_id, $name_patient, $email_patient,$status
     // $rbt_home,
     //         $rbt2_school,
     //         $bcba_home,
