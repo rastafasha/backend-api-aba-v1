@@ -4,6 +4,7 @@ namespace App\Models\Bip;
 
 use App\Models\Bip\Bip;
 use App\Models\Patient\Patient;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -20,16 +21,26 @@ class DeEscalationTechnique extends Model
         'description',
         'service_recomendation',
         'recomendation_lists',//json
-        
+
 
     ];
 
-    public function bips()
+    // protected $casts = [
+    //     'recomendation_lists' => 'array',
+    // ];
+
+    public function bip()
     {
-        return $this->hasMany(Bip::class, 'bip_id');
+        return $this->belongsTo(Bip::class, 'bip_id');
     }
+
     public function patient()
     {
-        return $this->hasMany(Patient::class,'patient_id');
+        return $this->belongsTo(Patient::class, 'patient_id');
+    }
+
+    public function client()
+    {
+        return $this->belongsTo(User::class, 'client_id');
     }
 }

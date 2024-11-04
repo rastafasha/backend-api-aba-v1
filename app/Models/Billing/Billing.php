@@ -29,17 +29,19 @@ class Billing extends Model
 
     public function patient()
     {
-        return $this->hasMany(Patient::class);
+        return $this->belongsTo(Patient::class, 'patient_id');
     }
+
     public function sponsor()
     {
-        return $this->hasMany(User::class);
+        return $this->belongsTo(User::class, 'sponsor_id');
     }
 
     public function insurance()
     {
-        return $this->hasMany(Insurance::class);
+        return $this->belongsTo(Insurance::class, 'insurer_id');
     }
+
     public function note_rbt()
     {
         return $this->hasMany(NoteRbt::class);

@@ -289,13 +289,12 @@ class PatientController extends Controller
         //     ]);
         // }
 
-        // $validator = Validator::make($request->all(), [
-        //     'email' => 'required|email|unique:patients',
-        //     // ...
-        // ]);
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|email|unique:patients',
+        ]);
 
         if ($validator->fails()) {
-            return response()->json(['error' => $validator->messages()], 422);
+            return response()->json(['error' => $validator->errors() ], 422);
         }
 
         if($request->hasFile('imagen')){

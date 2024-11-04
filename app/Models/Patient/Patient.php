@@ -265,8 +265,7 @@ class Patient extends Model
     }
     public function bip()
     {
-        return $this->belongsTo(Bip::class, 'patient_id');
-        // se relaciona con el patient_id, para que en algun caso se ingrese de nuevo, se verifique si ya existe
+        return $this->hasOne(Bip::class, 'patient_id');
     }
 
     public function reductiongoal()
@@ -310,7 +309,7 @@ class Patient extends Model
 
     //filtro buscador
     public function scopefilterAdvanceClientLog($query,
-    $patient_id, $name_patient, $email_patient,$status,
+    $patient_id, $name_patient, $email_patient,$status
     // $rbt_home,
     //         $rbt2_school,
     //         $bcba_home,

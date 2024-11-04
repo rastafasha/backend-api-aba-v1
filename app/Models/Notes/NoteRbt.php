@@ -9,6 +9,7 @@ use App\Models\Location;
 use App\Models\Patient\Patient;
 use App\Models\Notes\Maladaptive;
 use App\Models\Notes\Replacement;
+use App\Models\PaService;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -67,9 +68,8 @@ class NoteRbt extends Model
         return $this->belongsTo(PaService::class, 'pa_service_id');
     }
 
-    public function doctor()
-    {
-        return $this->hasMany(User::class,);
+    public function doctor() {
+        return $this->belongsTo(User::class,);
     }
     public function supervisor()
     {

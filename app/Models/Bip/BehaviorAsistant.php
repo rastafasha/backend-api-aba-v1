@@ -21,6 +21,10 @@ class BehaviorAsistant extends Model
 
     ];
 
+    // protected $casts = [
+    //     'behavior_assistant_work_schedule' => 'array',
+    // ];
+
     public function bips()
     {
         return $this->hasMany(Bip::class, 'bip_id');
