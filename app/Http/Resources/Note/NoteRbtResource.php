@@ -45,7 +45,8 @@ class NoteRbtResource extends JsonResource
             "session_length_morning_total" => $morning,
             "session_length_afternon_total" => $afternoon,
 
-            "session_length_total" => $morning + $afternoon,
+            // "session_length_total" => $morning + $afternoon,// da error numerico
+            "session_length_total" => date("H:i", strtotime($this->resource->time_out2) - strtotime($this->resource->time_in2) + strtotime($this->resource->time_out) - strtotime($this->resource->time_in) ),
             "total_hours" => $this->calculateTotalHours(),
 
             "client_appeared" => $this->resource->client_appeared,
