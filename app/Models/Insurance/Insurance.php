@@ -15,12 +15,18 @@ class Insurance extends Model
         'insurer_name',
         'services', //Codes, provider, description, unit prize, Hourly Fee, max_allowed
         'notes',//description
+        'payer_id', //payer code, used for EDI X12
+        'street',
+        'street2',
+        'city',
+        'state',
+        'zip',
     ];
 
-    // protected $casts = [
-    //     'services' => 'json',
-    //     'notes' => 'json',
-    // ];
+    protected $casts = [
+        'services' => 'json',
+        'notes' => 'json',
+    ];
 
     public function scopefilterAdvanceInsurance($query,
     $insurer_name
