@@ -10,11 +10,56 @@ use App\Models\Patient\Patient;
 use App\Models\Notes\Maladaptive;
 use App\Models\Notes\Replacement;
 use App\Models\PaService;
+use App\Utils\TimeCalculator;
+use App\Utils\UnitCalculator;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
+/**
+ * @OA\Schema(
+ *     schema="NoteRbt",
+ *     @OA\Property(property="id", type="integer"),
+ *     @OA\Property(property="doctor_id", type="integer", nullable=true),
+ *     @OA\Property(property="patient_id", type="string", nullable=true),
+ *     @OA\Property(property="bip_id", type="integer", nullable=true),
+ *     @OA\Property(property="provider_name_g", type="integer", nullable=true),
+ *     @OA\Property(property="provider_credential", type="string", nullable=true),
+ *     @OA\Property(property="pos", type="string", nullable=true),
+ *     @OA\Property(property="session_date", type="string", format="date-time", nullable=true),
+ *     @OA\Property(property="time_in", type="string", format="time", nullable=true),
+ *     @OA\Property(property="time_out", type="string", format="time", nullable=true),
+ *     @OA\Property(property="time_in2", type="string", format="time", nullable=true),
+ *     @OA\Property(property="time_out2", type="string", format="time", nullable=true),
+ *     @OA\Property(property="environmental_changes", type="string", nullable=true),
+ *     @OA\Property(property="maladaptives", type="object", nullable=true),
+ *     @OA\Property(property="replacements", type="object", nullable=true),
+ *     @OA\Property(property="interventions", type="object", nullable=true),
+ *     @OA\Property(property="meet_with_client_at", type="string", nullable=true),
+ *     @OA\Property(property="client_appeared", type="string", nullable=true),
+ *     @OA\Property(property="as_evidenced_by", type="string", nullable=true),
+ *     @OA\Property(property="rbt_modeled_and_demonstrated_to_caregiver", type="string", nullable=true),
+ *     @OA\Property(property="client_response_to_treatment_this_session", type="string", nullable=true),
+ *     @OA\Property(property="progress_noted_this_session_compared_to_previous_session", type="string", nullable=true),
+ *     @OA\Property(property="next_session_is_scheduled_for", type="string", format="date-time", nullable=true),
+ *     @OA\Property(property="provider_signature", type="string", nullable=true),
+ *     @OA\Property(property="provider_name", type="integer", nullable=true),
+ *     @OA\Property(property="supervisor_signature", type="string", nullable=true),
+ *     @OA\Property(property="supervisor_name", type="integer", nullable=true),
+ *     @OA\Property(property="billed", type="boolean", default=false),
+ *     @OA\Property(property="pay", type="boolean", default=false),
+ *     @OA\Property(property="status", type="string", enum={"pending", "ok", "no", "review"}, default="pending"),
+ *     @OA\Property(property="cpt_code", type="string", nullable=true),
+ *     @OA\Property(property="location_id", type="integer", nullable=true),
+ *     @OA\Property(property="md", type="string", maxLength=20, nullable=true),
+ *     @OA\Property(property="md2", type="string", maxLength=20, nullable=true),
+ *     @OA\Property(property="provider", type="integer", nullable=true),
+ *     @OA\Property(property="created_at", type="string", format="date-time"),
+ *     @OA\Property(property="updated_at", type="string", format="date-time"),
+ *     @OA\Property(property="deleted_at", type="string", format="date-time", nullable=true)
+ * )
+ */
 class NoteRbt extends Model
 {
     use HasFactory;
@@ -61,6 +106,12 @@ class NoteRbt extends Model
 
     ];
 
+    protected $casts = [
+        'maladaptives' => 'json',
+        'replacements' => 'json',
+        'interventions' => 'json',
+    ];
+
     public function patient()
     {
         return $this->belongsTo(Patient::class, 'patient_id');
@@ -88,13 +139,39 @@ class NoteRbt extends Model
         return $this->belongsTo(Bip::class, 'bip_id');
     }
 
-    public function maladaptive()
+    // public function maladaptive()
+    // {
+    //     return $this->hasMany(Maladaptive::class);
+    // }
+    // public function replacement()
+    // {
+    //     return $this->hasMany(Replacement::class);
+    // }
+
+    protected function getTotalMinutesAttribute()
     {
-        return $this->hasMany(Maladaptive::class);
+        $calculator = new TimeCalculator();
+        $totalMinutes = 0;
+        
+        if ($this->time_in && $this->time_out) {
+            $totalMinutes = $calculator->timeDifference($this->time_in, $this->time_out, "minutes");
+        }
+        
+        if ($this->time_in2 && $this->time_out2) {
+            $totalMinutes += $calculator->timeDifference($this->time_in2, $this->time_out2, "minutes");
+        }
+        
+        return $totalMinutes;
     }
-    public function replacement()
+
+    protected function getTotalUnitsAttribute()
     {
-        return $this->hasMany(Replacement::class);
+        if ($this->total_minutes === null) {
+            return null;
+        }
+
+        $calculator = new UnitCalculator();
+        return $calculator->calculateUnits($this->total_minutes);
     }
 
     public function location()

@@ -1,0 +1,1567 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "ABA App API",
+        "version": "2.0"
+    },
+    "paths": {
+        "/api/v2/insurance": {
+            "get": {
+                "tags": [
+                    "Admin/Insurance"
+                ],
+                "summary": "Get paginated insurance list",
+                "description": "Retrieves a paginated list of insurance with optional filters",
+                "operationId": "2fc52d5babe24cad601e5b95bb867bf4",
+                "parameters": [
+                    {
+                        "name": "insurer_name",
+                        "in": "query",
+                        "description": "Filter by insurer name",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "city",
+                        "in": "query",
+                        "description": "Filter by city",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "state",
+                        "in": "query",
+                        "description": "Filter by state",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "per_page",
+                        "in": "query",
+                        "description": "Number of items per page",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 15
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/PaginatedInsuranceResponse"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Admin/Insurance"
+                ],
+                "summary": "Create a new insurance",
+                "description": "Creates a new insurance record",
+                "operationId": "115dd62f9d8140618ed8798e779d8e71",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "insurer_name"
+                                ],
+                                "properties": {
+                                    "insurer_name": {
+                                        "type": "string"
+                                    },
+                                    "services": {
+                                        "type": "object"
+                                    },
+                                    "notes": {
+                                        "type": "object"
+                                    },
+                                    "payer_id": {
+                                        "type": "string"
+                                    },
+                                    "street": {
+                                        "type": "string"
+                                    },
+                                    "street2": {
+                                        "type": "string"
+                                    },
+                                    "city": {
+                                        "type": "string"
+                                    },
+                                    "state": {
+                                        "type": "string"
+                                    },
+                                    "zip": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Insurance created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Insurance created successfully"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/Insurance"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v2/insurance/{id}": {
+            "get": {
+                "tags": [
+                    "Admin/Insurance"
+                ],
+                "summary": "Get a single insurance",
+                "description": "Retrieves a specific insurance by its ID",
+                "operationId": "ba976c601f2050971e7022da72ae1662",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the insurance",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/Insurance"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Insurance not found"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Admin/Insurance"
+                ],
+                "summary": "Update an insurance",
+                "description": "Updates an existing insurance record",
+                "operationId": "2d01fd93f1a87b86e8021fdff009d336",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the insurance",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "insurer_name": {
+                                        "type": "string"
+                                    },
+                                    "services": {
+                                        "type": "object"
+                                    },
+                                    "notes": {
+                                        "type": "object"
+                                    },
+                                    "payer_id": {
+                                        "type": "string"
+                                    },
+                                    "street": {
+                                        "type": "string"
+                                    },
+                                    "street2": {
+                                        "type": "string"
+                                    },
+                                    "city": {
+                                        "type": "string"
+                                    },
+                                    "state": {
+                                        "type": "string"
+                                    },
+                                    "zip": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Insurance updated successfully"
+                    },
+                    "404": {
+                        "description": "Insurance not found"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Admin/Insurance"
+                ],
+                "summary": "Delete an insurance",
+                "description": "Deletes an existing insurance record",
+                "operationId": "f38d0bf45649ddcbdf987244e9ddd1a9",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the insurance",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Insurance deleted successfully"
+                    },
+                    "404": {
+                        "description": "Insurance not found"
+                    }
+                }
+            }
+        },
+        "/api/v2/notes/bcba": {
+            "get": {
+                "tags": [
+                    "Admin/Notes"
+                ],
+                "summary": "Get paginated BCBA notes",
+                "description": "Retrieves a paginated list of BCBA notes with optional filters",
+                "operationId": "77cb7895f09db2d25e17e95a758f14a8",
+                "parameters": [
+                    {
+                        "name": "patient_id",
+                        "in": "query",
+                        "description": "Filter by patient ID",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "bip_id",
+                        "in": "query",
+                        "description": "Filter by BIP ID",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "location_id",
+                        "in": "query",
+                        "description": "Filter by location ID",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "date_start",
+                        "in": "query",
+                        "description": "Start date for filtering (Y-m-d)",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    },
+                    {
+                        "name": "date_end",
+                        "in": "query",
+                        "description": "End date for filtering (Y-m-d)",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    },
+                    {
+                        "name": "per_page",
+                        "in": "query",
+                        "description": "Number of items per page",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 15
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/PaginatedNoteBcbaResponse"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v2/notes/bcba/{id}": {
+            "get": {
+                "tags": [
+                    "Admin/Notes"
+                ],
+                "summary": "Get a single BCBA note",
+                "description": "Retrieves a specific BCBA note by its ID",
+                "operationId": "437afcd44b119a8e18f0d0ef327cec3a",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the BCBA note",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/NoteBcba"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Note not found"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Admin/Notes"
+                ],
+                "summary": "Update a BCBA note",
+                "description": "Updates an existing BCBA note",
+                "operationId": "ebd7a029fb12ef32e6f207b201ed9507",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the BCBA note",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "session_date",
+                                    "patient_id"
+                                ],
+                                "properties": {
+                                    "session_date": {
+                                        "type": "string",
+                                        "format": "date"
+                                    },
+                                    "patient_id": {
+                                        "type": "integer"
+                                    },
+                                    "bip_id": {
+                                        "type": "integer"
+                                    },
+                                    "location_id": {
+                                        "type": "integer"
+                                    },
+                                    "summary_note": {
+                                        "type": "string"
+                                    },
+                                    "status": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "404": {
+                        "description": "Note not found"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Admin/Notes"
+                ],
+                "summary": "Delete a BCBA note",
+                "description": "Deletes an existing BCBA note",
+                "operationId": "b198c3b35398b16856b545583c7dbc59",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the BCBA note",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "404": {
+                        "description": "Note not found"
+                    }
+                }
+            }
+        },
+        "/api/v2/notes/rbt": {
+            "get": {
+                "tags": [
+                    "Admin/Notes"
+                ],
+                "summary": "Get paginated RBT notes",
+                "description": "Retrieves a paginated list of RBT notes with optional filters",
+                "operationId": "0e451d24e5a9659f9a5e2e506f2ce081",
+                "parameters": [
+                    {
+                        "name": "patient_id",
+                        "in": "query",
+                        "description": "Filter by patient ID",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "doctor_id",
+                        "in": "query",
+                        "description": "Filter by doctor ID",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "bip_id",
+                        "in": "query",
+                        "description": "Filter by BIP ID",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "location_id",
+                        "in": "query",
+                        "description": "Filter by location ID",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "date_start",
+                        "in": "query",
+                        "description": "Start date for filtering (Y-m-d)",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    },
+                    {
+                        "name": "date_end",
+                        "in": "query",
+                        "description": "End date for filtering (Y-m-d)",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    },
+                    {
+                        "name": "per_page",
+                        "in": "query",
+                        "description": "Number of items per page",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 15
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/PaginatedNoteRbtResponse"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v2/notes/rbt/{id}": {
+            "get": {
+                "tags": [
+                    "Admin/Notes"
+                ],
+                "summary": "Get a single RBT note",
+                "description": "Retrieves a specific RBT note by its ID",
+                "operationId": "66d698c39561942aabd064f22901060d",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the RBT note",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/NoteRbt"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Note not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Note not found"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Admin/Notes"
+                ],
+                "summary": "Update an RBT note",
+                "description": "Updates an existing RBT note",
+                "operationId": "c5595abc6308b393aab21756895d32e8",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the RBT note",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "session_date",
+                                    "patient_id",
+                                    "doctor_id"
+                                ],
+                                "properties": {
+                                    "session_date": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2023-12-01"
+                                    },
+                                    "patient_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "doctor_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "bip_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "location_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "notes": {
+                                        "type": "string",
+                                        "example": "Session notes here"
+                                    },
+                                    "status": {
+                                        "type": "string",
+                                        "example": "completed"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Note updated successfully"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/NoteRbt"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Note not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Note not found"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Admin/Notes"
+                ],
+                "summary": "Delete an RBT note",
+                "description": "Deletes an existing RBT note",
+                "operationId": "8525e4ad5e17a08fd822746c39a47349",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the RBT note",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Note deleted successfully"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Note not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Note not found"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/claims/generate-from-notes": {
+            "post": {
+                "tags": [
+                    "Claims"
+                ],
+                "summary": "Generate EDI X12 837P claim file from RBT and BCBA notes",
+                "operationId": "fddbacbee5388beb648b980f55fa72b9",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "notes_rbt_ids": {
+                                        "description": "Array of RBT note IDs",
+                                        "type": "array",
+                                        "items": {
+                                            "type": "integer"
+                                        }
+                                    },
+                                    "notes_bcba_ids": {
+                                        "description": "Array of BCBA note IDs",
+                                        "type": "array",
+                                        "items": {
+                                            "type": "integer"
+                                        }
+                                    },
+                                    "file_name": {
+                                        "description": "Optional custom filename for the generated file",
+                                        "type": "string",
+                                        "example": "Claim.dat"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "EDI X12 837P claim file",
+                        "headers": {
+                            "Content-Type": {
+                                "description": "text/plain",
+                                "schema": {
+                                    "type": "string"
+                                }
+                            },
+                            "Content-Disposition": {
+                                "description": "attachment; filename=Claim.dat",
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "No valid claims found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "No valid claims found"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "PaginatedInsuranceResponse": {
+                "properties": {
+                    "current_page": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Insurance"
+                        }
+                    },
+                    "first_page_url": {
+                        "type": "string"
+                    },
+                    "from": {
+                        "type": "integer"
+                    },
+                    "last_page": {
+                        "type": "integer"
+                    },
+                    "last_page_url": {
+                        "type": "string"
+                    },
+                    "next_page_url": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "path": {
+                        "type": "string"
+                    },
+                    "per_page": {
+                        "type": "integer",
+                        "example": 15
+                    },
+                    "prev_page_url": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "to": {
+                        "type": "integer"
+                    },
+                    "total": {
+                        "type": "integer"
+                    }
+                },
+                "type": "object"
+            },
+            "PaginatedNoteBcbaResponse": {
+                "properties": {
+                    "current_page": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/NoteBcba"
+                        }
+                    },
+                    "first_page_url": {
+                        "type": "string",
+                        "example": "http://example.com/api/v2/notes/bcba?page=1"
+                    },
+                    "from": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "last_page": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "last_page_url": {
+                        "type": "string",
+                        "example": "http://example.com/api/v2/notes/bcba?page=1"
+                    },
+                    "next_page_url": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "path": {
+                        "type": "string",
+                        "example": "http://example.com/api/v2/notes/bcba"
+                    },
+                    "per_page": {
+                        "type": "integer",
+                        "example": 15
+                    },
+                    "prev_page_url": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "to": {
+                        "type": "integer",
+                        "example": 15
+                    },
+                    "total": {
+                        "type": "integer",
+                        "example": 100
+                    }
+                },
+                "type": "object"
+            },
+            "PaginatedNoteRbtResponse": {
+                "properties": {
+                    "current_page": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/NoteRbt"
+                        }
+                    },
+                    "first_page_url": {
+                        "type": "string",
+                        "example": "http://example.com/api/v2/notes/rbt?page=1"
+                    },
+                    "from": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "last_page": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "last_page_url": {
+                        "type": "string",
+                        "example": "http://example.com/api/v2/notes/rbt?page=1"
+                    },
+                    "next_page_url": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "path": {
+                        "type": "string",
+                        "example": "http://example.com/api/v2/notes/rbt"
+                    },
+                    "per_page": {
+                        "type": "integer",
+                        "example": 15
+                    },
+                    "prev_page_url": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "to": {
+                        "type": "integer",
+                        "example": 15
+                    },
+                    "total": {
+                        "type": "integer",
+                        "example": 100
+                    }
+                },
+                "type": "object"
+            },
+            "Insurance": {
+                "required": [
+                    "insurer_name"
+                ],
+                "properties": {
+                    "id": {
+                        "description": "Insurance ID",
+                        "type": "integer",
+                        "format": "int64",
+                        "example": 1
+                    },
+                    "insurer_name": {
+                        "description": "Name of the insurance company",
+                        "type": "string",
+                        "example": "Blue Cross Blue Shield"
+                    },
+                    "services": {
+                        "description": "JSON object containing service details including codes, provider, description, unit price, hourly fee, and max allowed",
+                        "type": "object",
+                        "example": {
+                            "code": "97153",
+                            "provider": "BCBA",
+                            "description": "Adaptive behavior treatment",
+                            "unit_price": 65,
+                            "hourly_fee": 130,
+                            "max_allowed": 40
+                        }
+                    },
+                    "notes": {
+                        "description": "JSON object containing additional notes and descriptions",
+                        "type": "object",
+                        "example": {
+                            "description": "Primary insurance provider for ABA therapy services"
+                        }
+                    },
+                    "payer_id": {
+                        "description": "Payer code used for EDI X12",
+                        "type": "string",
+                        "example": "00123"
+                    },
+                    "street": {
+                        "description": "Street address",
+                        "type": "string",
+                        "example": "123 Main Street"
+                    },
+                    "street2": {
+                        "description": "Additional street address information",
+                        "type": "string",
+                        "example": "Suite 100"
+                    },
+                    "city": {
+                        "description": "City name",
+                        "type": "string",
+                        "example": "Chicago"
+                    },
+                    "state": {
+                        "description": "State code",
+                        "type": "string",
+                        "example": "IL"
+                    },
+                    "zip": {
+                        "description": "ZIP/Postal code",
+                        "type": "string",
+                        "example": "60601"
+                    },
+                    "created_at": {
+                        "description": "Creation timestamp",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2023-01-01 12:00:00"
+                    },
+                    "updated_at": {
+                        "description": "Last update timestamp",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2023-01-01 12:00:00"
+                    },
+                    "deleted_at": {
+                        "description": "Soft delete timestamp",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": null,
+                        "nullable": true
+                    }
+                },
+                "type": "object"
+            },
+            "NoteBcba": {
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "bip_id": {
+                        "type": "integer",
+                        "nullable": true
+                    },
+                    "patient_id": {
+                        "type": "integer"
+                    },
+                    "doctor_id": {
+                        "type": "integer",
+                        "nullable": true
+                    },
+                    "note_description": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "caregiver_goals": {
+                        "type": "object",
+                        "nullable": true
+                    },
+                    "rbt_training_goals": {
+                        "type": "object",
+                        "nullable": true
+                    },
+                    "location": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "summary_note": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "birth_date": {
+                        "type": "string",
+                        "format": "date",
+                        "nullable": true
+                    },
+                    "aba_supervisor": {
+                        "type": "integer",
+                        "nullable": true
+                    },
+                    "cpt_code": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "diagnosis_code": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "rendering_provider": {
+                        "type": "integer",
+                        "nullable": true
+                    },
+                    "rendering": {
+                        "properties": {
+                            "name": {
+                                "type": "string"
+                            },
+                            "surname": {
+                                "type": "string"
+                            },
+                            "npi": {
+                                "type": "string"
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "provider_signature": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "provider_name": {
+                        "type": "integer",
+                        "nullable": true
+                    },
+                    "tecnico": {
+                        "properties": {
+                            "name": {
+                                "type": "string"
+                            },
+                            "surname": {
+                                "type": "string"
+                            },
+                            "npi": {
+                                "type": "string"
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "supervisor_signature": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "supervisor_name": {
+                        "type": "integer",
+                        "nullable": true
+                    },
+                    "supervisor": {
+                        "properties": {
+                            "name": {
+                                "type": "string"
+                            },
+                            "surname": {
+                                "type": "string"
+                            },
+                            "npi": {
+                                "type": "string"
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "billedbcba": {
+                        "type": "boolean",
+                        "nullable": true
+                    },
+                    "paybcba": {
+                        "type": "boolean",
+                        "nullable": true
+                    },
+                    "bcba": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "mdbcba": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "md2bcba": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "meet_with_client_at": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "provider": {
+                        "type": "integer",
+                        "nullable": true
+                    },
+                    "status": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "location_id": {
+                        "type": "integer",
+                        "nullable": true
+                    },
+                    "session_date": {
+                        "type": "string",
+                        "format": "date",
+                        "nullable": true
+                    },
+                    "time_in": {
+                        "type": "string",
+                        "format": "time",
+                        "nullable": true
+                    },
+                    "time_out": {
+                        "type": "string",
+                        "format": "time",
+                        "nullable": true
+                    },
+                    "time_in2": {
+                        "type": "string",
+                        "format": "time",
+                        "nullable": true
+                    },
+                    "time_out2": {
+                        "type": "string",
+                        "format": "time",
+                        "nullable": true
+                    },
+                    "session_length_total": {
+                        "type": "string",
+                        "format": "time",
+                        "nullable": true
+                    },
+                    "session_length_total2": {
+                        "type": "string",
+                        "format": "time",
+                        "nullable": true
+                    },
+                    "total_hours": {
+                        "type": "string",
+                        "format": "time",
+                        "nullable": true
+                    },
+                    "total_minutes": {
+                        "type": "integer",
+                        "nullable": true
+                    },
+                    "total_units": {
+                        "type": "integer",
+                        "nullable": true
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "type": "object"
+            },
+            "NoteRbt": {
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "doctor_id": {
+                        "type": "integer",
+                        "nullable": true
+                    },
+                    "patient_id": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "bip_id": {
+                        "type": "integer",
+                        "nullable": true
+                    },
+                    "provider_name_g": {
+                        "type": "integer",
+                        "nullable": true
+                    },
+                    "provider_credential": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "pos": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "session_date": {
+                        "type": "string",
+                        "format": "date-time",
+                        "nullable": true
+                    },
+                    "time_in": {
+                        "type": "string",
+                        "format": "time",
+                        "nullable": true
+                    },
+                    "time_out": {
+                        "type": "string",
+                        "format": "time",
+                        "nullable": true
+                    },
+                    "time_in2": {
+                        "type": "string",
+                        "format": "time",
+                        "nullable": true
+                    },
+                    "time_out2": {
+                        "type": "string",
+                        "format": "time",
+                        "nullable": true
+                    },
+                    "environmental_changes": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "maladaptives": {
+                        "type": "object",
+                        "nullable": true
+                    },
+                    "replacements": {
+                        "type": "object",
+                        "nullable": true
+                    },
+                    "interventions": {
+                        "type": "object",
+                        "nullable": true
+                    },
+                    "meet_with_client_at": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "client_appeared": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "as_evidenced_by": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "rbt_modeled_and_demonstrated_to_caregiver": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "client_response_to_treatment_this_session": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "progress_noted_this_session_compared_to_previous_session": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "next_session_is_scheduled_for": {
+                        "type": "string",
+                        "format": "date-time",
+                        "nullable": true
+                    },
+                    "provider_signature": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "provider_name": {
+                        "type": "integer",
+                        "nullable": true
+                    },
+                    "supervisor_signature": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "supervisor_name": {
+                        "type": "integer",
+                        "nullable": true
+                    },
+                    "billed": {
+                        "type": "boolean",
+                        "default": false
+                    },
+                    "pay": {
+                        "type": "boolean",
+                        "default": false
+                    },
+                    "status": {
+                        "type": "string",
+                        "default": "pending",
+                        "enum": [
+                            "pending",
+                            "ok",
+                            "no",
+                            "review"
+                        ]
+                    },
+                    "cpt_code": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "location_id": {
+                        "type": "integer",
+                        "nullable": true
+                    },
+                    "md": {
+                        "type": "string",
+                        "maxLength": 20,
+                        "nullable": true
+                    },
+                    "md2": {
+                        "type": "string",
+                        "maxLength": 20,
+                        "nullable": true
+                    },
+                    "provider": {
+                        "type": "integer",
+                        "nullable": true
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "deleted_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "nullable": true
+                    }
+                },
+                "type": "object"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Admin/Insurance",
+            "description": "Admin/Insurance"
+        },
+        {
+            "name": "Admin/Notes",
+            "description": "Admin/Notes"
+        },
+        {
+            "name": "Claims",
+            "description": "Claims"
+        }
+    ]
+}
