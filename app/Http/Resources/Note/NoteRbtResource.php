@@ -15,7 +15,9 @@ class NoteRbtResource extends JsonResource
      */
     public function toArray($request)
     {
-        return[
+        $morning = date("H:i", strtotime($this->resource->time_out) - strtotime($this->resource->time_in));
+        $afternoon = date("H:i", strtotime($this->resource->time_out2) - strtotime($this->resource->time_in2));
+        return [
             'id' => $this->resource->id,
             "session_date" => $this->resource->session_date ? Carbon::parse($this->resource->session_date)->format("Y-m-d") : NULL,
             "next_session_is_scheduled_for" => $this->resource->next_session_is_scheduled_for,
@@ -33,11 +35,18 @@ class NoteRbtResource extends JsonResource
             "doctor_id" => $this->resource->doctor_id,
             "meet_with_client_at" => $this->resource->meet_with_client_at,
 
-            "time_in" => $this->resource->time_in ? Carbon::parse($this->resource->time_in)->format("H:i:s") : NULL,
-            "time_out" => $this->resource->time_out ? Carbon::parse($this->resource->time_out)->format("H:i:s") : NULL,
-            "time_in2" => $this->resource->time_in2 ? Carbon::parse($this->resource->time_in2)->format("H:i:s") : NULL,
-            "time_out2" => $this->resource->time_out2 ? Carbon::parse($this->resource->time_out2)->format("H:i:s") : NULL,
+            "time_in" => $this->resource->time_in ? Carbon::parse($this->resource->time_in)->format(" H:i:s") : NULL,
+            "time_out" => $this->resource->time_out ? Carbon::parse($this->resource->time_out)->format(" H:i:s") : NULL,
+            "time_in2" => $this->resource->time_in2 ? Carbon::parse($this->resource->time_in2)->format(" H:i:s") : NULL,
+            "time_out2" => $this->resource->time_out2 ? Carbon::parse($this->resource->time_out2)->format(" H:i:s") : NULL,
+            // al obtener las horas trabajadas se suman
+            //convertimos las horas para poder sumarlas
+            //sumamos la hora de inicio con la hora final y le restamos los minutos de descanso.
+            "session_length_morning_total" => $morning,
+            "session_length_afternon_total" => $afternoon,
 
+            // "session_length_total" => $morning + $afternoon,// da error numerico
+            "session_length_total" => date("H:i", strtotime($this->resource->time_out2) - strtotime($this->resource->time_in2) + strtotime($this->resource->time_out) - strtotime($this->resource->time_in) ),
             "total_hours" => $this->calculateTotalHours(),
 
             "client_appeared" => $this->resource->client_appeared,
@@ -69,6 +78,7 @@ class NoteRbtResource extends JsonResource
             "md" => $this->resource->md,
             "md2" => $this->resource->md2,
             "cpt_code" => $this->resource->cpt_code,
+            "insuranceId" => $this->resource->insuranceId,
             "provider" => $this->resource->provider,
             "location_id" => $this->resource->location_id,
 

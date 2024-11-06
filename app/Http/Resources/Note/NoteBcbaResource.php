@@ -20,7 +20,7 @@ class NoteBcbaResource extends JsonResource
             "bip_id" => $this->resource->bip_id,
             "patient_id" => $this->resource->patient_id,
             "doctor_id" => $this->resource->doctor_id,
-            "note_description" => $this->resource->note_description,
+            // "note_description" => $this->resource->note_description,
 
             "caregiver_goals"=>json_decode($this->resource-> caregiver_goals) ? : null,
             "rbt_training_goals"=>json_decode($this->resource-> rbt_training_goals) ? : null,
@@ -72,6 +72,7 @@ class NoteBcbaResource extends JsonResource
                 "md2bcba" => $this->resource->md2bcba,
                 "meet_with_client_at" =>$this->resource->meet_with_client_at,
                 "provider" => $this->resource->provider,
+                "insuranceId"=>$this->resource->insuranceId,
 
                 "status" => $this->resource->status,
                 "location_id" => $this->resource->location_id,
@@ -84,9 +85,13 @@ class NoteBcbaResource extends JsonResource
                 // al obtener las horas trabajadas se suman
                 //convertimos las horas para poder sumarlas
                 //sumamos la hora de inicio con la hora final y le restamos los minutos de descanso.
-                "session_length_total" => date("H:i", strtotime($this->resource->time_out) - strtotime($this->resource->time_in) ),
-                "session_length_total2" => date("H:i", strtotime($this->resource->time_out2) - strtotime($this->resource->time_in2) ),
-                "total_hours" => date("H:i", strtotime($this->resource->time_out2) - strtotime($this->resource->time_in2) + strtotime($this->resource->time_out) - strtotime($this->resource->time_in) ),
+               "session_length_morning_total" => date("H:i", strtotime($this->resource->time_out) - strtotime($this->resource->time_in) ),
+                "session_length_afternon_total" => date("H:i", strtotime($this->resource->time_out2) - strtotime($this->resource->time_in2) ),
+                
+                "session_length_total" => date("H:i", strtotime($this->resource->time_out2) - strtotime($this->resource->time_in2) + strtotime($this->resource->time_out) - strtotime($this->resource->time_in) ),
+                
+                
+                // "total_hours" => date("H:i", strtotime($this->resource->time_out2) - strtotime($this->resource->time_in2) + strtotime($this->resource->time_out) - strtotime($this->resource->time_in) ),
 
                 "total_minutes" => $this->resource->total_minutes,
                 "total_units" => $this->resource->total_units,

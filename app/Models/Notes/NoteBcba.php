@@ -83,7 +83,7 @@ class NoteBcba extends Model
 {
     use HasFactory;
     use SoftDeletes;
-    protected $fillable=[
+    protected $fillable = [
         'patient_id',
         'doctor_id',
         'bip_id',
@@ -98,11 +98,11 @@ class NoteBcba extends Model
         'diagnosis_code',
         'birth_date',
         'aba_supervisor',
-        'note_description',
+        // 'note_description',
 
 
-        'caregiver_goals',//json
-        'rbt_training_goals',//json
+        'caregiver_goals', //json
+        'rbt_training_goals', //json
 
         'provider_signature',
         'provider_name',
@@ -128,7 +128,7 @@ class NoteBcba extends Model
         'status',
         'location_id',
         'pa_service_id',
-
+        'insuranceId',
     ];
 
     // protected $casts = [
@@ -146,17 +146,21 @@ class NoteBcba extends Model
         return $this->belongsTo(PaService::class, 'pa_service_id');
     }
 
-    public function supervisor() {
-        return $this->belongsTo(User::class,"supervisor_name");
+    public function supervisor()
+    {
+        return $this->belongsTo(User::class, "supervisor_name");
     }
 
-    public function abasupervisor() {
-        return $this->belongsTo(User::class,'aba_supervisor');
+    public function abasupervisor()
+    {
+        return $this->belongsTo(User::class, 'aba_supervisor');
     }
-    public function rendering() {
+    public function rendering()
+    {
         return $this->belongsTo(User::class, 'rendering_provider');
     }
-    public function tecnico() {
+    public function tecnico()
+    {
         return $this->belongsTo(User::class, 'provider_name');
     }
 
