@@ -35,7 +35,7 @@ class NoteBcbaResource extends JsonResource
             "diagnosis_code" =>$this->resource->diagnosis_code,
 
             "rendering_provider" => $this->resource->rendering_provider,
-            'rendering'=>$this->resource-> rendering,
+            // 'rendering'=>$this->resource-> rendering,
                 'rendering'=>[
                     // 'id'=> $this->resource->rendering->rendering_provider,
                     'name'=> $this->resource->rendering->name,
@@ -46,7 +46,7 @@ class NoteBcbaResource extends JsonResource
             // "provider_signature"=> $this->resource->provider_signature ? env("APP_URL").$this->resource->provider_signature : null,
             "provider_signature"=> $this->resource->provider_signature ? $this->resource->provider_signature : null,
             "provider_name" =>$this->resource->provider_name,
-            'tecnico'=>$this->resource-> tecnico,
+            // 'tecnico'=>$this->resource-> tecnico,
                 'tecnico'=>[
                     // 'id'=> $this->resource->tecnico->provider_name,
                     'name'=> $this->resource->tecnico->name,
@@ -57,7 +57,7 @@ class NoteBcbaResource extends JsonResource
             // "supervisor_signature"=> $this->resource->supervisor_signature ? env("APP_URL").$this->resource->supervisor_signature : null,
             "supervisor_signature"=> $this->resource->supervisor_signature ? $this->resource->supervisor_signature : null,
             "supervisor_name" =>$this->resource->supervisor_name,
-            'supervisor'=>$this->resource-> supervisor,
+            // 'supervisor'=>$this->resource-> supervisor,
                 'supervisor'=>[
                     // 'id'=> $this->resource->supervisor->supervisor_name,
                     'name'=> $this->resource->supervisor->name,
@@ -87,6 +87,9 @@ class NoteBcbaResource extends JsonResource
                 "session_length_total" => date("H:i", strtotime($this->resource->time_out) - strtotime($this->resource->time_in) ),
                 "session_length_total2" => date("H:i", strtotime($this->resource->time_out2) - strtotime($this->resource->time_in2) ),
                 "total_hours" => date("H:i", strtotime($this->resource->time_out2) - strtotime($this->resource->time_in2) + strtotime($this->resource->time_out) - strtotime($this->resource->time_in) ),
+
+                "total_minutes" => $this->resource->total_minutes,
+                "total_units" => $this->resource->total_units,
 
             "created_at"=>$this->resource->created_at ? Carbon::parse($this->resource->created_at)->format("Y-m-d h:i A") : NULL,
             "updated_at"=>$this->resource->updated_at ? Carbon::parse($this->resource->updated_at)->format("Y-m-d h:i A") : NULL,

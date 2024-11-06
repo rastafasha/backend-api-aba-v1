@@ -3,12 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
-use App\Models\Patient\Patient;
-use Illuminate\Support\Facades\DB;
 use App\Models\Insurance\Insurance;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
-use App\Http\Resources\Insurance\InsuranceResource;
 use App\Http\Resources\Insurance\InsuranceCollection;
 
 class InsuranceController extends Controller
@@ -45,8 +42,8 @@ class InsuranceController extends Controller
      */
     public function store(Request $request)
     {
-        $request->request->add(["services"=>json_encode($request->services)]);
-        $request->request->add(["notes"=>json_encode($request->notes)]);
+        $request->request->add(["services"=> $request->services]);
+        $request->request->add(["notes"=> $request->notes]);
 
         $insurance = Insurance::create($request->all());
         
@@ -70,8 +67,8 @@ class InsuranceController extends Controller
         return response()->json([
             "id"=>$insurance->id,
             "insurer_name"=>$insurance->insurer_name,
-            "services"=>json_decode($insurance-> services),
-            "notes"=>json_decode($insurance-> notes)
+            "services"=> $insurance-> services,
+            "notes"=> $insurance-> notes 
         ]);
     }
 
@@ -85,8 +82,8 @@ class InsuranceController extends Controller
     public function update(Request $request, $id)
     {
 
-        $request->request->add(["services"=>json_encode($request->services)]);
-        $request->request->add(["notes"=>json_encode($request->notes)]);
+        $request->request->add(["services"=>$request->services]);
+        $request->request->add(["notes"=>$request->notes]);
         $insurance = Insurance::findOrFail($id);
 
         $insurance->update($request->all());
@@ -112,7 +109,7 @@ class InsuranceController extends Controller
         ]);
     }
     //  
-    public function showInsuranceCpt(Request $request, string $insurer_name, string $code, string $provider, )
+    public function showInsuranceCpt(Request $request, string $insurer_name, string $code, string $provider )
     {
         // $patient_id = Patient::where("patient_id", $patient_id)->first();
         // $codes = Insurance::where("insurer_name", $insurer_name)
@@ -133,7 +130,7 @@ class InsuranceController extends Controller
         
         if ($insurance) {
             Log::info("Insurance data found");
-            $services = json_decode($insurance->services, true);
+            $services = $insurance->services;
             $unit_prize = null; // Define $unit_prize here
             if (is_array($services)) {
                 foreach ($services as $service) {
