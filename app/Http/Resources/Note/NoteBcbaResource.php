@@ -89,6 +89,7 @@ class NoteBcbaResource extends JsonResource
                 "session_length_afternon_total" => date("H:i", strtotime($this->resource->time_out2) - strtotime($this->resource->time_in2) ),
                 
                 "total_hours" => date("H:i", strtotime($this->resource->time_out2) - strtotime($this->resource->time_in2) + strtotime($this->resource->time_out) - strtotime($this->resource->time_in) ),
+                "session_length_total" => date("H:i", strtotime($this->resource->time_out2) - strtotime($this->resource->time_in2) + strtotime($this->resource->time_out) - strtotime($this->resource->time_in) ),
                 
                 
                 // "total_hours" => date("H:i", strtotime($this->resource->time_out2) - strtotime($this->resource->time_in2) + strtotime($this->resource->time_out) - strtotime($this->resource->time_in) ),

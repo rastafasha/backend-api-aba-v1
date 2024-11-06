@@ -30,6 +30,7 @@ class NoteRbt extends Model
         'time_out',
         'time_in2',
         'time_out2',
+        'session_length_total',
         'environmental_changes',
         'maladaptives',
         'replacements',
@@ -56,6 +57,8 @@ class NoteRbt extends Model
         'location_id',
         'pa_service_id',
         'insuranceId',
+        
+
     ];
 
     public function patient()
