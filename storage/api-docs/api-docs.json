@@ -5,6 +5,289 @@
         "version": "2.0"
     },
     "paths": {
+        "/api/v2/insurance": {
+            "get": {
+                "tags": [
+                    "Admin/Insurance"
+                ],
+                "summary": "Get paginated insurance list",
+                "description": "Retrieves a paginated list of insurance with optional filters",
+                "operationId": "2fc52d5babe24cad601e5b95bb867bf4",
+                "parameters": [
+                    {
+                        "name": "insurer_name",
+                        "in": "query",
+                        "description": "Filter by insurer name",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "city",
+                        "in": "query",
+                        "description": "Filter by city",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "state",
+                        "in": "query",
+                        "description": "Filter by state",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "per_page",
+                        "in": "query",
+                        "description": "Number of items per page",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 15
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/PaginatedInsuranceResponse"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Admin/Insurance"
+                ],
+                "summary": "Create a new insurance",
+                "description": "Creates a new insurance record",
+                "operationId": "115dd62f9d8140618ed8798e779d8e71",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "insurer_name"
+                                ],
+                                "properties": {
+                                    "insurer_name": {
+                                        "type": "string"
+                                    },
+                                    "services": {
+                                        "type": "object"
+                                    },
+                                    "notes": {
+                                        "type": "object"
+                                    },
+                                    "payer_id": {
+                                        "type": "string"
+                                    },
+                                    "street": {
+                                        "type": "string"
+                                    },
+                                    "street2": {
+                                        "type": "string"
+                                    },
+                                    "city": {
+                                        "type": "string"
+                                    },
+                                    "state": {
+                                        "type": "string"
+                                    },
+                                    "zip": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Insurance created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Insurance created successfully"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/Insurance"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v2/insurance/{id}": {
+            "get": {
+                "tags": [
+                    "Admin/Insurance"
+                ],
+                "summary": "Get a single insurance",
+                "description": "Retrieves a specific insurance by its ID",
+                "operationId": "ba976c601f2050971e7022da72ae1662",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the insurance",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/Insurance"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Insurance not found"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Admin/Insurance"
+                ],
+                "summary": "Update an insurance",
+                "description": "Updates an existing insurance record",
+                "operationId": "2d01fd93f1a87b86e8021fdff009d336",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the insurance",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "insurer_name": {
+                                        "type": "string"
+                                    },
+                                    "services": {
+                                        "type": "object"
+                                    },
+                                    "notes": {
+                                        "type": "object"
+                                    },
+                                    "payer_id": {
+                                        "type": "string"
+                                    },
+                                    "street": {
+                                        "type": "string"
+                                    },
+                                    "street2": {
+                                        "type": "string"
+                                    },
+                                    "city": {
+                                        "type": "string"
+                                    },
+                                    "state": {
+                                        "type": "string"
+                                    },
+                                    "zip": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Insurance updated successfully"
+                    },
+                    "404": {
+                        "description": "Insurance not found"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Admin/Insurance"
+                ],
+                "summary": "Delete an insurance",
+                "description": "Deletes an existing insurance record",
+                "operationId": "f38d0bf45649ddcbdf987244e9ddd1a9",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the insurance",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Insurance deleted successfully"
+                    },
+                    "404": {
+                        "description": "Insurance not found"
+                    }
+                }
+            }
+        },
         "/api/v2/notes/bcba": {
             "get": {
                 "tags": [
@@ -639,6 +922,54 @@
     },
     "components": {
         "schemas": {
+            "PaginatedInsuranceResponse": {
+                "properties": {
+                    "current_page": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Insurance"
+                        }
+                    },
+                    "first_page_url": {
+                        "type": "string"
+                    },
+                    "from": {
+                        "type": "integer"
+                    },
+                    "last_page": {
+                        "type": "integer"
+                    },
+                    "last_page_url": {
+                        "type": "string"
+                    },
+                    "next_page_url": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "path": {
+                        "type": "string"
+                    },
+                    "per_page": {
+                        "type": "integer",
+                        "example": 15
+                    },
+                    "prev_page_url": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "to": {
+                        "type": "integer"
+                    },
+                    "total": {
+                        "type": "integer"
+                    }
+                },
+                "type": "object"
+            },
             "PaginatedNoteBcbaResponse": {
                 "properties": {
                     "current_page": {
@@ -745,6 +1076,93 @@
                     "total": {
                         "type": "integer",
                         "example": 100
+                    }
+                },
+                "type": "object"
+            },
+            "Insurance": {
+                "required": [
+                    "insurer_name"
+                ],
+                "properties": {
+                    "id": {
+                        "description": "Insurance ID",
+                        "type": "integer",
+                        "format": "int64",
+                        "example": 1
+                    },
+                    "insurer_name": {
+                        "description": "Name of the insurance company",
+                        "type": "string",
+                        "example": "Blue Cross Blue Shield"
+                    },
+                    "services": {
+                        "description": "JSON object containing service details including codes, provider, description, unit price, hourly fee, and max allowed",
+                        "type": "object",
+                        "example": {
+                            "code": "97153",
+                            "provider": "BCBA",
+                            "description": "Adaptive behavior treatment",
+                            "unit_price": 65,
+                            "hourly_fee": 130,
+                            "max_allowed": 40
+                        }
+                    },
+                    "notes": {
+                        "description": "JSON object containing additional notes and descriptions",
+                        "type": "object",
+                        "example": {
+                            "description": "Primary insurance provider for ABA therapy services"
+                        }
+                    },
+                    "payer_id": {
+                        "description": "Payer code used for EDI X12",
+                        "type": "string",
+                        "example": "00123"
+                    },
+                    "street": {
+                        "description": "Street address",
+                        "type": "string",
+                        "example": "123 Main Street"
+                    },
+                    "street2": {
+                        "description": "Additional street address information",
+                        "type": "string",
+                        "example": "Suite 100"
+                    },
+                    "city": {
+                        "description": "City name",
+                        "type": "string",
+                        "example": "Chicago"
+                    },
+                    "state": {
+                        "description": "State code",
+                        "type": "string",
+                        "example": "IL"
+                    },
+                    "zip": {
+                        "description": "ZIP/Postal code",
+                        "type": "string",
+                        "example": "60601"
+                    },
+                    "created_at": {
+                        "description": "Creation timestamp",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2023-01-01 12:00:00"
+                    },
+                    "updated_at": {
+                        "description": "Last update timestamp",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2023-01-01 12:00:00"
+                    },
+                    "deleted_at": {
+                        "description": "Soft delete timestamp",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": null,
+                        "nullable": true
                     }
                 },
                 "type": "object"
@@ -1133,6 +1551,10 @@
         }
     },
     "tags": [
+        {
+            "name": "Admin/Insurance",
+            "description": "Admin/Insurance"
+        },
         {
             "name": "Admin/Notes",
             "description": "Admin/Notes"
