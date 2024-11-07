@@ -1,9 +1,8 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Patient\PatientController;
-use App\Http\Controllers\Patient\PatientFileController;
+use App\Http\Controllers\Patient\PatientV2Controller;
 
 Route::get('patients', [PatientController::class, 'index'])->name('index');
 Route::get('patients/show/{id}', [PatientController::class, 'show'])->name('show');
@@ -27,3 +26,11 @@ Route::delete('patients/destroy/{id}', [PatientController::class, 'destroy'])->n
 Route::put('/patients/update/eligibility/{patient:id}', [PatientController::class, 'updateEligibility'])
     ->name('patients.updateEligibility');
 
+Route::prefix('v2/patients')->group(function () {
+    Route::get('/', [PatientV2Controller::class, 'index']);
+    Route::post('/', [PatientV2Controller::class, 'store']);
+    Route::get('/{id}', [PatientV2Controller::class, 'show']);
+    Route::put('/{id}', [PatientV2Controller::class, 'update']);
+    Route::delete('/{id}', [PatientV2Controller::class, 'destroy']);
+});
+    

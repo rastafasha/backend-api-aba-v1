@@ -918,6 +918,259 @@
                     }
                 }
             }
+        },
+        "/api/v2/patients": {
+            "get": {
+                "tags": [
+                    "Admin/Patients"
+                ],
+                "summary": "Get paginated patients list",
+                "description": "Retrieves a paginated list of patients with optional filters",
+                "operationId": "11a3a3c89a6814a07c7929ceb80e3dce",
+                "parameters": [
+                    {
+                        "name": "search",
+                        "in": "query",
+                        "description": "Search in first name, last name and email",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "patient_id",
+                        "in": "query",
+                        "description": "Filter by patient ID",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "status",
+                        "in": "query",
+                        "description": "Filter by status",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "gender",
+                        "in": "query",
+                        "description": "Filter by gender",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "enum": [
+                                1,
+                                2
+                            ]
+                        }
+                    },
+                    {
+                        "name": "insurer_id",
+                        "in": "query",
+                        "description": "Filter by insurance provider",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "city",
+                        "in": "query",
+                        "description": "Filter by city",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "state",
+                        "in": "query",
+                        "description": "Filter by state",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "per_page",
+                        "in": "query",
+                        "description": "Number of items per page",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 15
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/PaginatedPatientResponse"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Admin/Patients"
+                ],
+                "summary": "Create a new patient",
+                "description": "Creates a new patient record",
+                "operationId": "b1f515c3ab420b10115baed071c58b5d",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Patient"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Patient created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Patient created successfully"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/Patient"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v2/patients/{id}": {
+            "get": {
+                "tags": [
+                    "Admin/Patients"
+                ],
+                "summary": "Get a single patient",
+                "description": "Retrieves a specific patient by their ID",
+                "operationId": "63f934a42e149cebef949dd62b4cd66f",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the patient",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/Patient"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Admin/Patients"
+                ],
+                "summary": "Update a patient",
+                "description": "Updates an existing patient record",
+                "operationId": "093362323957c9d2e06e6e5a5b62dad5",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the patient",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Patient"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Patient updated successfully"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Admin/Patients"
+                ],
+                "summary": "Delete a patient",
+                "description": "Soft deletes an existing patient record",
+                "operationId": "5bb34f128c3e09e6091bce05238b7edf",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the patient",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Patient deleted successfully"
+                    }
+                }
+            }
         }
     },
     "components": {
@@ -1076,6 +1329,54 @@
                     "total": {
                         "type": "integer",
                         "example": 100
+                    }
+                },
+                "type": "object"
+            },
+            "PaginatedPatientResponse": {
+                "properties": {
+                    "current_page": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Patient"
+                        }
+                    },
+                    "first_page_url": {
+                        "type": "string"
+                    },
+                    "from": {
+                        "type": "integer"
+                    },
+                    "last_page": {
+                        "type": "integer"
+                    },
+                    "last_page_url": {
+                        "type": "string"
+                    },
+                    "next_page_url": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "path": {
+                        "type": "string"
+                    },
+                    "per_page": {
+                        "type": "integer",
+                        "example": 15
+                    },
+                    "prev_page_url": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "to": {
+                        "type": "integer"
+                    },
+                    "total": {
+                        "type": "integer"
                     }
                 },
                 "type": "object"
@@ -1547,6 +1848,271 @@
                     }
                 },
                 "type": "object"
+            },
+            "Patient": {
+                "title": "Patient",
+                "description": "Patient model",
+                "properties": {
+                    "id": {
+                        "description": "Patient ID",
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "location_id": {
+                        "description": "Location ID",
+                        "type": "integer",
+                        "format": "int64",
+                        "nullable": true
+                    },
+                    "patient_id": {
+                        "description": "External patient identifier",
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "first_name": {
+                        "description": "Patient's first name",
+                        "type": "string",
+                        "maxLength": 250
+                    },
+                    "last_name": {
+                        "description": "Patient's last name",
+                        "type": "string",
+                        "maxLength": 250
+                    },
+                    "email": {
+                        "description": "Patient's email",
+                        "type": "string",
+                        "format": "email",
+                        "maxLength": 250,
+                        "nullable": true
+                    },
+                    "phone": {
+                        "description": "Patient's phone number",
+                        "type": "string",
+                        "maxLength": 25,
+                        "nullable": true
+                    },
+                    "language": {
+                        "description": "Patient's preferred language",
+                        "type": "string",
+                        "maxLength": 150,
+                        "nullable": true
+                    },
+                    "parent_guardian_name": {
+                        "description": "Name of parent or guardian",
+                        "type": "string",
+                        "maxLength": 150,
+                        "nullable": true
+                    },
+                    "relationship": {
+                        "description": "Relationship to patient",
+                        "type": "string",
+                        "maxLength": 150,
+                        "nullable": true
+                    },
+                    "home_phone": {
+                        "description": "Home phone number",
+                        "type": "string",
+                        "maxLength": 150,
+                        "nullable": true
+                    },
+                    "work_phone": {
+                        "description": "Work phone number",
+                        "type": "string",
+                        "maxLength": 150,
+                        "nullable": true
+                    },
+                    "school_name": {
+                        "description": "School name",
+                        "type": "string",
+                        "maxLength": 150,
+                        "nullable": true
+                    },
+                    "school_number": {
+                        "description": "School contact number",
+                        "type": "string",
+                        "maxLength": 150,
+                        "nullable": true
+                    },
+                    "gender": {
+                        "description": "Patient's gender",
+                        "type": "integer",
+                        "default": 1,
+                        "enum": [
+                            1,
+                            2
+                        ]
+                    },
+                    "birth_date": {
+                        "description": "Patient's birth date",
+                        "type": "string",
+                        "format": "date-time",
+                        "nullable": true
+                    },
+                    "age": {
+                        "description": "Patient's age",
+                        "type": "string",
+                        "maxLength": 50,
+                        "nullable": true
+                    },
+                    "address": {
+                        "description": "Patient's address",
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "city": {
+                        "description": "City",
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "state": {
+                        "description": "State",
+                        "type": "string",
+                        "maxLength": 150,
+                        "nullable": true
+                    },
+                    "zip": {
+                        "description": "ZIP code",
+                        "type": "string",
+                        "maxLength": 150,
+                        "nullable": true
+                    },
+                    "avatar": {
+                        "description": "Avatar image path",
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "special_note": {
+                        "description": "Special notes",
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "status": {
+                        "description": "Patient status",
+                        "type": "string",
+                        "default": "inactive",
+                        "enum": [
+                            "incoming",
+                            "active",
+                            "inactive",
+                            "onHold",
+                            "onDischarge",
+                            "waitintOnPa",
+                            "waitintOnPaIa",
+                            "waitintOnIa",
+                            "waitintOnServices",
+                            "waitintOnStaff",
+                            "waitintOnSchool"
+                        ]
+                    },
+                    "insurer_id": {
+                        "description": "Insurance provider ID",
+                        "type": "integer",
+                        "format": "int64",
+                        "nullable": true
+                    },
+                    "telehealth": {
+                        "description": "Telehealth status",
+                        "type": "string",
+                        "default": "false",
+                        "maxLength": 50
+                    },
+                    "pay": {
+                        "description": "Payment status",
+                        "type": "string",
+                        "default": "false",
+                        "maxLength": 50
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "nullable": true
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "nullable": true
+                    },
+                    "deleted_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "nullable": true
+                    }
+                },
+                "type": "object"
+            },
+            "PatientIntake": {
+                "title": "Patient Intake Status",
+                "properties": {
+                    "welcome": {
+                        "type": "string",
+                        "default": "waiting",
+                        "enum": [
+                            "waiting",
+                            "reviewing",
+                            "psycho eval",
+                            "requested",
+                            "need new",
+                            "yes",
+                            "no",
+                            "2 insurance"
+                        ]
+                    },
+                    "consent": {
+                        "type": "string",
+                        "default": "waiting",
+                        "enum": [
+                            "waiting",
+                            "reviewing",
+                            "psycho eval",
+                            "requested",
+                            "need new",
+                            "yes",
+                            "no",
+                            "2 insurance"
+                        ]
+                    },
+                    "insurance_card": {
+                        "type": "string",
+                        "default": "waiting",
+                        "enum": [
+                            "waiting",
+                            "reviewing",
+                            "psycho eval",
+                            "requested",
+                            "need new",
+                            "yes",
+                            "no",
+                            "2 insurance"
+                        ]
+                    },
+                    "eligibility": {
+                        "type": "string",
+                        "default": "pending",
+                        "enum": [
+                            "pending",
+                            "waiting",
+                            "reviewing",
+                            "psycho eval",
+                            "requested",
+                            "need new",
+                            "yes",
+                            "no",
+                            "2 insurance"
+                        ]
+                    },
+                    "interview": {
+                        "type": "string",
+                        "default": "pending",
+                        "enum": [
+                            "pending",
+                            "send",
+                            "receive",
+                            "no apply"
+                        ]
+                    }
+                },
+                "type": "object"
             }
         }
     },
@@ -1562,6 +2128,10 @@
         {
             "name": "Claims",
             "description": "Claims"
+        },
+        {
+            "name": "Admin/Patients",
+            "description": "Admin/Patients"
         }
     ]
 }

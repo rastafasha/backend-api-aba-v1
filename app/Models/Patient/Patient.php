@@ -13,6 +13,54 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Facades\DB;
 
+
+/**
+ * @OA\Schema(
+ *     schema="Patient",
+ *     title="Patient",
+ *     description="Patient model",
+ *     @OA\Property(property="id", type="integer", format="int64", description="Patient ID"),
+ *     @OA\Property(property="location_id", type="integer", format="int64", nullable=true, description="Location ID"),
+ *     @OA\Property(property="patient_id", type="string", nullable=true, description="External patient identifier"),
+ *     @OA\Property(property="first_name", type="string", maxLength=250, description="Patient's first name"),
+ *     @OA\Property(property="last_name", type="string", maxLength=250, description="Patient's last name"),
+ *     @OA\Property(property="email", type="string", format="email", maxLength=250, nullable=true, description="Patient's email"),
+ *     @OA\Property(property="phone", type="string", maxLength=25, nullable=true, description="Patient's phone number"),
+ *     @OA\Property(property="language", type="string", maxLength=150, nullable=true, description="Patient's preferred language"),
+ *     @OA\Property(property="parent_guardian_name", type="string", maxLength=150, nullable=true, description="Name of parent or guardian"),
+ *     @OA\Property(property="relationship", type="string", maxLength=150, nullable=true, description="Relationship to patient"),
+ *     @OA\Property(property="home_phone", type="string", maxLength=150, nullable=true, description="Home phone number"),
+ *     @OA\Property(property="work_phone", type="string", maxLength=150, nullable=true, description="Work phone number"),
+ *     @OA\Property(property="school_name", type="string", maxLength=150, nullable=true, description="School name"),
+ *     @OA\Property(property="school_number", type="string", maxLength=150, nullable=true, description="School contact number"),
+ *     @OA\Property(property="gender", type="integer", enum={1,2}, default=1, description="Patient's gender"),
+ *     @OA\Property(property="birth_date", type="string", format="date-time", nullable=true, description="Patient's birth date"),
+ *     @OA\Property(property="age", type="string", maxLength=50, nullable=true, description="Patient's age"),
+ *     @OA\Property(property="address", type="string", nullable=true, description="Patient's address"),
+ *     @OA\Property(property="city", type="string", nullable=true, description="City"),
+ *     @OA\Property(property="state", type="string", maxLength=150, nullable=true, description="State"),
+ *     @OA\Property(property="zip", type="string", maxLength=150, nullable=true, description="ZIP code"),
+ *     @OA\Property(property="avatar", type="string", nullable=true, description="Avatar image path"),
+ *     @OA\Property(property="special_note", type="string", nullable=true, description="Special notes"),
+ *     @OA\Property(property="status", type="string", enum={"incoming", "active", "inactive", "onHold", "onDischarge", "waitintOnPa", "waitintOnPaIa", "waitintOnIa", "waitintOnServices", "waitintOnStaff", "waitintOnSchool"}, default="inactive", description="Patient status"),
+ *     @OA\Property(property="insurer_id", type="integer", format="int64", nullable=true, description="Insurance provider ID"),
+ *     @OA\Property(property="telehealth", type="string", maxLength=50, default="false", description="Telehealth status"),
+ *     @OA\Property(property="pay", type="string", maxLength=50, default="false", description="Payment status"),
+ *     @OA\Property(property="created_at", type="string", format="date-time", nullable=true),
+ *     @OA\Property(property="updated_at", type="string", format="date-time", nullable=true),
+ *     @OA\Property(property="deleted_at", type="string", format="date-time", nullable=true)
+ * )
+ *
+ * @OA\Schema(
+ *     schema="PatientIntake",
+ *     title="Patient Intake Status",
+ *     @OA\Property(property="welcome", type="string", enum={"waiting", "reviewing", "psycho eval", "requested", "need new", "yes", "no", "2 insurance"}, default="waiting"),
+ *     @OA\Property(property="consent", type="string", enum={"waiting", "reviewing", "psycho eval", "requested", "need new", "yes", "no", "2 insurance"}, default="waiting"),
+ *     @OA\Property(property="insurance_card", type="string", enum={"waiting", "reviewing", "psycho eval", "requested", "need new", "yes", "no", "2 insurance"}, default="waiting"),
+ *     @OA\Property(property="eligibility", type="string", enum={"pending", "waiting", "reviewing", "psycho eval", "requested", "need new", "yes", "no", "2 insurance"}, default="pending"),
+ *     @OA\Property(property="interview", type="string", enum={"pending", "send", "receive", "no apply"}, default="pending")
+ * )
+ */
 class Patient extends Model
 {
     use HasFactory;
