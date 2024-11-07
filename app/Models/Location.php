@@ -9,6 +9,110 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
+
+/**
+ * @OA\Schema(
+ *     schema="Location",
+ *     required={"title"},
+ *     @OA\Property(
+ *         property="id",
+ *         type="integer",
+ *         format="int64",
+ *         description="Location ID",
+ *         example=1
+ *     ),
+ *     @OA\Property(
+ *         property="title",
+ *         type="string",
+ *         maxLength=150,
+ *         description="Location title/name",
+ *         example="Main Office"
+ *     ),
+ *     @OA\Property(
+ *         property="address",
+ *         type="string",
+ *         description="Physical address of the location",
+ *         example="123 Main Street"
+ *     ),
+ *     @OA\Property(
+ *         property="phone1",
+ *         type="string",
+ *         maxLength=50,
+ *         description="Primary phone number",
+ *         example="555-0123"
+ *     ),
+ *     @OA\Property(
+ *         property="phone2",
+ *         type="string",
+ *         maxLength=50,
+ *         description="Secondary phone number",
+ *         example="555-0124"
+ *     ),
+ *     @OA\Property(
+ *         property="city",
+ *         type="string",
+ *         maxLength=150,
+ *         description="City name",
+ *         example="New York"
+ *     ),
+ *     @OA\Property(
+ *         property="state",
+ *         type="string",
+ *         maxLength=150,
+ *         description="State name",
+ *         example="NY"
+ *     ),
+ *     @OA\Property(
+ *         property="zip",
+ *         type="string",
+ *         maxLength=150,
+ *         description="ZIP/Postal code",
+ *         example="10001"
+ *     ),
+ *     @OA\Property(
+ *         property="email",
+ *         type="string",
+ *         format="email",
+ *         maxLength=150,
+ *         description="Contact email address",
+ *         example="contact@location.com"
+ *     ),
+ *     @OA\Property(
+ *         property="telfax",
+ *         type="string",
+ *         description="Fax number",
+ *         example="555-0125"
+ *     ),
+ *     @OA\Property(
+ *         property="avatar",
+ *         type="string",
+ *         description="URL to location's image/avatar",
+ *         example="storage/locations/avatar.jpg"
+ *     ),
+ *     @OA\Property(
+ *         property="created_at",
+ *         type="string",
+ *         format="date-time",
+ *         description="Creation timestamp",
+ *         example="2024-01-01 12:00:00"
+ *     ),
+ *     @OA\Property(
+ *         property="updated_at",
+ *         type="string",
+ *         format="date-time",
+ *         description="Last update timestamp",
+ *         example="2024-01-01 12:00:00"
+ *     ),
+ *     @OA\Property(
+ *         property="deleted_at",
+ *         type="string",
+ *         format="date-time",
+ *         nullable=true,
+ *         description="Soft delete timestamp",
+ *         example=null
+ *     )
+ * )
+ */
 class Location extends Model
 {
     use HasFactory;

@@ -288,6 +288,253 @@
                 }
             }
         },
+        "/api/v2/locations": {
+            "get": {
+                "tags": [
+                    "Admin/Locations"
+                ],
+                "summary": "Get paginated locations list",
+                "description": "Retrieves a paginated list of locations with optional filters",
+                "operationId": "029b3b170bf762dd510de162b3c448fe",
+                "parameters": [
+                    {
+                        "name": "title",
+                        "in": "query",
+                        "description": "Filter by location title",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "city",
+                        "in": "query",
+                        "description": "Filter by city",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "state",
+                        "in": "query",
+                        "description": "Filter by state",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "per_page",
+                        "in": "query",
+                        "description": "Number of items per page",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 15
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/PaginatedLocationResponse"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Admin/Locations"
+                ],
+                "summary": "Create a new location",
+                "description": "Creates a new location record",
+                "operationId": "25ffe663afdb0680da2be674880f31f1",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "title"
+                                ],
+                                "properties": {
+                                    "title": {
+                                        "type": "string"
+                                    },
+                                    "address": {
+                                        "type": "string"
+                                    },
+                                    "phone1": {
+                                        "type": "string"
+                                    },
+                                    "phone2": {
+                                        "type": "string"
+                                    },
+                                    "city": {
+                                        "type": "string"
+                                    },
+                                    "state": {
+                                        "type": "string"
+                                    },
+                                    "zip": {
+                                        "type": "string"
+                                    },
+                                    "email": {
+                                        "type": "string"
+                                    },
+                                    "telfax": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Location created successfully"
+                    }
+                }
+            }
+        },
+        "/api/v2/locations/{id}": {
+            "get": {
+                "tags": [
+                    "Admin/Locations"
+                ],
+                "summary": "Get a single location",
+                "description": "Retrieves a specific location by its ID",
+                "operationId": "e083830718ae2c88846286f3e5e076dc",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the location",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "404": {
+                        "description": "Location not found"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Admin/Locations"
+                ],
+                "summary": "Update a location",
+                "description": "Updates an existing location record",
+                "operationId": "014e080f772ff357e8d1125da701324b",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the location",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "title": {
+                                        "type": "string"
+                                    },
+                                    "address": {
+                                        "type": "string"
+                                    },
+                                    "phone1": {
+                                        "type": "string"
+                                    },
+                                    "phone2": {
+                                        "type": "string"
+                                    },
+                                    "city": {
+                                        "type": "string"
+                                    },
+                                    "state": {
+                                        "type": "string"
+                                    },
+                                    "zip": {
+                                        "type": "string"
+                                    },
+                                    "email": {
+                                        "type": "string"
+                                    },
+                                    "telfax": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Location updated successfully"
+                    },
+                    "404": {
+                        "description": "Location not found"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Admin/Locations"
+                ],
+                "summary": "Delete a location",
+                "description": "Deletes an existing location record",
+                "operationId": "5cf99e3577a14bb9abe3657f6644a4cb",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the location",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Location deleted successfully"
+                    },
+                    "404": {
+                        "description": "Location not found"
+                    }
+                }
+            }
+        },
         "/api/v2/notes/bcba": {
             "get": {
                 "tags": [
@@ -1223,6 +1470,54 @@
                 },
                 "type": "object"
             },
+            "PaginatedLocationResponse": {
+                "properties": {
+                    "current_page": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Location"
+                        }
+                    },
+                    "first_page_url": {
+                        "type": "string"
+                    },
+                    "from": {
+                        "type": "integer"
+                    },
+                    "last_page": {
+                        "type": "integer"
+                    },
+                    "last_page_url": {
+                        "type": "string"
+                    },
+                    "next_page_url": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "path": {
+                        "type": "string"
+                    },
+                    "per_page": {
+                        "type": "integer",
+                        "example": 15
+                    },
+                    "prev_page_url": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "to": {
+                        "type": "integer"
+                    },
+                    "total": {
+                        "type": "integer"
+                    }
+                },
+                "type": "object"
+            },
             "PaginatedNoteBcbaResponse": {
                 "properties": {
                     "current_page": {
@@ -1457,6 +1752,97 @@
                         "type": "string",
                         "format": "date-time",
                         "example": "2023-01-01 12:00:00"
+                    },
+                    "deleted_at": {
+                        "description": "Soft delete timestamp",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": null,
+                        "nullable": true
+                    }
+                },
+                "type": "object"
+            },
+            "Location": {
+                "required": [
+                    "title"
+                ],
+                "properties": {
+                    "id": {
+                        "description": "Location ID",
+                        "type": "integer",
+                        "format": "int64",
+                        "example": 1
+                    },
+                    "title": {
+                        "description": "Location title/name",
+                        "type": "string",
+                        "maxLength": 150,
+                        "example": "Main Office"
+                    },
+                    "address": {
+                        "description": "Physical address of the location",
+                        "type": "string",
+                        "example": "123 Main Street"
+                    },
+                    "phone1": {
+                        "description": "Primary phone number",
+                        "type": "string",
+                        "maxLength": 50,
+                        "example": "555-0123"
+                    },
+                    "phone2": {
+                        "description": "Secondary phone number",
+                        "type": "string",
+                        "maxLength": 50,
+                        "example": "555-0124"
+                    },
+                    "city": {
+                        "description": "City name",
+                        "type": "string",
+                        "maxLength": 150,
+                        "example": "New York"
+                    },
+                    "state": {
+                        "description": "State name",
+                        "type": "string",
+                        "maxLength": 150,
+                        "example": "NY"
+                    },
+                    "zip": {
+                        "description": "ZIP/Postal code",
+                        "type": "string",
+                        "maxLength": 150,
+                        "example": "10001"
+                    },
+                    "email": {
+                        "description": "Contact email address",
+                        "type": "string",
+                        "format": "email",
+                        "maxLength": 150,
+                        "example": "contact@location.com"
+                    },
+                    "telfax": {
+                        "description": "Fax number",
+                        "type": "string",
+                        "example": "555-0125"
+                    },
+                    "avatar": {
+                        "description": "URL to location's image/avatar",
+                        "type": "string",
+                        "example": "storage/locations/avatar.jpg"
+                    },
+                    "created_at": {
+                        "description": "Creation timestamp",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2024-01-01 12:00:00"
+                    },
+                    "updated_at": {
+                        "description": "Last update timestamp",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2024-01-01 12:00:00"
                     },
                     "deleted_at": {
                         "description": "Soft delete timestamp",
@@ -2120,6 +2506,10 @@
         {
             "name": "Admin/Insurance",
             "description": "Admin/Insurance"
+        },
+        {
+            "name": "Admin/Locations",
+            "description": "Admin/Locations"
         },
         {
             "name": "Admin/Notes",
