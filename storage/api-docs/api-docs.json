@@ -1091,13 +1091,103 @@
                 }
             }
         },
-        "/claims/generate-from-notes": {
+        "/api/v2/claims": {
+            "get": {
+                "tags": [
+                    "Claims"
+                ],
+                "summary": "Get paginated claims list",
+                "description": "Retrieves a paginated list of claims with optional filters",
+                "operationId": "b61945fef6f70bd539f230f9afa932eb",
+                "parameters": [
+                    {
+                        "name": "status",
+                        "in": "query",
+                        "description": "Filter by status",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "filename",
+                        "in": "query",
+                        "description": "Filter by filename",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "from",
+                        "in": "query",
+                        "description": "Filter by start date (Y-m-d)",
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    },
+                    {
+                        "name": "to",
+                        "in": "query",
+                        "description": "Filter by end date (Y-m-d)",
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    },
+                    {
+                        "name": "rbt_note_ids",
+                        "in": "query",
+                        "description": "Filter by RBT note IDs",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "integer"
+                            }
+                        }
+                    },
+                    {
+                        "name": "bcba_note_ids",
+                        "in": "query",
+                        "description": "Filter by BCBA note IDs",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "integer"
+                            }
+                        }
+                    },
+                    {
+                        "name": "per_page",
+                        "in": "query",
+                        "description": "Number of items per page",
+                        "schema": {
+                            "type": "integer",
+                            "default": 15
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PaginatedClaimResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    }
+                }
+            },
             "post": {
                 "tags": [
                     "Claims"
                 ],
-                "summary": "Generate EDI X12 837P claim file from RBT and BCBA notes",
-                "operationId": "fddbacbee5388beb648b980f55fa72b9",
+                "summary": "Create a new claim",
+                "operationId": "c520f5135ada58d85c382a1418eea10b",
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -1105,23 +1195,138 @@
                             "schema": {
                                 "properties": {
                                     "notes_rbt_ids": {
-                                        "description": "Array of RBT note IDs",
                                         "type": "array",
                                         "items": {
                                             "type": "integer"
                                         }
                                     },
                                     "notes_bcba_ids": {
-                                        "description": "Array of BCBA note IDs",
                                         "type": "array",
                                         "items": {
                                             "type": "integer"
                                         }
                                     },
                                     "file_name": {
-                                        "description": "Optional custom filename for the generated file",
-                                        "type": "string",
-                                        "example": "Claim.dat"
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Claim created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Claim created successfully"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/Claim"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    }
+                }
+            }
+        },
+        "/api/v2/claims/{id}": {
+            "get": {
+                "tags": [
+                    "Claims"
+                ],
+                "summary": "Get a single claim",
+                "operationId": "798077ee6b8d531f2191eb19dde881cb",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Claim ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/Claim"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Claim not found"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Claims"
+                ],
+                "summary": "Update a claim",
+                "operationId": "6c572229a6aabd60e0c4e533d526f507",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Claim ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "notes_rbt_ids": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "integer"
+                                        }
+                                    },
+                                    "notes_bcba_ids": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "integer"
+                                        }
+                                    },
+                                    "file_name": {
+                                        "type": "string"
+                                    },
+                                    "status": {
+                                        "type": "string"
                                     }
                                 },
                                 "type": "object"
@@ -1131,37 +1336,118 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "EDI X12 837P claim file",
-                        "headers": {
-                            "Content-Type": {
-                                "description": "text/plain",
-                                "schema": {
-                                    "type": "string"
-                                }
-                            },
-                            "Content-Disposition": {
-                                "description": "attachment; filename=Claim.dat",
-                                "schema": {
-                                    "type": "string"
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "No valid claims found",
+                        "description": "Claim updated successfully",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "properties": {
-                                        "error": {
+                                        "status": {
                                             "type": "string",
-                                            "example": "No valid claims found"
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Claim updated successfully"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/Claim"
                                         }
                                     },
                                     "type": "object"
                                 }
                             }
                         }
+                    },
+                    "404": {
+                        "description": "Claim not found"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Claims"
+                ],
+                "summary": "Delete a claim",
+                "operationId": "dfad1c3361ce9467b4f408f51a02743e",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Claim ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Claim deleted successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Claim deleted successfully"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Claim not found"
+                    }
+                }
+            }
+        },
+        "/api/v2/claims/{id}/send-to-claim-md": {
+            "post": {
+                "tags": [
+                    "Claims"
+                ],
+                "summary": "Send a claim to Claim MD",
+                "operationId": "9dcadc784968b948aa62b4631a4da03f",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Claim ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Claim sent successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Claim sent successfully"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Claim not found"
                     }
                 }
             }
@@ -1628,6 +1914,54 @@
                 },
                 "type": "object"
             },
+            "PaginatedClaimResponse": {
+                "properties": {
+                    "current_page": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Claim"
+                        }
+                    },
+                    "first_page_url": {
+                        "type": "string"
+                    },
+                    "from": {
+                        "type": "integer"
+                    },
+                    "last_page": {
+                        "type": "integer"
+                    },
+                    "last_page_url": {
+                        "type": "string"
+                    },
+                    "next_page_url": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "path": {
+                        "type": "string"
+                    },
+                    "per_page": {
+                        "type": "integer",
+                        "example": 15
+                    },
+                    "prev_page_url": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "to": {
+                        "type": "integer"
+                    },
+                    "total": {
+                        "type": "integer"
+                    }
+                },
+                "type": "object"
+            },
             "PaginatedPatientResponse": {
                 "properties": {
                     "current_page": {
@@ -1672,6 +2006,61 @@
                     },
                     "total": {
                         "type": "integer"
+                    }
+                },
+                "type": "object"
+            },
+            "Claim": {
+                "required": [
+                    "status",
+                    "rbt_notes_ids",
+                    "bcba_notes_ids",
+                    "filename",
+                    "content"
+                ],
+                "properties": {
+                    "id": {
+                        "description": "Claim ID",
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "status": {
+                        "description": "Status of the claim",
+                        "type": "string",
+                        "example": "pending"
+                    },
+                    "rbt_notes_ids": {
+                        "description": "Array of RBT note IDs",
+                        "type": "array",
+                        "items": {
+                            "type": "integer"
+                        }
+                    },
+                    "bcba_notes_ids": {
+                        "description": "Array of BCBA note IDs",
+                        "type": "array",
+                        "items": {
+                            "type": "integer"
+                        }
+                    },
+                    "filename": {
+                        "description": "Name of the claim file",
+                        "type": "string",
+                        "example": "Claim.dat"
+                    },
+                    "content": {
+                        "description": "Content of the claim file",
+                        "type": "string"
+                    },
+                    "created_at": {
+                        "description": "Creation timestamp",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "description": "Last update timestamp",
+                        "type": "string",
+                        "format": "date-time"
                     }
                 },
                 "type": "object"
