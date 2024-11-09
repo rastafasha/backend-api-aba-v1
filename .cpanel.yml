@@ -17,6 +17,6 @@ deployment:
     # - php artisan config:cache
     # - php artisan route:cache
     # - php artisan view:cache
-    # - php artisan migrate:fresh --seed
-    - php artisan migrate --path=/database/migrations/2024_11_07_225859_create_claims_table.php
+    - php artisan migrate:fresh --seed
+    # - php artisan migrate
     # - php artisan db:seed --class=TipoDemoraSeeder
