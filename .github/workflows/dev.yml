@@ -41,7 +41,7 @@ jobs:
         uses: pinkasey/cpanel-deploy-action@v1.0.0
         with:
           hostname: 'https://p3plzcpnl504985.prod.phx3.secureserver.net'
-          repository_root: '/home/z779cvj9zm4g/repositories/backend-api-aba-v1-dev'
+          repository_root: '/home/z779cvj9zm4g/repositories/backend-api-aba-v1'
           branch: develop
           cpanel_token: '${{ secrets.CPANEL_TOKEN }}'
           cpanel_username: 'z779cvj9zm4g'
