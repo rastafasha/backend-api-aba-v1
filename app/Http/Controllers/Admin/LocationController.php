@@ -8,9 +8,6 @@ use Illuminate\Http\Request;
 use App\Models\Patient\Patient;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
-use App\Http\Resources\User\UserResource;
-use App\Http\Resources\User\UserCollection;
-use App\Http\Resources\Patient\PatientResource;
 use App\Http\Resources\Location\LocationResource;
 use App\Http\Resources\Patient\PatientCollection;
 use App\Http\Resources\Location\LocationCollection;
@@ -153,6 +150,7 @@ class LocationController extends Controller
                     "last_name"=>$patient->last_name,
                     "email"=>$patient->email,
                     "phone"=>$patient->phone,
+                    "insuranceId"=>$patient->insuranceId,
                     "avatar"=> $patient->avatar ? env("APP_URL")."storage/".$patient->avatar : null,
                     // "avatar"=> $patient->avatar ? env("APP_URL").$patient->avatar : null,
                     "status"=> $patient->status,

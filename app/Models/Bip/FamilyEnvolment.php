@@ -2,6 +2,7 @@
 
 namespace App\Models\Bip;
 
+use App\Models\User;
 use App\Models\Bip\Bip;
 use App\Models\Patient\Patient;
 use Illuminate\Database\Eloquent\Model;
@@ -13,20 +14,29 @@ class FamilyEnvolment extends Model
     use HasFactory;
     use SoftDeletes;
 
-    protected $fillable =[
+    protected $fillable = [
         'bip_id',
         'patient_id',
         'client_id',
-        'caregivers_training_goals',//json
-
+        'caregivers_training_goals', //json
     ];
 
-    public function bips()
+    // protected $casts = [
+    //     'caregivers_training_goals' => 'array',
+    // ];
+
+    public function bip()
     {
-        return $this->hasMany(Bip::class, 'bip_id');
+        return $this->belongsTo(Bip::class, 'bip_id');
     }
+
     public function patient()
     {
-        return $this->hasMany(Patient::class,'patient_id');
+        return $this->belongsTo(Patient::class, 'patient_id');
+    }
+
+    public function client()
+    {
+        return $this->belongsTo(User::class, 'client_id');
     }
 }

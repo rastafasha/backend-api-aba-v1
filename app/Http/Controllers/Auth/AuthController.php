@@ -57,7 +57,7 @@ class AuthController extends Controller
         $permissions = auth('api')->user()->getAllPermissions()->map(function($perm){
             return $perm->name;
         });
-        
+
         return response()->json([
             'message' => "Inicio de sesión exitoso",
             'access_token' => $this->respondWithToken($token),
@@ -71,12 +71,12 @@ class AuthController extends Controller
                 // "rolename"=>auth('api')->user()->rolename,
                 "roles"=>auth('api')->user()->getRoleNames(),
                 "email"=>auth('api')->user()->email,
-                "location_id"=> $locations[0]->location_id,
+                "location_id"=> $locations->isNotEmpty() ? $locations[0]->location_id : null,
                 "permissions"=>$permissions,
 
             ],
         ], 201);
-        
+
     }
 
     public function loginParent(Request $request)
@@ -95,7 +95,7 @@ class AuthController extends Controller
     $permissions = $parent->getAllPermissions()->map(function($perm){
         return $perm->name;
     });
-    
+
     return response()->json([
         'message' => "Inicio de sesión exitoso",
         'access_token' => $this->respondWithTokenParent($token),
@@ -121,14 +121,14 @@ class AuthController extends Controller
 
         $data = $request->only('name', 'email', 'password');
 
-        
+
         $validator = Validator::make($data, [
             'name' => 'required|string|between:2,100',
             'email' => 'required|string|email|max:100|unique:users',
             'password' => 'required|string|min:5',
             'role' => Rule::in([User::GUEST]),
         ]);
-        
+
 
         if($validator->fails()){
             return response()->json($validator->errors(), 422);
@@ -161,7 +161,7 @@ class AuthController extends Controller
     {
         return response()->json(auth('api')->user());
     }
-    
+
     /**
      * Log the user out (Invalidate the token).
      *
@@ -234,7 +234,7 @@ class AuthController extends Controller
     }
 
     /**
-     * Change password 
+     * Change password
      *
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse

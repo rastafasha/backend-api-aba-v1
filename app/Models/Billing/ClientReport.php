@@ -31,7 +31,7 @@ class ClientReport extends Model
         'mdbcba',
         'md2',
         'md2bcba',
-        
+
         'n_units',
         'pa_number',
         'pay',
@@ -46,11 +46,17 @@ class ClientReport extends Model
 
     public function patient()
     {
-        return $this->hasMany(Patient::class, 'patient_id');
+        return $this->belongsTo(Patient::class, 'patient_id');
     }
+
+    public function sponsor()
+    {
+        return $this->belongsTo(User::class, 'sponsor_id');
+    }
+
     public function doctor()
     {
-        return $this->hasMany(User::class);
+        return $this->belongsTo(User::class, 'sponsor_id');
     }
 
     public function insurance()
@@ -66,37 +72,21 @@ class ClientReport extends Model
         return $this->belongsTo(NoteBcba::class, 'note_bcba_id');
     }
 
-     // filtro buscador
-
-    //  public function scopefilterAdvance($query, $name_doctor, $session_date){
-        
-    //     if($name_doctor){
-    //         $query->whereHas("doctor", function($q)use($name_doctor){
-    //             $q->where("name", "like","%".$name_doctor."%")
-    //                 ->orWhere("surname", "like","%".$name_doctor."%");
-    //         });
-    //     }
-
-    //     if($session_date){
-    //         $query->whereDate("session_date", Carbon::parse($session_date)->format("Y-m-d"));
-    //     }
-    //     return $query;
-    // }
 
     public function scopefilterAdvanceClient($query,$search_doctor, $search_patient,
     $date_start,$date_end){
-        
+
 
         if($search_doctor){
             $query->whereHas("doctor", function($q)use($search_doctor){
                 $q->where(DB::raw("CONCAT(users.name,' ',IFNULL(users.surname,''),' ',IFNULL(users.email,''))"),"like","%".$search_doctor."%");
-                   
+
             });
         }
         if($search_patient){
             $query->whereHas("patient", function($q)use($search_patient){
                 $q->where(DB::raw("CONCAT(patients.name,' ',IFNULL(patients.surname,''),' ',IFNULL(patients.email,''))"),"like","%".$search_patient."%");
-                
+
             });
         }
 

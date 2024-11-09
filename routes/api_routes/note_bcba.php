@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\Notes\NoteBcbaController;
+use App\Http\Controllers\Admin\Notes\NoteBcbaV2Controller;
 use App\Http\Controllers\OpenAIController;
 
 Route::get('note_bcba', [NoteBcbaController::class, 'index'])->name('index');
@@ -28,3 +29,13 @@ Route::put('/note_bcba/update/status/{note_bcba:id}', [NoteBcbaController::class
 
 Route::post('/note_bcba/generate-summary', [OpenAIController::class, 'generateBcbaSummary'])
     ->name('note_bcba.generateSummary');
+
+
+// V2 routes
+Route::prefix('v2/notes')->group(function () {
+    Route::get('/bcba', [NoteBcbaV2Controller::class, 'index']);
+    Route::get('/bcba/{id}', [NoteBcbaV2Controller::class, 'show']);
+    Route::post('/bcba', [NoteBcbaV2Controller::class, 'store']);
+    Route::put('/bcba/{id}', [NoteBcbaV2Controller::class, 'update']);
+    Route::delete('/bcba/{id}', [NoteBcbaV2Controller::class, 'destroy']);
+});

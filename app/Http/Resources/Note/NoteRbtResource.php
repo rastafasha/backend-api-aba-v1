@@ -45,9 +45,15 @@ class NoteRbtResource extends JsonResource
             "session_length_morning_total" => $morning,
             "session_length_afternon_total" => $afternoon,
 
-            "session_length_total" => $morning + $afternoon,
+            // "session_length_total" => $morning + $afternoon,// da error numerico
+            // "session_length_morning_total" => date("H:i", strtotime($this->resource->time_out) - strtotime($this->resource->time_in) ),
+            // "session_length_afternon_total" => date("H:i", strtotime($this->resource->time_out2) - strtotime($this->resource->time_in2) ),
+                
+            "session_length_total" => date("H:i", strtotime($this->resource->time_out2) - strtotime($this->resource->time_in2) + strtotime($this->resource->time_out) - strtotime($this->resource->time_in) ),
+                
+            // "total_hours" => date("H:i", strtotime($this->resource->time_out2) - strtotime($this->resource->time_in2) + strtotime($this->resource->time_out) - strtotime($this->resource->time_in) ),
             "total_hours" => $this->calculateTotalHours(),
-
+            
             "client_appeared" => $this->resource->client_appeared,
             "as_evidenced_by" => $this->resource->as_evidenced_by,
             "rbt_modeled_and_demonstrated_to_caregiver" => $this->resource->rbt_modeled_and_demonstrated_to_caregiver,
@@ -80,6 +86,9 @@ class NoteRbtResource extends JsonResource
             "insuranceId" => $this->resource->insuranceId,
             "provider" => $this->resource->provider,
             "location_id" => $this->resource->location_id,
+
+            "total_minutes" => $this->resource->total_minutes,
+            "total_units" => $this->resource->total_units,
 
             "created_at" => $this->resource->created_at ? Carbon::parse($this->resource->created_at)->format("Y-m-d H:i:s") : NULL,
             "updated_at" => $this->resource->updated_at ? Carbon::parse($this->resource->updated_at)->format("Y-m-d H:i:s") : NULL,

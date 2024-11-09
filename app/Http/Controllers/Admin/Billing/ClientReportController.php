@@ -632,8 +632,9 @@ class ClientReportController extends Controller
                 "cpt_code"=> $notebcba->cpt_code,
                 "provider_name"=> $notebcba->provider_name,
                 "session_date"=> $notebcba->session_date,
-                // 'time_in' => $noteBcba->time_in,
-                // 'time_out' => $noteBcba->time_out,
+                //agrague el bcba para poder verlo en el log, no se por que da error
+                // 'time_in' => $noteBcba->timeIn,
+                // 'time_out' => $noteBcba->timeOut,
                 // 'time_in2' => $noteBcba->time_in2,
                 // 'time_out2' => $noteBcba->time_out2,
                 "session_length_total" => date("H:i",strtotime($notebcba->time_out) - strtotime($notebcba->time_in) + strtotime($notebcba->time_out2) - strtotime($notebcba->time_in2)  ),
