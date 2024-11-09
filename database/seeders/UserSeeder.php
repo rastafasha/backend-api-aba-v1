@@ -17,6 +17,7 @@ class UserSeeder extends Seeder
             'password' => Hash::make('password'),
             'status' => 'active',
             'email_verified_at' => now(),
+            'gender' => 1,
         ]);
         $superadmin->assignRole('SUPERADMIN');
 
@@ -27,6 +28,7 @@ class UserSeeder extends Seeder
             'password' => Hash::make('password'),
             'status' => 'active',
             'email_verified_at' => now(),
+            'gender' => 1,
         ]);
         $manager->assignRole('MANAGER');
 
@@ -36,6 +38,7 @@ class UserSeeder extends Seeder
             'email' => 'bcba1@example.com',
             'password' => Hash::make('password'),
             'status' => 'active',
+            'gender' => 2,
             'phone' => '1234567890',
             'npi' => '1234567890',
             'certificate_number' => 'BCBA12345',
@@ -47,6 +50,7 @@ class UserSeeder extends Seeder
             'email' => 'bcba2@example.com',
             'password' => Hash::make('password'),
             'status' => 'active',
+            'gender' => 1,
             'phone' => '1234567891',
             'npi' => '1234567891',
             'certificate_number' => 'BCBA12346',
@@ -59,6 +63,7 @@ class UserSeeder extends Seeder
             'email' => 'rbt1@example.com',
             'password' => Hash::make('password'),
             'status' => 'active',
+            'gender' => 2,
             'phone' => '1234567892',
             'certificate_number' => 'RBT12345',
         ]);
@@ -69,6 +74,7 @@ class UserSeeder extends Seeder
             'email' => 'rbt2@example.com',
             'password' => Hash::make('password'),
             'status' => 'active',
+            'gender' => 1,
             'phone' => '1234567893',
             'certificate_number' => 'RBT12346',
         ]);

@@ -88,7 +88,7 @@ class InsuranceV2Controller extends Controller
 
         return response()->json([
             'status' => 'success',
-            'data' => InsuranceResource::collection($insurances)
+            'data' => $insurances,
         ]);
     }
 

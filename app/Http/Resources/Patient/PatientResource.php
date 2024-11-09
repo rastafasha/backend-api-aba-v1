@@ -60,7 +60,6 @@ class PatientResource extends JsonResource
             // ] : null,
 
                 "location_id" =>$this->resource->location_id,
-                'locals'=>$this->resource-> locals,
                     'locals'=>[
                         // 'id'=> $this->resource->clinic->location_id,
                         'title'=> $this->resource->locals->title,
@@ -81,7 +80,7 @@ class PatientResource extends JsonResource
             // "insurer_secundary"=>$this->resource->insurer_secundary,
             // "insuranceId_secundary"=>$this->resource->insuranceId_secundary,
             "elegibility_date"=>$this->resource->elegibility_date ? Carbon::parse($this->resource->elegibility_date)->format("Y/m/d") : NULL,
-            // "pos_covered"=>$this->resource->pos_covered ,
+            "pos_covered"=>$this->resource->pos_covered ,
 
             "deductible_individual_I_F"=>$this->resource->deductible_individual_I_F,
             "balance"=>$this->resource->balance,
@@ -108,8 +107,8 @@ class PatientResource extends JsonResource
 
             //pas
             "pa_assessments"=>json_decode($this->resource->pa_assessments)? : null,
+            // "pa_services"=>$this->resource->paServices,
 
-            "pos_covered"=> json_decode($this->resource->pos_covered)? : null,
 
             "rbt_home_id" =>$this->resource->rbt_home_id,
             'rbt_home' => $this->resource->rbt_home ? [

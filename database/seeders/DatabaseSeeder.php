@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
             InsuranceSeeder::class,
             UserSeeder::class,
             PatientSeeder::class,
+            PaServicesSeeder::class,
         ]);
 
     }

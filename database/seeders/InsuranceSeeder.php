@@ -12,7 +12,7 @@ class InsuranceSeeder extends Seeder
         $insurances = [
             [
                 'insurer_name' => 'Fl Blue',
-                'services' => json_encode([
+                'services' => [
                     [
                         'code' => '97151',
                         'provider' => 'BCBA',
@@ -61,19 +61,19 @@ class InsuranceSeeder extends Seeder
                         'hourly_fee' => '68',
                         'max_allowed' => null
                     ]
-                ]),
-                'notes' => json_encode([
+                ],
+                'notes' => [
                     ['note' => 'Horizon by BCBS'],
                     ['note' => 'Horizon BCBSNJ will use H0032 for Indirect service (treatment planning)'],
                     ['note' => 'telehealth: submit a claim to Florida Blue using one of the regular codes included in your fee schedule. The place of service should be the regular place of service as if you saw the patient in-person.'],
                     ['note' => 'Modifier XE for 2 sessions, same day different POS'],
                     ['note' => 'Now allows concurrent billing of 97155 and 97153, effecitve 12/01/2021'],
                     ['note' => '97156 is always ALLOWED to overlap with 97153']
-                ])
+                ]
             ],
             [
                 'insurer_name' => 'United',
-                'services' => json_encode([
+                'services' => [
                     [
                         'code' => '97153',
                         'provider' => 'RBT',
@@ -146,19 +146,19 @@ class InsuranceSeeder extends Seeder
                         'hourly_fee' => '59.52',
                         'max_allowed' => null
                     ]
-                ]),
-                'notes' => json_encode([
+                ],
+                'notes' => [
                     ['note' => 'No school or community covered unless aproved by peer review on auth'],
                     ['note' => 'If the rendering provider is required, use the BCBA on the case.'],
                     ['note' => 'for 97155 Yes. When supervision is provided, you may bill concurrently for both Supervisors and Behavior Technicians, billing with 97153 and 97155.'],
                     ['note' => 'Modifier XE for 2 sessions, same day different POS'],
                     ['note' => 'Modifiers: RBT- HM, BCBA- HO, BCaBA- HN'],
                     ['note' => '97156 is always allowed to overlap with 97153']
-                ])
+                ]
             ],
             [
                 'insurer_name' => 'CIGNA',
-                'services' => json_encode([
+                'services' => [
                     [
                         'code' => '97151',
                         'provider' => 'BCBA',
@@ -191,14 +191,14 @@ class InsuranceSeeder extends Seeder
                         'hourly_fee' => '19',
                         'max_allowed' => null
                     ]
-                ]),
-                'notes' => json_encode([
+                ],
+                'notes' => [
                     ['note' => 'Modifier XE for 2 sessions, same day different POS\t\t\t\ncan bill RBT and BCBA together por supervision\t\t\t\nOnly one provider can bill for a unit of time with the exception of CPT codes 97153 and 97155 (direct\t\t\t\nsupervision when the Board Certified Behavior Analyst® (BCBA®)/Qualified Healthcare Provider\t\t\t\n(QHP) directs the technician and both are face-to-face with the patient at the same time).\t\t\t\nbill services under the BCBA or licensed provider, allows lmhc']
-                ])
+                ]
             ],
             [
                 'insurer_name' => 'TRICARE',
-                'services' => json_encode([
+                'services' => [
                     [
                         'code' => '97151',
                         'provider' => 'BCBA',
@@ -271,18 +271,18 @@ class InsuranceSeeder extends Seeder
                         'hourly_fee' => '125',
                         'max_allowed' => '8 units per day/ (2 hr/day)'
                     ]
-                ]),
-                'notes' => json_encode([
+                ],
+                'notes' => [
                     ['note' => 'Concurrent billing is excluded for all ABA Category I CPT codes'],
                     ['note' => 'Does not allow billing for any two ABA providers at the same time. or same date'],
                     ['note' => 'If BCBA overlap with BCaBA, bill BCBA'],
                     ['note' => '8.11.7.3.8 Concurrent billing is excluded for all ACD Category I CPT codes except when the family and the beneficiary are receiving separate services and the beneficiary is not present in the family session. Documentation must indicate two separate rendering providers and locations for the services.'],
                     ['note' => 'Yes they credential LMHC']
-                ])
+                ]
             ],
             [
                 'insurer_name' => 'AETNA',
-                'services' => json_encode([
+                'services' => [
                     [
                         'code' => '97151',
                         'provider' => 'BCBA',
@@ -363,15 +363,15 @@ class InsuranceSeeder extends Seeder
                         'hourly_fee' => '88',
                         'max_allowed' => null
                     ]
-                ]),
-                'notes' => json_encode([
+                ],
+                'notes' => [
                     ['note' => 'Modifier: Telehealth (02) - 95'],
                     ['note' => 'Modifier XE for 2 sessions, same day different POS']
-                ])
+                ]
             ],
             [
                 'insurer_name' => 'Medicaid',
-                'services' => json_encode([
+                'services' => [
                     [
                         'code' => '97153',
                         'provider' => 'RBT, BCaBA',
@@ -436,18 +436,18 @@ class InsuranceSeeder extends Seeder
                         'hourly_fee' => '152.4',
                         'max_allowed' => 'max 2 hours per day'
                     ]
-                ]),
-                'notes' => json_encode([
+                ],
+                'notes' => [
                     ['note' => 'overlap: if 97153 is concurrent with 97155, 97153 need to use modifier XP (Not reimbursed)'],
                     ['note' => 'All services need to be  billed'],
                     ['note' => '02+ GT for telehealth'],
                     ['note' => 'Modifier XE for 2 sessions, same day different POS'],
                     ['note' => 'For sunshine cases w/ member ID starts with a 7, the PA needs to be under the BCBA name that is on the case.']
-                ])
+                ]
             ],
             [
                 'insurer_name' => 'NOW KBA',
-                'services' => json_encode([
+                'services' => [
                     [
                         'code' => '97151',
                         'provider' => 'BCBA',
@@ -520,11 +520,11 @@ class InsuranceSeeder extends Seeder
                         'hourly_fee' => '125',
                         'max_allowed' => '8 units per day/ (2 hr/day)'
                     ]
-                ]),
-                'notes' => json_encode([
+                ],
+                'notes' => [
                     ['note' => 'Modifier XE for 2 sessions, same day different POS'],
                     ['note' => 'ALLOWS OVERLAP BILLING']
-                ])
+                ]
             ]
         ];
 

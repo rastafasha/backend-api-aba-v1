@@ -153,6 +153,10 @@ class Patient extends Model
 
     ];
 
+    protected $casts = [
+        'pos_covered' => 'array',
+    ];
+
 
     const waiting = 'waiting';
     const requested = 'requested';
@@ -399,6 +403,6 @@ class Patient extends Model
 
     public function paServices()
     {
-        return $this->hasMany(PaService::class);
+        return $this->hasMany(PaService::class, 'patient_id');
     }
 }
