@@ -133,7 +133,7 @@ class PatientV2Controller extends Controller
         return response()->json([
             'status' => 'success',
             'message' => 'Patient created successfully',
-            'data' => PatientResource::make($patient)
+            'data' => $patient
         ], 201);
     }
 
@@ -163,7 +163,7 @@ class PatientV2Controller extends Controller
      */
     public function show($id)
     {
-        $patient = Patient::find($id);
+        $patient = Patient::find($id)->with(['paServices'])->first();
 
         if (!$patient) {
             return response()->json([
@@ -174,7 +174,7 @@ class PatientV2Controller extends Controller
 
         return response()->json([
             'status' => 'success',
-            'data' => PatientResource::make($patient)
+            'data' => $patient,
         ]);
     }
 
@@ -306,7 +306,7 @@ class PatientV2Controller extends Controller
             'insuranceId' => 'nullable|string|max:50',
             'eqhlid' => 'nullable|string',
             'elegibility_date' => 'nullable|date',
-            'pos_covered' => 'nullable|json',
+            'pos_covered' => 'nullable|array',
             'deductible_individual_I_F' => 'nullable|string|max:150',
             'balance' => 'nullable|string|max:150',
             'coinsurance' => 'nullable|string|max:150',

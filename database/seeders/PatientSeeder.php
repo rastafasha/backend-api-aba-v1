@@ -30,6 +30,20 @@ class PatientSeeder extends Seeder
                 'rbt_home_id' => 5, // RBT1
                 'bcba_home_id' => 3, // BCBA1
                 'diagnosis_code' => 'F84.0',
+                'education' => '2nd Grade',
+                'pos_covered' => ["03", "12"],
+                'welcome' => 'yes',
+                'consent' => 'yes',
+                'insurance_card' => 'yes',
+                'mnl' => 'yes',
+                'referral' => 'yes',
+                'ados' => 'yes',
+                'iep' => 'yes',
+                'asd_diagnosis' => 'yes',
+                'cde' => 'yes',
+                'submitted' => 'yes',
+                'eligibility' => 'yes',
+                'interview' => 'receive',
             ],
             [
                 'first_name' => 'Jane',
@@ -52,6 +66,20 @@ class PatientSeeder extends Seeder
                 'rbt_home_id' => 6, // RBT2
                 'bcba_home_id' => 4, // BCBA2
                 'diagnosis_code' => 'F84.0',
+                'education' => '3rd Grade',
+                'pos_covered' => '["03", "12"]',
+                'welcome' => 'yes',
+                'consent' => 'yes',
+                'insurance_card' => 'yes',
+                'mnl' => 'yes',
+                'referral' => 'yes',
+                'ados' => 'yes',
+                'iep' => 'yes',
+                'asd_diagnosis' => 'yes',
+                'cde' => 'yes',
+                'submitted' => 'yes',
+                'eligibility' => 'yes',
+                'interview' => 'pending',
             ],
         ];
 
