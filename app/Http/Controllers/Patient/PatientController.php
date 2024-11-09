@@ -262,7 +262,7 @@ class PatientController extends Controller
             "specialists" => $specialists,
             "insurances" => $insurances,
             "locations" => $locations,
-            "pa_assessments"=>$patient->pa_assessments ? json_decode($patient->pa_assessments) : [],
+            // "pa_assessments"=>$patient->pa_assessments ? json_decode($patient->pa_assessments) : [],
             
             // "patient" => PatientResource::make($patient),
         ]);
