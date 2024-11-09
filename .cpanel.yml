@@ -12,11 +12,11 @@ deployment:
     - php /opt/cpanel/composer/bin/composer update >> $DEPLOYPATH/deploy.log 2>&1
     # - php /opt/cpanel/composer/bin/composer install --optimize-autoloader
     # - php /opt/cpanel/composer/bin/composer install --no-dev --optimize-autoloader
-    # - php artisan l5-swagger:generate >> $DEPLOYPATH/deploy.log 2>&1
+    - php artisan l5-swagger:generate >> $DEPLOYPATH/deploy.log 2>&1
     # - php artisan migrate --force
     # - php artisan config:cache
     # - php artisan route:cache
     # - php artisan view:cache
     # - php artisan migrate:fresh --seed
-    - php artisan migrate
-    - php artisan db:seed --class=TipoDemoraSeeder
+    - php artisan migrate --path=/database/migrations/2024_11_07_225859_create_claims_table.php
+    # - php artisan db:seed --class=TipoDemoraSeeder
