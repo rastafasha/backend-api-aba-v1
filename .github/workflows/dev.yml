@@ -1,10 +1,11 @@
-name: Test
+name: Deploy to Cpanel - Dev
 'on':
   push:
-    branches: ["feature/**"]
-
+    branches:
+      - develop
 jobs:
   laravel-tests:
+
     runs-on: ubuntu-latest
 
     steps:
@@ -31,3 +32,18 @@ jobs:
         DB_CONNECTION: sqlite
         DB_DATABASE: database/database.sqlite
       run: php artisan test
+  deploy:
+    runs-on: ubuntu-latest
+    needs: [laravel-tests]
+    steps:
+      - name: Deploy to cPanel
+        id: deploy
+        uses: pinkasey/cpanel-deploy-action@v1.0.0
+        with:
+          hostname: 'https://p3plzcpnl504985.prod.phx3.secureserver.net'
+          repository_root: '/home/z779cvj9zm4g/repositories/backend-api-aba-v1-dev'
+          branch: develop
+          cpanel_token: '${{ secrets.CPANEL_TOKEN }}'
+          cpanel_username: 'z779cvj9zm4g'
+      - name: echo deploy-duration
+        run: echo "Deployment took ${{ steps.deploy.outputs.duration }} milliseconds"

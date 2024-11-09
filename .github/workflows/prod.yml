@@ -1,9 +1,8 @@
-name: Deploy to Cpanel
+name: Deploy to Cpanel - Prod
 'on':
   push:
     branches:
       - main
-      - hotfix
 jobs:
   laravel-tests:
 

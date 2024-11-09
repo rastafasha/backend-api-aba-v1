@@ -150,6 +150,7 @@ class LocationController extends Controller
                     "last_name"=>$patient->last_name,
                     "email"=>$patient->email,
                     "phone"=>$patient->phone,
+                    "insuranceId"=>$patient->insuranceId,
                     "avatar"=> $patient->avatar ? env("APP_URL")."storage/".$patient->avatar : null,
                     // "avatar"=> $patient->avatar ? env("APP_URL").$patient->avatar : null,
                     "status"=> $patient->status,
