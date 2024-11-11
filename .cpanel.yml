@@ -1,22 +1,43 @@
 ---
 deployment:
   tasks:
-    - export DEPLOYPATH=/home/z779cvj9zm4g/public_html/aba-dev.malcolmcordova.com/backend-api-aba/ # Reemplaza con tu ruta de despliegue
-    - echo Starting>> $DEPLOYPATH/deploy.log 2>&1
-    - /bin/cp -R * $DEPLOYPATH >> $DEPLOYPATH/deploy.log 2>&1
-    - rm -rf $DEPLOYPATH/.git >> $DEPLOYPATH/deploy.log 2>&1 # Eliminar la carpeta .git
-    - /bin/cp -R .cpanel.yml $DEPLOYPATH >> $DEPLOYPATH/deploy.log 2>&1
-    - /bin/cp -R .env $DEPLOYPATH >> $DEPLOYPATH/deploy.log 2>&1
-    - /bin/cp -R .htaccess $DEPLOYPATH >> $DEPLOYPATH/deploy.log 2>&1
-    - cd $DEPLOYPATH >> $DEPLOYPATH/deploy.log 2>&1
-    - php /opt/cpanel/composer/bin/composer update >> $DEPLOYPATH/deploy.log 2>&1
-    # - php /opt/cpanel/composer/bin/composer install --optimize-autoloader
-    # - php /opt/cpanel/composer/bin/composer install --no-dev --optimize-autoloader
-    - php artisan l5-swagger:generate >> $DEPLOYPATH/deploy.log 2>&1
-    # - php artisan migrate --force
-    # - php artisan config:cache
-    # - php artisan route:cache
-    # - php artisan view:cache
-    - php artisan migrate:fresh --seed
-    # - php artisan migrate
-    # - php artisan db:seed --class=TipoDemoraSeeder
+    - script: |
+        #!/bin/bash
+
+        # Obtener la rama actual
+        BRANCH=$(git rev-parse --abbrev-ref HEAD)
+
+        # Configurar DEPLOYPATH según la rama
+        if [ "$BRANCH" == "develop" ]; then
+          DEPLOYPATH="/home/z779cvj9zm4g/public_html/aba-dev.malcolmcordova.com/backend-api-aba/"
+        elif [ "$BRANCH" == "main" ]; then
+          DEPLOYPATH="/home/z779cvj9zm4g/public_html/abatherapy.malcolmcordova.com/backend-api-aba/"
+        else
+          echo "Rama no reconocida. No se puede configurar DEPLOYPATH."
+          exit 1
+        fi
+
+        # Exportar DEPLOYPATH
+        export DEPLOYPATH
+
+        # Registrar el inicio del despliegue
+        echo "Starting" >> $DEPLOYPATH/deploy.log 2>&1
+
+        # Aquí puedes agregar más comandos para tu despliegue
+        /bin/cp -R * $DEPLOYPATH >> $DEPLOYPATH/deploy.log 2>&1
+        rm -rf $DEPLOYPATH/.git >> $DEPLOYPATH/deploy.log 2>&1 # Eliminar la carpeta .git
+        /bin/cp -R .cpanel.yml $DEPLOYPATH >> $DEPLOYPATH/deploy.log 2>&1
+        /bin/cp -R .env $DEPLOYPATH >> $DEPLOYPATH/deploy.log 2>&1
+        /bin/cp -R .htaccess $DEPLOYPATH >> $DEPLOYPATH/deploy.log 2>&1
+        cd $DEPLOYPATH >> $DEPLOYPATH/deploy.log 2>&1
+        php /opt/cpanel/composer/bin/composer update >> $DEPLOYPATH/deploy.log 2>&1
+        # php /opt/cpanel/composer/bin/composer install --optimize-autoloader
+        # php /opt/cpanel/composer/bin/composer install --no-dev --optimize-autoloader
+        php artisan l5-swagger:generate >> $DEPLOYPATH/deploy.log 2>&1
+        # php artisan migrate --force
+        # php artisan config:cache
+        # php artisan route:cache
+        # php artisan view:cache
+        php artisan migrate:fresh --seed
+        # php artisan migrate
+        # php artisan db:seed --class=TipoDemoraSeeder
