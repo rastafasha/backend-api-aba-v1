@@ -22,7 +22,7 @@ export DEPLOYPATH
 TIMESTAMP=$(date +"%Y-%m-%d %H:%M:%S")
 
 # Registrar el inicio del despliegue con la fecha y hora
-echo "Starting at $TIMESTAMP" >> $DEPLOYPATH/deploy.log 2>&1
+echo "Starting at $TIMESTAMP" >> $DEPLOYPATH/public/logs/deploy.log 2>&1
 
 # Copiar archivos al directorio de despliegue
 rsync -av --delete \
@@ -31,24 +31,24 @@ rsync -av --delete \
     --exclude='deploy.log' \
     --exclude='storage/logs/*' \
     --exclude='storage/framework/cache/*' \
-    . $DEPLOYPATH >> $DEPLOYPATH/deploy.log 2>&1
+    . $DEPLOYPATH >> $DEPLOYPATH/public/logs/deploy.log 2>&1
 
 # Copiar archivos específicos
-/bin/cp -R .cpanel.yml $DEPLOYPATH >> $DEPLOYPATH/deploy.log 2>&1
-/bin/cp -R .htaccess $DEPLOYPATH >> $DEPLOYPATH/deploy.log 2>&1
-/bin/cp "$ENVFILE" "$DEPLOYPATH/.env" >> $DEPLOYPATH/deploy.log 2>&1
+/bin/cp -R .cpanel.yml $DEPLOYPATH >> $DEPLOYPATH/public/logs/deploy.log 2>&1
+/bin/cp -R .htaccess $DEPLOYPATH >> $DEPLOYPATH/public/logs/deploy.log 2>&1
+/bin/cp "$ENVFILE" "$DEPLOYPATH/.env" >> $DEPLOYPATH/public/logs/deploy.log 2>&1
 
 # Cambiar al directorio de despliegue
-cd $DEPLOYPATH >> $DEPLOYPATH/deploy.log 2>&1
+cd $DEPLOYPATH >> $DEPLOYPATH/public/logs/deploy.log 2>&1
 
 # Actualizar dependencias con Composer
-php /opt/cpanel/composer/bin/composer update >> $DEPLOYPATH/deploy.log 2>&1
+php /opt/cpanel/composer/bin/composer update >> $DEPLOYPATH/public/logs/deploy.log 2>&1
 
 # Generar documentación de Swagger
-php artisan l5-swagger:generate >> $DEPLOYPATH/deploy.log 2>&1
+php artisan l5-swagger:generate >> $DEPLOYPATH/public/logs/deploy.log 2>&1
 
 # Migrar y sembrar la base de datos
-php artisan migrate:fresh --seed >> $DEPLOYPATH/deploy.log 2>&1
+php artisan migrate:fresh --seed >> $DEPLOYPATH/public/logs/deploy.log 2>&1
 
 # Opcional: otros comandos de Artisan
 # php artisan migrate --force
