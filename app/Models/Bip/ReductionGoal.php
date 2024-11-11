@@ -24,9 +24,9 @@ class ReductionGoal extends Model
 
     ];
 
-    public function bips()
+    public function bip()
     {
-        return $this->hasMany(Bip::class, 'bip_id');
+        return $this->belongsTo(Bip::class);
     }
     public function patient()
     {

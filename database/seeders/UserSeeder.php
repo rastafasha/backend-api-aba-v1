@@ -1,38 +1,101 @@
 <?php
-
 namespace Database\Seeders;
 
-use App\Models\Role;
 use App\Models\User;
-use App\Models\Permission;
+use App\Models\UserLocation;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 
 class UserSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     *
-     * @return void
-     */
     public function run()
     {
-        $users = [
+        // Create superadmin
+        $superadmin = User::create([
+            'name' => 'Super Admin',
+            'email' => 'superadmin@example.com',
+            'password' => Hash::make('password'),
+            'status' => 'active',
+            'email_verified_at' => now(),
+            'gender' => 1,
+        ]);
+        $superadmin->assignRole('SUPERADMIN');
 
-            [
-                // "rolename" => User::SUPERADMIN,
-                "name" => "superadministrador",
-                "email" => "superadmin@superadmin.com",
-                "password" => bcrypt("password"),
-                "email_verified_at" => now(),
-                "created_at" => now(),
+        // Create manager
+        $manager = User::create([
+            'name' => 'John Manager',
+            'surname' => 'Doe',
+            'email' => 'manager@example.com',
+            'password' => Hash::make('password'),
+            'status' => 'active',
+            'gender' => 1,
+            'email_verified_at' => now(),
+            'electronic_signature' => 'signatures/example.png',
+        ]);
+        $manager->assignRole('MANAGER');
 
-            ]
-        ];
+        // Create BCBAs
+        $bcba1 = User::create([
+            'name' => 'Sarah BCBA',
+            'surname' => 'Howard',
+            'email' => 'bcba1@example.com',
+            'password' => Hash::make('password'),
+            'status' => 'active',
+            'gender' => 2,
+            'phone' => '1234567890',
+            'npi' => '1234567890',
+            'certificate_number' => 'BCBA12345',
+            'electronic_signature' => 'signatures/example.png',
+        ]);
+        $bcba1->assignRole('BCBA');
 
-        foreach ($users as $user) {
+        $bcba2 = User::create([
+            'name' => 'Mike BCBA',
+            'surname' => 'Smith',
+            'email' => 'bcba2@example.com',
+            'password' => Hash::make('password'),
+            'status' => 'active',
+            'gender' => 1,
+            'phone' => '1234567891',
+            'npi' => '1234567891',
+            'certificate_number' => 'BCBA12346',
+            'electronic_signature' => 'signatures/example.png',
+        ]);
+        $bcba2->assignRole('BCBA');
 
-            $user = User::create($user);
+        // Create RBTs
+        $rbt1 = User::create([
+            'name' => 'Alice RBT',
+            'surname' => 'Brown',
+            'email' => 'rbt1@example.com',
+            'password' => Hash::make('password'),
+            'status' => 'active',
+            'gender' => 2,
+            'phone' => '1234567892',
+            'certificate_number' => 'RBT12345',
+            'electronic_signature' => 'signatures/example.png',
+        ]);
+        $rbt1->assignRole('RBT');
+
+        $rbt2 = User::create([
+            'name' => 'Bob RBT',
+            'surname' => 'Johnson',
+            'email' => 'rbt2@example.com',
+            'password' => Hash::make('password'),
+            'status' => 'active',
+            'gender' => 1,
+            'phone' => '1234567893',
+            'certificate_number' => 'RBT12346',
+            'electronic_signature' => 'signatures/example.png',
+        ]);
+        $rbt2->assignRole('RBT');
+
+        // Assign users to locations
+        foreach (User::all() as $user) {
+            UserLocation::create([
+                'user_id' => $user->id,
+                'location_id' => 1 // Main office
+            ]);
         }
     }
 }

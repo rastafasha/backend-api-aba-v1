@@ -30,4 +30,9 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    'claimmd' => [
+        'url' => env('CLAIM_MD_URL', 'https://svc.claim.md/services/upload/'),
+        'account_key' => env('CLAIM_MD_ACCOUNT_KEY'),
+    ],
+
 ];

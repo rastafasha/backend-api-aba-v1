@@ -4,23 +4,14 @@ namespace App\Http\Controllers\Admin\Notes;
 
 use Carbon\Carbon;
 use App\Models\User;
-use App\Models\Bip\Bip;
 use Illuminate\Http\Request;
 use App\Models\Notes\NoteRbt;
-use App\Models\Billing\Billing;
 use App\Models\Patient\Patient;
-use App\Models\Bip\ReductionGoal;
-use App\Models\Notes\Maladaptive;
-use App\Models\Notes\Replacement;
 use App\Models\Bip\SustitutionGoal;
 use App\Models\Insurance\Insurance;
 use App\Http\Controllers\Controller;
-use App\Models\Billing\ClientReport;
-use Illuminate\Support\Facades\Storage;
-use App\Http\Resources\User\UserCollection;
 use App\Http\Resources\Note\NoteRbtResource;
 use App\Http\Resources\Note\NoteRbtCollection;
-use App\Http\Resources\Note\NoteBcbaCollection;
 use App\Models\PaService;
 
 class NoteRbtController extends Controller
@@ -310,7 +301,7 @@ class NoteRbtController extends Controller
         })->get();
 
         return response()->json([
-            "roles_rbt"=> NoteRbtCollection::make($roles_rbt),
+            // "roles_rbt"=> NoteRbtCollection::make($roles_rbt),
             "roles_rbt"=>$roles_rbt->map(function($roles_rbt){
                 return [
                     "id"=> $roles_rbt->id,
@@ -321,7 +312,7 @@ class NoteRbtController extends Controller
 
                 ];
             }),
-            "roles_bcba"=> NoteBcbaCollection::make($roles_bcba),
+            // "roles_bcba"=> NoteBcbaCollection::make($roles_bcba),
             "roles_bcba"=>$roles_bcba->map(function($roles_bcba){
                 return [
                     "id"=> $roles_bcba->id,
@@ -333,7 +324,7 @@ class NoteRbtController extends Controller
                 ];
             }),
             // "specialists" => $specialists,
-            "specialists"=> UserCollection::make($specialists),
+            // "specialists"=> UserCollection::make($specialists),
             "specialists"=>$specialists->map(function($specialists){
                 return [
                     "id"=> $specialists->id,
@@ -509,21 +500,21 @@ class NoteRbtController extends Controller
             "interventions"=>json_decode($noteRbt-> interventions),
             "maladaptives"=>json_decode($noteRbt-> maladaptives),
             "replacements"=>json_decode($noteRbt-> replacements),
-            "provider_name"=>$noteRbt->provider_name,
+            // "provider_name"=>$noteRbt->provider_name,
             "provider_name"=>$doctor->map(function($provider_name){
                 return[
                     "id"=> $provider_name->id,
                     "full_name"=> $provider_name->name.' '.$provider_name->surname,
                 ];
             }),
-            "supervisor_name"=>$noteRbt->supervisor_name,
+            // "supervisor_name"=>$noteRbt->supervisor_name,
             "supervisor_name"=>$doctor->map(function($supervisor_name){
                 return[
                     "id"=> $supervisor_name->id,
                     "full_name"=> $supervisor_name->name.' '.$supervisor_name->surname,
                 ];
             }),
-            "provider_name_g"=>$noteRbt->provider_name_g,
+            // "provider_name_g"=>$noteRbt->provider_name_g,
             "provider_name_g"=>$doctor->map(function($provider_name_g){
                 return[
                     "id"=> $provider_name_g->id,

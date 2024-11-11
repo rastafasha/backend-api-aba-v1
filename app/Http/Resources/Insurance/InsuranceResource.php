@@ -18,11 +18,19 @@ class InsuranceResource extends JsonResource
         return [
             "id"=>$this->resource->id,
             "insurer_name"=>$this->resource->insurer_name,
-            'services'=> json_decode($this->resource-> services) ? : null,//trae el json convertido para manipular
-            'notes'=> json_decode($this->resource-> notes) ? : null,//trae el json convertido para manipular
-            
+            'services' => $this->resource->services ?? null,
+            'notes' => $this->resource->notes ?? null,
+            // 'services'=> json_decode($this->resource-> services) ? : null,//trae el json convertido para manipular
+            // 'notes'=> json_decode($this->resource-> notes) ? : null,//trae el json convertido para manipular
+            "payer_id"=>$this->resource->payer_id,
+            "street"=>$this->resource->street,
+            "street2"=>$this->resource->street2,
+            "city"=>$this->resource->city,
+            "state"=>$this->resource->state,
+            "zip"=>$this->resource->zip,
+
             "created_at"=>$this->resource->created_at ? Carbon::parse($this->resource->created_at)->format("Y-m-d h:i A") : NULL,
-            
+
 
         ];
     }
