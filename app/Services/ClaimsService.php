@@ -26,7 +26,7 @@ class ClaimsService
         $notesBcbaIds = !empty($notesBcbaIds) ? $notesBcbaIds : [];
 
         // Get all the notes for the given ids.
-        $notesRbt = !empty($notesRbtIds) ? NoteRbt::whereIn('id', $notesRbtIds)->get() : collect();
+        $notesRbt = !empty($notesRbtIds) ? NoteRbt::with('provider')->whereIn('id', $notesRbtIds)->get() : collect();
         $notesBcba = !empty($notesBcbaIds) ? NoteBcba::whereIn('id', $notesBcbaIds)->get() : collect();
 
 
@@ -235,6 +235,12 @@ class ClaimsService
             'cpt_codes' => $note->cpt_code,
             'quantity' => $note->total_units,
             'dos' => Carbon::parse($note->session_date)->format('m-d-Y'),
+
+            // Rendering Provider Information
+            'rendering_provider_lname' => 'placeholder',
+            'rendering_provider_fname' => 'Sarah',
+            'rendering_provider_mname' => '',
+            'rendering_provider_npi' => '4567890123',
         ];
     }
 

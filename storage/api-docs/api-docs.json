@@ -5,6 +5,274 @@
         "version": "2.0"
     },
     "paths": {
+        "/api/v2/bips": {
+            "get": {
+                "tags": [
+                    "BIPs"
+                ],
+                "summary": "Get all BIPs with filters",
+                "operationId": "a3c6a76edc377107281ee77209fe443a",
+                "parameters": [
+                    {
+                        "name": "patient_id",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "doctor_id",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "type_of_assessment",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "date_from",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    },
+                    {
+                        "name": "date_to",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    },
+                    {
+                        "name": "per_page",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 15
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Bip"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "BIPs"
+                ],
+                "summary": "Create a new BIP",
+                "operationId": "745934bd241537d5a510d1180a25867c",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Bip"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "BIP created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "BIP created successfully"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/Bip"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v2/bips/{id}": {
+            "get": {
+                "tags": [
+                    "BIPs"
+                ],
+                "summary": "Get BIP by ID",
+                "operationId": "1b7d71ea378b74665f775f39ea52708e",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/Bip"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "BIP not found"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "BIPs"
+                ],
+                "summary": "Update a BIP",
+                "operationId": "39f9d961db9b97f3c6e5af365fb06f70",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Bip"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "BIP updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "BIP updated successfully"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/Bip"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "BIP not found"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "BIPs"
+                ],
+                "summary": "Delete a BIP",
+                "operationId": "b120c040ee4b8bc5d54365a7e4ec74f0",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "BIP deleted successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "BIP deleted successfully"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "BIP not found"
+                    }
+                }
+            }
+        },
         "/api/v2/insurance": {
             "get": {
                 "tags": [
@@ -787,6 +1055,15 @@
                         }
                     },
                     {
+                        "name": "provider_id",
+                        "in": "query",
+                        "description": "Filter by provider ID",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
                         "name": "bip_id",
                         "in": "query",
                         "description": "Filter by BIP ID",
@@ -950,32 +1227,122 @@
                                 "properties": {
                                     "session_date": {
                                         "type": "string",
-                                        "format": "date",
-                                        "example": "2023-12-01"
+                                        "format": "date-time",
+                                        "example": "2023-12-01T00:00:00Z"
                                     },
                                     "patient_id": {
-                                        "type": "integer",
-                                        "example": 1
+                                        "type": "string"
                                     },
                                     "doctor_id": {
-                                        "type": "integer",
-                                        "example": 1
+                                        "type": "integer"
                                     },
                                     "bip_id": {
-                                        "type": "integer",
-                                        "example": 1
+                                        "type": "integer"
                                     },
-                                    "location_id": {
-                                        "type": "integer",
-                                        "example": 1
+                                    "pos": {
+                                        "type": "string"
                                     },
-                                    "notes": {
+                                    "time_in": {
                                         "type": "string",
-                                        "example": "Session notes here"
+                                        "format": "time",
+                                        "example": "09:00:00"
+                                    },
+                                    "time_out": {
+                                        "type": "string",
+                                        "format": "time",
+                                        "example": "10:00:00"
+                                    },
+                                    "time_in2": {
+                                        "type": "string",
+                                        "format": "time",
+                                        "example": "14:00:00"
+                                    },
+                                    "time_out2": {
+                                        "type": "string",
+                                        "format": "time",
+                                        "example": "15:00:00"
+                                    },
+                                    "environmental_changes": {
+                                        "type": "string"
+                                    },
+                                    "maladaptives": {
+                                        "type": "object"
+                                    },
+                                    "replacements": {
+                                        "type": "object"
+                                    },
+                                    "interventions": {
+                                        "type": "object"
+                                    },
+                                    "meet_with_client_at": {
+                                        "type": "string"
+                                    },
+                                    "client_appeared": {
+                                        "type": "string"
+                                    },
+                                    "as_evidenced_by": {
+                                        "type": "string"
+                                    },
+                                    "rbt_modeled_and_demonstrated_to_caregiver": {
+                                        "type": "string"
+                                    },
+                                    "client_response_to_treatment_this_session": {
+                                        "type": "string"
+                                    },
+                                    "progress_noted_this_session_compared_to_previous_session": {
+                                        "type": "string"
+                                    },
+                                    "next_session_is_scheduled_for": {
+                                        "type": "string",
+                                        "format": "date-time"
+                                    },
+                                    "provider_id": {
+                                        "type": "integer"
+                                    },
+                                    "provider_signature": {
+                                        "type": "string"
+                                    },
+                                    "provider_credential": {
+                                        "type": "string"
+                                    },
+                                    "supervisor_signature": {
+                                        "type": "string"
+                                    },
+                                    "supervisor_name": {
+                                        "type": "integer"
+                                    },
+                                    "billed": {
+                                        "type": "boolean"
+                                    },
+                                    "pay": {
+                                        "type": "boolean"
+                                    },
+                                    "md": {
+                                        "type": "string"
+                                    },
+                                    "md2": {
+                                        "type": "string"
+                                    },
+                                    "cpt_code": {
+                                        "type": "string"
                                     },
                                     "status": {
                                         "type": "string",
-                                        "example": "completed"
+                                        "enum": [
+                                            "pending",
+                                            "ok",
+                                            "no",
+                                            "review"
+                                        ]
+                                    },
+                                    "location_id": {
+                                        "type": "integer"
+                                    },
+                                    "pa_service_id": {
+                                        "type": "integer"
+                                    },
+                                    "insuranceId": {
+                                        "type": "string"
                                     }
                                 },
                                 "type": "object"
@@ -1008,24 +1375,10 @@
                         }
                     },
                     "404": {
-                        "description": "Note not found",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "status": {
-                                            "type": "string",
-                                            "example": "error"
-                                        },
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Note not found"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
+                        "description": "Note not found"
+                    },
+                    "422": {
+                        "description": "Validation error"
                     }
                 }
             },
@@ -2010,6 +2363,170 @@
                 },
                 "type": "object"
             },
+            "Bip": {
+                "title": "Bip",
+                "description": "Behavior Intervention Plan model",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int64",
+                        "example": 1
+                    },
+                    "client_id": {
+                        "type": "integer",
+                        "format": "int64",
+                        "example": 1
+                    },
+                    "patient_id": {
+                        "type": "string",
+                        "maxLength": 50,
+                        "example": "PAT123",
+                        "nullable": true
+                    },
+                    "doctor_id": {
+                        "type": "integer",
+                        "format": "int64",
+                        "example": 1,
+                        "nullable": true
+                    },
+                    "type_of_assessment": {
+                        "type": "integer",
+                        "format": "int32",
+                        "example": 3
+                    },
+                    "documents_reviewed": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "nullable": true
+                    },
+                    "background_information": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "previus_treatment_and_result": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "current_treatment_and_progress": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "education_status": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "phisical_and_medical_status": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "strengths": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "weakneses": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "phiysical_and_medical": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "phiysical_and_medical_status": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "nullable": true
+                    },
+                    "maladaptives": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "nullable": true
+                    },
+                    "assestment_conducted": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "assestment_conducted_options": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "nullable": true
+                    },
+                    "assestmentEvaluationSettings": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "nullable": true
+                    },
+                    "prevalent_setting_event_and_atecedents": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "nullable": true
+                    },
+                    "hypothesis_based_intervention": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "interventions": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "nullable": true
+                    },
+                    "tangibles": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "nullable": true
+                    },
+                    "attention": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "nullable": true
+                    },
+                    "escape": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "nullable": true
+                    },
+                    "sensory": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "nullable": true
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "deleted_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "nullable": true
+                    }
+                },
+                "type": "object"
+            },
             "Claim": {
                 "required": [
                     "status",
@@ -2248,10 +2765,6 @@
                     "id": {
                         "type": "integer"
                     },
-                    "bip_id": {
-                        "type": "integer",
-                        "nullable": true
-                    },
                     "patient_id": {
                         "type": "integer"
                     },
@@ -2259,8 +2772,37 @@
                         "type": "integer",
                         "nullable": true
                     },
-                    "note_description": {
+                    "bip_id": {
+                        "type": "integer",
+                        "nullable": true
+                    },
+                    "location": {
                         "type": "string",
+                        "nullable": true
+                    },
+                    "maladaptives": {
+                        "type": "object",
+                        "nullable": true
+                    },
+                    "replacements": {
+                        "type": "object",
+                        "nullable": true
+                    },
+                    "summary_note": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "diagnosis_code": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "birth_date": {
+                        "type": "string",
+                        "format": "date-time",
+                        "nullable": true
+                    },
+                    "supervisor_id": {
+                        "type": "integer",
                         "nullable": true
                     },
                     "caregiver_goals": {
@@ -2271,70 +2813,13 @@
                         "type": "object",
                         "nullable": true
                     },
-                    "location": {
-                        "type": "string",
-                        "nullable": true
-                    },
-                    "summary_note": {
-                        "type": "string",
-                        "nullable": true
-                    },
-                    "birth_date": {
-                        "type": "string",
-                        "format": "date",
-                        "nullable": true
-                    },
-                    "aba_supervisor": {
-                        "type": "integer",
-                        "nullable": true
-                    },
-                    "cpt_code": {
-                        "type": "string",
-                        "nullable": true
-                    },
-                    "diagnosis_code": {
-                        "type": "string",
-                        "nullable": true
-                    },
-                    "rendering_provider": {
-                        "type": "integer",
-                        "nullable": true
-                    },
-                    "rendering": {
-                        "properties": {
-                            "name": {
-                                "type": "string"
-                            },
-                            "surname": {
-                                "type": "string"
-                            },
-                            "npi": {
-                                "type": "string"
-                            }
-                        },
-                        "type": "object"
-                    },
                     "provider_signature": {
                         "type": "string",
                         "nullable": true
                     },
-                    "provider_name": {
+                    "provider_id": {
                         "type": "integer",
                         "nullable": true
-                    },
-                    "tecnico": {
-                        "properties": {
-                            "name": {
-                                "type": "string"
-                            },
-                            "surname": {
-                                "type": "string"
-                            },
-                            "npi": {
-                                "type": "string"
-                            }
-                        },
-                        "type": "object"
                     },
                     "supervisor_signature": {
                         "type": "string",
@@ -2344,59 +2829,9 @@
                         "type": "integer",
                         "nullable": true
                     },
-                    "supervisor": {
-                        "properties": {
-                            "name": {
-                                "type": "string"
-                            },
-                            "surname": {
-                                "type": "string"
-                            },
-                            "npi": {
-                                "type": "string"
-                            }
-                        },
-                        "type": "object"
-                    },
-                    "billedbcba": {
-                        "type": "boolean",
-                        "nullable": true
-                    },
-                    "paybcba": {
-                        "type": "boolean",
-                        "nullable": true
-                    },
-                    "bcba": {
-                        "type": "string",
-                        "nullable": true
-                    },
-                    "mdbcba": {
-                        "type": "string",
-                        "nullable": true
-                    },
-                    "md2bcba": {
-                        "type": "string",
-                        "nullable": true
-                    },
-                    "meet_with_client_at": {
-                        "type": "string",
-                        "nullable": true
-                    },
-                    "provider": {
-                        "type": "integer",
-                        "nullable": true
-                    },
-                    "status": {
-                        "type": "string",
-                        "nullable": true
-                    },
-                    "location_id": {
-                        "type": "integer",
-                        "nullable": true
-                    },
                     "session_date": {
                         "type": "string",
-                        "format": "date",
+                        "format": "date-time",
                         "nullable": true
                     },
                     "time_in": {
@@ -2429,10 +2864,89 @@
                         "format": "time",
                         "nullable": true
                     },
-                    "total_hours": {
+                    "environmental_changes": {
                         "type": "string",
-                        "format": "time",
                         "nullable": true
+                    },
+                    "meet_with_client_at": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "billedbcba": {
+                        "type": "boolean",
+                        "nullable": true
+                    },
+                    "paybcba": {
+                        "type": "boolean",
+                        "nullable": true
+                    },
+                    "mdbcba": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "md2bcba": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "cpt_code": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "status": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "location_id": {
+                        "type": "integer",
+                        "nullable": true
+                    },
+                    "pa_service_id": {
+                        "type": "integer",
+                        "nullable": true
+                    },
+                    "insuranceId": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "provider": {
+                        "properties": {
+                            "id": {
+                                "type": "integer"
+                            },
+                            "name": {
+                                "type": "string"
+                            },
+                            "surname": {
+                                "type": "string"
+                            },
+                            "npi": {
+                                "type": "string"
+                            },
+                            "electronic_signature": {
+                                "type": "string"
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "supervisor": {
+                        "properties": {
+                            "id": {
+                                "type": "integer"
+                            },
+                            "name": {
+                                "type": "string"
+                            },
+                            "surname": {
+                                "type": "string"
+                            },
+                            "npi": {
+                                "type": "string"
+                            },
+                            "electronic_signature": {
+                                "type": "string"
+                            }
+                        },
+                        "type": "object"
                     },
                     "total_minutes": {
                         "type": "integer",
@@ -2449,6 +2963,11 @@
                     "updated_at": {
                         "type": "string",
                         "format": "date-time"
+                    },
+                    "deleted_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "nullable": true
                     }
                 },
                 "type": "object"
@@ -2456,170 +2975,265 @@
             "NoteRbt": {
                 "properties": {
                     "id": {
-                        "type": "integer"
-                    },
-                    "doctor_id": {
                         "type": "integer",
-                        "nullable": true
-                    },
-                    "patient_id": {
-                        "type": "string",
-                        "nullable": true
-                    },
-                    "bip_id": {
-                        "type": "integer",
-                        "nullable": true
-                    },
-                    "provider_name_g": {
-                        "type": "integer",
-                        "nullable": true
-                    },
-                    "provider_credential": {
-                        "type": "string",
-                        "nullable": true
-                    },
-                    "pos": {
-                        "type": "string",
-                        "nullable": true
+                        "example": 1
                     },
                     "session_date": {
                         "type": "string",
-                        "format": "date-time",
-                        "nullable": true
-                    },
-                    "time_in": {
-                        "type": "string",
-                        "format": "time",
-                        "nullable": true
-                    },
-                    "time_out": {
-                        "type": "string",
-                        "format": "time",
-                        "nullable": true
-                    },
-                    "time_in2": {
-                        "type": "string",
-                        "format": "time",
-                        "nullable": true
-                    },
-                    "time_out2": {
-                        "type": "string",
-                        "format": "time",
-                        "nullable": true
-                    },
-                    "environmental_changes": {
-                        "type": "string",
-                        "nullable": true
-                    },
-                    "maladaptives": {
-                        "type": "object",
-                        "nullable": true
-                    },
-                    "replacements": {
-                        "type": "object",
-                        "nullable": true
-                    },
-                    "interventions": {
-                        "type": "object",
-                        "nullable": true
-                    },
-                    "meet_with_client_at": {
-                        "type": "string",
-                        "nullable": true
-                    },
-                    "client_appeared": {
-                        "type": "string",
-                        "nullable": true
-                    },
-                    "as_evidenced_by": {
-                        "type": "string",
-                        "nullable": true
-                    },
-                    "rbt_modeled_and_demonstrated_to_caregiver": {
-                        "type": "string",
-                        "nullable": true
-                    },
-                    "client_response_to_treatment_this_session": {
-                        "type": "string",
-                        "nullable": true
-                    },
-                    "progress_noted_this_session_compared_to_previous_session": {
-                        "type": "string",
-                        "nullable": true
+                        "format": "date",
+                        "example": "2024-11-05"
                     },
                     "next_session_is_scheduled_for": {
                         "type": "string",
                         "format": "date-time",
-                        "nullable": true
+                        "example": "2024-11-12 14:43:31"
                     },
-                    "provider_signature": {
+                    "interventions": {
+                        "properties": {
+                            "positive_reinforcement": {
+                                "type": "boolean",
+                                "example": true
+                            },
+                            "prompting": {
+                                "type": "boolean",
+                                "example": true
+                            },
+                            "redirection": {
+                                "type": "boolean",
+                                "example": true
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "replacements": {
+                        "properties": {
+                            "verbal_requests": {
+                                "type": "integer",
+                                "example": 5
+                            },
+                            "waiting_quietly": {
+                                "type": "integer",
+                                "example": 4
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "maladaptives": {
+                        "properties": {
+                            "tantrums": {
+                                "type": "integer",
+                                "example": 3
+                            },
+                            "aggression": {
+                                "type": "integer",
+                                "example": 1
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "bip_id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "pos": {
+                        "type": "string",
+                        "example": "12"
+                    },
+                    "environmental_changes": {
+                        "type": "string",
+                        "example": "None noted"
+                    },
+                    "provider_credential": {
+                        "type": "string",
+                        "example": "RBT"
+                    },
+                    "patient_id": {
+                        "type": "string",
+                        "example": "PAT001"
+                    },
+                    "doctor_id": {
+                        "type": "integer",
+                        "example": 3
+                    },
+                    "meet_with_client_at": {
+                        "type": "string",
+                        "example": "Home"
+                    },
+                    "time_in": {
+                        "type": "string",
+                        "example": " 09:00:00"
+                    },
+                    "time_out": {
+                        "type": "string",
+                        "example": " 11:00:00"
+                    },
+                    "time_in2": {
                         "type": "string",
                         "nullable": true
                     },
+                    "time_out2": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "session_length_morning_total": {
+                        "type": "string",
+                        "example": "02:00"
+                    },
+                    "session_length_afternon_total": {
+                        "type": "string",
+                        "example": "00:00"
+                    },
+                    "session_length_total": {
+                        "type": "string",
+                        "example": "02:00"
+                    },
+                    "total_hours": {
+                        "type": "string",
+                        "example": "02:00"
+                    },
+                    "client_appeared": {
+                        "type": "string",
+                        "example": "Alert and engaged"
+                    },
+                    "as_evidenced_by": {
+                        "type": "string",
+                        "example": "Active participation in activities"
+                    },
+                    "rbt_modeled_and_demonstrated_to_caregiver": {
+                        "type": "string",
+                        "example": "Positive reinforcement techniques"
+                    },
+                    "client_response_to_treatment_this_session": {
+                        "type": "string",
+                        "example": "Client showed good progress with verbal requests"
+                    },
+                    "progress_noted_this_session_compared_to_previous_session": {
+                        "type": "string",
+                        "example": "Improvement in communication skills"
+                    },
+                    "provider_signature": {
+                        "type": "string",
+                        "example": "Alice RBT"
+                    },
                     "provider_name": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "pa_service_id": {
                         "type": "integer",
                         "nullable": true
                     },
                     "supervisor_signature": {
                         "type": "string",
-                        "nullable": true
+                        "example": "Sarah BCBA"
                     },
                     "supervisor_name": {
                         "type": "integer",
+                        "example": 3
+                    },
+                    "supervisor": {
+                        "properties": {
+                            "id": {
+                                "type": "integer",
+                                "example": 3
+                            },
+                            "name": {
+                                "type": "string",
+                                "example": "Sarah BCBA"
+                            },
+                            "surname": {
+                                "type": "string",
+                                "nullable": true
+                            },
+                            "npi": {
+                                "type": "string",
+                                "example": "1234567890"
+                            },
+                            "electronic_signature": {
+                                "type": "string",
+                                "example": "signatures/example.png"
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "provider_name_g": {
+                        "type": "string",
                         "nullable": true
                     },
                     "billed": {
-                        "type": "boolean",
-                        "default": false
+                        "type": "integer",
+                        "example": 0
                     },
                     "pay": {
-                        "type": "boolean",
-                        "default": false
+                        "type": "integer",
+                        "example": 0
                     },
                     "status": {
                         "type": "string",
-                        "default": "pending",
-                        "enum": [
-                            "pending",
-                            "ok",
-                            "no",
-                            "review"
-                        ]
-                    },
-                    "cpt_code": {
-                        "type": "string",
-                        "nullable": true
-                    },
-                    "location_id": {
-                        "type": "integer",
-                        "nullable": true
+                        "example": "ok"
                     },
                     "md": {
                         "type": "string",
-                        "maxLength": 20,
                         "nullable": true
                     },
                     "md2": {
                         "type": "string",
-                        "maxLength": 20,
+                        "nullable": true
+                    },
+                    "cpt_code": {
+                        "type": "string",
+                        "example": "97153"
+                    },
+                    "insuranceId": {
+                        "type": "string",
                         "nullable": true
                     },
                     "provider": {
+                        "properties": {
+                            "id": {
+                                "type": "integer",
+                                "example": 5
+                            },
+                            "name": {
+                                "type": "string",
+                                "example": "Alice RBT"
+                            },
+                            "surname": {
+                                "type": "string",
+                                "nullable": true
+                            },
+                            "npi": {
+                                "type": "string",
+                                "nullable": true
+                            },
+                            "electronic_signature": {
+                                "type": "string",
+                                "example": "signatures/example.png"
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "location_id": {
                         "type": "integer",
-                        "nullable": true
+                        "example": 1
+                    },
+                    "total_minutes": {
+                        "type": "integer",
+                        "example": 120
+                    },
+                    "total_units": {
+                        "type": "integer",
+                        "example": 8
                     },
                     "created_at": {
                         "type": "string",
-                        "format": "date-time"
+                        "format": "date-time",
+                        "example": "2024-11-10 14:43:31"
                     },
                     "updated_at": {
                         "type": "string",
-                        "format": "date-time"
-                    },
-                    "deleted_at": {
-                        "type": "string",
                         "format": "date-time",
-                        "nullable": true
+                        "example": "2024-11-10 14:43:31"
                     }
                 },
                 "type": "object"
@@ -2721,14 +3335,13 @@
                     "birth_date": {
                         "description": "Patient's birth date",
                         "type": "string",
-                        "format": "date-time",
+                        "format": "m-d-Y",
                         "nullable": true
                     },
                     "age": {
-                        "description": "Patient's age",
-                        "type": "string",
-                        "maxLength": 50,
-                        "nullable": true
+                        "description": "Patient's age (calculated from birth_date)",
+                        "type": "integer",
+                        "readOnly": true
                     },
                     "address": {
                         "description": "Patient's address",
@@ -2892,6 +3505,10 @@
         }
     },
     "tags": [
+        {
+            "name": "BIPs",
+            "description": "BIPs"
+        },
         {
             "name": "Admin/Insurance",
             "description": "Admin/Insurance"
