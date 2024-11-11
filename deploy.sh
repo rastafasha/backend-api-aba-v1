@@ -6,10 +6,10 @@ BRANCH=$(cat .git/HEAD | sed 's/ref: refs\/heads\///')
 # Configurar DEPLOYPATH según la rama
 if [ "$BRANCH" == "develop" ]; then
     DEPLOYPATH="/home/z779cvj9zm4g/public_html/aba-dev.malcolmcordova.com/backend-api-aba/"
-    ENVFILE = ".env.dev"
+    ENVFILE=".env.dev"
 elif [ "$BRANCH" == "main" ]; then
     DEPLOYPATH="/home/z779cvj9zm4g/public_html/abatherapy.malcolmcordova.com/backend-api-aba/"
-    ENVFILE = ".env.prod"
+    ENVFILE=".env.prod"
 else
     echo "Rama no reconocida. No se puede configurar DEPLOYPATH."
     exit 1
