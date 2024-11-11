@@ -8,6 +8,8 @@
 .env
 .env.prod
 .end.dev
+.env-prod
+.end-dev
 .env.backup
 .phpunit.result.cache
 docker-compose.override.yml

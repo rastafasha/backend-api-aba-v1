@@ -37,9 +37,9 @@ rsync -av --delete \
 
 # Configurar DEPLOYPATH según la rama
 if [ "$BRANCH" == "develop" ]; then
-    ENVFILE = ".env.dev"
+    ENVFILE = ".env-dev"
 elif [ "$BRANCH" == "main" ]; then
-    ENVFILE = ".env.prod"
+    ENVFILE = ".env-prod"
 fi
 
 /bin/cp $ENVFILE $DEPLOYPATH/.env >> $DEPLOYPATH/deploy.log 2>&1
