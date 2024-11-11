@@ -34,8 +34,8 @@ use Illuminate\Support\Facades\DB;
  *     @OA\Property(property="school_name", type="string", maxLength=150, nullable=true, description="School name"),
  *     @OA\Property(property="school_number", type="string", maxLength=150, nullable=true, description="School contact number"),
  *     @OA\Property(property="gender", type="integer", enum={1,2}, default=1, description="Patient's gender"),
- *     @OA\Property(property="birth_date", type="string", format="date-time", nullable=true, description="Patient's birth date"),
- *     @OA\Property(property="age", type="string", maxLength=50, nullable=true, description="Patient's age"),
+ *     @OA\Property(property="birth_date", type="string", format="m-d-Y", nullable=true, description="Patient's birth date"),
+ *     @OA\Property(property="age", type="integer", readOnly=true,  description="Patient's age (calculated from birth_date)"),
  *     @OA\Property(property="address", type="string", nullable=true, description="Patient's address"),
  *     @OA\Property(property="city", type="string", nullable=true, description="City"),
  *     @OA\Property(property="state", type="string", maxLength=150, nullable=true, description="State"),
@@ -88,7 +88,7 @@ class Patient extends Model
         'work_phone',
         'school_name',
         'school_number',
-        'age',
+        // 'age',
         'education',
         'profession',
         'zip',
@@ -155,7 +155,19 @@ class Patient extends Model
 
     protected $casts = [
         'pos_covered' => 'array',
+        'birth_date' => 'date:m-d-Y',
     ];
+
+    protected $appends = ['age'];
+
+    public function getAgeAttribute()
+    {
+        if (!$this->birth_date) {
+            return null;
+        }
+
+        return Carbon::parse($this->birth_date)->age;
+    }
 
 
     const waiting = 'waiting';
@@ -307,7 +319,7 @@ class Patient extends Model
             return $this->hasMany(User::class, 'id');
         }
 
-        public function locals()
+    public function locals()
         {
             return $this->belongsTo(Location::class,'location_id');
         }

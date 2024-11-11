@@ -25,7 +25,7 @@ class CreateNoteBcbasTable extends Migration
             $table->double('session_length_total')->nullable();
             $table->text('note_description')->nullable();
             $table->unsignedBigInteger('rendering_provider')->nullable();
-            $table->unsignedBigInteger('aba_supervisor')->nullable();
+            $table->unsignedBigInteger('supervisor_id')->nullable();
             $table->json('caregiver_goals')->nullable();
             $table->json('rbt_training_goals')->nullable();
             $table->string('provider_signature')->nullable();
@@ -45,7 +45,7 @@ class CreateNoteBcbasTable extends Migration
 
             // Additional foreign key constraints
             $table->foreign('rendering_provider')->references('id')->on('users')->nullOnDelete();
-            $table->foreign('aba_supervisor')->references('id')->on('users')->nullOnDelete();
+            $table->foreign('supervisor_id')->references('id')->on('users')->nullOnDelete();
         });
     }
 
