@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Admin\Notes;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\Note\NoteRbtResource;
 use App\Models\Notes\NoteRbt;
 use Illuminate\Http\Request;
 
@@ -42,11 +41,12 @@ class NoteRbtV2Controller extends Controller
    *     ),
    *     @OA\Parameter(
    *         name="doctor_id",
-   *         in="query", 
+   *         in="query",
    *         description="Filter by doctor ID",
    *         required=false,
    *         @OA\Schema(type="integer")
    *     ),
+   *     @OA\Parameter(name="provider_id", in="query", description="Filter by provider ID", required=false, @OA\Schema(type="integer")),
    *     @OA\Parameter(
    *         name="bip_id",
    *         in="query",
@@ -71,7 +71,7 @@ class NoteRbtV2Controller extends Controller
    *     @OA\Parameter(
    *         name="date_end",
    *         in="query",
-   *         description="End date for filtering (Y-m-d)", 
+   *         description="End date for filtering (Y-m-d)",
    *         required=false,
    *         @OA\Schema(type="string", format="date")
    *     ),
@@ -110,6 +110,11 @@ class NoteRbtV2Controller extends Controller
       $query->where('doctor_id', $request->doctor_id);
     }
 
+    // Filter by provider_id
+    if ($request->has('provider_id')) {
+      $query->where('provider_id', $request->provider_id);
+    }
+
     // Filter by bip_id
     if ($request->has('bip_id')) {
       $query->where('bip_id', $request->bip_id);
@@ -131,12 +136,12 @@ class NoteRbtV2Controller extends Controller
     // Get paginated results (15 per page by default)
     $perPage = $request->input('per_page', 15);
     $notes = $query->orderBy('created_at', 'desc')
-      ->with(['patient', 'doctor', 'bips', 'location'])
+      ->with(['patient', 'bips', 'location'])
       ->paginate($perPage);
 
     return response()->json([
       'status' => 'success',
-      'data' => NoteRbtResource::collection($notes)
+      'data' => $notes
     ]);
   }
 
@@ -179,7 +184,7 @@ class NoteRbtV2Controller extends Controller
    */
   public function show($id)
   {
-    $note = NoteRbt::with(['patient', 'doctor', 'bips', 'location'])
+    $note = NoteRbt::with(['patient', 'bips', 'location'])
       ->find($id);
 
     if (!$note) {
@@ -191,7 +196,7 @@ class NoteRbtV2Controller extends Controller
 
     return response()->json([
       'status' => 'success',
-      'data' => NoteRbtResource::make($note)
+      'data' => $note
     ]);
   }
 
@@ -212,13 +217,40 @@ class NoteRbtV2Controller extends Controller
    *         required=true,
    *         @OA\JsonContent(
    *             required={"session_date", "patient_id", "doctor_id"},
-   *             @OA\Property(property="session_date", type="string", format="date", example="2023-12-01"),
-   *             @OA\Property(property="patient_id", type="integer", example=1),
-   *             @OA\Property(property="doctor_id", type="integer", example=1),
-   *             @OA\Property(property="bip_id", type="integer", example=1),
-   *             @OA\Property(property="location_id", type="integer", example=1),
-   *             @OA\Property(property="notes", type="string", example="Session notes here"),
-   *             @OA\Property(property="status", type="string", example="completed")
+   *             @OA\Property(property="session_date", type="string", format="date-time", example="2023-12-01T00:00:00Z"),
+   *             @OA\Property(property="patient_id", type="string"),
+   *             @OA\Property(property="doctor_id", type="integer"),
+   *             @OA\Property(property="bip_id", type="integer"),
+   *             @OA\Property(property="pos", type="string"),
+   *             @OA\Property(property="time_in", type="string", format="time", example="09:00:00"),
+   *             @OA\Property(property="time_out", type="string", format="time", example="10:00:00"),
+   *             @OA\Property(property="time_in2", type="string", format="time", example="14:00:00"),
+   *             @OA\Property(property="time_out2", type="string", format="time", example="15:00:00"),
+   *             @OA\Property(property="environmental_changes", type="string"),
+   *             @OA\Property(property="maladaptives", type="object"),
+   *             @OA\Property(property="replacements", type="object"),
+   *             @OA\Property(property="interventions", type="object"),
+   *             @OA\Property(property="meet_with_client_at", type="string"),
+   *             @OA\Property(property="client_appeared", type="string"),
+   *             @OA\Property(property="as_evidenced_by", type="string"),
+   *             @OA\Property(property="rbt_modeled_and_demonstrated_to_caregiver", type="string"),
+   *             @OA\Property(property="client_response_to_treatment_this_session", type="string"),
+   *             @OA\Property(property="progress_noted_this_session_compared_to_previous_session", type="string"),
+   *             @OA\Property(property="next_session_is_scheduled_for", type="string", format="date-time"),
+   *             @OA\Property(property="provider_id", type="integer"),
+   *             @OA\Property(property="provider_signature", type="string"),
+   *             @OA\Property(property="provider_credential", type="string"),
+   *             @OA\Property(property="supervisor_signature", type="string"),
+   *             @OA\Property(property="supervisor_name", type="integer"),
+   *             @OA\Property(property="billed", type="boolean"),
+   *             @OA\Property(property="pay", type="boolean"),
+   *             @OA\Property(property="md", type="string"),
+   *             @OA\Property(property="md2", type="string"),
+   *             @OA\Property(property="cpt_code", type="string"),
+   *             @OA\Property(property="status", type="string", enum={"pending", "ok", "no", "review"}),
+   *             @OA\Property(property="location_id", type="integer"),
+   *             @OA\Property(property="pa_service_id", type="integer"),
+   *             @OA\Property(property="insuranceId", type="string")
    *         )
    *     ),
    *     @OA\Response(
@@ -233,12 +265,11 @@ class NoteRbtV2Controller extends Controller
    *     ),
    *     @OA\Response(
    *         response=404,
-   *         description="Note not found",
-   *         @OA\JsonContent(
-   *             type="object",
-   *             @OA\Property(property="status", type="string", example="error"),
-   *             @OA\Property(property="message", type="string", example="Note not found")
-   *         )
+   *         description="Note not found"
+   *     ),
+   *     @OA\Response(
+   *         response=422,
+   *         description="Validation error"
    *     )
    * )
    */
@@ -255,13 +286,40 @@ class NoteRbtV2Controller extends Controller
 
     // Validate request
     $validated = $request->validate([
-      'session_date' => 'required|date',
-      'patient_id' => 'required|exists:patients,id',
-      'doctor_id' => 'required|exists:doctors,id',
-      'bip_id' => 'nullable|exists:bips,id',
-      'location_id' => 'nullable|exists:locations,id',
-      'notes' => 'nullable|string',
-      'status' => 'nullable|string'
+        'session_date' => 'required|date',
+        'patient_id' => 'required|string',
+        'doctor_id' => 'required|exists:users,id',
+        'bip_id' => 'nullable|exists:bips,id',
+        'pos' => 'nullable|string',
+        'time_in' => 'nullable|date_format:H:i:s',
+        'time_out' => 'nullable|date_format:H:i:s|after:time_in',
+        'time_in2' => 'nullable|date_format:H:i:s',
+        'time_out2' => 'nullable|date_format:H:i:s|after:time_in2',
+        'environmental_changes' => 'nullable|string',
+        'maladaptives' => 'nullable|json',
+        'replacements' => 'nullable|json',
+        'interventions' => 'nullable|json',
+        'meet_with_client_at' => 'nullable|string',
+        'client_appeared' => 'nullable|string',
+        'as_evidenced_by' => 'nullable|string',
+        'rbt_modeled_and_demonstrated_to_caregiver' => 'nullable|string',
+        'client_response_to_treatment_this_session' => 'nullable|string',
+        'progress_noted_this_session_compared_to_previous_session' => 'nullable|string',
+        'next_session_is_scheduled_for' => 'nullable|date',
+        'provider_id' => 'nullable|exists:users,id',
+        'provider_signature' => 'nullable|string',
+        'provider_credential' => 'nullable|string',
+        'supervisor_signature' => 'nullable|string',
+        'supervisor_name' => 'nullable|exists:users,id',
+        'billed' => 'boolean',
+        'pay' => 'boolean',
+        'md' => 'nullable|string|max:20',
+        'md2' => 'nullable|string|max:20',
+        'cpt_code' => 'nullable|string',
+        'status' => 'nullable|in:pending,ok,no,review',
+        'location_id' => 'nullable|exists:locations,id',
+        'pa_service_id' => 'nullable|exists:pa_services,id',
+        'insuranceId' => 'nullable|string',
     ]);
 
     $note->update($validated);
@@ -269,7 +327,7 @@ class NoteRbtV2Controller extends Controller
     return response()->json([
       'status' => 'success',
       'message' => 'Note updated successfully',
-      'data' => NoteRbtResource::make($note->fresh(['patient', 'doctor', 'bips', 'location']))
+      'data' => $note,
     ]);
   }
 
