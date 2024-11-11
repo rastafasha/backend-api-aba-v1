@@ -23,15 +23,26 @@ TIMESTAMP=$(date +"%Y-%m-%d %H:%M:%S")
 echo "Starting at $TIMESTAMP" >> $DEPLOYPATH/deploy.log 2>&1
 
 # Copiar archivos al directorio de despliegue
-/bin/cp -R * $DEPLOYPATH >> $DEPLOYPATH/deploy.log 2>&1
-
-# Eliminar la carpeta .git
-rm -rf $DEPLOYPATH/.git >> $DEPLOYPATH/deploy.log 2>&1
+rsync -av --delete \
+    --exclude='.git/' \
+    --exclude='vendor' \
+    --exclude='deploy.log' \
+    --exclude='storage/logs/*' \
+    --exclude='storage/framework/cache/*' \
+    . $DEPLOYPATH >> $DEPLOYPATH/deploy.log 2>&1
 
 # Copiar archivos específicos
 /bin/cp -R .cpanel.yml $DEPLOYPATH >> $DEPLOYPATH/deploy.log 2>&1
-/bin/cp -R .env $DEPLOYPATH >> $DEPLOYPATH/deploy.log 2>&1
 /bin/cp -R .htaccess $DEPLOYPATH >> $DEPLOYPATH/deploy.log 2>&1
+
+# Configurar DEPLOYPATH según la rama
+if [ "$BRANCH" == "develop" ]; then
+    ENVFILE = ".env.dev"
+elif [ "$BRANCH" == "main" ]; then
+    ENVFILE = ".env.prod"
+fi
+
+/bin/cp $ENVFILE $DEPLOYPATH/.env >> $DEPLOYPATH/deploy.log 2>&1
 
 # Cambiar al directorio de despliegue
 cd $DEPLOYPATH >> $DEPLOYPATH/deploy.log 2>&1
