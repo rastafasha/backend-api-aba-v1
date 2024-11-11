@@ -1,6 +1,8 @@
 ---
 deployment:
   tasks:
+    - export DEPLOYPATH="/home/z779cvj9zm4g/public_html/abatherapy.malcolmcordova.com/backend-api-aba/"
+    - echo "Starting" >> $DEPLOYPATH/deploy.log 2>&1
     - script: |
         #!/bin/bash
 
