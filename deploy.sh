@@ -1,7 +1,7 @@
 #!/bin/bash
 
-# Obtener la rama actual
-BRANCH=$(git rev-parse --abbrev-ref HEAD)
+# Leer la rama actual directamente desde .git/HEAD
+BRANCH=$(cat .git/HEAD | sed 's/ref: refs\/heads\///')
 
 # Configurar DEPLOYPATH según la rama
 if [ "$BRANCH" == "develop" ]; then
