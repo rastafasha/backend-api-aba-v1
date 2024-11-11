@@ -6,8 +6,10 @@ BRANCH=$(cat .git/HEAD | sed 's/ref: refs\/heads\///')
 # Configurar DEPLOYPATH según la rama
 if [ "$BRANCH" == "develop" ]; then
     DEPLOYPATH="/home/z779cvj9zm4g/public_html/aba-dev.malcolmcordova.com/backend-api-aba/"
+    ENVFILE = ".env.dev"
 elif [ "$BRANCH" == "main" ]; then
     DEPLOYPATH="/home/z779cvj9zm4g/public_html/abatherapy.malcolmcordova.com/backend-api-aba/"
+    ENVFILE = ".env.prod"
 else
     echo "Rama no reconocida. No se puede configurar DEPLOYPATH."
     exit 1
@@ -34,15 +36,7 @@ rsync -av --delete \
 # Copiar archivos específicos
 /bin/cp -R .cpanel.yml $DEPLOYPATH >> $DEPLOYPATH/deploy.log 2>&1
 /bin/cp -R .htaccess $DEPLOYPATH >> $DEPLOYPATH/deploy.log 2>&1
-
-# Configurar DEPLOYPATH según la rama
-if [ "$BRANCH" == "develop" ]; then
-    ENVFILE = ".env.dev"
-elif [ "$BRANCH" == "main" ]; then
-    ENVFILE = ".env.prod"
-fi
-
-/bin/cp $ENVFILE $DEPLOYPATH/.env >> $DEPLOYPATH/deploy.log 2>&1
+/bin/cp "$ENVFILE" "$DEPLOYPATH/.env" >> $DEPLOYPATH/deploy.log 2>&1
 
 # Cambiar al directorio de despliegue
 cd $DEPLOYPATH >> $DEPLOYPATH/deploy.log 2>&1
