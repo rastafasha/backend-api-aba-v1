@@ -4,11 +4,6 @@ deployment:
     - script: |
         #!/bin/bash
 
-        # Obtener la fecha y hora actual
-        TIMESTAMP=$(date +"%Y-%m-%d %H:%M:%S")
-
-        # Registrar el inicio del despliegue con la fecha y hora
-        echo "Starting at $TIMESTAMP" >> $DEPLOYPATH/deploy.log 2>&1
 
         # Obtener la rama actual
         BRANCH=$(git rev-parse --abbrev-ref HEAD)
@@ -26,6 +21,11 @@ deployment:
         # Exportar DEPLOYPATH
         export DEPLOYPATH
 
+        # Obtener la fecha y hora actual
+        TIMESTAMP=$(date +"%Y-%m-%d %H:%M:%S")
+
+        # Registrar el inicio del despliegue con la fecha y hora
+        echo "Starting at $TIMESTAMP" >> $DEPLOYPATH/deploy.log 2>&1
 
 
     - script: |
