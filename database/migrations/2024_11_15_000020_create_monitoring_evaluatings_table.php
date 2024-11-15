@@ -8,7 +8,7 @@ class CreateMonitoringEvaluatingTable extends Migration
 {
     public function up()
     {
-        Schema::create('monitoring_evaluating', function (Blueprint $table) {
+        Schema::create('monitoring_evaluatings', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->foreignId('bip_id')->nullable()->constrained('bips')->nullOnDelete();
             $table->string('patient_id')->nullable();
@@ -22,6 +22,6 @@ class CreateMonitoringEvaluatingTable extends Migration
 
     public function down()
     {
-        Schema::dropIfExists('monitoring_evaluating');
+        Schema::dropIfExists('monitoring_evaluatings');
     }
 }
