@@ -116,15 +116,15 @@ class BipController extends Controller
             "message" => 200,
             "bip" => $bip,
             "type_of_assessment" => $bip->type_of_assessment,
-            "documents_reviewed" => json_decode($bip->documents_reviewed),
-            "maladaptives" => json_decode($bip->maladaptives),
-            "assestment_conducted_options" => json_decode($bip->assestment_conducted_options),
-            "assestmentEvaluationSettings" => json_decode($bip->assestmentEvaluationSettings),
-            "access_to_tangibles" => json_decode($bip->access_to_tangibles),
-            "phiysical_and_medical_status" => json_decode($bip->phiysical_and_medical_status),
-            "prevalent_setting_event_and_atecedents" => json_decode($bip->prevalent_setting_event_and_atecedents),
-            "interventions" => json_decode($bip->interventions),
-            "pos_covered" => json_decode($bip->pos_covered),
+            "documents_reviewed" => is_string($bip->documents_reviewed)? json_decode($bip->documents_reviewed):$bip->documents_reviewed,
+            "maladaptives" => is_string($bip->maladaptives)? json_decode($bip->maladaptives):$bip->maladaptives,
+            "assestment_conducted_options" => is_string($bip->assestment_conducted_options)? json_decode($bip->assestment_conducted_options):$bip->assestment_conducted_options,
+            "assestmentEvaluationSettings" => is_string($bip->assestmentEvaluationSettings)? json_decode($bip->assestmentEvaluationSettings):$bip->assestmentEvaluationSettings,
+            "access_to_tangibles" => is_string($bip->access_to_tangibles)? json_decode($bip->access_to_tangibles):$bip->access_to_tangibles,
+            "phiysical_and_medical_status" => is_string($bip->phiysical_and_medical_status)? json_decode($bip->phiysical_and_medical_status):$bip->phiysical_and_medical_status,
+            "prevalent_setting_event_and_atecedents" => is_string($bip->prevalent_setting_event_and_atecedents)? json_decode($bip->prevalent_setting_event_and_atecedents):$bip->prevalent_setting_event_and_atecedents,
+            "interventions" => is_string($bip->interventions)? json_decode($bip->interventions):$bip->interventions,
+            "pos_covered" => is_string($bip->pos_covered)? json_decode($bip->pos_covered):$bip->pos_covered,
             "client_id" => $bip->client_id,
             "patient_id" => $bip->patient_id,
             "doctor_id" => $bip->doctor_id,
@@ -153,13 +153,6 @@ class BipController extends Controller
             "id" => $bip->id,
             "bip" => $bip,
             "type_of_assessment" => $bip->type_of_assessment,
-            // "bip" => BipResource::make($bip),
-            // "documents_reviewed"=>json_decode($bip-> documents_reviewed),
-            // "maladaptives"=>json_decode($bip-> maladaptives),
-            // "assestment_conducted_options"=>json_decode($bip-> assestment_conducted_options),
-            // "prevalent_setting_event_and_atecedents"=>json_decode($bip-> prevalent_setting_event_and_atecedents),
-            // "interventions"=>json_decode($bip-> interventions),
-
         ]);
     }
     //se obtiene el usuario
@@ -187,7 +180,7 @@ class BipController extends Controller
                 "address" => $patient->address,
                 "age" => $patient->age,
                 "birth_date" => $patient->birth_date,
-                "pos_covered" => json_decode($patient->pos_covered),
+                "pos_covered" => is_string($patient->pos_covered)? json_decode($patient->pos_covered):$patient->pos_covered,
                 "pa_assessments" => json_encode($paServices),
                 "pa_services" => $paServices,
                 "diagnosis_code" => $patient->diagnosis_code,
@@ -209,17 +202,17 @@ class BipController extends Controller
             // "bip" => $bip,
             "bip" => BipResource::make($bip),
             "type_of_assessment" => $bip->type_of_assessment,
-            "documents_reviewed" => json_decode($bip->documents_reviewed),
-            "maladaptives" => json_decode($bip->maladaptives),
-            "assestment_conducted_options" => json_decode($bip->assestment_conducted_options),
-            "prevalent_setting_event_and_atecedents" => json_decode($bip->prevalent_setting_event_and_atecedents),
-            "interventions" => json_decode($bip->interventions),
-            "assestmentEvaluationSettings" => json_decode($bip->assestmentEvaluationSettings),
-            "tangibles" => json_decode($bip->tangibles),
-            "attention" => json_decode($bip->attention),
-            "escape" => json_decode($bip->escape),
-            "sensory" => json_decode($bip->sensory),
-            "phiysical_and_medical_status" => json_decode($bip->phiysical_and_medical_status),
+            "documents_reviewed" => is_string($bip->documents_reviewed)? json_decode($bip->documents_reviewed):$bip->documents_reviewed,
+            "maladaptives" => is_string($bip->maladaptives)? json_decode($bip->maladaptives):$bip->maladaptives,
+            "assestment_conducted_options" => is_string($bip->assestment_conducted_options)? json_decode($bip->assestment_conducted_options):$bip->assestment_conducted_options,
+            "prevalent_setting_event_and_atecedents" => is_string($bip->prevalent_setting_event_and_atecedents)? json_decode($bip->prevalent_setting_event_and_atecedents):$bip->prevalent_setting_event_and_atecedents,
+            "interventions" => is_string($bip->interventions)? json_decode($bip->interventions):$bip->interventions,
+            "assestmentEvaluationSettings" => is_string($bip->assestmentEvaluationSettings)? json_decode($bip->assestmentEvaluationSettings):$bip->assestmentEvaluationSettings,
+            "tangibles" => is_string($bip->tangibles)? json_decode($bip->tangibles):$bip->tangibles,
+            "attention" => is_string($bip->attention)? json_decode($bip->attention):$bip->attention,
+            "escape" => is_string($bip->escape)? json_decode($bip->escape):$bip->escape,
+            "sensory" => is_string($bip->sensory)? json_decode($bip->sensory):$bip->sensory,
+            "phiysical_and_medical_status" => is_string($bip->phiysical_and_medical_status)? json_decode($bip->phiysical_and_medical_status):$bip->phiysical_and_medical_status,
             // "consent_to_treatment"=>$bip->consent_to_treatment,
 
 
@@ -239,17 +232,17 @@ class BipController extends Controller
             "goalsmaladaptive" => $goalsmaladaptive,
             // "bip" => BipResource::make($bip),
             "type_of_assessment" => $bip->type_of_assessment,
-            "documents_reviewed" => json_decode($bip->documents_reviewed),
-            "maladaptives" => json_decode($bip->maladaptives),
-            "assestment_conducted_options" => json_decode($bip->assestment_conducted_options),
-            "assestmentEvaluationSettings" => json_decode($bip->assestmentEvaluationSettings),
-            "tangibles" => json_decode($bip->tangibles),
-            "attention" => json_decode($bip->attention),
-            "escape" => json_decode($bip->escape),
-            "sensory" => json_decode($bip->sensory),
-            "prevalent_setting_event_and_atecedents" => json_decode($bip->prevalent_setting_event_and_atecedents),
-            "phiysical_and_medical_status" => json_decode($bip->phiysical_and_medical_status),
-            "interventions" => json_decode($bip->interventions),
+            "documents_reviewed" => is_string($bip->documents_reviewed)? json_decode($bip->documents_reviewed):$bip->documents_reviewed,
+            "maladaptives" => is_string($bip->maladaptives)? json_decode($bip->maladaptives):$bip->maladaptives,
+            "assestment_conducted_options" => is_string($bip->assestment_conducted_options)? json_decode($bip->assestment_conducted_options):$bip->assestment_conducted_options,
+            "assestmentEvaluationSettings" => is_string($bip->assestmentEvaluationSettings)? json_decode($bip->assestmentEvaluationSettings):$bip->assestmentEvaluationSettings,
+            "tangibles" => is_string($bip->tangibles)? json_decode($bip->tangibles):$bip->tangibles,
+            "attention" => is_string($bip->attention)? json_decode($bip->attention):$bip->attention,
+            "escape" => is_string($bip->escape)? json_decode($bip->escape):$bip->escape,
+            "sensory" => is_string($bip->sensory)? json_decode($bip->sensory):$bip->sensory,
+            "prevalent_setting_event_and_atecedents" => is_string($bip->prevalent_setting_event_and_atecedents)? json_decode($bip->prevalent_setting_event_and_atecedents):$bip->prevalent_setting_event_and_atecedents,
+            "phiysical_and_medical_status" => is_string($bip->phiysical_and_medical_status)? json_decode($bip->phiysical_and_medical_status):$bip->phiysical_and_medical_status,
+            "interventions" => is_string($bip->interventions)? json_decode($bip->interventions):$bip->interventions,
         ]);
     }
 
@@ -269,9 +262,9 @@ class BipController extends Controller
 
         return response()->json([
             "id" => $bip->id,
-            "maladaptives" => json_decode($bip->maladaptives),
-            "interventions" => json_decode($bip->interventions),
-            "reduction_goal" => json_decode($bip->reduction_goal),
+            "maladaptives" => is_string($bip->maladaptives)? json_decode($bip->maladaptives):$bip->maladaptives,
+            "interventions" => is_string($bip->interventions)? json_decode($bip->interventions):$bip->interventions,
+            "reduction_goal" => is_string($bip->reduction_goal)? json_decode($bip->reduction_goal):$bip->reduction_goal,
             "sustitution_goal" => $bip->sustitution_goal,
             "doctor_id" => $bip->doctor_id,
             "patient" => $patient->id ? [
@@ -281,7 +274,7 @@ class BipController extends Controller
                 "first_name" => $patient->first_name,
                 "last_name" => $patient->last_name,
                 "diagnosis_code" => $patient->diagnosis_code,
-                "pos_covered" => json_decode($patient->pos_covered),
+                "pos_covered" => is_string($patient->pos_covered)? json_decode($patient->pos_covered):$patient->pos_covered,
                 "pa_services" => $paServices,
                 "pa_assessments" => json_encode($paServices),
                 "insurer_id" => $patient->insurer_id,
@@ -372,35 +365,18 @@ class BipController extends Controller
             "message" => 200,
             "bip" => $bip,
             "type_of_assessment" => $bip->type_of_assessment,
-            "documents_reviewed" => json_decode($bip->documents_reviewed),
-            "maladaptives" => json_decode($bip->maladaptives),
-            "assestment_conducted_options" => json_decode($bip->assestment_conducted_options),
-            "assestmentEvaluationSettings" => json_decode($bip->assestmentEvaluationSettings),
-            "tangibles" => json_decode($bip->tangibles),
-            "attention" => json_decode($bip->attention),
-            "escape" => json_decode($bip->escape),
-            "sensory" => json_decode($bip->sensory),
-            "prevalent_setting_event_and_atecedents" => json_decode($bip->prevalent_setting_event_and_atecedents),
-            "phiysical_and_medical_status" => json_decode($bip->phiysical_and_medical_status),
-            "interventions" => json_decode($bip->interventions),
-            // "doctor_id" => $bip->doctor_id,
-            // "doctor"=>$bip->doctor_id ?
-            //             [
-            //                 "id"=> $doctor->id,
-            //                 "email"=> $doctor->email,
-            //                 "full_name" =>$doctor->name.' '.$doctor->surname,
-            //             ]: NULL,
+            "documents_reviewed" => is_string($bip->documents_reviewed)? json_decode($bip->documents_reviewed):$bip->documents_reviewed,
+            "maladaptives" => is_string($bip->maladaptives)? json_decode($bip->maladaptives):$bip->maladaptives,
+            "assestment_conducted_options" => is_string($bip->assestment_conducted_options)? json_decode($bip->assestment_conducted_options):$bip->assestment_conducted_options,
+            "assestmentEvaluationSettings" => is_string($bip->assestmentEvaluationSettings)? json_decode($bip->assestmentEvaluationSettings):$bip->assestmentEvaluationSettings,
+            "tangibles" => is_string($bip->tangibles)? json_decode($bip->tangibles):$bip->tangibles,
+            "attention" => is_string($bip->attention)? json_decode($bip->attention):$bip->attention,
+            "escape" => is_string($bip->escape)? json_decode($bip->escape):$bip->escape,
+            "sensory" => is_string($bip->sensory)? json_decode($bip->sensory):$bip->sensory,
+            "prevalent_setting_event_and_atecedents" => is_string($bip->prevalent_setting_event_and_atecedents)? json_decode($bip->prevalent_setting_event_and_atecedents):$bip->prevalent_setting_event_and_atecedents,
+            "phiysical_and_medical_status" => is_string($bip->phiysical_and_medical_status)? json_decode($bip->phiysical_and_medical_status):$bip->phiysical_and_medical_status,
+            "interventions" => is_string($bip->interventions)? json_decode($bip->interventions):$bip->interventions,
         ]);
-
-        // $bip = Bip::findOrFail($id);
-        // $bip->update();
-        // return response()->json([
-        //     "message" => 200
-        // ]);
-
-
-
-
 
     }
 
