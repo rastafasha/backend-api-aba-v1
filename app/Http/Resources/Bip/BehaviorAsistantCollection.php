@@ -15,7 +15,7 @@ class BehaviorAsistantCollection extends ResourceCollection
     public function toArray($request)
     {
         return [
-            "data"=> BehaviorAsistantResource::collection($this->collection)
+            "data" => BehaviorAsistantResource::collection($this->collection)
         ];
     }
 }

@@ -12,7 +12,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Billing extends Model
 {
     use HasFactory;
-    protected $fillable=[
+
+    protected $fillable = [
         'patient_id',
         'sponsor_id',
         'cpt_code',

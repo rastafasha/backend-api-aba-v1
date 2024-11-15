@@ -20,11 +20,11 @@ class GeneralizationTrainingController extends Controller
     {
         $generalizationTrainings = GeneralizationTraining::orderBy("id", "desc")
                             ->paginate(10);
-                    
+
         return response()->json([
             "generalizationTrainings" => $generalizationTrainings ,
             // "goals" => ReductionGoalsResource::make($goals) ,
-            
+
         ]);
     }
 
@@ -38,17 +38,17 @@ class GeneralizationTrainingController extends Controller
     {
         $patient_is_valid = Patient::where("patient_id", $request->patient_id)->first();
 
-        $request->request->add(["transition_fading_plans"=>json_encode($request->transition_fading_plans)]);
-        
+        $request->request->add(["transition_fading_plans" => json_encode($request->transition_fading_plans)]);
+
 
         $generalizationTraining = GeneralizationTraining::create($request->all());
-        
-        
+
+
         return response()->json([
-            "message"=>200,
-            "id"=>$generalizationTraining->id,
+            "message" => 200,
+            "id" => $generalizationTraining->id,
             'generalizationTraining' => new GeneralizationTrainingResource($generalizationTraining),
-            "transition_fading_plans"=>json_decode($generalizationTraining-> transition_fading_plans),
+            "transition_fading_plans" => json_decode($generalizationTraining-> transition_fading_plans),
         ]);
     }
 
@@ -65,19 +65,17 @@ class GeneralizationTrainingController extends Controller
         return response()->json([
             "generalizationTraining" => $generalizationTraining,
             "client_id" => $client_id,
-            "transition_fading_plans"=>json_decode($generalizationTraining-> transition_fading_plans),
-            
+            "transition_fading_plans" => json_decode($generalizationTraining-> transition_fading_plans),
+
         ]);
     }
 
     public function showbyProfile($id)
     {
-        $patient = GeneralizationTraining::where("client_id","<>", $id)->first();
+        $patient = GeneralizationTraining::where("client_id", "<>", $id)->first();
         return response()->json([
             "patient" => $patient,
         ]);
-
-        
     }
 
 
@@ -86,10 +84,8 @@ class GeneralizationTrainingController extends Controller
         $generalizationTrainingPatientIds = GeneralizationTraining::where("patient_id", $patient_id)->orderBy("patient_id", "desc")->get();
         return response()->json([
             "generalizationTrainingPatientIds" => GeneralizationTrainingCollection::make($generalizationTrainingPatientIds)
-            
-        ]);
 
-        
+        ]);
     }
 
     /**
@@ -103,14 +99,14 @@ class GeneralizationTrainingController extends Controller
     {
         $generalizationTraining = GeneralizationTraining::findOrFail($id);
 
-        $request->request->add(["transition_fading_plans"=>json_encode($request->transition_fading_plans)]);
-        
+        $request->request->add(["transition_fading_plans" => json_encode($request->transition_fading_plans)]);
+
         $generalizationTraining->update($request->all());
-        
+
         return response()->json([
-            "message"=>200,
-            "generalizationTraining"=>$generalizationTraining,
-            "transition_fading_plans"=>json_decode($generalizationTraining-> transition_fading_plans),
+            "message" => 200,
+            "generalizationTraining" => $generalizationTraining,
+            "transition_fading_plans" => json_decode($generalizationTraining-> transition_fading_plans),
         ]);
     }
 

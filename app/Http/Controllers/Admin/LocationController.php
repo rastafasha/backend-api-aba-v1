@@ -30,28 +30,31 @@ class LocationController extends Controller
         $email_doctor = $request->search;
 
         $locations = Location::filterAdvanceLocation(
-            $client_id, $name_client, $email_client,
-            $doctor_id, $name_doctor, $email_doctor,
-            )->orderBy("id", "desc")
+            $client_id,
+            $name_client,
+            $email_client,
+            $doctor_id,
+            $name_doctor,
+            $email_doctor,
+        )->orderBy("id", "desc")
                             ->paginate(10);
         return response()->json([
             // "total"=>$patients->total(),
-            "locations"=> LocationCollection::make($locations)
+            "locations" => LocationCollection::make($locations)
         ]);
-
     }
 
     public function config()
     {
         // $roles = Role::where("name","like","%DOCTOR%")->get();
         // $specialists = User::where("status",'active')->get();
-        
-        
-        
+
+
+
         return response()->json([
             // "specialists" => $specialists,
             // "patients" => $patients,
-            
+
         ]);
     }
     /**
@@ -65,23 +68,23 @@ class LocationController extends Controller
         $user_is_valid = User::where("email", $request->email)->first();
 
 
-        if($user_is_valid){
+        if ($user_is_valid) {
             return response()->json([
-                "message"=>403,
-                "message_text"=> 'el usuario con este email ya existe'
+                "message" => 403,
+                "message_text" => 'el usuario con este email ya existe'
             ]);
         }
 
-        if($request->hasFile('imagen')){
+        if ($request->hasFile('imagen')) {
             $path = Storage::putFile("locations", $request->file('imagen'));
-            $request->request->add(["avatar"=>$path]);
+            $request->request->add(["avatar" => $path]);
         }
 
         $location = Location::create($request->all());
-        
-        
+
+
         return response()->json([
-            "message"=>200,
+            "message" => 200,
             // "location" => LocationCollection::make($location),
         ]);
     }
@@ -94,8 +97,8 @@ class LocationController extends Controller
      */
     public function show($id)
     {
-        
-        $patients = Patient::where("location_id",$id)->get();
+
+        $patients = Patient::where("location_id", $id)->get();
         // $location = Location::with('specialists', 'patients')->findOrFail($id);
         $location = Location::findOrFail($id);
         // $location1 = $location->doctor;
@@ -121,52 +124,52 @@ class LocationController extends Controller
         return response()->json([
             "location" => LocationResource::make($location),
 
-            
-            "specialists"=>$specialists->map(function($specialist){
+
+            "specialists" => $specialists->map(function ($specialist) {
                 return[
-                                "id"=> $specialist->id,
-                                "full_name"=> $specialist->name.' '.$specialist->surname,
-                                "email"=> $specialist->email,
-                                "status"=> $specialist->status,
-                                "npi"=> $specialist->npi,
-                                "phone"=> $specialist->phone,
-                                "location_id"=> $specialist->location_id,
-                                "roles"=> $specialist->roles,
-                                "created_at"=> $specialist->created_at->format('Y-m-d'),
-                                "avatar"=> $specialist->avatar ? env("APP_URL")."storage/".$specialist->avatar : null,
+                                "id" => $specialist->id,
+                                "full_name" => $specialist->name . ' ' . $specialist->surname,
+                                "email" => $specialist->email,
+                                "status" => $specialist->status,
+                                "npi" => $specialist->npi,
+                                "phone" => $specialist->phone,
+                                "location_id" => $specialist->location_id,
+                                "roles" => $specialist->roles,
+                                "created_at" => $specialist->created_at->format('Y-m-d'),
+                                "avatar" => $specialist->avatar ? env("APP_URL") . "storage/" . $specialist->avatar : null,
                                 // "avatar"=> $specialist->avatar ? env("APP_URL").$specialist->avatar : null,
-                                
+
                             ];
-                        }),
+            }),
             "patients" => PatientCollection::make($patients),
-            "patients"=>$patients->map(function($patient){
+            "patients" => $patients->map(function ($patient) {
                 return[
-                    "id"=> $patient->id,
-                    "patient_id"=> $patient->patient_id,
-                    "full_name"=> $patient->first_name.' '.$patient->last_name,
-                    "patient_id"=>$patient->patient_id,
+                    "id" => $patient->id,
+                    "patient_id" => $patient->patient_id,
+                    "full_name" => $patient->first_name . ' ' . $patient->last_name,
+                    "patient_id" => $patient->patient_id,
 
-                    "first_name"=>$patient->first_name,
-                    "last_name"=>$patient->last_name,
-                    "email"=>$patient->email,
-                    "phone"=>$patient->phone,
-                    "insuranceId"=>$patient->insuranceId,
-                    "avatar"=> $patient->avatar ? env("APP_URL")."storage/".$patient->avatar : null,
+                    "first_name" => $patient->first_name,
+                    "last_name" => $patient->last_name,
+                    "email" => $patient->email,
+                    "phone" => $patient->phone,
+                    "insuranceId" => $patient->insuranceId,
+                    "avatar" => $patient->avatar ? env("APP_URL") . "storage/" . $patient->avatar : null,
                     // "avatar"=> $patient->avatar ? env("APP_URL").$patient->avatar : null,
-                    "status"=> $patient->status,
-                    "eligibility"=> $patient->eligibility,
-                    "created_at"=> $patient->created_at->format('Y-m-d'),
+                    "status" => $patient->status,
+                    "eligibility" => $patient->eligibility,
+                    "created_at" => $patient->created_at->format('Y-m-d'),
 
-                    "rbt_id"=>$patient->rbt_id,
-                    "rbt2_id"=>$patient->rbt2_id,
-                    "bcba_id"=>$patient->bcba_id,
-                    "bcba2_id"=>$patient->bcba2_id,
+                    "rbt_id" => $patient->rbt_id,
+                    "rbt2_id" => $patient->rbt2_id,
+                    "bcba_id" => $patient->bcba_id,
+                    "bcba2_id" => $patient->bcba2_id,
                 ];
             }),
         ]);
     }
 
-    
+
 
     /**
      * Update the specified resource in storage.
@@ -178,7 +181,7 @@ class LocationController extends Controller
     public function update(Request $request, $id)
     {
 
-        
+
         $user_is_valid = User::where("email", $request->email)->first();
 
 
@@ -188,30 +191,30 @@ class LocationController extends Controller
         //         "message_text"=> 'el usuario con este email ya existe'
         //     ]);
         // }
-        
-        $request->request->add(["pa_services"=>json_encode($request->services)]);
-        $request->request->add(["pa_assessments"=>json_encode($request->pa_assessments)]);
 
-        
-        
+        $request->request->add(["pa_services" => json_encode($request->services)]);
+        $request->request->add(["pa_assessments" => json_encode($request->pa_assessments)]);
+
+
+
         $location = Location::findOrFail($id);
 
-        if($request->hasFile('imagen')){
-            if($location->avatar){
+        if ($request->hasFile('imagen')) {
+            if ($location->avatar) {
                 Storage::delete($location->avatar);
             }
             $path = Storage::putFile("locations", $request->file('imagen'));
-            $request->request->add(["avatar"=>$path]);
+            $request->request->add(["avatar" => $path]);
         }
-        
-        
-       
+
+
+
         $location->update($request->all());
-        
-        
+
+
         return response()->json([
-            "message"=>200,
-            "location"=>$location,
+            "message" => 200,
+            "location" => $location,
             // "assesstments"=>$patient->pa_assessments ? json_decode($patient->pa_assessments) : [],
         ]);
     }
@@ -225,12 +228,12 @@ class LocationController extends Controller
     public function destroy($id)
     {
         $location = Location::findOrFail($id);
-        if($location->avatar){
+        if ($location->avatar) {
             Storage::delete($location->avatar);
         }
         $location->delete();
         return response()->json([
-            "message"=>200
+            "message" => 200
         ]);
     }
 }

@@ -4,7 +4,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Dashboard\DashboardkpiController;
 
-
 Route::get('dashboard/config', [DashboardkpiController::class, 'config'])->name('config');
 Route::post('dashboard/admin', [DashboardkpiController::class, 'dashboard_admin'])->name('dashboard_admin');
 Route::post('dashboard/admin-year', [DashboardkpiController::class, 'dashboard_admin_year'])->name('dashboard_admin_year');

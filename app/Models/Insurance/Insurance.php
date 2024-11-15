@@ -109,7 +109,8 @@ class Insurance extends Model
 {
     use HasFactory;
     use SoftDeletes;
-    protected $fillable=[
+
+    protected $fillable = [
         'insurer_name',
         'services', //Codes, provider, description, unit prize, Hourly Fee, max_allowed
         'notes',//description
@@ -126,11 +127,12 @@ class Insurance extends Model
         'notes' => 'json',
     ];
 
-    public function scopefilterAdvanceInsurance($query,
-    $insurer_name
-    ){
+    public function scopefilterAdvanceInsurance(
+        $query,
+        $insurer_name
+    ) {
 
-        if($insurer_name){
+        if ($insurer_name) {
             $query->where("insurer_name", $insurer_name);
         }
 
@@ -142,6 +144,4 @@ class Insurance extends Model
     {
         return $this->hasMany(Patient::class);
     }
-
-
 }

@@ -11,7 +11,7 @@ class PatientFile extends Model
     use HasFactory;
     use SoftDeletes;
 
-    protected $fillable =[
+    protected $fillable = [
         'patient_id',
         'name_file',
         'size',
@@ -29,6 +29,4 @@ class PatientFile extends Model
         $suffixes = array(' bytes', ' KB', ' MB', ' GB', ' TB');
         return round(pow(1024, $base - floor($base)), 2) . $suffixes[floor($base)];
     }
-
-    
 }

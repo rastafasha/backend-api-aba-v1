@@ -11,9 +11,9 @@ class UnitCalculator
     {
         $baseUnits = (int)($minutes / self::MINUTES_PER_UNIT);
         $remainingMinutes = $minutes % self::MINUTES_PER_UNIT;
-        
-        return $remainingMinutes >= self::ROUNDING_THRESHOLD 
-            ? $baseUnits + 1 
+
+        return $remainingMinutes >= self::ROUNDING_THRESHOLD
+            ? $baseUnits + 1
             : $baseUnits;
     }
 }

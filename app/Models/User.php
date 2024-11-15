@@ -16,7 +16,13 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable implements JWTSubject
 {
-    use HasApiTokens, HasFactory, Notifiable, HavePermission, HasRoles, SoftDeletes;
+    use HasApiTokens;
+    use HasFactory;
+    use Notifiable;
+    use HavePermission;
+    use HasRoles;
+    use SoftDeletes;
+
     /*
     |--------------------------------------------------------------------------
     | goblan variables
@@ -122,14 +128,14 @@ class User extends Authenticatable implements JWTSubject
 
     public function setCreatedAtAttribute($value)
     {
-    	date_default_timezone_set('America/Caracas');
-        $this->attributes["created_at"]= Carbon::now();
+        date_default_timezone_set('America/Caracas');
+        $this->attributes["created_at"] = Carbon::now();
     }
 
     public function setUpdatedAtAttribute($value)
     {
-    	date_default_timezone_set("America/Caracas");
-        $this->attributes["updated_at"]= Carbon::now();
+        date_default_timezone_set("America/Caracas");
+        $this->attributes["updated_at"] = Carbon::now();
     }
 
 
@@ -179,9 +185,7 @@ class User extends Authenticatable implements JWTSubject
     // }
 
     public function locations()
-{
-    return $this->belongsToMany(Location::class, 'user_locations');
-}
-
-
+    {
+        return $this->belongsToMany(Location::class, 'user_locations');
+    }
 }

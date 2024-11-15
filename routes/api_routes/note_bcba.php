@@ -13,8 +13,8 @@ Route::get('note_bcba/byprofile/{patient_id}', [NoteBcbaController::class, 'show
 Route::get('note_bcba/byclient/{client_id}', [NoteBcbaController::class, 'showByClienttId'])->name('showByClienttId');
 
 
-Route::get('/note_bcba/showReplacementBypatient/{id}', [NoteBcbaController::class, 'showReplacementsByPatient'] )->name('showReplacementsByPatient');
-Route::get('/note_bcba/showNoteBypatient/{id}', [NoteBcbaController::class, 'showNoteBcbaByPatient'] )->name('showNoteBcbaByPatient');
+Route::get('/note_bcba/showReplacementBypatient/{id}', [NoteBcbaController::class, 'showReplacementsByPatient'])->name('showReplacementsByPatient');
+Route::get('/note_bcba/showNoteBypatient/{id}', [NoteBcbaController::class, 'showNoteBcbaByPatient'])->name('showNoteBcbaByPatient');
 
 
 Route::post('note_bcba/store', [NoteBcbaController::class, 'storebcba'])->name('storebcba');

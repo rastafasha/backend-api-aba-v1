@@ -20,12 +20,12 @@ class CrisisPlanController extends Controller
     {
         $crisiPlans = CrisisPlan::orderBy("id", "desc")
                             ->paginate(10);
-                    
+
         return response()->json([
             "crisiPlans" => $crisiPlans ,
             // "goals" => ReductionGoalsResource::make($goals) ,
-            
-        ]); 
+
+        ]);
     }
 
     /**
@@ -38,21 +38,21 @@ class CrisisPlanController extends Controller
     {
         $patient_is_valid = Patient::where("patient_id", $request->patient_id)->first();
 
-        $request->request->add(["risk_factors"=>json_encode($request->risk_factors)]);
-        $request->request->add(["suicidalities"=>json_encode($request->suicidalities)]);
-        $request->request->add(["homicidalities"=>json_encode($request->homicidalities)]);
-        
+        $request->request->add(["risk_factors" => json_encode($request->risk_factors)]);
+        $request->request->add(["suicidalities" => json_encode($request->suicidalities)]);
+        $request->request->add(["homicidalities" => json_encode($request->homicidalities)]);
+
 
         $crisiPlan = CrisisPlan::create($request->all());
-        
-        
+
+
         return response()->json([
-            "message"=>200,
-            "id"=>$crisiPlan->id,
+            "message" => 200,
+            "id" => $crisiPlan->id,
             'crisiPlan' => new CrisisPlanResource($crisiPlan),
-            "risk_factors"=>json_decode($crisiPlan-> risk_factors),
-            "suicidalities"=>json_decode($crisiPlan-> suicidalities),
-            "homicidalities"=>json_decode($crisiPlan-> homicidalities),
+            "risk_factors" => json_decode($crisiPlan-> risk_factors),
+            "suicidalities" => json_decode($crisiPlan-> suicidalities),
+            "homicidalities" => json_decode($crisiPlan-> homicidalities),
         ]);
     }
 
@@ -69,21 +69,19 @@ class CrisisPlanController extends Controller
         return response()->json([
             "crisiPlan" => $crisiPlan,
             "client_id" => $client_id,
-            "risk_factors"=>json_decode($crisiPlan-> risk_factors),
-            "suicidalities"=>json_decode($crisiPlan-> suicidalities),
-            "homicidalities"=>json_decode($crisiPlan-> homicidalities),
-            
+            "risk_factors" => json_decode($crisiPlan-> risk_factors),
+            "suicidalities" => json_decode($crisiPlan-> suicidalities),
+            "homicidalities" => json_decode($crisiPlan-> homicidalities),
+
         ]);
     }
 
     public function showbyProfile($id)
     {
-        $patient = CrisisPlan::where("client_id","<>", $id)->first();
+        $patient = CrisisPlan::where("client_id", "<>", $id)->first();
         return response()->json([
             "patient" => $patient,
         ]);
-
-        
     }
 
 
@@ -92,10 +90,8 @@ class CrisisPlanController extends Controller
         $crisiPlanPatientIds = CrisisPlan::where("patient_id", $patient_id)->orderBy("patient_id", "desc")->get();
         return response()->json([
             "crisiPlanPatientIds" => CrisisPlanCollection::make($crisiPlanPatientIds)
-            
-        ]);
 
-        
+        ]);
     }
 
     /**
@@ -109,18 +105,18 @@ class CrisisPlanController extends Controller
     {
         $crisiPlan = CrisisPlan::findOrFail($id);
 
-        $request->request->add(["risk_factors"=>json_encode($request->risk_factors)]);
-        $request->request->add(["suicidalities"=>json_encode($request->suicidalities)]);
-        $request->request->add(["homicidalities"=>json_encode($request->homicidalities)]);
-        
+        $request->request->add(["risk_factors" => json_encode($request->risk_factors)]);
+        $request->request->add(["suicidalities" => json_encode($request->suicidalities)]);
+        $request->request->add(["homicidalities" => json_encode($request->homicidalities)]);
+
         $crisiPlan->update($request->all());
-        
+
         return response()->json([
-            "message"=>200,
-            "crisiPlan"=>$crisiPlan,
-            "risk_factors"=>json_decode($crisiPlan-> risk_factors),
-            "suicidalities"=>json_decode($crisiPlan-> suicidalities),
-            "homicidalities"=>json_decode($crisiPlan-> homicidalities),
+            "message" => 200,
+            "crisiPlan" => $crisiPlan,
+            "risk_factors" => json_decode($crisiPlan-> risk_factors),
+            "suicidalities" => json_decode($crisiPlan-> suicidalities),
+            "homicidalities" => json_decode($crisiPlan-> homicidalities),
         ]);
     }
 

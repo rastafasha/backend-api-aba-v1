@@ -19,5 +19,4 @@ class ClaimsServiceProvider extends ServiceProvider
             return new ClaimsService($app->make(EdiX12837Service::class));
         });
     }
-
 }

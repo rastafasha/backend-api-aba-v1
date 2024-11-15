@@ -25,7 +25,6 @@ use Illuminate\Http\Request;
  */
 class NoteRbtV2Controller extends Controller
 {
-
   /**
    * @OA\Get(
    *     path="/api/v2/notes/rbt",
@@ -96,54 +95,54 @@ class NoteRbtV2Controller extends Controller
    *     )
    * )
    */
-  public function index(Request $request)
-  {
-    $query = NoteRbt::query();
+    public function index(Request $request)
+    {
+        $query = NoteRbt::query();
 
-    // Filter by patient_id
-    if ($request->has('patient_id')) {
-      $query->where('patient_id', $request->patient_id);
+      // Filter by patient_id
+        if ($request->has('patient_id')) {
+            $query->where('patient_id', $request->patient_id);
+        }
+
+      // Filter by doctor_id
+        if ($request->has('doctor_id')) {
+            $query->where('doctor_id', $request->doctor_id);
+        }
+
+      // Filter by provider_id
+        if ($request->has('provider_id')) {
+            $query->where('provider_id', $request->provider_id);
+        }
+
+      // Filter by bip_id
+        if ($request->has('bip_id')) {
+            $query->where('bip_id', $request->bip_id);
+        }
+
+      // Filter by location_id
+        if ($request->has('location_id')) {
+            $query->where('location_id', $request->location_id);
+        }
+
+      // Filter by date range
+        if ($request->has('date_start') && $request->has('date_end')) {
+            $query->whereBetween('session_date', [
+            $request->date_start,
+            $request->date_end
+            ]);
+        }
+
+      // Get paginated results (15 per page by default)
+        $perPage = $request->input('per_page', 15);
+        $notes = $query->orderBy('created_at', 'desc')
+        ->with(['patient', 'bips', 'location'])
+        ->paginate($perPage);
+
+        return response()->json([
+        'status' => 'success',
+        'data' => $notes
+        ]);
     }
-
-    // Filter by doctor_id
-    if ($request->has('doctor_id')) {
-      $query->where('doctor_id', $request->doctor_id);
-    }
-
-    // Filter by provider_id
-    if ($request->has('provider_id')) {
-      $query->where('provider_id', $request->provider_id);
-    }
-
-    // Filter by bip_id
-    if ($request->has('bip_id')) {
-      $query->where('bip_id', $request->bip_id);
-    }
-
-    // Filter by location_id
-    if ($request->has('location_id')) {
-      $query->where('location_id', $request->location_id);
-    }
-
-    // Filter by date range
-    if ($request->has('date_start') && $request->has('date_end')) {
-      $query->whereBetween('session_date', [
-        $request->date_start,
-        $request->date_end
-      ]);
-    }
-
-    // Get paginated results (15 per page by default)
-    $perPage = $request->input('per_page', 15);
-    $notes = $query->orderBy('created_at', 'desc')
-      ->with(['patient', 'bips', 'location'])
-      ->paginate($perPage);
-
-    return response()->json([
-      'status' => 'success',
-      'data' => $notes
-    ]);
-  }
 
   /**
    * @OA\Get(
@@ -182,23 +181,23 @@ class NoteRbtV2Controller extends Controller
    *     )
    * )
    */
-  public function show($id)
-  {
-    $note = NoteRbt::with(['patient', 'bips', 'location'])
-      ->find($id);
+    public function show($id)
+    {
+        $note = NoteRbt::with(['patient', 'bips', 'location'])
+        ->find($id);
 
-    if (!$note) {
-      return response()->json([
-        'status' => 'error',
-        'message' => 'Note not found'
-      ], 404);
+        if (!$note) {
+            return response()->json([
+            'status' => 'error',
+            'message' => 'Note not found'
+            ], 404);
+        }
+
+        return response()->json([
+        'status' => 'success',
+        'data' => $note
+        ]);
     }
-
-    return response()->json([
-      'status' => 'success',
-      'data' => $note
-    ]);
-  }
 
   /**
    * @OA\Put(
@@ -273,19 +272,19 @@ class NoteRbtV2Controller extends Controller
    *     )
    * )
    */
-  public function update(Request $request, $id)
-  {
-    $note = NoteRbt::find($id);
+    public function update(Request $request, $id)
+    {
+        $note = NoteRbt::find($id);
 
-    if (!$note) {
-      return response()->json([
-        'status' => 'error',
-        'message' => 'Note not found'
-      ], 404);
-    }
+        if (!$note) {
+            return response()->json([
+            'status' => 'error',
+            'message' => 'Note not found'
+            ], 404);
+        }
 
-    // Validate request
-    $validated = $request->validate([
+      // Validate request
+        $validated = $request->validate([
         'session_date' => 'required|date',
         'patient_id' => 'required|string',
         'doctor_id' => 'required|exists:users,id',
@@ -320,16 +319,16 @@ class NoteRbtV2Controller extends Controller
         'location_id' => 'nullable|exists:locations,id',
         'pa_service_id' => 'nullable|exists:pa_services,id',
         'insuranceId' => 'nullable|string',
-    ]);
+        ]);
 
-    $note->update($validated);
+        $note->update($validated);
 
-    return response()->json([
-      'status' => 'success',
-      'message' => 'Note updated successfully',
-      'data' => $note,
-    ]);
-  }
+        return response()->json([
+        'status' => 'success',
+        'message' => 'Note updated successfully',
+        'data' => $note,
+        ]);
+    }
 
   /**
    * @OA\Delete(
@@ -364,22 +363,22 @@ class NoteRbtV2Controller extends Controller
    *     )
    * )
    */
-  public function destroy($id)
-  {
-    $note = NoteRbt::find($id);
+    public function destroy($id)
+    {
+        $note = NoteRbt::find($id);
 
-    if (!$note) {
-      return response()->json([
-        'status' => 'error',
-        'message' => 'Note not found'
-      ], 404);
+        if (!$note) {
+            return response()->json([
+            'status' => 'error',
+            'message' => 'Note not found'
+            ], 404);
+        }
+
+        $note->delete();
+
+        return response()->json([
+        'status' => 'success',
+        'message' => 'Note deleted successfully'
+        ]);
     }
-
-    $note->delete();
-
-    return response()->json([
-      'status' => 'success',
-      'message' => 'Note deleted successfully'
-    ]);
-  }
 }

@@ -9,4 +9,3 @@ Route::post('roles/store', [RolesController::class, 'store'])->name('store');
 Route::get('roles/show/{role}', [RolesController::class, 'show'])->name('show');
 Route::put('roles/update/{role}', [RolesController::class, 'update'])->name('update');
 Route::delete('roles/destroy/{role}', [RolesController::class, 'destroy'])->name('destroy');
-

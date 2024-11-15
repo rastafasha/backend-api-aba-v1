@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Http\Request;
-
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Artisan;
 use App\Http\Controllers\Auth\PasswordResetController;
@@ -9,7 +8,6 @@ use App\Http\Controllers\Admin\Doctor\DoctorController;
 use App\Http\Controllers\Auth\ChangePasswordController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\ChangeForgotPasswordControllerController;
-
 
 /*
 |--------------------------------------------------------------------------
@@ -157,6 +155,4 @@ Route::group(['middleware' => 'api'], function ($router) {
 
     // Route::get('/categories', [CategoryController::class, 'index'])
     //     ->name('category.index');
-
-
 });

@@ -25,7 +25,7 @@ class BehviorAsistantController extends Controller
         "behaviorAsistants" => $behaviorAsistants ,
         // "goals" => ReductionGoalsResource::make($goals) ,
 
-        ]); 
+        ]);
     }
 
     /**
@@ -38,17 +38,17 @@ class BehviorAsistantController extends Controller
     {
         $patient_is_valid = Patient::where("patient_id", $request->patient_id)->first();
 
-        $request->request->add(["behavior_assistant_work_schedule"=>json_encode($request->behavior_assistant_work_schedule)]);
-        
+        $request->request->add(["behavior_assistant_work_schedule" => json_encode($request->behavior_assistant_work_schedule)]);
+
 
         $behaviorAsistant = BehaviorAsistant::create($request->all());
-        
-        
+
+
         return response()->json([
-            "message"=>200,
-            "id"=>$behaviorAsistant->id,
+            "message" => 200,
+            "id" => $behaviorAsistant->id,
             'behaviorAsistant' => new BehaviorAsistantResource($behaviorAsistant),
-            "behavior_assistant_work_schedule"=>json_decode($behaviorAsistant-> behavior_assistant_work_schedule),
+            "behavior_assistant_work_schedule" => json_decode($behaviorAsistant-> behavior_assistant_work_schedule),
         ]);
     }
 
@@ -65,19 +65,17 @@ class BehviorAsistantController extends Controller
         return response()->json([
             "behaviorAsistant" => $behaviorAsistant,
             "client_id" => $client_id,
-            "behavior_assistant_work_schedule"=>json_decode($behaviorAsistant-> behavior_assistant_work_schedule),
-            
+            "behavior_assistant_work_schedule" => json_decode($behaviorAsistant-> behavior_assistant_work_schedule),
+
         ]);
     }
 
     public function showbyProfile($id)
     {
-        $patient = BehaviorAsistant::where("client_id","<>", $id)->first();
+        $patient = BehaviorAsistant::where("client_id", "<>", $id)->first();
         return response()->json([
             "patient" => $patient,
         ]);
-
-        
     }
 
 
@@ -86,10 +84,8 @@ class BehviorAsistantController extends Controller
         $behaviorAsistantPatientIds = BehaviorAsistant::where("patient_id", $patient_id)->orderBy("patient_id", "desc")->get();
         return response()->json([
             "behaviorAsistantPatientIds" => BehaviorAsistantCollection::make($behaviorAsistantPatientIds)
-            
-        ]);
 
-        
+        ]);
     }
 
     /**
@@ -101,16 +97,16 @@ class BehviorAsistantController extends Controller
      */
     public function update(Request $request, $id)
     {
-       $behaviorAsistant = BehaviorAsistant::findOrFail($id);
+        $behaviorAsistant = BehaviorAsistant::findOrFail($id);
 
-        $request->request->add(["behavior_assistant_work_schedule"=>json_encode($request->behavior_assistant_work_schedule)]);
-        
+        $request->request->add(["behavior_assistant_work_schedule" => json_encode($request->behavior_assistant_work_schedule)]);
+
         $behaviorAsistant->update($request->all());
-        
+
         return response()->json([
-            "message"=>200,
-            "behaviorAsistant"=>$behaviorAsistant,
-            "behavior_assistant_work_schedule"=>json_decode($behaviorAsistant-> behavior_assistant_work_schedule),
+            "message" => 200,
+            "behaviorAsistant" => $behaviorAsistant,
+            "behavior_assistant_work_schedule" => json_decode($behaviorAsistant-> behavior_assistant_work_schedule),
         ]);
     }
 

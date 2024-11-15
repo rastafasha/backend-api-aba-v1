@@ -15,8 +15,8 @@ class NoteRbtCollection extends ResourceCollection
     public function toArray($request)
     {
         return [
-            "data"=> NoteRbtResource::collection($this->collection),
-           
+            "data" => NoteRbtResource::collection($this->collection),
+
         ];
     }
 }

@@ -12,4 +12,3 @@ Route::get('generalizationtraining/showgbyPatientId/{patient_id}', [Generalizati
 Route::post('generalizationtraining/store', [GeneralizationTrainingController::class, 'store'])->name('store');
 Route::post('generalizationtraining/update/{goal}', [GeneralizationTrainingController::class, 'update'])->name('update');
 Route::delete('generalizationtraining/destroy/{id}', [GeneralizationTrainingController::class, 'destroy'])->name('destroy');
-

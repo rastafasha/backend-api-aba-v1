@@ -20,12 +20,12 @@ class SustitutionGoalController extends Controller
     {
         $sustitutiongoals = SustitutionGoal::orderBy("id", "desc")
                             ->paginate(10);
-                    
+
         return response()->json([
             "sustitutiongoals" => $sustitutiongoals ,
             // "goals" => ReductionGoalsResource::make($goals) ,
-            
-        ]); 
+
+        ]);
     }
 
     /**
@@ -38,19 +38,19 @@ class SustitutionGoalController extends Controller
     {
         $patient_is_valid = Patient::where("id", $request->id)->first();
 
-        $request->request->add(["goalstos"=>json_encode($request->goalstos)]);
-        $request->request->add(["goalltos"=>json_encode($request->goalltos)]);
-        
+        $request->request->add(["goalstos" => json_encode($request->goalstos)]);
+        $request->request->add(["goalltos" => json_encode($request->goalltos)]);
+
 
         $sustitutiongoal = SustitutionGoal::create($request->all());
-        
-        
+
+
         return response()->json([
-            "message"=>200,
-            "id"=>$sustitutiongoal->id,
+            "message" => 200,
+            "id" => $sustitutiongoal->id,
             'sustitutiongoal' => new SustitutionGoalsResource($sustitutiongoal),
-            "goalstos"=>json_decode($sustitutiongoal-> goalstos),
-            "goalltos"=>json_decode($sustitutiongoal-> goalltos),
+            "goalstos" => json_decode($sustitutiongoal-> goalstos),
+            "goalltos" => json_decode($sustitutiongoal-> goalltos),
         ]);
     }
 
@@ -67,12 +67,10 @@ class SustitutionGoalController extends Controller
         return response()->json([
             "sustitutiongoal" => $sustitutiongoal,
             "client_id" => $client_id,
-            "goalstos"=>json_decode($sustitutiongoal-> goalstos),
-            "goalltos"=>json_decode($sustitutiongoal-> goalltos),
-            
+            "goalstos" => json_decode($sustitutiongoal-> goalstos),
+            "goalltos" => json_decode($sustitutiongoal-> goalltos),
+
         ]);
-        
-        
     }
 
     public function showbyProfile($id)
@@ -81,8 +79,6 @@ class SustitutionGoalController extends Controller
         return response()->json([
             "patient" => $patient,
         ]);
-
-        
     }
 
     /**
@@ -96,28 +92,27 @@ class SustitutionGoalController extends Controller
     {
         $sustitutiongoal = SustitutionGoal::findOrFail($id);
 
-        $request->request->add(["goalstos"=>json_encode($request->goalstos)]);
-        $request->request->add(["goalltos"=>json_encode($request->goalltos)]);
+        $request->request->add(["goalstos" => json_encode($request->goalstos)]);
+        $request->request->add(["goalltos" => json_encode($request->goalltos)]);
 
         $sustitutiongoal->update($request->all());
-        
+
         return response()->json([
-            "message"=>200,
-            "sustitutiongoal"=>$sustitutiongoal,
-            "goalstos"=>json_decode($sustitutiongoal-> goalstos),
-            "goalltos"=>json_decode($sustitutiongoal-> goalltos),
+            "message" => 200,
+            "sustitutiongoal" => $sustitutiongoal,
+            "goalstos" => json_decode($sustitutiongoal-> goalstos),
+            "goalltos" => json_decode($sustitutiongoal-> goalltos),
         ]);
     }
 
     public function updateSto(Request $request, $id)
     {
-        
+
         $goalstos = SustitutionGoal::findOrfail($id);
-        $goalstos = $request->request->add(["goalstos"=>json_encode($request->goalstos)]);
+        $goalstos = $request->request->add(["goalstos" => json_encode($request->goalstos)]);
         // $goalstos->update();
         $goalstos->update($request->all());
         return $goalstos;
-        
     }
 
     /**
@@ -135,7 +130,7 @@ class SustitutionGoalController extends Controller
         ]);
     }
 
-    
+
     public function showGoalsbyGoal(Request $request, string $goal)
     {
         $patient_is_valid = Patient::where("patient_id", '<>', $request->patient_id)->first();
@@ -146,34 +141,30 @@ class SustitutionGoalController extends Controller
         //         "message_text"=> 'el usuario existe'
         //     ]);
         // }
-        
+
         $sustitutiongoal = SustitutionGoal::where("goal", $goal)->orderBy("id", "desc")->get();
         return response()->json([
             "sustitutiongoalmaladaptive" => SustitutionGoalsCollection::make($sustitutiongoalmaladaptive) ,
         ]);
-
-        
     }
     public function showgbyPatientId($patient_id)
     {
         $sustitutiongoalPatientIds = SustitutionGoal::where("patient_id", $patient_id)->orderBy("patient_id", "desc")->get();
         return response()->json([
             "sustitutiongoalPatientIds" => SustitutionGoalsCollection::make($sustitutiongoalPatientIds)
-            
+
         ]);
-
-        
     }
-   
 
-    public function showInsuranceCpt(Request $request, string $insurer_name, string $code,$patient_id )
+
+    public function showInsuranceCpt(Request $request, string $insurer_name, string $code, $patient_id)
     {
         // $patient_id = Patient::where("patient_id", $patient_id)->first();
         // $codes = Insurance::where("insurer_name", $insurer_name)
         // ->where("services", $code)->first();
 
         $goalSto = SustitutionGoal::where("insurer_name", $insurer_name)
-        ->where("services", "like", "%". $code. "%")
+        ->where("services", "like", "%" . $code . "%")
         ->first();
 
         if ($insurance) {
@@ -189,54 +180,45 @@ class SustitutionGoalController extends Controller
             "code" => $code,
             "unit_prize" => $unit_prize,
             "insurance" => $insurance,
-            
-            
-        ]);
 
-        
+
+        ]);
     }
 
     // trae el STO del goal cuando  sustitution_status_sto es igual a inprogress, pero solo trae uno
-     public function showgbyPatientIdFilterGoal(Request $request, string $goal,  )
-     {
-         $goal = SustitutionGoal::where("goal", $goal)->first();
- 
-         $goalstos = json_decode($goal->goalstos, true);
+    public function showgbyPatientIdFilterGoal(Request $request, string $goal,)
+    {
+        $goal = SustitutionGoal::where("goal", $goal)->first();
 
-         $stoInprogress = array_filter($goalstos, function ($sto) {
+        $goalstos = json_decode($goal->goalstos, true);
+
+        $stoInprogress = array_filter($goalstos, function ($sto) {
             return $sto['sustitution_status_sto'] === 'inprogress' && $sto['sustitution_status_sto_edit'] === 'inprogress';
         });
 
-       
-         return response()->json([
-            //  "goal" => $goal->goal,
-             "goalstos" => [
-                //  "all" => $goal->goalstos,
-                 "in_progress" => $stoInprogress, // Agrega ->all() para obtener los resultados
-                //  "status" => $goal->goalstos->sustitution_status_sto,
-             ],
-         ]);
-         
-     }
+
+        return response()->json([
+           //  "goal" => $goal->goal,
+            "goalstos" => [
+               //  "all" => $goal->goalstos,
+                "in_progress" => $stoInprogress, // Agrega ->all() para obtener los resultados
+               //  "status" => $goal->goalstos->sustitution_status_sto,
+            ],
+        ]);
+    }
 
      // trae todos los stos de todos los goals del paciente, donde sustitution_status_sto sean iguales a  inprogress
-     public function showgbyPatientIdFilterGoalAll(Request $request, string $patient_id,
-     string $insurer_name, string $goal, string $code)
-     {
+    public function showgbyPatientIdFilterGoalAll(
+        Request $request,
+        string $patient_id,
+        string $insurer_name,
+        string $goal,
+        string $code
+    ) {
         $goals = SustitutionGoal::where("patient_id", $patient_id)
         ->where("insurer_name", $insurer_name)
         ->where("goal", $goal)
         ->where("code", $code)
         ->get();
-
-     }
-
-
-    
-
-
-     
-     
-        
-        
+    }
 }

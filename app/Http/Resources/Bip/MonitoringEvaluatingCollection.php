@@ -15,7 +15,7 @@ class MonitoringEvaluatingCollection extends ResourceCollection
     public function toArray($request)
     {
         return [
-            "data"=> MonitoringEvaluatingResource::collection($this->collection)
+            "data" => MonitoringEvaluatingResource::collection($this->collection)
         ];
     }
 }

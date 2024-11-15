@@ -24,4 +24,3 @@ Route::post('sustitutiongoal/update/{goal}', [SustitutionGoalController::class, 
 Route::delete('sustitutiongoal/destroy/{id}', [SustitutionGoalController::class, 'destroy'])->name('destroy');
 Route::put('/sustitutiongoal/update/sto/{goal:id}', [SustitutionGoalController::class, 'updateSto'])
     ->name('sustitutiongoal.updateSto');
-    

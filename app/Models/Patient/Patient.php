@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Models\Patient;
 
 use Carbon\Carbon;
@@ -12,7 +13,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Facades\DB;
-
 
 /**
  * @OA\Schema(
@@ -65,7 +65,8 @@ class Patient extends Model
 {
     use HasFactory;
     use SoftDeletes;
-    protected $fillable=[
+
+    protected $fillable = [
         'rbt_home_id',
         'rbt2_school_id',
         'bcba_home_id',
@@ -272,57 +273,59 @@ class Patient extends Model
 
 
 
-    public function setCreateAttribute($value){
+    public function setCreateAttribute($value)
+    {
         date_default_timezone_set("America/Caracas");
-        $this->attribute['created_at']= Carbon::now();
+        $this->attribute['created_at'] = Carbon::now();
     }
 
-    public function setUpdateAttribute($value){
+    public function setUpdateAttribute($value)
+    {
         date_default_timezone_set("America/Caracas");
-        $this->attribute['updated_at']= Carbon::now();
+        $this->attribute['updated_at'] = Carbon::now();
     }
 
 
 
 
     public function rbt_home()
-        {
+    {
             return $this->belongsTo(User::class, 'rbt_home_id');
-        }
+    }
     public function rbt2_school()
-        {
+    {
             return $this->belongsTo(User::class, 'rbt2_school_id');
-        }
+    }
     public function bcba_home()
-        {
+    {
             return $this->belongsTo(User::class, 'bcba_home_id');
-        }
+    }
     public function bcba2_school()
-        {
+    {
             return $this->belongsTo(User::class, 'bcba2_school_id');
-        }
+    }
     public function clin_director()
-        {
+    {
             return $this->belongsTo(User::class, 'clin_director_id');
-        }
+    }
 
     public function manager()
-        {
+    {
             return $this->belongsTo(User::class, 'id');
-        }
+    }
     public function local_manager()
-        {
+    {
             return $this->belongsTo(User::class, 'id');
-        }
+    }
     public function doctors()
-        {
+    {
             return $this->hasMany(User::class, 'id');
-        }
+    }
 
     public function locals()
-        {
-            return $this->belongsTo(Location::class,'location_id');
-        }
+    {
+            return $this->belongsTo(Location::class, 'location_id');
+    }
 
     public function insurances()
     {
@@ -344,21 +347,24 @@ class Patient extends Model
 
 
     //filtro buscador
-    public function scopefilterAdvancePatient($query,
-    $patient_id, $name_patient, $email_patient,$status
-    ){
+    public function scopefilterAdvancePatient(
+        $query,
+        $patient_id,
+        $name_patient,
+        $email_patient,
+        $status
+    ) {
 
-        if($patient_id){
+        if ($patient_id) {
             $query->where("patient_id", $patient_id);
         }
 
-        if($name_patient){
-            $query->whereHas("patient", function($q)use($name_patient){
-                $q->where(DB::raw("CONCAT(patients.first_name,' ',IFNULL(patients.last_name,''),' ',IFNULL(patients.email,''))"),"like","%".$name_patient."%");
-
+        if ($name_patient) {
+            $query->whereHas("patient", function ($q) use ($name_patient) {
+                $q->where(DB::raw("CONCAT(patients.first_name,' ',IFNULL(patients.last_name,''),' ',IFNULL(patients.email,''))"), "like", "%" . $name_patient . "%");
             });
         }
-        if($status){
+        if ($status) {
             $query->where('status', $status);
         }
 
@@ -373,24 +379,26 @@ class Patient extends Model
     }
 
     //filtro buscador
-    public function scopefilterAdvanceClientLog($query,
-    $patient_id, $name_patient, $email_patient,$status
-    // $rbt_home,
-    //         $rbt2_school,
-    //         $bcba_home,
-    //         $bcba2_school,
-    //         $clin_director,
+    public function scopefilterAdvanceClientLog(
+        $query,
+        $patient_id,
+        $name_patient,
+        $email_patient,
+        $status
+        // $rbt_home,
+        //         $rbt2_school,
+        //         $bcba_home,
+        //         $bcba2_school,
+        //         $clin_director,
+    ) {
 
-    ){
-
-        if($patient_id){
+        if ($patient_id) {
             $query->where("patient_id", $patient_id);
         }
 
-        if($name_patient){
-            $query->whereHas("patient", function($q)use($name_patient){
-                $q->where(DB::raw("CONCAT(patients.first_name,' ',IFNULL(patients.last_name,''),' ',IFNULL(patients.email,''))"),"like","%".$name_patient."%");
-
+        if ($name_patient) {
+            $query->whereHas("patient", function ($q) use ($name_patient) {
+                $q->where(DB::raw("CONCAT(patients.first_name,' ',IFNULL(patients.last_name,''),' ',IFNULL(patients.email,''))"), "like", "%" . $name_patient . "%");
             });
         }
         // if($rbt_home){
@@ -399,7 +407,7 @@ class Patient extends Model
 
         //     });
         // }
-        if($status){
+        if ($status) {
             $query->where('status', $status);
         }
 

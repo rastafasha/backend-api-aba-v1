@@ -103,7 +103,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  */
 class NoteRbt extends Model
 {
-    use HasFactory, SoftDeletes, HasProvider, HasSupervisor, HasDoctor;
+    use HasFactory;
+    use SoftDeletes;
+    use HasProvider;
+    use HasSupervisor;
+    use HasDoctor;
 
     protected $fillable = [
         'patient_id',
@@ -144,7 +148,7 @@ class NoteRbt extends Model
         'location_id',
         'pa_service_id',
         'insuranceId',
-        
+
 
     ];
 
@@ -291,5 +295,4 @@ class NoteRbt extends Model
         }
         return $query;
     }
-
 }

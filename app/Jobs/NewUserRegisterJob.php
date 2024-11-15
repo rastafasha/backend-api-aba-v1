@@ -15,7 +15,11 @@ use Illuminate\Contracts\Queue\ShouldBeUnique;
 
 class NewUserRegisterJob implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Dispatchable;
+    use InteractsWithQueue;
+    use Queueable;
+    use SerializesModels;
+
     /**
      * @var User
      */
@@ -42,7 +46,7 @@ class NewUserRegisterJob implements ShouldQueue
             Mail::to('soporte@ursigalletti.net')
                 ->send(
                     new NewUserRegisterMail(
-                    $this->user,
+                        $this->user,
                     )
                 );
         } catch (\Exception $exception) {

@@ -15,8 +15,7 @@ class ParentCollection extends ResourceCollection
     public function toArray($request)
     {
         return [
-            "data"=> ParentResource::collection($this->collection)
+            "data" => ParentResource::collection($this->collection)
         ];
-    
     }
 }

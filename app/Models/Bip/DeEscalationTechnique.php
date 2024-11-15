@@ -14,7 +14,7 @@ class DeEscalationTechnique extends Model
     use HasFactory;
     use SoftDeletes;
 
-    protected $fillable =[
+    protected $fillable = [
         'bip_id',
         'patient_id',
         'client_id',
