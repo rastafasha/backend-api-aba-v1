@@ -187,7 +187,7 @@ class BipController extends Controller
                 "address" => $patient->address,
                 "age" => $patient->age,
                 "birth_date" => $patient->birth_date,
-                "pos_covered" => json_decode($patient->pos_covered),
+                "pos_covered" =>is_string($patient->pos_covered)? json_decode($patient->pos_covered) : $patient->pos_covered,
                 "pa_assessments" => json_encode($paServices),
                 "pa_services" => $paServices,
                 "diagnosis_code" => $patient->diagnosis_code,
