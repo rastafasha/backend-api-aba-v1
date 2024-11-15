@@ -98,7 +98,7 @@ class PatientV2Controller extends Controller
 
         return response()->json([
             'status' => 'success',
-            'data' => PatientResource::collection($patients)
+            'data' => $patients,
         ]);
     }
 

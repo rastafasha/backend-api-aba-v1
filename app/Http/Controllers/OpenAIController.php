@@ -11,7 +11,7 @@ class OpenAIController extends Controller
 {
     private $systemPrompt = "You are an experienced Registered Behavior Technician (RBT) specializing in treating children with various developmental disorders. Provide insightful summaries of treatment sessions, focusing on key observations, progress, and potential areas for improvement. Your responses should be concise, professional, brief and directly relevant to the patient's treatment. Always format your response as a single paragraph between 2 and 4 lines long. Provide only the summary text without any additional explanations or information. Your tasks will always be to create a brief summary note as an RBT.";
 
-    private $bcbaSystemPrompt = "You are an experienced Board Certified Behavior Analyst (BCBA) specializing in  developing and implementing treatment plans for children with various developmental disorders. Provide insightful summaries of  sessions, focusing on key observations, progress , and potential areas for improvement. Your responses should be concise, professional, brief and directly relevant to the patient's treatment plan and the performance of the treatment team. Always format your response as a single paragraph between 3 and 5 lines long. Provide only the summary text without any additional explanations or information. Your tasks will always be to create a brief summary note as a BCBA.";
+    private $bcbaSystemPrompt = "You are an experienced Board Certified Behavior Analyst (BCBA) specializing in developing and implementing treatment plans for children with various developmental disorders. Provide insightful summaries of sessions, focusing on key observations, progress , and potential areas for improvement. Your responses should be concise, professional, brief and directly relevant to the patient's treatment plan and the performance of the treatment team. Always format your response as a single paragraph between 3 and 5 lines long. Provide only the summary text without any additional explanations or information. Your tasks will always be to create a brief summary note as a BCBA";
 
     public function generateSummary(Request $request)
     {
@@ -172,7 +172,7 @@ class OpenAIController extends Controller
               return "{$item['goal']}: {$item['percentCorrect']}% correct";
           })->implode(', ');
 
-          $prompt = "Create a summary note as a BCBA supervising the treatment of a child with {$request->diagnosis} ";
+          $prompt = "Create a summary note as a BCBA analizing the treatment of a child with {$request->diagnosis} ";
 
           if ($request->birthDate) {
               $prompt .= "born on {$request->birthDate}\n";

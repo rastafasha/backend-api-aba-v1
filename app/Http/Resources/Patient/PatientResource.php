@@ -56,8 +56,8 @@ class PatientResource extends JsonResource
                 'insurances'=>[
                     // 'id'=> $this->resource->insurances->insurer_id,
                     'insurer_name'=> $this->resource->insurances->insurer_name,
-                    'notes'=> json_decode($this->resource->insurances-> notes)? : null,
-                    'services'=> json_decode($this->resource->insurances-> services)? : null,
+                    'notes'=> $this->resource->insurances-> notes? : null,
+                    'services'=> $this->resource->insurances-> services ? : null,
                 ],
 
                 "location_id" =>$this->resource->location_id,
@@ -108,7 +108,7 @@ class PatientResource extends JsonResource
             "pay"=>$this->resource->pay,
             
             //pas
-            "pa_assessments"=>json_decode($this->resource->pa_assessments)? : null,
+            "pa_assessments"=>$this->resource->pa_assessments? : null,
             // "pa_services"=>$this->resource->paServices,
 
             "rbt_home_id" =>$this->resource->rbt_home_id,
@@ -123,15 +123,14 @@ class PatientResource extends JsonResource
                 ],
 
             "rbt2_school_id"=>$this->resource->rbt2_school_id,
-            'rbt2_school'=>$this->resource-> rbt2_school,
-                'rbt2_school'=>[
+                'rbt2_school'=> $this->resource->rbt2_school ? [
                     // 'id'=> $this->resource->rbt2_school->rbt2_school_id,
-                    'name'=> $this->resource->rbt2_school->name,
-                    'surname'=> $this->resource->rbt2_school->surname,
-                    'npi'=> $this->resource->rbt2_school->npi,
+                    'name'=> $this->resource->rbt2_school->name ?? null,
+                    'surname'=> $this->resource->rbt2_school->surname ?? null,
+                    'npi'=> $this->resource->rbt2_school->npi ?? null,
                     // "avatar"=> $this->resource->rbt2_school->avatar ? env("APP_URL")."storage/".$this->resource->rbt2_school->avatar : null,
                     "avatar"=> $this->resource->rbt2_school->avatar ? env("APP_URL").$this->resource->rbt2_school->avatar : null,
-                ],
+                ] : null,
             "bcba_home_id"=>$this->resource->bcba_home_id,
             'bcba_home'=>$this->resource-> bcba_home,
                 'bcba_home'=>[
@@ -143,25 +142,23 @@ class PatientResource extends JsonResource
                     "avatar"=> $this->resource->bcba_home->avatar ? env("APP_URL").$this->resource->bcba_home->avatar : null,
                 ],
             "bcba2_school_id"=>$this->resource->bcba2_school_id,
-            'bcba2_school'=>$this->resource-> bcba2_school,
-                'bcba2_school'=>[
+                'bcba2_school'=> $this->resource->bcba2_school ? [
                     // 'id'=> $this->resource->bcba2_school->bcba2_school_id,
                     'name'=> $this->resource->bcba2_school->name,
                     'surname'=> $this->resource->bcba2_school->surname,
                     'npi'=> $this->resource->bcba2_school->npi,
                     // "avatar"=> $this->resource->bcba2_school->avatar ? env("APP_URL")."storage/".$this->resource->bcba2_school->avatar : null,
                     "avatar"=> $this->resource->bcba2_school->avatar ? env("APP_URL").$this->resource->bcba2_school->avatar : null,
-                ],
+                ] : null,
             "clin_director_id"=>$this->resource->clin_director_id,
-            'clin_director'=>$this->resource-> clin_director,
-                'clin_director'=>[
+                'clin_director'=> $this->resource->clin_director ? [
                     // 'id'=> $this->resource->clin_director->clin_director_id,
                     'name'=> $this->resource->clin_director->name,
                     'surname'=> $this->resource->clin_director->surname,
                     'npi'=> $this->resource->clin_director->npi,
                     // "avatar"=> $this->resource->clin_director->avatar ? env("APP_URL")."storage/".$this->resource->clin_director->avatar : null,
                     "avatar"=> $this->resource->clin_director->avatar ? env("APP_URL").$this->resource->clin_director->avatar : null,
-                ],
+                ] : null,
             "created_at"=>$this->resource->created_at ? Carbon::parse($this->resource->created_at)->format("Y-m-d h:i A") : NULL,
             
 

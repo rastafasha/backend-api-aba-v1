@@ -17,12 +17,14 @@ fi
 
 # Exportar DEPLOYPATH
 export DEPLOYPATH
+export ENVFILE
 
 # Obtener la fecha y hora actual
 TIMESTAMP=$(date +"%Y-%m-%d %H:%M:%S")
 
 # Registrar el inicio del despliegue con la fecha y hora
-echo "Starting at $TIMESTAMP" >> $DEPLOYPATH/public/logs/deploy.log 2>&1
+echo "Starting at $TIMESTAMP" >> $DEPLOYPATH/deploy.log 2>&1
+echo "ENVFILE=$ENVFILE" >> $DEPLOYPATH/deploy.log 2>&1
 
 # Copiar archivos al directorio de despliegue
 rsync -av --delete \
@@ -34,13 +36,13 @@ rsync -av --delete \
     . $DEPLOYPATH >> $DEPLOYPATH/public/logs/deploy.log 2>&1
 
 # Copiar archivos específicos
-/bin/cp -R .cpanel.yml $DEPLOYPATH >> $DEPLOYPATH/public/logs/deploy.log 2>&1
-/bin/cp -R .htaccess $DEPLOYPATH >> $DEPLOYPATH/public/logs/deploy.log 2>&1
-/bin/cp "$ENVFILE" "$DEPLOYPATH/.env" >> $DEPLOYPATH/public/logs/deploy.log 2>&1
+/bin/cp -R .htaccess $DEPLOYPATH >> $DEPLOYPATH/deploy.log 2>&1
+/bin/cp -R $ENVFILE $DEPLOYPATH/.env >> $DEPLOYPATH/deploy.log 2>&1
 
 # Cambiar al directorio de despliegue
 cd $DEPLOYPATH >> $DEPLOYPATH/public/logs/deploy.log 2>&1
 
+chmod 755 .
 # Actualizar dependencias con Composer
 php /opt/cpanel/composer/bin/composer update >> $DEPLOYPATH/public/logs/deploy.log 2>&1
 
