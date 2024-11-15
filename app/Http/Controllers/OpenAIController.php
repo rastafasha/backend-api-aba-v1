@@ -172,7 +172,7 @@ class OpenAIController extends Controller
               return "{$item['goal']}: {$item['percentCorrect']}% correct";
           })->implode(', ');
 
-          $prompt = "Create a summary note as a BCBA analizing the treatment of a child with {$request->diagnosis} ";
+          $prompt = "Create a summary note as Board Certified Behavior Analyst (BCBA) the treatment of a child with {$request->diagnosis} ";
 
           if ($request->birthDate) {
               $prompt .= "born on {$request->birthDate}\n";
