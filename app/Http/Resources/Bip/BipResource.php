@@ -50,25 +50,25 @@ class BipResource extends JsonResource
             "strengths"=>$this->resource->strengths,
             "weakneses"=>$this->resource->weakneses,
             
-            'documents_reviewed'=>$this->resource->documents_reviewed,
-            'maladaptives'=> json_decode($this->resource-> maladaptives),
-            "assestment_conducted_options"=>json_decode($this->resource-> assestment_conducted_options),
-            "assestmentEvaluationSettings"=>json_decode($this->resource-> assestmentEvaluationSettings),
-            "prevalent_setting_event_and_atecedents"=>json_decode($this->resource-> prevalent_setting_event_and_atecedents),
-            "interventions"=>json_decode($this->resource-> interventions),
-            "goal_stos"=>json_decode($this->resource->goal_stos),
-            "goal_ltos"=>json_decode($this->resource->goal_ltos),
+            'documents_reviewed'=>$this->resource->documents_reviewed ?: NULL,
+            'maladaptives'=> json_decode($this->resource-> maladaptives )?: NULL,
+            "assestment_conducted_options"=>json_decode($this->resource-> assestment_conducted_options) ?: NULL,
+            "assestmentEvaluationSettings"=>json_decode($this->resource-> assestmentEvaluationSettings) ?: NULL,
+            "prevalent_setting_event_and_atecedents"=>json_decode($this->resource-> prevalent_setting_event_and_atecedents) ?: NULL,
+            "interventions"=>json_decode($this->resource-> interventions) ?: NULL,
+            "goal_stos"=>json_decode($this->resource->goal_stos) ?: NULL,
+            "goal_ltos"=>json_decode($this->resource->goal_ltos) ?: NULL,
             
             
             "hypothesis_based_intervention"=>$this->resource->hypothesis_based_intervention ,
             
-            "tangibles"=>json_decode($this->resource->tangibles),
-            "attention"=>json_decode($this->resource->attention),
-            "escape"=>json_decode($this->resource->escape),
-            "sensory"=>json_decode($this->resource->sensory),
+            "tangibles"=>json_decode($this->resource->tangibles) ?: NULL,
+            "attention"=>json_decode($this->resource->attention) ?: NULL,
+            "escape"=>json_decode($this->resource->escape) ?: NULL,
+            "sensory"=>json_decode($this->resource->sensory) ?: NULL,
             
             "phiysical_and_medical"=>$this->resource->phiysical_and_medical,
-            "phiysical_and_medical_status"=>json_decode($this->resource->phiysical_and_medical_status),
+            "phiysical_and_medical_status"=>json_decode($this->resource->phiysical_and_medical_status) ?: NULL,
 
             "reduction_goal"=>$this->resource->reduction_goals ,
             "sustitution_goal"=>$this->resource->sustitution_goals , 
