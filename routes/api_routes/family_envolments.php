@@ -20,4 +20,3 @@ Route::delete('familyenvolvment/destroy/{id}', [FamilyEnvolmentGoalController::c
 
 // Route::put('/familyenvolvment/update/sto/{goal:id}', [FamilyEnvolmentGoalController::class, 'updateSto'])
 //     ->name('familyenvolvment.updateSto');
-    

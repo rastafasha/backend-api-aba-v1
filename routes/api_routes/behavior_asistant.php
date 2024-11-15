@@ -12,5 +12,3 @@ Route::get('behaviorasistant/showgbyPatientId/{patient_id}', [BehviorAsistantCon
 Route::post('behaviorasistant/store', [BehviorAsistantController::class, 'store'])->name('store');
 Route::post('behaviorasistant/update/{goal}', [BehviorAsistantController::class, 'update'])->name('update');
 Route::delete('behaviorasistant/destroy/{id}', [BehviorAsistantController::class, 'destroy'])->name('destroy');
-
-    

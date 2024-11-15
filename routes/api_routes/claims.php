@@ -3,7 +3,6 @@
 use App\Http\Controllers\Claims\ClaimsController;
 use Illuminate\Support\Facades\Route;
 
-
 Route::prefix('v2/claims')->group(function () {
     Route::get('/', [ClaimsController::class, 'index']);
     Route::post('/', [ClaimsController::class, 'store']);

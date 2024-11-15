@@ -12,14 +12,14 @@ use Illuminate\Support\Collection;
 
 class ClaimsService
 {
-  private $ediService;
+    private $ediService;
 
-  public function __construct(EdiX12837Service $ediService)
-  {
-    $this->ediService = $ediService;
-  }
+    public function __construct(EdiX12837Service $ediService)
+    {
+        $this->ediService = $ediService;
+    }
 
-  public function generateFromNotes(array $notesRbtIds, array $notesBcbaIds)
+    public function generateFromNotes(array $notesRbtIds, array $notesBcbaIds)
     {
         // Ensure there's an array of either RBT or BCBA note ids.
         $notesRbtIds = !empty($notesRbtIds) ? $notesRbtIds : [];
@@ -40,7 +40,9 @@ class ClaimsService
         // Process RBT notes
         foreach ($rbtNotesByPatient as $patientId => $notes) {
             $patient = Patient::where('patient_id', $patientId)->first();
-            if (!$patient) continue;
+            if (!$patient) {
+                continue;
+            }
 
             $patientData = $this->getPatientData($patient);
             $insuranceData = $this->getInsuranceData($patient);
@@ -57,7 +59,9 @@ class ClaimsService
         // Process BCBA notes
         foreach ($bcbaNotesByPatient as $patientId => $notes) {
             $patient = Patient::where('patient_id', $patientId)->first();
-            if (!$patient) continue;
+            if (!$patient) {
+                continue;
+            }
 
             $patientData = $this->getPatientData($patient);
             $insuranceData = $this->getInsuranceData($patient);

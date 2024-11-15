@@ -9,7 +9,6 @@ use Illuminate\Support\Carbon;
 
 class BipV2Controller extends Controller
 {
-
     /**
      * @OA\Get(
      *     path="/api/v2/bips",

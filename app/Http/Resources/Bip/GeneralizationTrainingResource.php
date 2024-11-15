@@ -16,13 +16,13 @@ class GeneralizationTrainingResource extends JsonResource
     public function toArray($request)
     {
         return [
-            "id"=>$this->resource->id,
-            "patient_id"=>$this->resource->patient_id,
-            "client_id"=>$this->resource->client_id,
-            "bip_id"=>$this->resource->bip_id,
-            "discharge_plan"=>$this->resource->discharge_plan,
-            "transition_fading_plans"=>json_decode($this->resource->transition_fading_plans) ? : null,
-            "created_at"=>$this->resource->created_at ? Carbon::parse($this->resource->created_at)->format("Y-m-d h:i A") : NULL,            
+            "id" => $this->resource->id,
+            "patient_id" => $this->resource->patient_id,
+            "client_id" => $this->resource->client_id,
+            "bip_id" => $this->resource->bip_id,
+            "discharge_plan" => $this->resource->discharge_plan,
+            "transition_fading_plans" => json_decode($this->resource->transition_fading_plans) ? : null,
+            "created_at" => $this->resource->created_at ? Carbon::parse($this->resource->created_at)->format("Y-m-d h:i A") : null,
 
         ];
     }

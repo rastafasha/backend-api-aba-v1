@@ -27,7 +27,7 @@ class NoteRbtController extends Controller
                             ->paginate(10);
         return response()->json([
             // "total"=>$patients->total(),
-            "note_rbts"=> NoteRbtCollection::make($note_rbts)
+            "note_rbts" => NoteRbtCollection::make($note_rbts)
         ]);
     }
 
@@ -42,8 +42,6 @@ class NoteRbtController extends Controller
             // "note_rbts" => $note_rbts,
             // "patient" => $patient,
         ]);
-
-
     }
 
     public function showByClienttId($id)
@@ -57,281 +55,279 @@ class NoteRbtController extends Controller
             // "note_rbts" => $note_rbts,
             // "patient" => $patient,
         ]);
-
-
     }
 
     public function config()
     {
-      $paServices = PaService::all();
-        $hours =[
+        $paServices = PaService::all();
+        $hours = [
             [
-                "id"=>"800",
-                "name"=>"8:00 AM"
+                "id" => "800",
+                "name" => "8:00 AM"
             ],
             [
-                "id"=>"815",
-                "name"=>"8:15 AM"
+                "id" => "815",
+                "name" => "8:15 AM"
             ],
             [
-                "id"=>"830",
-                "name"=>"8:30 AM"
+                "id" => "830",
+                "name" => "8:30 AM"
             ],
             [
-                "id"=>"845",
-                "name"=>"8:45 AM"
+                "id" => "845",
+                "name" => "8:45 AM"
             ],
             [
-                "id"=>"900",
-                "name"=>"09:00 AM"
+                "id" => "900",
+                "name" => "09:00 AM"
             ],
             [
-                "id"=>"900",
-                "name"=>"09:00 AM"
+                "id" => "900",
+                "name" => "09:00 AM"
             ],
             [
-                "id"=>"915",
-                "name"=>"09:15 AM"
+                "id" => "915",
+                "name" => "09:15 AM"
             ],
             [
-                "id"=>"930",
-                "name"=>"09:30 AM"
+                "id" => "930",
+                "name" => "09:30 AM"
             ],
             [
-                "id"=>"945",
-                "name"=>"09:45 AM"
+                "id" => "945",
+                "name" => "09:45 AM"
             ],
             [
-                "id"=>"1000",
-                "name"=>"10:00 AM"
+                "id" => "1000",
+                "name" => "10:00 AM"
             ],
             [
-                "id"=>"1015",
-                "name"=>"10:15 AM"
+                "id" => "1015",
+                "name" => "10:15 AM"
             ],
             [
-                "id"=>"1030",
-                "name"=>"10:30 AM"
+                "id" => "1030",
+                "name" => "10:30 AM"
             ],
             [
-                "id"=>"1045",
-                "name"=>"10:45 AM"
+                "id" => "1045",
+                "name" => "10:45 AM"
             ],
             [
-                "id"=>"1100",
-                "name"=>"11:00 AM"
+                "id" => "1100",
+                "name" => "11:00 AM"
             ],
             [
-                "id"=>"1115",
-                "name"=>"11:15 AM"
+                "id" => "1115",
+                "name" => "11:15 AM"
             ],
             [
-                "id"=>"1130",
-                "name"=>"11:30 AM"
+                "id" => "1130",
+                "name" => "11:30 AM"
             ],
             [
-                "id"=>"1145",
-                "name"=>"11:45 AM"
+                "id" => "1145",
+                "name" => "11:45 AM"
             ],
             [
-                "id"=>"1200",
-                "name"=>"12:00 PM"
+                "id" => "1200",
+                "name" => "12:00 PM"
             ],
             [
-                "id"=>"1215",
-                "name"=>"12:15 PM"
+                "id" => "1215",
+                "name" => "12:15 PM"
             ],
             [
-                "id"=>"1230",
-                "name"=>"12:30 PM"
+                "id" => "1230",
+                "name" => "12:30 PM"
             ],
             [
-                "id"=>"1245",
-                "name"=>"12:45 PM"
+                "id" => "1245",
+                "name" => "12:45 PM"
             ],
             [
-                "id"=>"1300",
-                "name"=>"13:00 PM"
+                "id" => "1300",
+                "name" => "13:00 PM"
             ],
             [
-                "id"=>"1300",
-                "name"=>"13:00 PM"
+                "id" => "1300",
+                "name" => "13:00 PM"
             ],
             [
-                "id"=>"1315",
-                "name"=>"13:15 PM"
+                "id" => "1315",
+                "name" => "13:15 PM"
             ],
             [
-                "id"=>"1330",
-                "name"=>"13:30 PM"
+                "id" => "1330",
+                "name" => "13:30 PM"
             ],
             [
-                "id"=>"1345",
-                "name"=>"13:45 PM"
+                "id" => "1345",
+                "name" => "13:45 PM"
             ],
             [
-                "id"=>"1400",
-                "name"=>"14:00 PM"
+                "id" => "1400",
+                "name" => "14:00 PM"
             ],
             [
-                "id"=>"1415",
-                "name"=>"14:15 PM"
+                "id" => "1415",
+                "name" => "14:15 PM"
             ],
             [
-                "id"=>"1430",
-                "name"=>"14:30 PM"
+                "id" => "1430",
+                "name" => "14:30 PM"
             ],
             [
-                "id"=>"1445",
-                "name"=>"14:45 PM"
+                "id" => "1445",
+                "name" => "14:45 PM"
             ],
             [
-                "id"=>"1500",
-                "name"=>"15:00 PM"
+                "id" => "1500",
+                "name" => "15:00 PM"
             ],
             [
-                "id"=>"1515",
-                "name"=>"15:15 PM"
+                "id" => "1515",
+                "name" => "15:15 PM"
             ],
             [
-                "id"=>"1530",
-                "name"=>"15:30 PM"
+                "id" => "1530",
+                "name" => "15:30 PM"
             ],
             [
-                "id"=>"1545",
-                "name"=>"15:45 PM"
+                "id" => "1545",
+                "name" => "15:45 PM"
             ],
             [
-                "id"=>"1600",
-                "name"=>"16:00 PM"
+                "id" => "1600",
+                "name" => "16:00 PM"
             ],
             [
-                "id"=>"1615",
-                "name"=>"16:15 PM"
+                "id" => "1615",
+                "name" => "16:15 PM"
             ],
             [
-                "id"=>"1630",
-                "name"=>"16:30 PM"
+                "id" => "1630",
+                "name" => "16:30 PM"
             ],
             [
-                "id"=>"1645",
-                "name"=>"16:45 PM"
+                "id" => "1645",
+                "name" => "16:45 PM"
             ],
             [
-                "id"=>"1700",
-                "name"=>"17:00 PM" // 5:00
+                "id" => "1700",
+                "name" => "17:00 PM" // 5:00
             ],
             [
-                "id"=>"1715",
-                "name"=>"17:15 PM"
+                "id" => "1715",
+                "name" => "17:15 PM"
             ],
             [
-                "id"=>"1730",
-                "name"=>"17:30 PM"
+                "id" => "1730",
+                "name" => "17:30 PM"
             ],
             [
-                "id"=>"1745",
-                "name"=>"17:45 PM"
+                "id" => "1745",
+                "name" => "17:45 PM"
             ],
             [
-                "id"=>"1800",
-                "name"=>"18:00 PM"
+                "id" => "1800",
+                "name" => "18:00 PM"
             ],
             [
-                "id"=>"1815",
-                "name"=>"18:15 PM"
+                "id" => "1815",
+                "name" => "18:15 PM"
             ],
             [
-                "id"=>"1830",
-                "name"=>"18:30 PM"
+                "id" => "1830",
+                "name" => "18:30 PM"
             ],
             [
-                "id"=>"1845",
-                "name"=>"18:45 PM"
+                "id" => "1845",
+                "name" => "18:45 PM"
             ],
             [
-                "id"=>"1900",
-                "name"=>"19:00 PM"
+                "id" => "1900",
+                "name" => "19:00 PM"
             ],
             [
-                "id"=>"1915",
-                "name"=>"19:15 PM"
+                "id" => "1915",
+                "name" => "19:15 PM"
             ],
             [
-                "id"=>"1930",
-                "name"=>"19:30 PM"
+                "id" => "1930",
+                "name" => "19:30 PM"
             ],
             [
-                "id"=>"1945",
-                "name"=>"19:45 PM"
+                "id" => "1945",
+                "name" => "19:45 PM"
             ],
             [
-                "id"=>"2000",
-                "name"=>"20:00 PM"
+                "id" => "2000",
+                "name" => "20:00 PM"
             ],
             [
-                "id"=>"2015",
-                "name"=>"20:15 PM"
+                "id" => "2015",
+                "name" => "20:15 PM"
             ],
             [
-                "id"=>"2030",
-                "name"=>"20:30 PM"
+                "id" => "2030",
+                "name" => "20:30 PM"
             ],
             [
-                "id"=>"2045",
-                "name"=>"20:45 PM"
+                "id" => "2045",
+                "name" => "20:45 PM"
             ],
             [
-                "id"=>"2100",
-                "name"=>"21:00 PM"
+                "id" => "2100",
+                "name" => "21:00 PM"
             ],
 
         ];
-        $specialists = User::where("status",'active')->get();
+        $specialists = User::where("status", 'active')->get();
 
         // $replacements = Replacement::get(["patient_id"]);
 
-        $roles_rbt= User::orderBy("id", "desc")
-        ->whereHas("roles", function($q){
-            $q->where("name","like","%RBT%");
+        $roles_rbt = User::orderBy("id", "desc")
+        ->whereHas("roles", function ($q) {
+            $q->where("name", "like", "%RBT%");
         })->get();
-        $roles_bcba= User::orderBy("id", "desc")
-        ->whereHas("roles", function($q){
-            $q->where("name","like","%BCBA%");
+        $roles_bcba = User::orderBy("id", "desc")
+        ->whereHas("roles", function ($q) {
+            $q->where("name", "like", "%BCBA%");
         })->get();
 
         return response()->json([
             // "roles_rbt"=> NoteRbtCollection::make($roles_rbt),
-            "roles_rbt"=>$roles_rbt->map(function($roles_rbt){
+            "roles_rbt" => $roles_rbt->map(function ($roles_rbt) {
                 return [
-                    "id"=> $roles_rbt->id,
-                    "name"=> $roles_rbt->name,
-                    "surname"=> $roles_rbt->surname,
-                    "electronic_signature"=> $roles_rbt->electronic_signature,
-                    "certificate_number"=> $roles_rbt->certificate_number,
+                    "id" => $roles_rbt->id,
+                    "name" => $roles_rbt->name,
+                    "surname" => $roles_rbt->surname,
+                    "electronic_signature" => $roles_rbt->electronic_signature,
+                    "certificate_number" => $roles_rbt->certificate_number,
 
                 ];
             }),
             // "roles_bcba"=> NoteBcbaCollection::make($roles_bcba),
-            "roles_bcba"=>$roles_bcba->map(function($roles_bcba){
+            "roles_bcba" => $roles_bcba->map(function ($roles_bcba) {
                 return [
-                    "id"=> $roles_bcba->id,
-                    "name"=> $roles_bcba->name,
-                    "surname"=> $roles_bcba->surname,
-                    "electronic_signature"=> $roles_bcba->electronic_signature,
-                    "certificate_number"=> $roles_bcba->certificate_number,
+                    "id" => $roles_bcba->id,
+                    "name" => $roles_bcba->name,
+                    "surname" => $roles_bcba->surname,
+                    "electronic_signature" => $roles_bcba->electronic_signature,
+                    "certificate_number" => $roles_bcba->certificate_number,
 
                 ];
             }),
             // "specialists" => $specialists,
             // "specialists"=> UserCollection::make($specialists),
-            "specialists"=>$specialists->map(function($specialists){
+            "specialists" => $specialists->map(function ($specialists) {
                 return [
-                    "id"=> $specialists->id,
-                    "name"=> $specialists->name,
-                    "surname"=> $specialists->surname,
-                    "electronic_signature"=> $specialists->electronic_signature,
-                    "certificate_number"=> $specialists->certificate_number,
+                    "id" => $specialists->id,
+                    "name" => $specialists->name,
+                    "surname" => $specialists->surname,
+                    "electronic_signature" => $specialists->electronic_signature,
+                    "certificate_number" => $specialists->certificate_number,
 
                 ];
             }),
@@ -371,22 +367,22 @@ class NoteRbtController extends Controller
         $insurance = Insurance::get();
 
         $request->request->add([
-          "interventions"=>json_encode($request->interventions),
+          "interventions" => json_encode($request->interventions),
           "pa_service_id" => $request->pa_service_id,
         ]);
-        $request->request->add(["maladaptives"=>json_encode($request->maladaptives)]);
-        $request->request->add(["replacements"=>json_encode($request->replacements)]);
+        $request->request->add(["maladaptives" => json_encode($request->maladaptives)]);
+        $request->request->add(["replacements" => json_encode($request->replacements)]);
 
 
-        if($request->imagen){
-            $request->request->add(["provider_signature"=>$imagen]);
+        if ($request->imagen) {
+            $request->request->add(["provider_signature" => $imagen]);
         }
 
-        if($request->imagenn){
-            $request->request->add(["supervisor_signature"=>$imagenn]);
+        if ($request->imagenn) {
+            $request->request->add(["supervisor_signature" => $imagenn]);
         }
 
-        if($request->session_date){
+        if ($request->session_date) {
             try {
                 $date_clean = preg_replace('/\(.*\)/', '', $request->session_date);
                 $request->request->add(["session_date" => Carbon::parse($date_clean)->format('Y-m-d H:i:s')]);
@@ -397,7 +393,7 @@ class NoteRbtController extends Controller
             }
         }
 
-        if($request->next_session_is_scheduled_for){
+        if ($request->next_session_is_scheduled_for) {
             try {
                 $date_clean1 = preg_replace('/\(.*\)/', '', $request->next_session_is_scheduled_for);
                 $request->request->add(["next_session_is_scheduled_for" => Carbon::parse($date_clean1)->format('Y-m-d H:i:s')]);
@@ -408,31 +404,33 @@ class NoteRbtController extends Controller
             }
         }
 
-        if($request->time_in){
-            $time_clean = preg_replace('/\(.*\)|[A-Z]{3}-\d{4}/', '',$request->time_in );
+        if ($request->time_in) {
+            $time_clean = preg_replace('/\(.*\)|[A-Z]{3}-\d{4}/', '', $request->time_in);
             $request->request->add(["time_in" => Carbon::parse($time_clean)->format('h:i:s')]) ;
         }
-        if($request->time_out){
-            $time_clean1 = preg_replace('/\(.*\)|[A-Z]{3}-\d{4}/', '',$request->time_out );
+        if ($request->time_out) {
+            $time_clean1 = preg_replace('/\(.*\)|[A-Z]{3}-\d{4}/', '', $request->time_out);
             $request->request->add(["time_out" => Carbon::parse($time_clean1)->format('h:i:s')]);
         }
-        if($request->time_in2){
-            $time_clean3 = preg_replace('/\(.*\)|[A-Z]{3}-\d{4}/', '',$request->time_in2 );
+        if ($request->time_in2) {
+            $time_clean3 = preg_replace('/\(.*\)|[A-Z]{3}-\d{4}/', '', $request->time_in2);
             $request->request->add(["time_in2" => Carbon::parse($time_clean3)->format('h:i:s')]);
         }
-        if($request->time_out2){
-            $time_clean4 = preg_replace('/\(.*\)|[A-Z]{3}-\d{4}/', '',$request->time_out2 );
+        if ($request->time_out2) {
+            $time_clean4 = preg_replace('/\(.*\)|[A-Z]{3}-\d{4}/', '', $request->time_out2);
             $request->request->add(["time_out2" => Carbon::parse($time_clean4)->format('h:i:s')]);
         }
 
-        if ($this->checkTimeConflict(
-            $request->patient_id,
-            $request->session_date,
-            $request->time_in,
-            $request->time_out,
-            $request->time_in2,
-            $request->time_out2
-        )) {
+        if (
+            $this->checkTimeConflict(
+                $request->patient_id,
+                $request->session_date,
+                $request->time_in,
+                $request->time_out,
+                $request->time_in2,
+                $request->time_out2
+            )
+        ) {
             return response()->json([
                 "message" => "Time conflict detected. Please choose a different time.",
             ], 422);
@@ -491,34 +489,34 @@ class NoteRbtController extends Controller
     public function show($id)
     {
         $noteRbt = NoteRbt::findOrFail($id);
-        $doctor = User::where("status",'active')->get();
+        $doctor = User::where("status", 'active')->get();
 
         return response()->json([
             "noteRbt" => NoteRbtResource::make($noteRbt),
 
 
-            "interventions"=>json_decode($noteRbt-> interventions),
-            "maladaptives"=>json_decode($noteRbt-> maladaptives),
-            "replacements"=>json_decode($noteRbt-> replacements),
+            "interventions" => json_decode($noteRbt-> interventions),
+            "maladaptives" => json_decode($noteRbt-> maladaptives),
+            "replacements" => json_decode($noteRbt-> replacements),
             // "provider_name"=>$noteRbt->provider_name,
-            "provider_name"=>$doctor->map(function($provider_name){
+            "provider_name" => $doctor->map(function ($provider_name) {
                 return[
-                    "id"=> $provider_name->id,
-                    "full_name"=> $provider_name->name.' '.$provider_name->surname,
+                    "id" => $provider_name->id,
+                    "full_name" => $provider_name->name . ' ' . $provider_name->surname,
                 ];
             }),
             // "supervisor_name"=>$noteRbt->supervisor_name,
-            "supervisor_name"=>$doctor->map(function($supervisor_name){
+            "supervisor_name" => $doctor->map(function ($supervisor_name) {
                 return[
-                    "id"=> $supervisor_name->id,
-                    "full_name"=> $supervisor_name->name.' '.$supervisor_name->surname,
+                    "id" => $supervisor_name->id,
+                    "full_name" => $supervisor_name->name . ' ' . $supervisor_name->surname,
                 ];
             }),
             // "provider_name_g"=>$noteRbt->provider_name_g,
-            "provider_name_g"=>$doctor->map(function($provider_name_g){
+            "provider_name_g" => $doctor->map(function ($provider_name_g) {
                 return[
-                    "id"=> $provider_name_g->id,
-                    "full_name"=> $provider_name_g->name.' '.$provider_name_g->surname,
+                    "id" => $provider_name_g->id,
+                    "full_name" => $provider_name_g->name . ' ' . $provider_name_g->surname,
                 ];
             }),
 
@@ -534,8 +532,6 @@ class NoteRbtController extends Controller
             "noteRbt" => NoteRbtCollection::make($noteRbt),
 
         ]);
-
-
     }
     public function showReplacementsByPatient($patient_id)
     {
@@ -544,8 +540,6 @@ class NoteRbtController extends Controller
         return response()->json([
             "replacementGoals" => $replacementGoals,
         ]);
-
-
     }
 
 
@@ -564,7 +558,7 @@ class NoteRbtController extends Controller
         $imagenn = null;
         $noteRbt = NoteRbt::findOrFail($id);
 
-        if($request->session_date){
+        if ($request->session_date) {
             try {
                 $cleanDate = $this->cleanDateString($request->session_date);
                 $request->request->add(["session_date" => Carbon::parse($cleanDate)->format('Y-m-d H:i:s')]);
@@ -575,7 +569,7 @@ class NoteRbtController extends Controller
             }
         }
 
-        if($request->next_session_is_scheduled_for){
+        if ($request->next_session_is_scheduled_for) {
             try {
                 $cleanDate = $this->cleanDateString($request->next_session_is_scheduled_for);
                 $request->request->add(["next_session_is_scheduled_for" => Carbon::parse($cleanDate)->format('Y-m-d H:i:s')]);
@@ -586,34 +580,36 @@ class NoteRbtController extends Controller
             }
         }
 
-        if ($this->checkTimeConflict(
-            $request->patient_id,
-            $request->session_date,
-            $request->time_in,
-            $request->time_out,
-            $request->time_in2,
-            $request->time_out2,
-            $id
-        )) {
+        if (
+            $this->checkTimeConflict(
+                $request->patient_id,
+                $request->session_date,
+                $request->time_in,
+                $request->time_out,
+                $request->time_in2,
+                $request->time_out2,
+                $id
+            )
+        ) {
             return response()->json([
                 "message" => "Time conflict detected. Please choose a different time.",
             ], 422);
         }
 
         $request->request->add(["pa_service_id" => $request->pa_service_id]);
-        $request->request->add(["interventions"=>json_encode($request->interventions)]);
-        $request->request->add(["maladaptives"=>json_encode($request->maladaptives)]);
-        $request->request->add(["replacements"=>json_encode($request->replacements)]);
+        $request->request->add(["interventions" => json_encode($request->interventions)]);
+        $request->request->add(["maladaptives" => json_encode($request->maladaptives)]);
+        $request->request->add(["replacements" => json_encode($request->replacements)]);
 
-        if($request->imagen){
-            $request->request->add(["provider_signature"=>$imagen]);
+        if ($request->imagen) {
+            $request->request->add(["provider_signature" => $imagen]);
             print_r('imagen');
         }
 
 
 
-        if($request->imagenn){
-            $request->request->add(["supervisor_signature"=>$imagenn]);
+        if ($request->imagenn) {
+            $request->request->add(["supervisor_signature" => $imagenn]);
         }
         // if($request->hasFile('imagen')){
         //     print_r('imagen');
@@ -625,7 +621,7 @@ class NoteRbtController extends Controller
         //     $request->request->add(["supervisor_signature"=>$path]);
         // }
 
-        if($request->session_date){
+        if ($request->session_date) {
             try {
                 $cleanDate = $this->cleanDateString($request->session_date);
                 $request->request->add(["session_date" => Carbon::parse($cleanDate)->format('Y-m-d H:i:s')]);
@@ -635,7 +631,7 @@ class NoteRbtController extends Controller
                 ], 422);
             }
         }
-        if($request->next_session_is_scheduled_for){
+        if ($request->next_session_is_scheduled_for) {
             try {
                 $cleanDate = $this->cleanDateString($request->next_session_is_scheduled_for);
                 $request->request->add(["next_session_is_scheduled_for" => Carbon::parse($cleanDate)->format('Y-m-d H:i:s')]);
@@ -650,10 +646,10 @@ class NoteRbtController extends Controller
 
         return response()->json([
             "message" => 200,
-            "noteRbt"=>$noteRbt,
-            "interventions"=>json_decode($noteRbt-> interventions),
-            "maladaptives"=>json_decode($noteRbt-> maladaptives),
-            "replacements"=>json_decode($noteRbt-> replacements),
+            "noteRbt" => $noteRbt,
+            "interventions" => json_decode($noteRbt-> interventions),
+            "maladaptives" => json_decode($noteRbt-> maladaptives),
+            "replacements" => json_decode($noteRbt-> replacements),
         ]);
     }
 
@@ -678,10 +674,9 @@ class NoteRbtController extends Controller
         $noteRbts = NoteRbt::where('status', 2)->orderBy("id", "desc")
                             ->paginate(10);
         return response()->json([
-            "total"=>$noteRbts->total(),
-            "noteRbts"=> NoteRbtCollection::make($noteRbts)
+            "total" => $noteRbts->total(),
+            "noteRbts" => NoteRbtCollection::make($noteRbts)
         ]);
-
     }
 
     public function updateStatus(Request $request, $id)
@@ -690,7 +685,6 @@ class NoteRbtController extends Controller
         $noteRbt->status = $request->status;
         $noteRbt->update();
         return $noteRbt;
-
     }
     public function updateModifier(Request $request, $id)
     {
@@ -701,10 +695,10 @@ class NoteRbtController extends Controller
         $noteRbt->md2 = $request->md2;
         $noteRbt->update();
         return $noteRbt;
-
     }
 
-    private function cleanDateString($dateString) {
+    private function cleanDateString($dateString)
+    {
         return preg_replace('/\s*\(.*\)$/', '', $dateString);
     }
 
@@ -777,8 +771,4 @@ class NoteRbtController extends Controller
     {
         return $interval1['start'] < $interval2['end'] && $interval2['start'] < $interval1['end'];
     }
-
-
-
-
 }

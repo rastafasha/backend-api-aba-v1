@@ -89,5 +89,4 @@ class Claim extends Model
         return $this->belongsToMany(NoteBcba::class, 'note_bcbas')
             ->withTimestamps();
     }
-    
 }

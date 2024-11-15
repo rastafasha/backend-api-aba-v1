@@ -18,10 +18,10 @@ class OpenAIController extends Controller
         $request->validate([
             'diagnosis' => 'required|string',
             'birthDate' => 'sometimes|nullable|date',
-            'startTime' => ['sometimes', 'nullable', new TimeFormat],
-            'endTime' => ['sometimes', 'nullable', new TimeFormat],
-            'startTime2' => ['sometimes', 'nullable', new TimeFormat],
-            'endTime2' => ['sometimes', 'nullable', new TimeFormat],
+            'startTime' => ['sometimes', 'nullable', new TimeFormat()],
+            'endTime' => ['sometimes', 'nullable', new TimeFormat()],
+            'startTime2' => ['sometimes', 'nullable', new TimeFormat()],
+            'endTime2' => ['sometimes', 'nullable', new TimeFormat()],
             'mood' => 'string',
             'pos' => 'string',
             'maladaptives' => 'required|array',
@@ -112,14 +112,14 @@ class OpenAIController extends Controller
 
 
     public function generateBcbaSummary(Request $request)
-      {
+    {
           $request->validate([
               'diagnosis' => 'required|string',
               'birthDate' => 'sometimes|nullable|date',
-              'startTime' => ['sometimes', 'nullable', new TimeFormat],
-              'endTime' => ['sometimes', 'nullable', new TimeFormat],
-              'startTime2' => ['sometimes', 'nullable', new TimeFormat],
-              'endTime2' => ['sometimes', 'nullable', new TimeFormat],
+              'startTime' => ['sometimes', 'nullable', new TimeFormat()],
+              'endTime' => ['sometimes', 'nullable', new TimeFormat()],
+              'startTime2' => ['sometimes', 'nullable', new TimeFormat()],
+              'endTime2' => ['sometimes', 'nullable', new TimeFormat()],
               'pos' => 'string',
               'caregiverGoals' => 'required|array',
               'caregiverGoals.*.goal' => 'required|string',
@@ -134,67 +134,67 @@ class OpenAIController extends Controller
 
           $client = OpenAI::client(env('OPENAI_API_KEY'));
 
-          try {
-              $result = $client->chat()->create([
-                  'model' => env('OPENAI_MODEL'),
-                  'messages' => [
-                      [
-                          'role' => 'system',
-                          'content' => $this->bcbaSystemPrompt,
-                      ],
-                      ['role' => 'user', 'content' => $prompt],
-                  ],
-              ]);
+        try {
+            $result = $client->chat()->create([
+                'model' => env('OPENAI_MODEL'),
+                'messages' => [
+                    [
+                        'role' => 'system',
+                        'content' => $this->bcbaSystemPrompt,
+                    ],
+                    ['role' => 'user', 'content' => $prompt],
+                ],
+            ]);
 
-              if (isset($result->choices) && is_array($result->choices) && !empty($result->choices)) {
-                  $generatedText = $result->choices[0]->message->content;
-                  return response()->json([
-                      'summary' => $generatedText,
-                  ]);
-              } else {
-                  Log::error('Unexpected OpenAI API response structure', [
-                      'response' => $result,
-                  ]);
-                  return response()->json(['error' => 'Unexpected response from OpenAI API'], 500);
-              }
-          } catch (\Exception $e) {
-              return response()->json(['error' => $e->getMessage()], 500);
-          }
-      }
+            if (isset($result->choices) && is_array($result->choices) && !empty($result->choices)) {
+                $generatedText = $result->choices[0]->message->content;
+                return response()->json([
+                    'summary' => $generatedText,
+                ]);
+            } else {
+                Log::error('Unexpected OpenAI API response structure', [
+                    'response' => $result,
+                ]);
+                return response()->json(['error' => 'Unexpected response from OpenAI API'], 500);
+            }
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
 
-      private function constructBcbaPrompt(Request $request): string
-      {
-          $caregiverGoals = collect($request->caregiverGoals)->map(function ($item) {
-              return "{$item['goal']}: {$item['percentCorrect']}% correct";
-          })->implode(', ');
+    private function constructBcbaPrompt(Request $request): string
+    {
+        $caregiverGoals = collect($request->caregiverGoals)->map(function ($item) {
+            return "{$item['goal']}: {$item['percentCorrect']}% correct";
+        })->implode(', ');
 
-          $rbtTrainingGoals = collect($request->rbtTrainingGoals)->map(function ($item) {
-              return "{$item['goal']}: {$item['percentCorrect']}% correct";
-          })->implode(', ');
+        $rbtTrainingGoals = collect($request->rbtTrainingGoals)->map(function ($item) {
+            return "{$item['goal']}: {$item['percentCorrect']}% correct";
+        })->implode(', ');
 
-          $prompt = "Create a summary note as Board Certified Behavior Analyst (BCBA) the treatment of a child with {$request->diagnosis} ";
+        $prompt = "Create a summary note as Board Certified Behavior Analyst (BCBA) the treatment of a child with {$request->diagnosis} ";
 
-          if ($request->birthDate) {
-              $prompt .= "born on {$request->birthDate}\n";
-          }
+        if ($request->birthDate) {
+            $prompt .= "born on {$request->birthDate}\n";
+        }
 
-          $prompt .= "using the following data collected during the supervision session(s):\n\n";
+        $prompt .= "using the following data collected during the supervision session(s):\n\n";
 
-          if ($request->pos) {
-              $prompt .= "Place of Service: {$request->pos}\n";
-          }
-          if ($request->startTime && $request->endTime) {
-              $prompt .= "Morning session: {$request->startTime} to {$request->endTime}\n";
-          }
+        if ($request->pos) {
+            $prompt .= "Place of Service: {$request->pos}\n";
+        }
+        if ($request->startTime && $request->endTime) {
+            $prompt .= "Morning session: {$request->startTime} to {$request->endTime}\n";
+        }
 
-          if ($request->startTime2 && $request->endTime2) {
-              $prompt .= "Afternoon session: {$request->startTime2} to {$request->endTime2}\n";
-          }
+        if ($request->startTime2 && $request->endTime2) {
+            $prompt .= "Afternoon session: {$request->startTime2} to {$request->endTime2}\n";
+        }
 
-          $prompt .= "\nCaregiver Training Goals: {$caregiverGoals}\n" .
-                      "RBT Training Goals: {$rbtTrainingGoals}\n" .
-                      "Session Description: {$request->noteDescription}";
+        $prompt .= "\nCaregiver Training Goals: {$caregiverGoals}\n" .
+                    "RBT Training Goals: {$rbtTrainingGoals}\n" .
+                    "Session Description: {$request->noteDescription}";
 
-          return $prompt;
-      }
+        return $prompt;
+    }
 }

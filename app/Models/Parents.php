@@ -9,7 +9,6 @@ use App\Traits\HavePermission;
 use App\Models\Patient\Patient;
 use App\Jobs\NewUserRegisterJob;
 use Laravel\Sanctum\HasApiTokens;
-
 use App\Models\Doctor\Specialitie;
 use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Auth;
@@ -24,7 +23,10 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class Parents extends Authenticatable implements JWTSubject
 {
-    use HasApiTokens, HasFactory, HasRoles, SoftDeletes;
+    use HasApiTokens;
+    use HasFactory;
+    use HasRoles;
+    use SoftDeletes;
 
 
     public function getJWTIdentifier()
@@ -80,14 +82,14 @@ class Parents extends Authenticatable implements JWTSubject
 
     public function setCreatedAtAttribute($value)
     {
-    	date_default_timezone_set('America/Caracas');
-        $this->attributes["created_at"]= Carbon::now();
+        date_default_timezone_set('America/Caracas');
+        $this->attributes["created_at"] = Carbon::now();
     }
 
     public function setUpdatedAtAttribute($value)
     {
-    	date_default_timezone_set("America/Caracas");
-        $this->attributes["updated_at"]= Carbon::now();
+        date_default_timezone_set("America/Caracas");
+        $this->attributes["updated_at"] = Carbon::now();
     }
 
     public function isParent()
@@ -96,13 +98,12 @@ class Parents extends Authenticatable implements JWTSubject
     }
 
     public function location()
-        {
-            return $this->belongsTo(Location::class,'location_id');
-        }
+    {
+            return $this->belongsTo(Location::class, 'location_id');
+    }
 
-        public function patient()
-        {
-            return $this->belongsTo(Patient::class, 'patient_id');
-        }
-
+    public function patient()
+    {
+        return $this->belongsTo(Patient::class, 'patient_id');
+    }
 }

@@ -17,79 +17,81 @@ use App\Http\Resources\Appointment\AppointmentCollection;
 
 class DashboardkpiController extends Controller
 {
-    public function config(){
-        $users= User::orderBy("id", "desc")
+    public function config()
+    {
+        $users = User::orderBy("id", "desc")
         // ->whereHas("roles", function($q){
         //     $q->where("name","like","%DOCTOR%");
         // })
         ->get();
 
         return response()->json([
-            "doctors"=>$users->map(function($user){
+            "doctors" => $users->map(function ($user) {
                 return[
-                    "id"=> $user->id,
-                    "full_name"=> $user->name.' '.$user->surname,
+                    "id" => $user->id,
+                    "full_name" => $user->name . ' ' . $user->surname,
                 ];
             })
         ]);
     }
-    public function dashboard_admin(Request $request){
+    public function dashboard_admin(Request $request)
+    {
 
         date_default_timezone_set('America/Caracas');
         //mes actual - bips
         $now = now();
-        $num_bips_current = DB::table("bips")->where("deleted_at", NUll)
-                            ->whereYear("created_at",$now->format("Y"))
-                            ->whereMonth("created_at",$now->format("m"))
+        $num_bips_current = DB::table("bips")->where("deleted_at", null)
+                            ->whereYear("created_at", $now->format("Y"))
+                            ->whereMonth("created_at", $now->format("m"))
                             ->count();
         //mes anterior - bips
         $before = now()->subMonth();
-        $num_bips_before = DB::table("bips")->where("deleted_at", NUll)
-                            ->whereYear("created_at",$before->format("Y"))
-                            ->whereMonth("created_at",$before->format("m"))
+        $num_bips_before = DB::table("bips")->where("deleted_at", null)
+                            ->whereYear("created_at", $before->format("Y"))
+                            ->whereMonth("created_at", $before->format("m"))
                             ->count();
         // versus % -appointmens
         $porcentajeD = 0;
-        if($num_bips_before > 0){
-            $porcentajeD = (($num_bips_current - $num_bips_before) / $num_bips_before)* 100;
+        if ($num_bips_before > 0) {
+            $porcentajeD = (($num_bips_current - $num_bips_before) / $num_bips_before) * 100;
         }
 
 
         //mes actual - patients
         $now = now();
-        $num_patients_current = DB::table("patients")->where("deleted_at", NUll)
-                            ->whereYear("created_at",$now->format("Y"))
-                            ->whereMonth("created_at",$now->format("m"))
+        $num_patients_current = DB::table("patients")->where("deleted_at", null)
+                            ->whereYear("created_at", $now->format("Y"))
+                            ->whereMonth("created_at", $now->format("m"))
                             ->count();
         //mes anterior - patients
         $before = now()->subMonth();
-        $num_patients_before = DB::table("patients")->where("deleted_at", NUll)
-                            ->whereYear("created_at",$before->format("Y"))
-                            ->whereMonth("created_at",$before->format("m"))
+        $num_patients_before = DB::table("patients")->where("deleted_at", null)
+                            ->whereYear("created_at", $before->format("Y"))
+                            ->whereMonth("created_at", $before->format("m"))
                             ->count();
         // versus % -patients
         $porcentajeDP = 0;
-        if($num_patients_before > 0){
-            $porcentajeDP = (($num_patients_current - $num_patients_before) / $num_patients_before)* 100;
+        if ($num_patients_before > 0) {
+            $porcentajeDP = (($num_patients_current - $num_patients_before) / $num_patients_before) * 100;
         }
 
 
         //mes actual - bips-attentions
         $now = now();
-        $num_bips_attention_current = DB::table("bips")->where("deleted_at", NUll)
-                            ->whereYear("updated_at",$now->format("Y"))
-                            ->whereMonth("updated_at",$now->format("m"))
+        $num_bips_attention_current = DB::table("bips")->where("deleted_at", null)
+                            ->whereYear("updated_at", $now->format("Y"))
+                            ->whereMonth("updated_at", $now->format("m"))
                             ->count();
         //mes anterior - bips-attentions
         $before = now()->subMonth();
-        $num_bips_attention_before = DB::table("bips")->where("deleted_at", NUll)
-                            ->whereYear("updated_at",$before->format("Y"))
-                            ->whereMonth("updated_at",$before->format("m"))
+        $num_bips_attention_before = DB::table("bips")->where("deleted_at", null)
+                            ->whereYear("updated_at", $before->format("Y"))
+                            ->whereMonth("updated_at", $before->format("m"))
                             ->count();
         // versus % -appointmens-attentions
         $porcentajeDA = 0;
-        if($num_bips_attention_before > 0){
-            $porcentajeDA = (($num_bips_attention_current - $num_bips_attention_before) / $num_bips_attention_before)* 100;
+        if ($num_bips_attention_before > 0) {
+            $porcentajeDA = (($num_bips_attention_current - $num_bips_attention_before) / $num_bips_attention_before) * 100;
         }
 
          $bips = Bip::get();
@@ -101,37 +103,38 @@ class DashboardkpiController extends Controller
          $locations = Location::get();
 
         return response()->json([
-            "bips"=>BipCollection::make($bips),
-            "locations"=>LocationCollection::make($locations),
-            "total_bips"=>$bips->count(),
-            "total_patients"=>$patients->count(),
-            "total_noteRbts"=>$noteRbts->count(),
-            "total_noteBcbas"=>$noteBcbas->count(),
-            "total_employees"=>$employees->count(),
-            "recent_patients"=>$recent_patients,
+            "bips" => BipCollection::make($bips),
+            "locations" => LocationCollection::make($locations),
+            "total_bips" => $bips->count(),
+            "total_patients" => $patients->count(),
+            "total_noteRbts" => $noteRbts->count(),
+            "total_noteBcbas" => $noteBcbas->count(),
+            "total_employees" => $employees->count(),
+            "recent_patients" => $recent_patients,
             // "recent_patients"=>$recent_patients->count(),
 
-            "num_bips_current"=>$num_bips_current,
-            "num_bips_before"=>$num_bips_before,
-            "porcentaje_d"=> round($porcentajeD,2),
-            
+            "num_bips_current" => $num_bips_current,
+            "num_bips_before" => $num_bips_before,
+            "porcentaje_d" => round($porcentajeD, 2),
+
             //
-            "num_bips_attention_current"=>$num_bips_attention_current,
-            "num_bips_attention_before"=>$num_bips_attention_before,
-            "porcentaje_da"=> round($porcentajeDA,2),
-             //   
-            "num_patients_current"=>$num_patients_current,
-            "num_patients_before"=>$num_patients_before,
-            "porcentajeDP"=> round($porcentajeDP,2),
-             //   
+            "num_bips_attention_current" => $num_bips_attention_current,
+            "num_bips_attention_before" => $num_bips_attention_before,
+            "porcentaje_da" => round($porcentajeDA, 2),
+             //
+            "num_patients_current" => $num_patients_current,
+            "num_patients_before" => $num_patients_before,
+            "porcentajeDP" => round($porcentajeDP, 2),
+             //
         ]);
     }
 
-    public function dashboard_admin_year(Request $request){
+    public function dashboard_admin_year(Request $request)
+    {
         $year = $request->year;
-        $query_patients_by_gender = DB::table("bips")->where("bips.deleted_at",NULL)
+        $query_patients_by_gender = DB::table("bips")->where("bips.deleted_at", null)
                         ->whereYear("bips.created_at", $year)
-                        ->join("patients","bips.client_id", "=", "patients.id")
+                        ->join("patients", "bips.client_id", "=", "patients.id")
                         ->select(
                             DB::raw("YEAR(bips.created_at) as year"),
                             DB::raw("MONTH(bips.created_at) as month"),
@@ -141,9 +144,9 @@ class DashboardkpiController extends Controller
                         ->orderBy("year")
                         ->orderBy("month")
                         ->get();
-        
-        
-        
+
+
+
 
         $months_name = array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
 
@@ -152,10 +155,11 @@ class DashboardkpiController extends Controller
             // "query_patients_speciality_porcentaje" => $query_patients_speciality_porcentaje,
             // "query_patients_speciality" => $query_patients_speciality,
             "query_patients_by_gender" => $query_patients_by_gender,
-        ]);               
+        ]);
     }
 
-    public function dashboard_doctor(Request $request){
+    public function dashboard_doctor(Request $request)
+    {
 
         date_default_timezone_set('America/Caracas');
 
@@ -163,62 +167,62 @@ class DashboardkpiController extends Controller
 
         //mes actual - bips
         $now = now();
-        $num_bips_current = DB::table("bips")->where("deleted_at", NUll)
+        $num_bips_current = DB::table("bips")->where("deleted_at", null)
                             ->where("doctor_id", $doctor_id)
-                            ->whereYear("created_at",$now->format("Y"))
-                            ->whereMonth("created_at",$now->format("m"))
+                            ->whereYear("created_at", $now->format("Y"))
+                            ->whereMonth("created_at", $now->format("m"))
                             ->count();
 
         //mes anterior - appointments
         $before = now()->subMonth();
-        $num_bips_before = DB::table("bips")->where("deleted_at", NUll)
+        $num_bips_before = DB::table("bips")->where("deleted_at", null)
                             ->where("doctor_id", $doctor_id)
-                            ->whereYear("created_at",$before->format("Y"))
-                            ->whereMonth("created_at",$before->format("m"))
+                            ->whereYear("created_at", $before->format("Y"))
+                            ->whereMonth("created_at", $before->format("m"))
                             ->count();
         // versus % -appointmens
         $porcentajeD = 0;
-        if($num_bips_before > 0){
-            $porcentajeD = (($num_bips_current - $num_bips_before) / $num_bips_before)* 100;
+        if ($num_bips_before > 0) {
+            $porcentajeD = (($num_bips_current - $num_bips_before) / $num_bips_before) * 100;
         }
 
 
 
         //mes actual - bips-attentions
         $now = now();
-        $num_bips_attention_current = DB::table("bips")->where("deleted_at", NUll)
+        $num_bips_attention_current = DB::table("bips")->where("deleted_at", null)
                             ->where("doctor_id", $doctor_id)
-                            ->whereYear("updated_at",$now->format("Y"))
-                            ->whereMonth("updated_at",$now->format("m"))
+                            ->whereYear("updated_at", $now->format("Y"))
+                            ->whereMonth("updated_at", $now->format("m"))
                             ->count();
         //mes anterior - bips-attentions
         $before = now()->subMonth();
-        $num_bips_attention_before = DB::table("bips")->where("deleted_at", NUll)
+        $num_bips_attention_before = DB::table("bips")->where("deleted_at", null)
                             ->where("doctor_id", $doctor_id)
-                            ->whereYear("updated_at",$before->format("Y"))
-                            ->whereMonth("updated_at",$before->format("m"))
+                            ->whereYear("updated_at", $before->format("Y"))
+                            ->whereMonth("updated_at", $before->format("m"))
                             ->count();
         // versus % -appointmens-attentions
         $porcentajeDA = 0;
-        if($num_bips_attention_before > 0){
-            $porcentajeDA = (($num_bips_attention_current - $num_bips_attention_before) / $num_bips_attention_before)* 100;
+        if ($num_bips_attention_before > 0) {
+            $porcentajeDA = (($num_bips_attention_current - $num_bips_attention_before) / $num_bips_attention_before) * 100;
         }
 
-         
+
 
         $bips = Bip::where('doctor_id', $doctor_id)->get();
 
         return response()->json([
             // "bips"=>BipCollection::make($bips),
-            "total_bips"=>$bips->count(),
-            "num_bips_current"=>$num_bips_current,
-            "num_bips_before"=>$num_bips_before,
-            "porcentaje_d"=> round($porcentajeD,2),
+            "total_bips" => $bips->count(),
+            "num_bips_current" => $num_bips_current,
+            "num_bips_before" => $num_bips_before,
+            "porcentaje_d" => round($porcentajeD, 2),
             //
-            "num_bips_attention_current"=>$num_bips_attention_current,
-            "num_bips_attention_before"=>$num_bips_attention_before,
-            "porcentaje_da"=> round($porcentajeDA,2),
-             // 
+            "num_bips_attention_current" => $num_bips_attention_current,
+            "num_bips_attention_before" => $num_bips_attention_before,
+            "porcentaje_da" => round($porcentajeDA, 2),
+             //
             // "num_bips_total_pay_current"=>$num_bips_total_pay_current,
             // "num_bips_total_pay_before"=>$num_bips_total_pay_before,
             // "porcentaje_dtp"=> round($porcentajeDTP,2),
@@ -229,15 +233,16 @@ class DashboardkpiController extends Controller
         ]);
     }
 
-    public function dashboard_doctor_year(Request $request){
+    public function dashboard_doctor_year(Request $request)
+    {
 
         $year = $request->year;
         $doctor_id = $request->doctor_id;
 
-        $query_patients_by_gender = DB::table("bips")->where("bips.deleted_at",NULL)
+        $query_patients_by_gender = DB::table("bips")->where("bips.deleted_at", null)
                         ->whereYear("bips.created_at", $year)
                         ->where("bips.doctor_id", $doctor_id)
-                        ->join("patients","bips.client_id", "=", "patients.id")
+                        ->join("patients", "bips.client_id", "=", "patients.id")
                         ->select(
                             DB::raw("YEAR(bips.created_at) as year"),
                             DB::raw("SUM(CASE WHEN patients.gender = 1 THEN 1 ELSE 0 END) as hombre"),
@@ -245,8 +250,8 @@ class DashboardkpiController extends Controller
                         )->groupBy("year")
                         ->orderBy("year")
                         ->get();
-        
-        
+
+
         //ingresos generales del año
         // $query_income_year = DB::table("appointments")->where("appointments.deleted_at",NULL)
         //                 ->whereYear("bips.created_at", $year)
@@ -295,7 +300,7 @@ class DashboardkpiController extends Controller
         //         "months_name"=>$months_name[$key - 1],
         //         "details"=>$month_year
         //     ]);
-        // } 
+        // }
 
         return response()->json([
             "months_name" => $months_name,
@@ -304,10 +309,11 @@ class DashboardkpiController extends Controller
             // "query_n_appointment_year_before" => $query_n_appointment_year_before,
             // "query_income_year" => $query_income_year,
             "query_patients_by_gender" => $query_patients_by_gender,
-        ]);               
+        ]);
     }
 
-    public function dashboard_patient(Request $request){
+    public function dashboard_patient(Request $request)
+    {
 
         date_default_timezone_set('America/Caracas');
 
@@ -315,45 +321,45 @@ class DashboardkpiController extends Controller
 
         //mes actual - appointments
         $now = now();
-        $num_appointments_current = DB::table("bips")->where("deleted_at", NUll)
+        $num_appointments_current = DB::table("bips")->where("deleted_at", null)
                             ->where("client_id", $client_id)
-                            ->whereYear("created_at",$now->format("Y"))
-                            ->whereMonth("created_at",$now->format("m"))
+                            ->whereYear("created_at", $now->format("Y"))
+                            ->whereMonth("created_at", $now->format("m"))
                             ->count();
 
         //mes anterior - appointments
         $before = now()->subMonth();
-        $num_appointments_before = DB::table("bips")->where("deleted_at", NUll)
+        $num_appointments_before = DB::table("bips")->where("deleted_at", null)
                             ->where("client_id", $client_id)
-                            ->whereYear("created_at",$before->format("Y"))
-                            ->whereMonth("created_at",$before->format("m"))
+                            ->whereYear("created_at", $before->format("Y"))
+                            ->whereMonth("created_at", $before->format("m"))
                             ->count();
         // versus % -appointmens
         $porcentajeD = 0;
-        if($num_appointments_before > 0){
-            $porcentajeD = (($num_appointments_current - $num_appointments_before) / $num_appointments_before)* 100;
+        if ($num_appointments_before > 0) {
+            $porcentajeD = (($num_appointments_current - $num_appointments_before) / $num_appointments_before) * 100;
         }
 
 
 
         //mes actual - appointments-attentions
         $now = now();
-        $num_appointments_attention_current = DB::table("bips")->where("deleted_at", NUll)
+        $num_appointments_attention_current = DB::table("bips")->where("deleted_at", null)
                             ->where("client_id", $client_id)
-                            ->whereYear("created_at",$now->format("Y"))
-                            ->whereMonth("created_at",$now->format("m"))
+                            ->whereYear("created_at", $now->format("Y"))
+                            ->whereMonth("created_at", $now->format("m"))
                             ->count();
         //mes anterior - appointments-attentions
         $before = now()->subMonth();
-        $num_appointments_attention_before = DB::table("bips")->where("deleted_at", NUll)
+        $num_appointments_attention_before = DB::table("bips")->where("deleted_at", null)
                             ->where("client_id", $client_id)
-                            ->whereYear("created_at",$before->format("Y"))
-                            ->whereMonth("created_at",$before->format("m"))
+                            ->whereYear("created_at", $before->format("Y"))
+                            ->whereMonth("created_at", $before->format("m"))
                             ->count();
         // versus % -appointmens-attentions
         $porcentajeDA = 0;
-        if($num_appointments_attention_before > 0){
-            $porcentajeDA = (($num_appointments_attention_current - $num_appointments_attention_before) / $num_appointments_attention_before)* 100;
+        if ($num_appointments_attention_before > 0) {
+            $porcentajeDA = (($num_appointments_attention_current - $num_appointments_attention_before) / $num_appointments_attention_before) * 100;
         }
 
          //mes actual -  appointement pago total $ - (ganancias)
@@ -408,15 +414,15 @@ class DashboardkpiController extends Controller
                                     ->get();
 
         return response()->json([
-            "bips"=>BipCollection::make($bips),
-            "num_appointments_current"=>$num_appointments_current,
-            "num_appointments_before"=>$num_appointments_before,
-            "porcentaje_d"=> round($porcentajeD,2),
+            "bips" => BipCollection::make($bips),
+            "num_appointments_current" => $num_appointments_current,
+            "num_appointments_before" => $num_appointments_before,
+            "porcentaje_d" => round($porcentajeD, 2),
             //
-            "num_appointments_attention_current"=>$num_appointments_attention_current,
-            "num_appointments_attention_before"=>$num_appointments_attention_before,
-            "porcentaje_da"=> round($porcentajeDA,2),
-             // 
+            "num_appointments_attention_current" => $num_appointments_attention_current,
+            "num_appointments_attention_before" => $num_appointments_attention_before,
+            "porcentaje_da" => round($porcentajeDA, 2),
+             //
             // "num_appointments_total_pay_current"=>$num_appointments_total_pay_current,
             // "num_appointments_total_pay_before"=>$num_appointments_total_pay_before,
             // "porcentaje_dtp"=> round($porcentajeDTP,2),
@@ -427,15 +433,16 @@ class DashboardkpiController extends Controller
         ]);
     }
 
-    public function dashboard_patient_year(Request $request){
+    public function dashboard_patient_year(Request $request)
+    {
 
         $year = $request->year;
         $client_id = $request->client_id;
 
-        $query_patients_by_gender = DB::table("bips")->where("bips.deleted_at",NULL)
+        $query_patients_by_gender = DB::table("bips")->where("bips.deleted_at", null)
                         ->whereYear("bips.created_at", $year)
                         ->where("bips.client_id", $client_id)
-                        ->join("patients","bips.client_id", "=", "patients.id")
+                        ->join("patients", "bips.client_id", "=", "patients.id")
                         ->select(
                             DB::raw("YEAR(bips.created_at) as year"),
                             DB::raw("SUM(CASE WHEN patients.gender = 1 THEN 1 ELSE 0 END) as hombre"),
@@ -443,8 +450,8 @@ class DashboardkpiController extends Controller
                         )->groupBy("year")
                         ->orderBy("year")
                         ->get();
-        
-        
+
+
         //ingresos generales del año
         // $query_income_year = DB::table("bips")->where("bips.deleted_at",NULL)
         //                 ->whereYear("bips.created_at", $year)
@@ -493,7 +500,7 @@ class DashboardkpiController extends Controller
         //         "months_name"=>$months_name[$key - 1],
         //         "details"=>$month_year
         //     ]);
-        // } 
+        // }
 
         $noteRbts = NoteRbt::where('client_id', $client_id)->get();
          $noteBcbas = NoteBcba::where('client_id', $client_id)->get();
@@ -506,22 +513,21 @@ class DashboardkpiController extends Controller
             // "query_n_appointment_year_before" => $query_n_appointment_year_before,
             // "query_income_year" => $query_income_year,
             "query_patients_by_gender" => $query_patients_by_gender,
-        ]);               
+        ]);
     }
 
 
-    public function configPatients(){
-        $patients= Patient::orderBy("id", "desc")->get();
+    public function configPatients()
+    {
+        $patients = Patient::orderBy("id", "desc")->get();
 
         return response()->json([
-            "patients"=>$patients->map(function($patients){
+            "patients" => $patients->map(function ($patients) {
                 return[
-                    "id"=> $patients->id,
-                    "full_name"=> $patients->first_name.' '.$patients->last_name,
+                    "id" => $patients->id,
+                    "full_name" => $patients->first_name . ' ' . $patients->last_name,
                 ];
             })
         ]);
     }
-
-    
 }

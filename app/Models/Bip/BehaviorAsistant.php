@@ -13,7 +13,7 @@ class BehaviorAsistant extends Model
     use HasFactory;
     use SoftDeletes;
 
-    protected $fillable =[
+    protected $fillable = [
         'bip_id',
         'patient_id',
         'client_id',
@@ -31,6 +31,6 @@ class BehaviorAsistant extends Model
     }
     public function patient()
     {
-        return $this->hasMany(Patient::class,'patient_id');
+        return $this->hasMany(Patient::class, 'patient_id');
     }
 }

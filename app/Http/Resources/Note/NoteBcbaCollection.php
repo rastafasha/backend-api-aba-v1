@@ -15,7 +15,7 @@ class NoteBcbaCollection extends ResourceCollection
     public function toArray($request)
     {
         return [
-            "data"=> NoteBcbaResource::collection($this->collection)
+            "data" => NoteBcbaResource::collection($this->collection)
         ];
     }
 }

@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Models\Bip;
+
 use App\Models\User;
 use App\Models\Bip\CrisisPlan;
 use App\Models\Patient\Patient;
@@ -56,7 +57,8 @@ class Bip extends Model
 {
     use HasFactory;
     use SoftDeletes;
-    protected $fillable=[
+
+    protected $fillable = [
         'type_of_assessment',
         'documents_reviewed',
         'client_id',
@@ -115,13 +117,14 @@ class Bip extends Model
     ];
 
 
-     public function patient()
+    public function patient()
     {
         return $this->hasOne(Patient::class, 'patient_id');
     }
 
-    public function doctor() {
-        return $this->belongsTo(User::class,"doctor_id");
+    public function doctor()
+    {
+        return $this->belongsTo(User::class, "doctor_id");
     }
 
     //  public function doctors()
@@ -132,7 +135,7 @@ class Bip extends Model
     // {
     //     return $this->hasOne(Maladaptive::class, 'maladaptive_id');
     // }
-     public function reduction_goals()
+    public function reduction_goals()
     {
         return $this->hasMany(ReductionGoal::class);
     }
@@ -185,23 +188,25 @@ class Bip extends Model
 
     // filtro buscador
 
-    public function scopefilterAdvanceBip($query,
-    $patientID,
-    $name_doctor,
-    $date){
+    public function scopefilterAdvanceBip(
+        $query,
+        $patientID,
+        $name_doctor,
+        $date
+    ) {
 
-        if($patientID){
+        if ($patientID) {
             $query->where("patientID", $patientID);
         }
 
-        if($name_doctor){
-            $query->whereHas("doctor", function($q)use($name_doctor){
-                $q->where("name", "like","%".$name_doctor."%")
-                    ->orWhere("surname", "like","%".$name_doctor."%");
+        if ($name_doctor) {
+            $query->whereHas("doctor", function ($q) use ($name_doctor) {
+                $q->where("name", "like", "%" . $name_doctor . "%")
+                    ->orWhere("surname", "like", "%" . $name_doctor . "%");
             });
         }
 
-        if($date){
+        if ($date) {
             $query->whereDate("date_appointment", Carbon::parse($date)->format("Y-m-d"));
         }
         return $query;

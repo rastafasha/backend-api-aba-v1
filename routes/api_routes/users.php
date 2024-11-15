@@ -38,6 +38,3 @@ Route::put('/user/delete/restore/{id}', [AdminUserSoftDeletesController::class, 
 
 Route::delete('/user/destroy/force/{id}', [AdminUserSoftDeletesController::class, 'userDeleteforce'])
     ->name('user.delete.force');
-
-
-

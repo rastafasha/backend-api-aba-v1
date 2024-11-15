@@ -20,12 +20,12 @@ class FamilyEnvolmentGoalController extends Controller
     {
         $familiEnvolments = FamilyEnvolment::orderBy("id", "desc")
                             ->paginate(10);
-                    
+
         return response()->json([
             "familiEnvolments" => $familiEnvolments ,
             // "goals" => ReductionGoalsResource::make($goals) ,
-            
-        ]); 
+
+        ]);
     }
 
     /**
@@ -38,15 +38,15 @@ class FamilyEnvolmentGoalController extends Controller
     {
         $patient_is_valid = Patient::where("patient_id", $request->patient_id)->first();
 
-        $request->request->add(["caregivers_training_goals"=>json_encode($request->caregivers_training_goals)]);
-        
+        $request->request->add(["caregivers_training_goals" => json_encode($request->caregivers_training_goals)]);
+
         $familiEnvolment = FamilyEnvolment::create($request->all());
-               
+
         return response()->json([
-            "message"=>200,
-            "id"=>$familiEnvolment->id,
+            "message" => 200,
+            "id" => $familiEnvolment->id,
             'familiEnvolment' => new FamilyEnvolmentGoalsResource($familiEnvolment),
-            "caregivers_training_goals"=>json_decode($familiEnvolment-> caregivers_training_goals),
+            "caregivers_training_goals" => json_decode($familiEnvolment-> caregivers_training_goals),
         ]);
     }
 
@@ -63,21 +63,17 @@ class FamilyEnvolmentGoalController extends Controller
         return response()->json([
             "familiEnvolment" => $familiEnvolment,
             "client_id" => $client_id,
-            "caregivers_training_goals"=>json_decode($familiEnvolment-> caregivers_training_goals),
-            
+            "caregivers_training_goals" => json_decode($familiEnvolment-> caregivers_training_goals),
+
         ]);
-        
-        
     }
 
     public function showbyProfile($id)
     {
-        $patient = FamilyEnvolment::where("client_id","<>", $id)->first();
+        $patient = FamilyEnvolment::where("client_id", "<>", $id)->first();
         return response()->json([
             "patient" => $patient,
         ]);
-
-        
     }
 
 
@@ -86,10 +82,8 @@ class FamilyEnvolmentGoalController extends Controller
         $familiEnvolmentPatientIds = FamilyEnvolment::where("patient_id", $patient_id)->orderBy("patient_id", "desc")->get();
         return response()->json([
             "familiEnvolmentPatientIds" => FamilyEnvolmentGoalsCollection::make($familiEnvolmentPatientIds)
-            
-        ]);
 
-        
+        ]);
     }
 
     /**
@@ -103,14 +97,14 @@ class FamilyEnvolmentGoalController extends Controller
     {
         $familiEnvolment = FamilyEnvolment::findOrFail($id);
 
-        $request->request->add(["caregivers_training_goals"=>json_encode($request->caregivers_training_goals)]);
-        
+        $request->request->add(["caregivers_training_goals" => json_encode($request->caregivers_training_goals)]);
+
         $familiEnvolment->update($request->all());
-        
+
         return response()->json([
-            "message"=>200,
-            "familiEnvolment"=>$familiEnvolment,
-            "caregivers_training_goals"=>json_decode($familiEnvolment-> caregivers_training_goals),
+            "message" => 200,
+            "familiEnvolment" => $familiEnvolment,
+            "caregivers_training_goals" => json_decode($familiEnvolment-> caregivers_training_goals),
         ]);
     }
 

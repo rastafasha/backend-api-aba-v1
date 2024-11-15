@@ -18,7 +18,7 @@ class InsuranceController extends Controller
     public function index(Request $request)
     {
         $insurer_name = $request->insurer_name;
-       
+
         // $payments = Payment::where("referencia","like","%".$referencia."%")
         // ->orderBy("id","desc")
         // ->paginate(10);
@@ -26,12 +26,12 @@ class InsuranceController extends Controller
 
         $insurances = Insurance::filterAdvanceInsurance($insurer_name)->orderBy("id", "desc")
                             ->paginate(10);
-                    
+
         return response()->json([
             // "total"=>$payments->total(),
             "insurances" => InsuranceCollection::make($insurances) ,
-            
-        ]); 
+
+        ]);
     }
 
     /**
@@ -42,15 +42,14 @@ class InsuranceController extends Controller
      */
     public function store(Request $request)
     {
-        $request->request->add(["services"=> $request->services]);
-        $request->request->add(["notes"=> $request->notes]);
+        $request->request->add(["services" => $request->services]);
+        $request->request->add(["notes" => $request->notes]);
 
         $insurance = Insurance::create($request->all());
-        
-            return response()->json([
-            "message"=>200,
-        ]);
 
+            return response()->json([
+            "message" => 200,
+            ]);
     }
 
     /**
@@ -59,16 +58,16 @@ class InsuranceController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    
+
 
     public function show(string $id)
     {
         $insurance = Insurance::findOrFail($id);
         return response()->json([
-            "id"=>$insurance->id,
-            "insurer_name"=>$insurance->insurer_name,
-            "services"=> $insurance-> services,
-            "notes"=> $insurance-> notes 
+            "id" => $insurance->id,
+            "insurer_name" => $insurance->insurer_name,
+            "services" => $insurance-> services,
+            "notes" => $insurance-> notes
         ]);
     }
 
@@ -82,15 +81,15 @@ class InsuranceController extends Controller
     public function update(Request $request, $id)
     {
 
-        $request->request->add(["services"=>$request->services]);
-        $request->request->add(["notes"=>$request->notes]);
+        $request->request->add(["services" => $request->services]);
+        $request->request->add(["notes" => $request->notes]);
         $insurance = Insurance::findOrFail($id);
 
         $insurance->update($request->all());
 
         return response()->json([
-            "message"=>200,
-            "insurance"=>$insurance
+            "message" => 200,
+            "insurance" => $insurance
         ]);
     }
 
@@ -108,16 +107,16 @@ class InsuranceController extends Controller
             "message" => 200
         ]);
     }
-    //  
-    public function showInsuranceCpt(Request $request, string $insurer_name, string $code, string $provider )
+    //
+    public function showInsuranceCpt(Request $request, string $insurer_name, string $code, string $provider)
     {
         // $patient_id = Patient::where("patient_id", $patient_id)->first();
         // $codes = Insurance::where("insurer_name", $insurer_name)
         // ->where("services", $code)->first();
 
         $insurance = Insurance::where("insurer_name", $insurer_name)
-        ->where("services", "like", "%". $code. "%")
-        ->where("services", "like", "%". $provider. "%")
+        ->where("services", "like", "%" . $code . "%")
+        ->where("services", "like", "%" . $provider . "%")
         ->first();
 
         // $insurance = Insurance::where([
@@ -127,7 +126,7 @@ class InsuranceController extends Controller
         //         // "like" => "%". $provider. "%"
         //     ]
         // ])->first();
-        
+
         if ($insurance) {
             Log::info("Insurance data found");
             $services = $insurance->services;
@@ -142,23 +141,21 @@ class InsuranceController extends Controller
             }
         } else {
             Log::error("Insurance data not found");
-            Log::info("Query: ". Insurance::where([
+            Log::info("Query: " . Insurance::where([
                 "insurer_name" => $insurer_name,
                 "services" => [
-                    "like" => "%". $code. "%",
-                    "like" => "%". $provider. "%"
+                    "like" => "%" . $code . "%",
+                    "like" => "%" . $provider . "%"
                 ]
             ])->toSql());
             throw new \Exception("Insurance data not found");
         }
-        
+
         return response()->json([
             "code" => $code,
             "provider" => $provider,
             "unit_prize" => $unit_prize,
             "insurer_name" => $insurance->insurer_name
         ]);
-
-        
     }
 }

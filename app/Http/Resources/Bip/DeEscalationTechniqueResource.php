@@ -16,14 +16,14 @@ class DeEscalationTechniqueResource extends JsonResource
     public function toArray($request)
     {
         return [
-            "id"=>$this->resource->id,
-            "patient_id"=>$this->resource->patient_id,
-            "client_id"=>$this->resource->client_id,
-            "bip_id"=>$this->resource->bip_id,
-            "description"=>$this->resource->description,
-            "service_recomendation"=>$this->resource->service_recomendation,
-            "recomendation_lists"=>json_decode($this->resource->recomendation_lists) ? : null,
-            "created_at"=>$this->resource->created_at ? Carbon::parse($this->resource->created_at)->format("Y-m-d h:i A") : NULL,            
+            "id" => $this->resource->id,
+            "patient_id" => $this->resource->patient_id,
+            "client_id" => $this->resource->client_id,
+            "bip_id" => $this->resource->bip_id,
+            "description" => $this->resource->description,
+            "service_recomendation" => $this->resource->service_recomendation,
+            "recomendation_lists" => json_decode($this->resource->recomendation_lists) ? : null,
+            "created_at" => $this->resource->created_at ? Carbon::parse($this->resource->created_at)->format("Y-m-d h:i A") : null,
 
         ];
     }

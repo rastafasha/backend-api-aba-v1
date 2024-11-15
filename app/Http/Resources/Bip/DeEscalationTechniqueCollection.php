@@ -15,7 +15,7 @@ class DeEscalationTechniqueCollection extends ResourceCollection
     public function toArray($request)
     {
         return [
-            "data"=> DeEscalationTechniqueResource::collection($this->collection)
+            "data" => DeEscalationTechniqueResource::collection($this->collection)
         ];
     }
 }

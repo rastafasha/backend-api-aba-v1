@@ -81,7 +81,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class NoteBcba extends Model
 {
-    use HasFactory, SoftDeletes, HasProvider, HasSupervisor;
+    use HasFactory;
+    use SoftDeletes;
+    use HasProvider;
+    use HasSupervisor;
+
     protected $fillable = [
         'patient_id',
         'doctor_id',
@@ -153,7 +157,7 @@ class NoteBcba extends Model
 
     public function location()
     {
-        return $this->belongsTo(Location::class,'location_id');
+        return $this->belongsTo(Location::class, 'location_id');
     }
 
     protected function getTotalMinutesAttribute()

@@ -15,7 +15,7 @@ class InsuranceCollection extends ResourceCollection
     public function toArray($request)
     {
         return [
-            "data"=> InsuranceResource::collection($this->collection)
+            "data" => InsuranceResource::collection($this->collection)
         ];
     }
 }

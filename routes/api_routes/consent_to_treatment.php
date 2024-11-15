@@ -12,4 +12,3 @@ Route::get('consenttotreatment/showgbyPatientId/{patient_id}', [ConsentToTreatme
 Route::post('consenttotreatment/store', [ConsentToTreatmentController::class, 'store'])->name('store');
 Route::post('consenttotreatment/update/{goal}', [ConsentToTreatmentController::class, 'update'])->name('update');
 Route::delete('consenttotreatment/destroy/{id}', [ConsentToTreatmentController::class, 'destroy'])->name('destroy');
-

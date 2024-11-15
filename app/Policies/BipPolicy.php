@@ -17,7 +17,7 @@ class BipPolicy
      */
     public function viewAny(User $user)
     {
-        if($user->can('list_bip')){
+        if ($user->can('list_bip')) {
             return true;
         }
         return false;
@@ -32,7 +32,7 @@ class BipPolicy
      */
     public function view(User $user, User $model)
     {
-        if($user->can('edit_bip')){
+        if ($user->can('edit_bip')) {
             return true;
         }
         return false;
@@ -46,7 +46,7 @@ class BipPolicy
      */
     public function create(User $user)
     {
-        if($user->can('register_bip')){
+        if ($user->can('register_bip')) {
             return true;
         }
         return false;
@@ -61,7 +61,7 @@ class BipPolicy
      */
     public function update(User $user, User $model)
     {
-        if($user->can('edit_bip')){
+        if ($user->can('edit_bip')) {
             return true;
         }
         return false;

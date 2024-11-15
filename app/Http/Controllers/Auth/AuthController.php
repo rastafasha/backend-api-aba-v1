@@ -20,7 +20,6 @@ use Illuminate\Support\Facades\Validator;
 use App\Http\Requests\ChangePasswordRequest;
 use Symfony\Component\HttpFoundation\Response;
 
-
 class AuthController extends Controller
 {
     // /**
@@ -51,10 +50,10 @@ class AuthController extends Controller
         $user = User::where('email', request('email'))->firstOrFail();
 
 
-        $locations= UserLocation::where("user_id",'=', $user->id)
+        $locations = UserLocation::where("user_id", '=', $user->id)
         ->get();
 
-        $permissions = auth('api')->user()->getAllPermissions()->map(function($perm){
+        $permissions = auth('api')->user()->getAllPermissions()->map(function ($perm) {
             return $perm->name;
         });
 
@@ -63,61 +62,61 @@ class AuthController extends Controller
             'access_token' => $this->respondWithToken($token),
             'token_type' => 'Bearer',
             // 'user' => $user,
-            'user'=>[
-                "id"=>auth('api')->user()->id,
-                "name"=>auth('api')->user()->name,
-                "surname"=>auth('api')->user()->surname,
-                "avatar"=>auth('api')->user()->avatar,
+            'user' => [
+                "id" => auth('api')->user()->id,
+                "name" => auth('api')->user()->name,
+                "surname" => auth('api')->user()->surname,
+                "avatar" => auth('api')->user()->avatar,
                 // "rolename"=>auth('api')->user()->rolename,
-                "roles"=>auth('api')->user()->getRoleNames(),
-                "email"=>auth('api')->user()->email,
-                "location_id"=> $locations->isNotEmpty() ? $locations[0]->location_id : null,
-                "permissions"=>$permissions,
+                "roles" => auth('api')->user()->getRoleNames(),
+                "email" => auth('api')->user()->email,
+                "location_id" => $locations->isNotEmpty() ? $locations[0]->location_id : null,
+                "permissions" => $permissions,
 
             ],
         ], 201);
-
     }
 
     public function loginParent(Request $request)
-{
-    $credentials = request()->only('email', 'password');
-    $token = Auth::shouldUse('apiparent');
-    $token = JWTAuth::attempt($credentials);
+    {
+        $credentials = request()->only('email', 'password');
+        $token = Auth::shouldUse('apiparent');
+        $token = JWTAuth::attempt($credentials);
 
 
-    if(!$token){
-        return response()->json(['error' => 'Unauthorized - Credenciales incorrectas'], 401);
-    }
+        if (!$token) {
+            return response()->json(['error' => 'Unauthorized - Credenciales incorrectas'], 401);
+        }
 
-    $parent = Parents::where('email', request('email'))->firstOrFail();
+        $parent = Parents::where('email', request('email'))->firstOrFail();
 
-    $permissions = $parent->getAllPermissions()->map(function($perm){
-        return $perm->name;
-    });
+        $permissions = $parent->getAllPermissions()->map(function ($perm) {
+            return $perm->name;
+        });
 
-    return response()->json([
+        return response()->json([
         'message' => "Inicio de sesión exitoso",
         'access_token' => $this->respondWithTokenParent($token),
         'token_type' => 'Bearer',
-        'user'=>[
-            "id"=>$parent->id,
-            "name"=>$parent->name,
-            "surname"=>$parent->surname,
-            "avatar"=>$parent->avatar,
-            "roles"=>$parent->getRoleNames(),
-            "email"=>$parent->email,
-            "location_id"=> $parent->location_id,
+        'user' => [
+            "id" => $parent->id,
+            "name" => $parent->name,
+            "surname" => $parent->surname,
+            "avatar" => $parent->avatar,
+            "roles" => $parent->getRoleNames(),
+            "email" => $parent->email,
+            "location_id" => $parent->location_id,
 
         ],
-    ], 201);
-}
+        ], 201);
+    }
 
     /**
      * Register a User
      * @return \Illuminate\Http\JsonResponse
      */
-    public function register(Request $request) {
+    public function register(Request $request)
+    {
 
         $data = $request->only('name', 'email', 'password');
 
@@ -130,7 +129,7 @@ class AuthController extends Controller
         ]);
 
 
-        if($validator->fails()){
+        if ($validator->fails()) {
             return response()->json($validator->errors(), 422);
         }
 
@@ -149,7 +148,6 @@ class AuthController extends Controller
             'access_token' => $token,
             'token_type' => 'Bearer',
         ], 201);
-
     }
 
     /**
@@ -193,7 +191,7 @@ class AuthController extends Controller
      */
     protected function respondWithToken($token)
     {
-        $permissions = auth('api')->user()->getAllPermissions()->map(function($perm){
+        $permissions = auth('api')->user()->getAllPermissions()->map(function ($perm) {
             return $perm->name;
         });
         return response()->json([
@@ -201,12 +199,12 @@ class AuthController extends Controller
             'token_type' => 'bearer',
             'expires_in' => auth('api')->factory()->getTTL() * 180,
             // 'user'=>auth('api')->user(),
-            'user'=>[
-                "name"=>auth('api')->user()->name,
-                "surname"=>auth('api')->user()->surname,
+            'user' => [
+                "name" => auth('api')->user()->name,
+                "surname" => auth('api')->user()->surname,
                 // "rolename"=>auth('api')->user()->rolename,
-                "email"=>auth('api')->user()->email,
-                "permissions"=>$permissions,
+                "email" => auth('api')->user()->email,
+                "permissions" => $permissions,
 
             ],
         ]);
@@ -214,7 +212,7 @@ class AuthController extends Controller
 
     protected function respondWithTokenParent($token)
     {
-        $permissions = auth('apiparent')->user()->getAllPermissions()->map(function($perm){
+        $permissions = auth('apiparent')->user()->getAllPermissions()->map(function ($perm) {
             return $perm->name;
         });
         return response()->json([
@@ -222,12 +220,12 @@ class AuthController extends Controller
             'token_type' => 'bearer',
             'expires_in' => auth('apiparent')->factory()->getTTL() * 180,
             // 'user'=>auth('api')->user(),
-            'user'=>[
-                "name"=>auth('apiparent')->user()->name,
-                "surname"=>auth('apiparent')->user()->surname,
+            'user' => [
+                "name" => auth('apiparent')->user()->name,
+                "surname" => auth('apiparent')->user()->surname,
                 // "rolename"=>auth('api')->user()->rolename,
-                "email"=>auth('apiparent')->user()->email,
-                "permissions"=>$permissions,
+                "email" => auth('apiparent')->user()->email,
+                "permissions" => $permissions,
 
             ],
         ]);
@@ -244,7 +242,6 @@ class AuthController extends Controller
         $user = Auth::user();
 
         if (!Hash::check($request->current_password, $user->password)) {
-
             return response()->json([
                 'code' => 500,
                 'status' => '¡La contraseña actual no coincide!',

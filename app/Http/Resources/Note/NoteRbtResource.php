@@ -19,12 +19,12 @@ class NoteRbtResource extends JsonResource
         $afternoon = date("H:i", strtotime($this->resource->time_out2) - strtotime($this->resource->time_in2));
         return [
             'id' => $this->resource->id,
-            "session_date" => $this->resource->session_date ? Carbon::parse($this->resource->session_date)->format("Y-m-d") : NULL,
+            "session_date" => $this->resource->session_date ? Carbon::parse($this->resource->session_date)->format("Y-m-d") : null,
             "next_session_is_scheduled_for" => $this->resource->next_session_is_scheduled_for,
 
-            "interventions" => json_decode($this->resource->interventions) ?: NULL,
-            "replacements" => json_decode($this->resource->replacements) ?: NULL,
-            'maladaptives' => json_decode($this->resource->maladaptives) ?: NULL,
+            "interventions" => json_decode($this->resource->interventions) ?: null,
+            "replacements" => json_decode($this->resource->replacements) ?: null,
+            'maladaptives' => json_decode($this->resource->maladaptives) ?: null,
 
             "bip_id" => $this->resource->bip_id,
             "pos" => $this->resource->pos,
@@ -35,10 +35,10 @@ class NoteRbtResource extends JsonResource
             "doctor_id" => $this->resource->doctor_id,
             "meet_with_client_at" => $this->resource->meet_with_client_at,
 
-            "time_in" => $this->resource->time_in ? Carbon::parse($this->resource->time_in)->format(" H:i:s") : NULL,
-            "time_out" => $this->resource->time_out ? Carbon::parse($this->resource->time_out)->format(" H:i:s") : NULL,
-            "time_in2" => $this->resource->time_in2 ? Carbon::parse($this->resource->time_in2)->format(" H:i:s") : NULL,
-            "time_out2" => $this->resource->time_out2 ? Carbon::parse($this->resource->time_out2)->format(" H:i:s") : NULL,
+            "time_in" => $this->resource->time_in ? Carbon::parse($this->resource->time_in)->format(" H:i:s") : null,
+            "time_out" => $this->resource->time_out ? Carbon::parse($this->resource->time_out)->format(" H:i:s") : null,
+            "time_in2" => $this->resource->time_in2 ? Carbon::parse($this->resource->time_in2)->format(" H:i:s") : null,
+            "time_out2" => $this->resource->time_out2 ? Carbon::parse($this->resource->time_out2)->format(" H:i:s") : null,
             // al obtener las horas trabajadas se suman
             //convertimos las horas para poder sumarlas
             //sumamos la hora de inicio con la hora final y le restamos los minutos de descanso.
@@ -48,12 +48,12 @@ class NoteRbtResource extends JsonResource
             // "session_length_total" => $morning + $afternoon,// da error numerico
             // "session_length_morning_total" => date("H:i", strtotime($this->resource->time_out) - strtotime($this->resource->time_in) ),
             // "session_length_afternon_total" => date("H:i", strtotime($this->resource->time_out2) - strtotime($this->resource->time_in2) ),
-                
-            "session_length_total" => date("H:i", strtotime($this->resource->time_out2) - strtotime($this->resource->time_in2) + strtotime($this->resource->time_out) - strtotime($this->resource->time_in) ),
-                
+
+            "session_length_total" => date("H:i", strtotime($this->resource->time_out2) - strtotime($this->resource->time_in2) + strtotime($this->resource->time_out) - strtotime($this->resource->time_in)),
+
             // "total_hours" => date("H:i", strtotime($this->resource->time_out2) - strtotime($this->resource->time_in2) + strtotime($this->resource->time_out) - strtotime($this->resource->time_in) ),
             "total_hours" => $this->calculateTotalHours(),
-            
+
             "client_appeared" => $this->resource->client_appeared,
             "as_evidenced_by" => $this->resource->as_evidenced_by,
             "rbt_modeled_and_demonstrated_to_caregiver" => $this->resource->rbt_modeled_and_demonstrated_to_caregiver,
@@ -90,8 +90,8 @@ class NoteRbtResource extends JsonResource
             "total_minutes" => $this->resource->total_minutes,
             "total_units" => $this->resource->total_units,
 
-            "created_at" => $this->resource->created_at ? Carbon::parse($this->resource->created_at)->format("Y-m-d H:i:s") : NULL,
-            "updated_at" => $this->resource->updated_at ? Carbon::parse($this->resource->updated_at)->format("Y-m-d H:i:s") : NULL,
+            "created_at" => $this->resource->created_at ? Carbon::parse($this->resource->created_at)->format("Y-m-d H:i:s") : null,
+            "updated_at" => $this->resource->updated_at ? Carbon::parse($this->resource->updated_at)->format("Y-m-d H:i:s") : null,
         ];
     }
 

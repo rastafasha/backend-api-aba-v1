@@ -12,7 +12,7 @@ class BipFile extends Model
     use HasFactory;
     use SoftDeletes;
 
-    protected $fillable =[
+    protected $fillable = [
         'bip_id',
         'name_file',
         'size',

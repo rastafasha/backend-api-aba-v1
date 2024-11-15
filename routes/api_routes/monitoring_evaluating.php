@@ -12,4 +12,3 @@ Route::get('monitoringevaluating/showgbyPatientId/{patient_id}', [MonitoringEval
 Route::post('monitoringevaluating/store', [MonitoringEvaluatingController::class, 'store'])->name('store');
 Route::post('monitoringevaluating/update/{goal}', [MonitoringEvaluatingController::class, 'update'])->name('update');
 Route::delete('monitoringevaluating/destroy/{id}', [MonitoringEvaluatingController::class, 'destroy'])->name('destroy');
-
