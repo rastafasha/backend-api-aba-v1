@@ -21,3 +21,11 @@ Envoy.blade.php
 composer.lock
 *.lock
 .DS_Store
+.DS_Store
+app/.DS_Store
+database/.DS_Store
+public/.DS_Store
+resources/.DS_Store
+routes/.DS_Store
+storage/.DS_Store
+tests/.DS_Store
