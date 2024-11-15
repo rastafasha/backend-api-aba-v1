@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\Notes\NoteRbtController;
 use App\Http\Controllers\OpenAIController;
@@ -32,3 +31,12 @@ Route::put('note_rbt/update/modifier/{note_rbt:id}', [NoteRbtController::class, 
 
 Route::post("note_rbt/generate-summary", [OpenAIController::class, "generateSummary"])
     ->name("note_rbt.generateSummary");
+
+// V2 routes
+Route::prefix('v2/notes')->group(function () {
+    Route::get('/rbt', [App\Http\Controllers\Admin\Notes\NoteRbtV2Controller::class, 'index']);
+    Route::get('/rbt/{id}', [App\Http\Controllers\Admin\Notes\NoteRbtV2Controller::class, 'show']);
+    Route::post('/rbt', [App\Http\Controllers\Admin\Notes\NoteRbtV2Controller::class, 'store']);
+    Route::put('/rbt/{id}', [App\Http\Controllers\Admin\Notes\NoteRbtV2Controller::class, 'update']);
+    Route::delete('/rbt/{id}', [App\Http\Controllers\Admin\Notes\NoteRbtV2Controller::class, 'destroy']);
+});

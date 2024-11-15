@@ -118,6 +118,9 @@ Route::group(['middleware' => 'api'], function ($router) {
     // PA Services
     require __DIR__ . '/api_routes/pa_services.php';
 
+    // Claims
+    require __DIR__ . '/api_routes/claims.php';
+
 
 
     //comandos desde la url del backend

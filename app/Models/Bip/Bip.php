@@ -3,12 +3,10 @@
 namespace App\Models\Bip;
 use App\Models\User;
 use App\Models\Bip\CrisisPlan;
-use App\Models\Bip\Maladaptive;
 use App\Models\Patient\Patient;
 use App\Models\Bip\ReductionGoal;
 use App\Models\Bip\FamilyEnvolment;
 use App\Models\Bip\SustitutionGoal;
-use App\Models\Bip\BehaviorAsistant;
 use App\Models\Bip\ConsentToTreatment;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Bip\MonitoringEvaluating;
@@ -16,7 +14,44 @@ use App\Models\Bip\DeEscalationTechnique;
 use App\Models\Bip\GeneralizationTraining;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Carbon;
 
+/**
+ * @OA\Schema(
+ *     schema="Bip",
+ *     title="Bip",
+ *     description="Behavior Intervention Plan model",
+ *     @OA\Property(property="id", type="integer", format="int64", example=1),
+ *     @OA\Property(property="client_id", type="integer", format="int64", example=1),
+ *     @OA\Property(property="patient_id", type="string", maxLength=50, nullable=true, example="PAT123"),
+ *     @OA\Property(property="doctor_id", type="integer", format="int64", nullable=true, example=1),
+ *     @OA\Property(property="type_of_assessment", type="integer", format="int32", example=3),
+ *     @OA\Property(property="documents_reviewed", type="array", @OA\Items(type="string"), nullable=true),
+ *     @OA\Property(property="background_information", type="string", nullable=true),
+ *     @OA\Property(property="previus_treatment_and_result", type="string", nullable=true),
+ *     @OA\Property(property="current_treatment_and_progress", type="string", nullable=true),
+ *     @OA\Property(property="education_status", type="string", nullable=true),
+ *     @OA\Property(property="phisical_and_medical_status", type="string", nullable=true),
+ *     @OA\Property(property="strengths", type="string", nullable=true),
+ *     @OA\Property(property="weakneses", type="string", nullable=true),
+ *     @OA\Property(property="phiysical_and_medical", type="string", nullable=true),
+ *     @OA\Property(property="phiysical_and_medical_status", type="array", @OA\Items(type="string"), nullable=true),
+ *     @OA\Property(property="maladaptives", type="array", @OA\Items(type="string"), nullable=true),
+ *     @OA\Property(property="assestment_conducted", type="string", nullable=true),
+ *     @OA\Property(property="assestment_conducted_options", type="array", @OA\Items(type="string"), nullable=true),
+ *     @OA\Property(property="assestmentEvaluationSettings", type="array", @OA\Items(type="string"), nullable=true),
+ *     @OA\Property(property="prevalent_setting_event_and_atecedents", type="array", @OA\Items(type="string"), nullable=true),
+ *     @OA\Property(property="hypothesis_based_intervention", type="string", nullable=true),
+ *     @OA\Property(property="interventions", type="array", @OA\Items(type="string"), nullable=true),
+ *     @OA\Property(property="tangibles", type="array", @OA\Items(type="string"), nullable=true),
+ *     @OA\Property(property="attention", type="array", @OA\Items(type="string"), nullable=true),
+ *     @OA\Property(property="escape", type="array", @OA\Items(type="string"), nullable=true),
+ *     @OA\Property(property="sensory", type="array", @OA\Items(type="string"), nullable=true),
+ *     @OA\Property(property="created_at", type="string", format="date-time"),
+ *     @OA\Property(property="updated_at", type="string", format="date-time"),
+ *     @OA\Property(property="deleted_at", type="string", format="date-time", nullable=true)
+ * )
+ */
 class Bip extends Model
 {
     use HasFactory;
@@ -45,7 +80,7 @@ class Bip extends Model
 
         'phiysical_and_medical',
         'phiysical_and_medical_status',//json
-        
+
         'tangibles',//json
         'attention',//json
         'escape',//json
@@ -64,6 +99,19 @@ class Bip extends Model
         // 'shaping',
         // 'chaining',
         // 'maladaptive_id',
+    ];
+
+    protected $casts = [
+        'documents_reviewed' => 'array',
+        'maladaptives' => 'array',
+        'assestment_conducted_options' => 'array',
+        'prevalent_setting_event_and_atecedents' => 'array',
+        'interventions' => 'array',
+        'tangibles' => 'array',
+        'attention' => 'array',
+        'escape' => 'array',
+        'sensory' => 'array',
+        'phiysical_and_medical_status' => 'array',
     ];
 
 
@@ -124,12 +172,12 @@ class Bip extends Model
     {
         return $this->hasMany(ConsentToTreatment::class);
     }
-    
-    
-    
-    
-    
-    
+
+
+
+
+
+
 
     // public function bip_files(){
     //     return $this->hasMany(BipFile::class, "documents_reviewed");
@@ -138,10 +186,10 @@ class Bip extends Model
     // filtro buscador
 
     public function scopefilterAdvanceBip($query,
-    $patientID, 
-    $name_doctor, 
+    $patientID,
+    $name_doctor,
     $date){
-        
+
         if($patientID){
             $query->where("patientID", $patientID);
         }

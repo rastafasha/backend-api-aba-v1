@@ -178,6 +178,13 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
+        /*
+         * Claim.md Service Providers...
+         * This service provider is used to send EDI X12 files to Claim.md
+         * */
+        App\Providers\ClaimMdServiceProvider::class,
+        App\Providers\ClaimsServiceProvider::class,
+
     ],
 
     /*
