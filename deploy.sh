@@ -6,10 +6,10 @@ BRANCH=$(cat .git/HEAD | sed 's/ref: refs\/heads\///')
 # Configurar DEPLOYPATH según la rama
 if [ "$BRANCH" == "develop" ]; then
     DEPLOYPATH="/home/z779cvj9zm4g/public_html/aba-dev.malcolmcordova.com/backend-api-aba/"
-    ENVFILE = ".env.dev"
+    ENVFILE=".env.dev"
 elif [ "$BRANCH" == "main" ]; then
     DEPLOYPATH="/home/z779cvj9zm4g/public_html/abatherapy.malcolmcordova.com/backend-api-aba/"
-    ENVFILE = ".env.prod"
+    ENVFILE=".env.prod"
 else
     echo "Rama no reconocida. No se puede configurar DEPLOYPATH."
     exit 1
@@ -17,12 +17,14 @@ fi
 
 # Exportar DEPLOYPATH
 export DEPLOYPATH
+export ENVFILE
 
 # Obtener la fecha y hora actual
 TIMESTAMP=$(date +"%Y-%m-%d %H:%M:%S")
 
 # Registrar el inicio del despliegue con la fecha y hora
 echo "Starting at $TIMESTAMP" >> $DEPLOYPATH/deploy.log 2>&1
+echo "ENVFILE=$ENVFILE" >> $DEPLOYPATH/deploy.log 2>&1
 
 # Copiar archivos al directorio de despliegue
 rsync -av --delete \
@@ -40,6 +42,7 @@ rsync -av --delete \
 # Cambiar al directorio de despliegue
 cd $DEPLOYPATH >> $DEPLOYPATH/deploy.log 2>&1
 
+chmod 755 .
 # Actualizar dependencias con Composer
 php /opt/cpanel/composer/bin/composer update >> $DEPLOYPATH/deploy.log 2>&1
 
