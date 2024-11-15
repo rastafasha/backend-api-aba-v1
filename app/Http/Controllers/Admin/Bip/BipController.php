@@ -220,7 +220,8 @@ class BipController extends Controller
     public function showbyUserPatientId($patient_id)
     {
         $bip = Bip::where("patient_id", $patient_id)->first();
-        $goalsmaladaptive = ReductionGoal::where("maladaptive", $maladaptive)->orderBy("id", "desc")->get();
+        $goalsmaladaptive = ReductionGoal::where("maladaptive", $bip->maladaptive)
+        ->orderBy("id", "desc")->get();
         $reduction_goal = ReductionGoal::where("patient_id", $patient_id)->first();
 
 
@@ -229,7 +230,6 @@ class BipController extends Controller
             "bip" => $bip,
             "reduction_goal" => $reduction_goal,
             "goalsmaladaptive" => $goalsmaladaptive,
-            // "bip" => BipResource::make($bip),
             "type_of_assessment" => $bip->type_of_assessment,
             "documents_reviewed" => is_string($bip->documents_reviewed) ? json_decode($bip->documents_reviewed) : $bip->documents_reviewed,
             "maladaptives" => is_string($bip->maladaptives) ? json_decode($bip->maladaptives) : $bip->maladaptives,
@@ -249,7 +249,6 @@ class BipController extends Controller
     {
         $bip = Bip::where("patient_id", $patient_id)->first();
         $reduction_goal = ReductionGoal::where("patient_id", $patient_id)->first();
-        // $goalsmaladaptive = ReductionGoal::where("patient_id", $patient_id)->first();
         $patient = Patient::where("patient_id", $patient_id)->first();
         if (!$patient) {
             return response()->json([
@@ -286,12 +285,10 @@ class BipController extends Controller
     {
         $bip = Bip::where("patient_id", $patient_id)->first();
         $reduction_goal = ReductionGoal::where("patient_id", $patient_id)->first();
-        // $goalsmaladaptive = ReductionGoal::where("patient_id", $patient_id)->first();
         $patient = Patient::where("patient_id", $patient_id)->first();
 
         return response()->json([
             "bip" => BipResource::make($bip),
-            "patient" => $patient,
             "patient" => $patient->id ? [
                 "id" => $patient->id,
                 "patient_id" => $patient->patient_id,
@@ -301,7 +298,7 @@ class BipController extends Controller
                 "birth_date" => $patient->birth_date,
                 "phone" => $patient->phone,
                 "avatar" => $patient->avatar ? env("APP_URL") . "storage/" . $patient->avatar : null,
-                // "avatar"=> $patient->avatar ? env("APP_URL").$patient->avatar : null,
+                
                 "address" => $patient->address,
             ] : null,
         ]);
