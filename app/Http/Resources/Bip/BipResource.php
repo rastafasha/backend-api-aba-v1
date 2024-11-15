@@ -51,7 +51,7 @@ class BipResource extends JsonResource
             "weakneses"=>$this->resource->weakneses,
             
             'documents_reviewed'=>$this->resource->documents_reviewed ,
-            'maladaptives'=> json_decode($this->resource-> maladaptives ,true ),
+            'maladaptives'=> $this->resource-> maladaptives,
             "assestment_conducted_options"=>json_decode($this->resource-> assestment_conducted_options) ,
             "assestmentEvaluationSettings"=>json_decode($this->resource-> assestmentEvaluationSettings) ,
             "prevalent_setting_event_and_atecedents"=>json_decode($this->resource-> prevalent_setting_event_and_atecedents) ,
