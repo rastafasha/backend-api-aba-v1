@@ -11,7 +11,7 @@ jobs:
     steps:
     - uses: shivammathur/setup-php@15c43e89cdef867065b0213be354c2841860869e
       with:
-        php-version: '8.1'
+        php-version: '8.2'
     - uses: actions/checkout@v4
     - name: Copy .env
       run: php -r "file_exists('.env') || copy('.env.example', '.env');"
@@ -41,7 +41,7 @@ jobs:
         uses: pinkasey/cpanel-deploy-action@v1.0.0
         with:
           hostname: 'https://p3plzcpnl504985.prod.phx3.secureserver.net'
-          repository_root: '/home/z779cvj9zm4g/repositories/backend-api-aba-v1'
+          repository_root: '/home/z779cvj9zm4g/repositories/backend-api-aba-v2'
           branch: main
           cpanel_token: '${{ secrets.CPANEL_TOKEN }}'
           cpanel_username: 'z779cvj9zm4g'
