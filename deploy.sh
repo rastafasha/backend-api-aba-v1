@@ -34,9 +34,8 @@ rsync -av --delete \
     . $DEPLOYPATH >> $DEPLOYPATH/deploy.log 2>&1
 
 # Copiar archivos específicos
-/bin/cp -R .cpanel.yml $DEPLOYPATH >> $DEPLOYPATH/deploy.log 2>&1
 /bin/cp -R .htaccess $DEPLOYPATH >> $DEPLOYPATH/deploy.log 2>&1
-/bin/cp "$ENVFILE" "$DEPLOYPATH/.env" >> $DEPLOYPATH/deploy.log 2>&1
+/bin/cp -R $ENVFILE $DEPLOYPATH/.env >> $DEPLOYPATH/deploy.log 2>&1
 
 # Cambiar al directorio de despliegue
 cd $DEPLOYPATH >> $DEPLOYPATH/deploy.log 2>&1
