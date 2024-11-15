@@ -1,7 +1,8 @@
 #!/bin/bash
 
-# Leer la rama actual directamente desde .git/HEAD
 BRANCH=$(cat .git/HEAD | sed 's/ref: refs\/heads\///')
+TIMESTAMP=$(date +"%Y-%m-%d_%H:%M:%S")
+CURRENT_FOLDER=$(pwd)
 
 # Configurar DEPLOYPATH según la rama
 if [ "$BRANCH" == "develop" ]; then
@@ -15,16 +16,17 @@ else
     exit 1
 fi
 
+DEPLOY_LOG="$CURRENT_FOLDER/storage/logs/deploy_$TIMESTAMP.log"
 # Exportar DEPLOYPATH
 export DEPLOYPATH
 export ENVFILE
+export TIMESTAMP
+export DEPLOY_LOG
 
-# Obtener la fecha y hora actual
-TIMESTAMP=$(date +"%Y-%m-%d %H:%M:%S")
 
 # Registrar el inicio del despliegue con la fecha y hora
-echo "Starting at $TIMESTAMP" >> $DEPLOYPATH/deploy.log 2>&1
-echo "ENVFILE=$ENVFILE" >> $DEPLOYPATH/deploy.log 2>&1
+echo "Starting at $TIMESTAMP" >> $DEPLOY_LOG 2>&1
+echo "ENVFILE=$ENVFILE" >> $DEPLOY_LOG 2>&1
 
 # Copiar archivos al directorio de despliegue
 rsync -av --delete \
@@ -33,24 +35,24 @@ rsync -av --delete \
     --exclude='deploy.log' \
     --exclude='storage/logs/*' \
     --exclude='storage/framework/cache/*' \
-    . $DEPLOYPATH >> $DEPLOYPATH/public/logs/deploy.log 2>&1
+    . $DEPLOYPATH >> $DEPLOY_LOG 2>&1
 
 # Copiar archivos específicos
-/bin/cp -R .htaccess $DEPLOYPATH >> $DEPLOYPATH/deploy.log 2>&1
-/bin/cp -R $ENVFILE $DEPLOYPATH/.env >> $DEPLOYPATH/deploy.log 2>&1
+/bin/cp -R .htaccess $DEPLOYPATH >> $DEPLOY_LOG 2>&1
+/bin/cp -R $ENVFILE $DEPLOYPATH/.env >> $DEPLOY_LOG 2>&1
 
 # Cambiar al directorio de despliegue
-cd $DEPLOYPATH >> $DEPLOYPATH/public/logs/deploy.log 2>&1
+cd $DEPLOYPATH >> $DEPLOY_LOG 2>&1
 
 chmod 755 .
 # Actualizar dependencias con Composer
-php /opt/cpanel/composer/bin/composer update >> $DEPLOYPATH/public/logs/deploy.log 2>&1
+php /opt/cpanel/composer/bin/composer update >> $DEPLOY_LOG 2>&1
 
 # Generar documentación de Swagger
-php artisan l5-swagger:generate >> $DEPLOYPATH/public/logs/deploy.log 2>&1
+php artisan l5-swagger:generate >> $DEPLOY_LOG 2>&1
 
 # Migrar y sembrar la base de datos
-php artisan migrate:fresh --seed >> $DEPLOYPATH/public/logs/deploy.log 2>&1
+php artisan migrate:fresh --seed >> $DEPLOY_LOG 2>&1
 
 # Opcional: otros comandos de Artisan
 # php artisan migrate --force
