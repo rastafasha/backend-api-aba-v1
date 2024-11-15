@@ -153,13 +153,6 @@ class BipController extends Controller
             "id" => $bip->id,
             "bip" => $bip,
             "type_of_assessment" => $bip->type_of_assessment,
-            // "bip" => BipResource::make($bip),
-            // "documents_reviewed"= is_string($bip-> documents_reviewed)?>json_decode($bip-> documents_reviewed):$bip-> documents_reviewed,
-            // "maladaptives"= is_string($bip-> maladaptives)?>json_decode($bip-> maladaptives):$bip-> maladaptives,
-            // "assestment_conducted_options"= is_string($bip-> assestment_conducted_options)?>json_decode($bip-> assestment_conducted_options):$bip-> assestment_conducted_options,
-            // "prevalent_setting_event_and_atecedents"= is_string($bip-> prevalent_setting_event_and_atecedents)?>json_decode($bip-> prevalent_setting_event_and_atecedents):$bip-> prevalent_setting_event_and_atecedents,
-            // "interventions"= is_string($bip-> interventions)?>json_decode($bip-> interventions):$bip-> interventions,
-
         ]);
     }
     //se obtiene el usuario
@@ -383,24 +376,7 @@ class BipController extends Controller
             "prevalent_setting_event_and_atecedents" => is_string($bip->prevalent_setting_event_and_atecedents)? json_decode($bip->prevalent_setting_event_and_atecedents):$bip->prevalent_setting_event_and_atecedents,
             "phiysical_and_medical_status" => is_string($bip->phiysical_and_medical_status)? json_decode($bip->phiysical_and_medical_status):$bip->phiysical_and_medical_status,
             "interventions" => is_string($bip->interventions)? json_decode($bip->interventions):$bip->interventions,
-            // "doctor_id" => $bip->doctor_id,
-            // "doctor"=>$bip->doctor_id ?
-            //             [
-            //                 "id"=> $doctor->id,
-            //                 "email"=> $doctor->email,
-            //                 "full_name" =>$doctor->name.' '.$doctor->surname,
-            //             ]: NULL,
         ]);
-
-        // $bip = Bip::findOrFail($id);
-        // $bip->update();
-        // return response()->json([
-        //     "message" => 200
-        // ]);
-
-
-
-
 
     }
 
