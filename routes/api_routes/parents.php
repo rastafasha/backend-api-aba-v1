@@ -8,6 +8,10 @@ use App\Http\Controllers\ParentController;
 Route::get('/parents', [ParentController::class, 'index'])
     ->name('parents.index');
 
+
+Route::get('/parents-locations', [ParentController::class, 'locationsParents'])
+    ->name('parents.locationsParents');
+
 Route::get('/parent/show/{parent}', [ParentController::class, 'show'])
     ->name('parents.show');
 

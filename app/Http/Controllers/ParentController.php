@@ -27,6 +27,16 @@ class ParentController extends Controller
         //
     }
 
+    public function locationsParents()
+    {
+        $locations = Location::get();
+        return response()->json([
+            // "total"=>$patients->total(),
+            "locations"=> LocationCollection::make($locations)
+        ]);
+    }
+
+
     /**
      * Store a newly created resource in storage.
      *
