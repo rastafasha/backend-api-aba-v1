@@ -149,9 +149,9 @@ class NoteRbt extends Note
     ];
 
     protected $casts = [
-        'maladaptives' => 'json',
-        'replacements' => 'json',
-        'interventions' => 'json',
+        'maladaptives' => 'array',
+        'replacements' => 'array',
+        'interventions' => 'array',
     ];
 
     protected $appends = ['provider', 'supervisor', 'doctor', 'client_id', 'total_units'];
