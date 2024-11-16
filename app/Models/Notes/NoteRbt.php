@@ -154,7 +154,7 @@ class NoteRbt extends Note
         'interventions' => 'json',
     ];
 
-    protected $appends = ['provider', 'supervisor', 'doctor', 'client_id'];
+    protected $appends = ['provider', 'supervisor', 'doctor', 'client_id', 'total_units'];
 
     public function patient()
     {

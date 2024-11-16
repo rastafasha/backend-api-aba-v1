@@ -129,7 +129,7 @@ class NoteBcba extends Note
         'insuranceId',
     ];
 
-    protected $appends = ['provider', 'supervisor'];
+    protected $appends = ['provider', 'supervisor', 'total_units'];
 
     // protected $casts = [
     //     'maladaptives' => 'json',
