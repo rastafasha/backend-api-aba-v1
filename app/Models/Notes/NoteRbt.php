@@ -2,6 +2,7 @@
 
 namespace App\Models\Notes;
 
+use App\Models\Notes\Note;
 use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Bip\Bip;
@@ -149,9 +150,9 @@ class NoteRbt extends Note
     ];
 
     protected $casts = [
-        'maladaptives' => 'array',
-        'replacements' => 'array',
-        'interventions' => 'array',
+        'maladaptives' => 'json',
+        'replacements' => 'json',
+        'interventions' => 'json',
     ];
 
     protected $appends = ['provider', 'supervisor', 'doctor', 'client_id', 'total_units'];

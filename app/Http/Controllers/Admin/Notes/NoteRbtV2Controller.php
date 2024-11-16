@@ -95,54 +95,54 @@ class NoteRbtV2Controller extends Controller
    *     )
    * )
    */
-    public function index(Request $request)
-    {
-        $query = NoteRbt::query();
+  public function index(Request $request)
+  {
+    $query = NoteRbt::query();
 
-      // Filter by patient_id
-        if ($request->has('patient_id')) {
-            $query->where('patient_id', $request->patient_id);
-        }
-
-      // Filter by doctor_id
-        if ($request->has('doctor_id')) {
-            $query->where('doctor_id', $request->doctor_id);
-        }
-
-      // Filter by provider_id
-        if ($request->has('provider_id')) {
-            $query->where('provider_id', $request->provider_id);
-        }
-
-      // Filter by bip_id
-        if ($request->has('bip_id')) {
-            $query->where('bip_id', $request->bip_id);
-        }
-
-      // Filter by location_id
-        if ($request->has('location_id')) {
-            $query->where('location_id', $request->location_id);
-        }
-
-      // Filter by date range
-        if ($request->has('date_start') && $request->has('date_end')) {
-            $query->whereBetween('session_date', [
-            $request->date_start,
-            $request->date_end
-            ]);
-        }
-
-      // Get paginated results (15 per page by default)
-        $perPage = $request->input('per_page', 15);
-        $notes = $query->orderBy('created_at', 'desc')
-        ->with(['patient', 'bip', 'location'])
-        ->paginate($perPage);
-
-        return response()->json([
-        'status' => 'success',
-        'data' => $notes
-        ]);
+    // Filter by patient_id
+    if ($request->has('patient_id')) {
+      $query->where('patient_id', $request->patient_id);
     }
+
+    // Filter by doctor_id
+    if ($request->has('doctor_id')) {
+      $query->where('doctor_id', $request->doctor_id);
+    }
+
+    // Filter by provider_id
+    if ($request->has('provider_id')) {
+      $query->where('provider_id', $request->provider_id);
+    }
+
+    // Filter by bip_id
+    if ($request->has('bip_id')) {
+      $query->where('bip_id', $request->bip_id);
+    }
+
+    // Filter by location_id
+    if ($request->has('location_id')) {
+      $query->where('location_id', $request->location_id);
+    }
+
+    // Filter by date range
+    if ($request->has('date_start') && $request->has('date_end')) {
+      $query->whereBetween('session_date', [
+        $request->date_start,
+        $request->date_end
+      ]);
+    }
+
+    // Get paginated results (15 per page by default)
+    $perPage = $request->input('per_page', 15);
+    $notes = $query->orderBy('created_at', 'desc')
+      ->with(['patient', 'bip', 'location'])
+      ->paginate($perPage);
+
+    return response()->json([
+      'status' => 'success',
+      'data' => $notes
+    ]);
+  }
 
   /**
    * @OA\Get(
@@ -181,23 +181,23 @@ class NoteRbtV2Controller extends Controller
    *     )
    * )
    */
-    public function show($id)
-    {
-        $note = NoteRbt::with(['patient', 'bip', 'location'])
-        ->find($id);
+  public function show($id)
+  {
+    $note = NoteRbt::with(['patient', 'bip', 'location'])
+      ->find($id);
 
-        if (!$note) {
-            return response()->json([
-            'status' => 'error',
-            'message' => 'Note not found'
-            ], 404);
-        }
-
-        return response()->json([
-        'status' => 'success',
-        'data' => $note
-        ]);
+    if (!$note) {
+      return response()->json([
+        'status' => 'error',
+        'message' => 'Note not found'
+      ], 404);
     }
+
+    return response()->json([
+      'status' => 'success',
+      'data' => $note
+    ]);
+  }
 
   /**
    * @OA\Put(
@@ -272,64 +272,74 @@ class NoteRbtV2Controller extends Controller
    *     )
    * )
    */
-    public function update(Request $request, $id)
-    {
-        $note = NoteRbt::find($id);
+  public function update(Request $request, $id)
+  {
+    $note = NoteRbt::find($id);
 
-        if (!$note) {
-            return response()->json([
-            'status' => 'error',
-            'message' => 'Note not found'
-            ], 404);
-        }
-
-      // Validate request
-        $validated = $request->validate([
-        'insurance_id' => 'nullable|exists:insurances,id',
-        'session_date' => 'required|date',
-        'patient_id' => 'required|string',
-        'doctor_id' => 'required|exists:users,id',
-        'bip_id' => 'nullable|exists:bips,id',
-        'pos' => 'nullable|string',
-        'time_in' => 'nullable|date_format:H:i:s',
-        'time_out' => 'nullable|date_format:H:i:s|after:time_in',
-        'time_in2' => 'nullable|date_format:H:i:s',
-        'time_out2' => 'nullable|date_format:H:i:s|after:time_in2',
-        'environmental_changes' => 'nullable|string',
-        'maladaptives' => 'nullable|array',
-        'replacements' => 'nullable|array',
-        'interventions' => 'nullable|array',
-        'meet_with_client_at' => 'nullable|string',
-        'client_appeared' => 'nullable|string',
-        'as_evidenced_by' => 'nullable|string',
-        'rbt_modeled_and_demonstrated_to_caregiver' => 'nullable|string',
-        'client_response_to_treatment_this_session' => 'nullable|string',
-        'progress_noted_this_session_compared_to_previous_session' => 'nullable|string',
-        'next_session_is_scheduled_for' => 'nullable|date',
-        'provider_id' => 'nullable|exists:users,id',
-        'provider_signature' => 'nullable|string',
-        'provider_credential' => 'nullable|string',
-        'supervisor_signature' => 'nullable|string',
-        'supervisor_name' => 'nullable|exists:users,id',
-        'billed' => 'boolean',
-        'pay' => 'boolean',
-        'md' => 'nullable|string|max:20',
-        'md2' => 'nullable|string|max:20',
-        'cpt_code' => 'nullable|string',
-        'status' => 'nullable|in:pending,ok,no,review',
-        'location_id' => 'nullable|exists:locations,id',
-        'pa_service_id' => 'nullable|exists:pa_services,id',
-        'insuranceId' => 'nullable|string',
-        ]);
-
-        $note->update($validated);
-
-        return response()->json([
-        'status' => 'success',
-        'message' => 'Note updated successfully',
-        'data' => $note,
-        ]);
+    if (!$note) {
+      return response()->json([
+        'status' => 'error',
+        'message' => 'Note not found'
+      ], 404);
     }
+
+    // Validate request
+    $validated = $request->validate([
+      'insurance_id' => 'nullable|exists:insurances,id',
+      'session_date' => 'required|date',
+      'patient_id' => 'required|string',
+      'doctor_id' => 'required|exists:users,id',
+      'bip_id' => 'nullable|exists:bips,id',
+      'pos' => 'nullable|string',
+      'time_in' => 'nullable|date_format:H:i:s',
+      'time_out' => 'nullable|date_format:H:i:s|after:time_in',
+      'time_in2' => 'nullable|date_format:H:i:s',
+      'time_out2' => 'nullable|date_format:H:i:s|after:time_in2',
+      'environmental_changes' => 'nullable|string',
+      'maladaptives' => 'nullable|json',
+      'replacements' => 'nullable|json',
+      'interventions' => 'nullable|json',
+      'meet_with_client_at' => 'nullable|string',
+      'client_appeared' => 'nullable|string',
+      'as_evidenced_by' => 'nullable|string',
+      'rbt_modeled_and_demonstrated_to_caregiver' => 'nullable|string',
+      'client_response_to_treatment_this_session' => 'nullable|string',
+      'progress_noted_this_session_compared_to_previous_session' => 'nullable|string',
+      'next_session_is_scheduled_for' => 'nullable|date',
+      'provider_id' => 'nullable|exists:users,id',
+      'provider_signature' => 'nullable|string',
+      'provider_credential' => 'nullable|string',
+      'supervisor_signature' => 'nullable|string',
+      'supervisor_name' => 'nullable|exists:users,id',
+      'billed' => 'boolean',
+      'pay' => 'boolean',
+      'md' => 'nullable|string|max:20',
+      'md2' => 'nullable|string|max:20',
+      'cpt_code' => 'nullable|string',
+      'status' => 'nullable|in:pending,ok,no,review',
+      'location_id' => 'nullable|exists:locations,id',
+      'pa_service_id' => 'nullable|exists:pa_services,id',
+      'insuranceId' => 'nullable|string',
+    ]);
+
+    if (is_array($request->maladaptives)) {
+      $validated['maladaptives'] = json_encode($request->maladaptives);
+    }
+    if (is_array($request->replacements)) {
+      $validated['replacements'] = json_encode($request->replacements);
+    }
+    if (is_array($request->interventions)) {
+      $validated['interventions'] = json_encode($request->interventions);
+    }
+
+    $note->update($validated);
+
+    return response()->json([
+      'status' => 'success',
+      'message' => 'Note updated successfully',
+      'data' => $note,
+    ]);
+  }
 
   /**
    * @OA\Delete(
@@ -364,22 +374,22 @@ class NoteRbtV2Controller extends Controller
    *     )
    * )
    */
-    public function destroy($id)
-    {
-        $note = NoteRbt::find($id);
+  public function destroy($id)
+  {
+    $note = NoteRbt::find($id);
 
-        if (!$note) {
-            return response()->json([
-            'status' => 'error',
-            'message' => 'Note not found'
-            ], 404);
-        }
-
-        $note->delete();
-
-        return response()->json([
-        'status' => 'success',
-        'message' => 'Note deleted successfully'
-        ]);
+    if (!$note) {
+      return response()->json([
+        'status' => 'error',
+        'message' => 'Note not found'
+      ], 404);
     }
+
+    $note->delete();
+
+    return response()->json([
+      'status' => 'success',
+      'message' => 'Note deleted successfully'
+    ]);
+  }
 }
