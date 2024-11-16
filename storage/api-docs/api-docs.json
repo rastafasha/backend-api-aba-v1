@@ -1815,6 +1815,15 @@
                 "operationId": "11a3a3c89a6814a07c7929ceb80e3dce",
                 "parameters": [
                     {
+                        "name": "include",
+                        "in": "query",
+                        "description": "Include related models (comma-separated). Options: insurance",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
                         "name": "search",
                         "in": "query",
                         "description": "Search in first name, last name and email",
