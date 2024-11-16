@@ -109,20 +109,22 @@ class User extends Authenticatable implements JWTSubject
         'email_verified_at' => 'datetime',
     ];
 
-    const SUPERADMIN = 'SUPERADMIN';
-    const GUEST = 'GUEST';
-    const PARENT = 'PARENT';
+    public const SUPERADMIN = 'SUPERADMIN';
+    public const GUEST = 'GUEST';
+    public const PARENT = 'PARENT';
 
-    const inactive = 'inactive';
-    const active = 'active';
-    const blac_list = 'black list';
-    const incoming = 'incoming';
+    public const INACTIVE = 'inactive';
+    public const ACTIVE = 'active';
+    public const BLACK_LIST = 'black list';
+    public const INCOMING = 'incoming';
 
     public static function statusTypes()
     {
         return [
-            self::inactive, self::active,
-            self::blac_list, self::incoming,
+            self::INACTIVE,
+            self::ACTIVE,
+            self::BLACK_LIST,
+            self::INCOMING,
         ];
     }
 

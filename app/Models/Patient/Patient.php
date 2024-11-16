@@ -42,7 +42,9 @@ use Illuminate\Support\Facades\DB;
  *     @OA\Property(property="zip", type="string", maxLength=150, nullable=true, description="ZIP code"),
  *     @OA\Property(property="avatar", type="string", nullable=true, description="Avatar image path"),
  *     @OA\Property(property="special_note", type="string", nullable=true, description="Special notes"),
- *     @OA\Property(property="status", type="string", enum={"incoming", "active", "inactive", "onHold", "onDischarge", "waitintOnPa", "waitintOnPaIa", "waitintOnIa", "waitintOnServices", "waitintOnStaff", "waitintOnSchool"}, default="inactive", description="Patient status"),
+ *     @OA\Property(property="status", type="string",
+ *      enum={"incoming", "active", "inactive", "onHold", "onDischarge", "waitintOnPa", "waitintOnPaIa", "waitintOnIa", "waitintOnServices", "waitintOnStaff", "waitintOnSchool"},
+ *      default="inactive", description="Patient status"),
  *     @OA\Property(property="insurer_id", type="integer", format="int64", nullable=true, description="Insurance provider ID"),
  *     @OA\Property(property="telehealth", type="string", maxLength=50, default="false", description="Telehealth status"),
  *     @OA\Property(property="pay", type="string", maxLength=50, default="false", description="Payment status"),
@@ -55,9 +57,14 @@ use Illuminate\Support\Facades\DB;
  *     schema="PatientIntake",
  *     title="Patient Intake Status",
  *     @OA\Property(property="welcome", type="string", enum={"waiting", "reviewing", "psycho eval", "requested", "need new", "yes", "no", "2 insurance"}, default="waiting"),
- *     @OA\Property(property="consent", type="string", enum={"waiting", "reviewing", "psycho eval", "requested", "need new", "yes", "no", "2 insurance"}, default="waiting"),
- *     @OA\Property(property="insurance_card", type="string", enum={"waiting", "reviewing", "psycho eval", "requested", "need new", "yes", "no", "2 insurance"}, default="waiting"),
- *     @OA\Property(property="eligibility", type="string", enum={"pending", "waiting", "reviewing", "psycho eval", "requested", "need new", "yes", "no", "2 insurance"}, default="pending"),
+ *     @OA\Property(property="consent", type="string",
+ *      enum={"waiting", "reviewing", "psycho eval", "requested", "need new", "yes", "no", "2 insurance"},
+ *      default="waiting"),
+ *     @OA\Property(property="insurance_card", type="string",
+ *      enum={"waiting", "reviewing", "psycho eval", "requested", "need new", "yes", "no", "2 insurance"},
+ *      default="waiting"),
+ *     @OA\Property(property="eligibility", type="string",
+ *      enum={"pending", "waiting", "reviewing", "psycho eval", "requested", "need new", "yes", "no", "2 insurance"}, default="pending"),
  *     @OA\Property(property="interview", type="string", enum={"pending", "send", "receive", "no apply"}, default="pending")
  * )
  */
@@ -171,103 +178,153 @@ class Patient extends Model
     }
 
 
-    const waiting = 'waiting';
-    const requested = 'requested';
-    const reviewing = 'reviewing';
-    const need_new = 'need new';
-    const insurance = '2 insurance';
-    const psycho_eval = 'psycho eval';
-    const yes = 'yes';
-    const no = 'no';
+    public const WAITING = 'waiting';
+    public const REQUESTED = 'requested';
+    public const REVIEWING = 'reviewing';
+    public const NEED_NEW = 'need new';
+    public const INSURANCE = '2 insurance';
+    public const PSYCHO_EVAL = 'psycho eval';
+    public const YES = 'yes';
+    public const NO = 'no';
 
     public static function welcomeTypes()
     {
         return [
-            self::waiting, self::requested,
-            self::reviewing, self::requested,
-            self::need_new, self::psycho_eval,
-            self::insurance, self::no, self::yes,
+            self::WAITING,
+            self::REQUESTED,
+            self::REVIEWING,
+            self::REQUESTED,
+            self::NEED_NEW,
+            self::PSYCHO_EVAL,
+            self::INSURANCE,
+            self::NO,
+            self::YES,
         ];
     }
     public static function consentTypes()
     {
         return [
-            self::waiting, self::requested,
-            self::reviewing, self::requested,
-            self::need_new, self::psycho_eval,
-            self::insurance, self::no, self::yes,
+            self::WAITING,
+            self::REQUESTED,
+            self::REVIEWING,
+            self::REQUESTED,
+            self::NEED_NEW,
+            self::PSYCHO_EVAL,
+            self::INSURANCE,
+            self::NO,
+            self::YES,
         ];
     }
     public static function insurance_cardTypes()
     {
         return [
-            self::waiting, self::requested,
-            self::reviewing, self::requested,
-            self::need_new, self::psycho_eval,
-            self::insurance, self::no, self::yes,
+            self::WAITING,
+            self::REQUESTED,
+            self::REVIEWING,
+            self::REQUESTED,
+            self::NEED_NEW,
+            self::PSYCHO_EVAL,
+            self::INSURANCE,
+            self::NO,
+            self::YES,
         ];
     }
     public static function mnlTypes()
     {
         return [
-            self::waiting, self::requested,
-            self::reviewing, self::requested,
-            self::need_new, self::psycho_eval,
-            self::insurance, self::no, self::yes,
+            self::WAITING,
+            self::REQUESTED,
+            self::REVIEWING,
+            self::REQUESTED,
+            self::NEED_NEW,
+            self::PSYCHO_EVAL,
+            self::INSURANCE,
+            self::NO,
+            self::YES,
         ];
     }
     public static function referralTypes()
     {
         return [
-            self::waiting, self::requested,
-            self::reviewing, self::requested,
-            self::need_new, self::psycho_eval,
-            self::insurance, self::no, self::yes,
+            self::WAITING,
+            self::REQUESTED,
+            self::REVIEWING,
+            self::REQUESTED,
+            self::NEED_NEW,
+            self::PSYCHO_EVAL,
+            self::INSURANCE,
+            self::NO,
+            self::YES,
         ];
     }
     public static function adosTypes()
     {
         return [
-            self::waiting, self::requested,
-            self::reviewing, self::requested,
-            self::need_new, self::psycho_eval,
-            self::insurance, self::no, self::yes,
+            self::WAITING,
+            self::REQUESTED,
+            self::REVIEWING,
+            self::REQUESTED,
+            self::NEED_NEW,
+            self::PSYCHO_EVAL,
+            self::INSURANCE,
+            self::NO,
+            self::YES,
         ];
     }
     public static function iepTypes()
     {
         return [
-            self::waiting, self::requested,
-            self::reviewing, self::requested,
-            self::need_new, self::psycho_eval,
-            self::insurance, self::no, self::yes,
+            self::WAITING,
+            self::REQUESTED,
+            self::REVIEWING,
+            self::REQUESTED,
+            self::NEED_NEW,
+            self::PSYCHO_EVAL,
+            self::INSURANCE,
+            self::NO,
+            self::YES,
         ];
     }
     public static function asd_diagnosisTypes()
     {
         return [
-            self::waiting, self::requested,
-            self::reviewing, self::requested,
-            self::need_new, self::psycho_eval,
-            self::insurance, self::no, self::yes,
+            self::WAITING,
+            self::REQUESTED,
+            self::REVIEWING,
+            self::REQUESTED,
+            self::NEED_NEW,
+            self::PSYCHO_EVAL,
+            self::INSURANCE,
+            self::NO,
+            self::YES,
         ];
     }
     public static function cdeTypes()
     {
         return [
-            self::waiting, self::requested,
-            self::reviewing, self::requested,
-            self::need_new, self::psycho_eval,
-            self::insurance, self::no, self::yes,
+            self::WAITING,
+            self::REQUESTED,
+            self::REVIEWING,
+            self::REQUESTED,
+            self::NEED_NEW,
+            self::PSYCHO_EVAL,
+            self::INSURANCE,
+            self::NO,
+            self::YES,
         ];
     }
     public static function submittedTypes()
     {
         return [
-            self::waiting, self::requested,
-            self::reviewing, self::requested,
-            self::need_new, self::psycho_eval,
-            self::insurance, self::no, self::yes,
+            self::WAITING,
+            self::REQUESTED,
+            self::REVIEWING,
+            self::REQUESTED,
+            self::NEED_NEW,
+            self::PSYCHO_EVAL,
+            self::INSURANCE,
+            self::NO,
+            self::YES,
         ];
     }
 
@@ -290,41 +347,41 @@ class Patient extends Model
 
     public function rbt_home()
     {
-            return $this->belongsTo(User::class, 'rbt_home_id');
+        return $this->belongsTo(User::class, 'rbt_home_id');
     }
     public function rbt2_school()
     {
-            return $this->belongsTo(User::class, 'rbt2_school_id');
+        return $this->belongsTo(User::class, 'rbt2_school_id');
     }
     public function bcba_home()
     {
-            return $this->belongsTo(User::class, 'bcba_home_id');
+        return $this->belongsTo(User::class, 'bcba_home_id');
     }
     public function bcba2_school()
     {
-            return $this->belongsTo(User::class, 'bcba2_school_id');
+        return $this->belongsTo(User::class, 'bcba2_school_id');
     }
     public function clin_director()
     {
-            return $this->belongsTo(User::class, 'clin_director_id');
+        return $this->belongsTo(User::class, 'clin_director_id');
     }
 
     public function manager()
     {
-            return $this->belongsTo(User::class, 'id');
+        return $this->belongsTo(User::class, 'id');
     }
     public function local_manager()
     {
-            return $this->belongsTo(User::class, 'id');
+        return $this->belongsTo(User::class, 'id');
     }
     public function doctors()
     {
-            return $this->hasMany(User::class, 'id');
+        return $this->hasMany(User::class, 'id');
     }
 
     public function locals()
     {
-            return $this->belongsTo(Location::class, 'location_id');
+        return $this->belongsTo(Location::class, 'location_id');
     }
 
     public function insurances()

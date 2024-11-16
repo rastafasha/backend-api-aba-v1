@@ -7,11 +7,25 @@ use Illuminate\Http\Request;
 use OpenAI;
 use Illuminate\Support\Facades\Log;
 
+const SYSTEM_PROMPT =
+"You are an experienced Registered Behavior Technician (RBT) specializing in treating children with various developmental disorders.
+Provide insightful summaries of treatment sessions, focusing on key observations, progress, and potential areas for improvement.
+Your responses should be concise, professional, brief and directly relevant to the patient's treatment.
+Always format your response as a single paragraph between 2 and 4 lines long.
+Provide only the summary text without any additional explanations or information.
+Your tasks will always be to create a brief summary note as an RBT.";
+const BCBA_SYSTEM_PROMPT =
+"You are an experienced Board Certified Behavior Analyst (BCBA) specializing in developing and implementing treatment plans for children with various developmental disorders.
+Provide insightful summaries of sessions, focusing on key observations, progress and potential areas for improvement.
+Your responses should be concise, professional, brief and directly relevant to the patient's treatment plan and the performance of the treatment team.
+Always format your response as a single paragraph between 3 and 5 lines long.
+Provide only the summary text without any additional explanations or information.
+Your tasks will always be to create a brief summary note as a BCBA";
 class OpenAIController extends Controller
 {
-    private $systemPrompt = "You are an experienced Registered Behavior Technician (RBT) specializing in treating children with various developmental disorders. Provide insightful summaries of treatment sessions, focusing on key observations, progress, and potential areas for improvement. Your responses should be concise, professional, brief and directly relevant to the patient's treatment. Always format your response as a single paragraph between 2 and 4 lines long. Provide only the summary text without any additional explanations or information. Your tasks will always be to create a brief summary note as an RBT.";
+    private $systemPrompt = SYSTEM_PROMPT;
 
-    private $bcbaSystemPrompt = "You are an experienced Board Certified Behavior Analyst (BCBA) specializing in developing and implementing treatment plans for children with various developmental disorders. Provide insightful summaries of sessions, focusing on key observations, progress , and potential areas for improvement. Your responses should be concise, professional, brief and directly relevant to the patient's treatment plan and the performance of the treatment team. Always format your response as a single paragraph between 3 and 5 lines long. Provide only the summary text without any additional explanations or information. Your tasks will always be to create a brief summary note as a BCBA";
+    private $bcbaSystemPrompt = BCBA_SYSTEM_PROMPT;
 
     public function generateSummary(Request $request)
     {
@@ -103,8 +117,8 @@ class OpenAIController extends Controller
         }
 
         $prompt .= "\nMaladaptive behaviors: {$maladaptives}\n" .
-                   "Replacement behaviors: {$replacements}\n" .
-                   "Interventions used: {$interventions}";
+            "Replacement behaviors: {$replacements}\n" .
+            "Interventions used: {$interventions}";
 
         return $prompt;
     }
@@ -113,26 +127,26 @@ class OpenAIController extends Controller
 
     public function generateBcbaSummary(Request $request)
     {
-          $request->validate([
-              'diagnosis' => 'required|string',
-              'birthDate' => 'sometimes|nullable|date',
-              'startTime' => ['sometimes', 'nullable', new TimeFormat()],
-              'endTime' => ['sometimes', 'nullable', new TimeFormat()],
-              'startTime2' => ['sometimes', 'nullable', new TimeFormat()],
-              'endTime2' => ['sometimes', 'nullable', new TimeFormat()],
-              'pos' => 'string',
-              'caregiverGoals' => 'required|array',
-              'caregiverGoals.*.goal' => 'required|string',
-              'caregiverGoals.*.percentCorrect' => 'required|numeric',
-              'rbtTrainingGoals' => 'required|array',
-              'rbtTrainingGoals.*.goal' => 'required|string',
-              'rbtTrainingGoals.*.percentCorrect' => 'required|numeric',
-              'noteDescription' => 'required|string',
-          ]);
+        $request->validate([
+            'diagnosis' => 'required|string',
+            'birthDate' => 'sometimes|nullable|date',
+            'startTime' => ['sometimes', 'nullable', new TimeFormat()],
+            'endTime' => ['sometimes', 'nullable', new TimeFormat()],
+            'startTime2' => ['sometimes', 'nullable', new TimeFormat()],
+            'endTime2' => ['sometimes', 'nullable', new TimeFormat()],
+            'pos' => 'string',
+            'caregiverGoals' => 'required|array',
+            'caregiverGoals.*.goal' => 'required|string',
+            'caregiverGoals.*.percentCorrect' => 'required|numeric',
+            'rbtTrainingGoals' => 'required|array',
+            'rbtTrainingGoals.*.goal' => 'required|string',
+            'rbtTrainingGoals.*.percentCorrect' => 'required|numeric',
+            'noteDescription' => 'required|string',
+        ]);
 
-          $prompt = $this->constructBcbaPrompt($request);
+        $prompt = $this->constructBcbaPrompt($request);
 
-          $client = OpenAI::client(env('OPENAI_API_KEY'));
+        $client = OpenAI::client(env('OPENAI_API_KEY'));
 
         try {
             $result = $client->chat()->create([
@@ -192,8 +206,8 @@ class OpenAIController extends Controller
         }
 
         $prompt .= "\nCaregiver Training Goals: {$caregiverGoals}\n" .
-                    "RBT Training Goals: {$rbtTrainingGoals}\n" .
-                    "Session Description: {$request->noteDescription}";
+            "RBT Training Goals: {$rbtTrainingGoals}\n" .
+            "Session Description: {$request->noteDescription}";
 
         return $prompt;
     }

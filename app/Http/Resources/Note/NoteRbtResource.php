@@ -49,10 +49,11 @@ class NoteRbtResource extends JsonResource
             // "session_length_morning_total" => date("H:i", strtotime($this->resource->time_out) - strtotime($this->resource->time_in) ),
             // "session_length_afternon_total" => date("H:i", strtotime($this->resource->time_out2) - strtotime($this->resource->time_in2) ),
 
-            "session_length_total" => date("H:i", strtotime($this->resource->time_out2) - strtotime($this->resource->time_in2) + strtotime($this->resource->time_out) - strtotime($this->resource->time_in)),
+            "session_length_total" =>
+            date("H:i", strtotime($this->resource->time_out2) - strtotime($this->resource->time_in2) + strtotime($this->resource->time_out) - strtotime($this->resource->time_in)),
 
-            // "total_hours" => date("H:i", strtotime($this->resource->time_out2) - strtotime($this->resource->time_in2) + strtotime($this->resource->time_out) - strtotime($this->resource->time_in) ),
-            "total_hours" => $this->calculateTotalHours(),
+            "total_hours" =>
+            $this->calculateTotalHours(),
 
             "client_appeared" => $this->resource->client_appeared,
             "as_evidenced_by" => $this->resource->as_evidenced_by,

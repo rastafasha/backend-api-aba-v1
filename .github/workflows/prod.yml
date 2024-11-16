@@ -44,7 +44,7 @@ jobs:
     - name: Install Dependencies
       run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
     - name: Run PHP linter
-      run: ./vendor/bin/phpcs --standard=PSR12 app/ routes/
+      run: composer lint
   deploy:
     runs-on: ubuntu-latest
     needs: [laravel-tests]

@@ -27,14 +27,14 @@ class GraphicReductionController extends Controller
     public function config()
     {
         $users = User::orderBy("id", "desc")
-        // ->whereHas("roles", function($q){
-        //     $q->where("name","like","%DOCTOR%");
-        // })
-        ->get();
+            // ->whereHas("roles", function($q){
+            //     $q->where("name","like","%DOCTOR%");
+            // })
+            ->get();
 
         return response()->json([
             "doctors" => $users->map(function ($user) {
-                return[
+                return [
                     "id" => $user->id,
                     "full_name" => $user->name . ' ' . $user->surname,
                 ];
@@ -50,7 +50,7 @@ class GraphicReductionController extends Controller
 
         return response()->json([
             "patients" => $patients->map(function ($patients) {
-                return[
+                return [
                     "id" => $patients->id,
                     "full_name" => $patients->first_name . ' ' . $patients->last_name,
                 ];
@@ -66,9 +66,9 @@ class GraphicReductionController extends Controller
         return response()->json([
             // "noteRbt" => NoteRbtResource::make($noteRbt),
             "session_date" => $noteRbt->session_date,
-            "interventions" => json_decode($noteRbt-> interventions),
-            "maladaptives" => json_decode($noteRbt-> maladaptives),
-            "replacements" => json_decode($noteRbt-> replacements),
+            "interventions" => json_decode($noteRbt->interventions),
+            "maladaptives" => json_decode($noteRbt->maladaptives),
+            "replacements" => json_decode($noteRbt->replacements),
 
 
             // "maladaptives"=>json_decode($noteRbt-> maladaptives),
@@ -114,11 +114,11 @@ class GraphicReductionController extends Controller
 
     public function showGragphicbyMaladaptive(Request $request, string $maladaptives, $patient_id)
     {
-    // Check if the patient exists
+        // Check if the patient exists
         $patient_is_valid = NoteRbt::where("patient_id", $request->patient_id)->first();
         // $patient = Patient::where("patient_id", $request->patient_id)->first();
         $notebypatient = NoteRbt::where("patient_id", $request->patient_id)
-        ->get();
+            ->get();
 
         // Retrieve all NoteRbt records that match the given maladaptive behavior type and patient ID
         $noteRbt = NoteRbt::where('maladaptives', 'LIKE', '%' . $maladaptives . '%')
@@ -235,23 +235,23 @@ class GraphicReductionController extends Controller
 
         return response()->json([
 
-        // 'decoded' => $mald,
-        'maladaptive_behavior' => $maladaptive_behavior, // trae el nombre  del comportamiento que se busco
+            // 'decoded' => $mald,
+            'maladaptive_behavior' => $maladaptive_behavior, // trae el nombre  del comportamiento que se busco
 
-        // 'maladaptives' => $maladaptives,
-        'filtered_maladaptives' => $filtered_maladaptives, // lo filtra pero trae el ultimo
-        // 'total_number_of_occurrences' => array_sum(array_column($filtered_maladaptives, 'number_of_occurrences')),
-        'total_count_this_in_notes_rbt' => count($maladaptivesCollection), //cuenta el total de este maladative en la nota
-        // 'sessions_dates' => $sessions,
-        'sessions_dates' => $sessions->map(function ($session) {
-            return[
-                'session_date' => $session->session_date,
-                // 'session_date'=> explode(',', $session->session_date)
-                // 'session_date'=> $session=explode(",",$session->session_date)
-            ];
-        }),
+            // 'maladaptives' => $maladaptives,
+            'filtered_maladaptives' => $filtered_maladaptives, // lo filtra pero trae el ultimo
+            // 'total_number_of_occurrences' => array_sum(array_column($filtered_maladaptives, 'number_of_occurrences')),
+            'total_count_this_in_notes_rbt' => count($maladaptivesCollection), //cuenta el total de este maladative en la nota
+            // 'sessions_dates' => $sessions,
+            'sessions_dates' => $sessions->map(function ($session) {
+                return [
+                    'session_date' => $session->session_date,
+                    // 'session_date'=> explode(',', $session->session_date)
+                    // 'session_date'=> $session=explode(",",$session->session_date)
+                ];
+            }),
 
-        'maladaptivesCol' => $maladaptivesCollection,
+            'maladaptivesCol' => $maladaptivesCollection,
 
 
         ], 201);
@@ -263,16 +263,12 @@ class GraphicReductionController extends Controller
             return response()->json(['error' => 'No data found for maladaptive behavior: ' . $maladaptives], 404);
         }
 
-    // return response()->json($response, 201);
+        // return response()->json($response, 201);
     }
 
 
-//calcular la semana
-    function getWeekNumber($session_date)
-    {
-        $d = new DateTime($session_date);
-        return $d->format("W");
-    }
+    //calcular la semana
+
 
 
     public function showGragphicbyReplacement(Request $request, string $replacements, $patient_id)
@@ -280,19 +276,19 @@ class GraphicReductionController extends Controller
         // Check if the patient exists
         $patient_is_valid = NoteRbt::where("patient_id", $request->patient_id)->first();
         $notebypatient = NoteRbt::where("patient_id", $request->patient_id)
-        ->get();
+            ->get();
         // Retrieve all NoteRbt records that match the given maladaptive behavior type and patient ID
         $noteRbtGoal = NoteRbt::where('replacements', 'LIKE', '%' . $replacements . '%')
             ->where("patient_id", $patient_id)
             ->get();
 
-            $searchTerm = 'sustitution_status_sto';
-            $sustitutionStatus = SustitutionGoal::where('goalstos', 'LIKE', '%' . $searchTerm . '%')
-                ->where("patient_id", $patient_id)
-                ->first();
+        $searchTerm = 'sustitution_status_sto';
+        $sustitutionStatus = SustitutionGoal::where('goalstos', 'LIKE', '%' . $searchTerm . '%')
+            ->where("patient_id", $patient_id)
+            ->first();
 
-                $sustitutionStatusStoValues = [];
-                $sustitutionStatusStoNameValues = [];
+        $sustitutionStatusStoValues = [];
+        $sustitutionStatusStoNameValues = [];
         if ($sustitutionStatus) {
             $goalstos = json_decode($sustitutionStatus->goalstos, true);
             foreach ($goalstos as $goalsto) {
@@ -394,12 +390,7 @@ class GraphicReductionController extends Controller
         }
 
 
-        //calcular la semana
-        function getWeekNumber($session_date)
-        {
-            $d = new DateTime($session_date);
-            return $d->format("W");
-        }
+
 
         // Define the value you want to filter by
         $filter_value1 = $goal;
@@ -423,25 +414,25 @@ class GraphicReductionController extends Controller
 
         return response()->json([
 
-        // 'decoded' => $mald,
-        'goal' => $goal, // trae el nombre  del comportamiento que se busco
-        'sustitutionStatusStoValues' => $sustitutionStatusStoValues,
-        'sustitutionStatusStoNameValues' => $sustitutionStatusStoNameValues,
-        'datosFiltrados' => $filtered_data,
-        'nameSto' => $filtered_names,
+            // 'decoded' => $mald,
+            'goal' => $goal, // trae el nombre  del comportamiento que se busco
+            'sustitutionStatusStoValues' => $sustitutionStatusStoValues,
+            'sustitutionStatusStoNameValues' => $sustitutionStatusStoNameValues,
+            'datosFiltrados' => $filtered_data,
+            'nameSto' => $filtered_names,
 
 
-        'filtered_goals' => $filtered_goals, // lo filtra pero trae el ultimo
-        'total_count_this_in_notes_rbt' => count($replacementsCollection), //cuenta el total de este maladative en la nota
-        // 'sessions_dates' => $sessions,
-        "sessions_dates" => $sessions->map(function ($session) {
-            return[
-                'session_date' => $session->session_date
-            ];
-        }),
+            'filtered_goals' => $filtered_goals, // lo filtra pero trae el ultimo
+            'total_count_this_in_notes_rbt' => count($replacementsCollection), //cuenta el total de este maladative en la nota
+            // 'sessions_dates' => $sessions,
+            "sessions_dates" => $sessions->map(function ($session) {
+                return [
+                    'session_date' => $session->session_date
+                ];
+            }),
 
-        'replacementsCol' => $replacementsCollection,
-        // 'replacementsCol' => json_decode($replacementsCollection),
+            'replacementsCol' => $replacementsCollection,
+            // 'replacementsCol' => json_decode($replacementsCollection),
 
 
         ], 201);
@@ -498,31 +489,31 @@ class GraphicReductionController extends Controller
         $patient_id = $request->patient_id;
 
         $query_patient_notes_by_month = DB::table("note_rbts")->where("note_rbts.deleted_at", null)
-                        ->whereMonth("note_rbts.session_date", $month)
-                        ->where("note_rbts.patient_id", $patient_id)
-                        ->join("patients", "note_rbts.patient_id", "=", "patients.patient_id")
-                        ->select(
-                            DB::raw("MONTH(note_rbts.session_date) as month"),
-                        )->groupBy("month")
-                        ->orderBy("month")
-                        ->get();
+            ->whereMonth("note_rbts.session_date", $month)
+            ->where("note_rbts.patient_id", $patient_id)
+            ->join("patients", "note_rbts.patient_id", "=", "patients.patient_id")
+            ->select(
+                DB::raw("MONTH(note_rbts.session_date) as month"),
+            )->groupBy("month")
+            ->orderBy("month")
+            ->get();
 
         return response()->json([
             "query_patient_notes_by_month" => $query_patient_notes_by_month,
         ]);
     }
 
-//     public static function getSalaryMoreThan($salary)
-// {
-//     return self::where('json_details->salary','>',$salary)->get();
-// }
+    //     public static function getSalaryMoreThan($salary)
+    // {
+    //     return self::where('json_details->salary','>',$salary)->get();
+    // }
 
-//     public static function getEmployeesBeforeDate($date)
-//     {
-//         return self::whereDate("json_extract('json_details', '$.doj')", '<', $date)->get()
-//     }
-//     public static function findTotalSalary()
-//     {
-//         return self::select(DB:raw('sum("json_extract('json_details', '$.salary')") as total_salary'))->get();
-//     }
+    //     public static function getEmployeesBeforeDate($date)
+    //     {
+    //         return self::whereDate("json_extract('json_details', '$.doj')", '<', $date)->get()
+    //     }
+    //     public static function findTotalSalary()
+    //     {
+    //         return self::select(DB:raw('sum("json_extract('json_details', '$.salary')") as total_salary'))->get();
+    //     }
 }
