@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin\Notes;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Notes\NoteRbtRequest;
 use App\Models\Notes\NoteRbt;
 use Illuminate\Http\Request;
 
@@ -212,62 +213,9 @@ class NoteRbtV2Controller extends Controller
      *     )
      * )
      */
-    public function store(Request $request)
+    public function store(NoteRbtRequest $request)
     {
-        $data = $request->all();
-        $validationData = $data;
-
-        // Convert arrays to JSON strings before validation
-        if (isset($data['maladaptives']) && is_array($data['maladaptives'])) {
-            $validationData['maladaptives'] = json_encode($data['maladaptives']);
-        }
-        if (isset($data['replacements']) && is_array($data['replacements'])) {
-            $validationData['replacements'] = json_encode($data['replacements']);
-        }
-        if (isset($data['interventions']) && is_array($data['interventions'])) {
-            $validationData['interventions'] = json_encode($data['interventions']);
-        }
-
-        // Validate request
-        validator($validationData, [
-            'insurance_id' => 'nullable|exists:insurances,id',
-            'session_date' => 'required|date',
-            'patient_id' => 'required|string',
-            'doctor_id' => 'required|exists:users,id',
-            'bip_id' => 'nullable|exists:bips,id',
-            'pos' => 'nullable|string',
-            'time_in' => 'nullable|date_format:H:i:s',
-            'time_out' => 'nullable|date_format:H:i:s|after:time_in',
-            'time_in2' => 'nullable|date_format:H:i:s',
-            'time_out2' => 'nullable|date_format:H:i:s|after:time_in2',
-            'environmental_changes' => 'nullable|string',
-            'maladaptives' => 'nullable|json',
-            'replacements' => 'nullable|json',
-            'interventions' => 'nullable|json',
-            'meet_with_client_at' => 'nullable|string',
-            'client_appeared' => 'nullable|string',
-            'as_evidenced_by' => 'nullable|string',
-            'rbt_modeled_and_demonstrated_to_caregiver' => 'nullable|string',
-            'client_response_to_treatment_this_session' => 'nullable|string',
-            'progress_noted_this_session_compared_to_previous_session' => 'nullable|string',
-            'next_session_is_scheduled_for' => 'nullable|date',
-            'provider_id' => 'nullable|exists:users,id',
-            'provider_signature' => 'nullable|string',
-            'provider_credential' => 'nullable|string',
-            'supervisor_signature' => 'nullable|string',
-            'supervisor_name' => 'nullable|exists:users,id',
-            'billed' => 'boolean',
-            'pay' => 'boolean',
-            'md' => 'nullable|string|max:20',
-            'md2' => 'nullable|string|max:20',
-            'cpt_code' => 'nullable|string',
-            'status' => 'nullable|in:pending,ok,no,review',
-            'location_id' => 'nullable|exists:locations,id',
-            'pa_service_id' => 'nullable|exists:pa_services,id',
-            'insuranceId' => 'nullable|string',
-        ])->validate();
-
-        $note = NoteRbt::create($data);
+        $note = NoteRbt::create($request->validated());
 
         return response()->json([
             'status' => 'success',
@@ -404,71 +352,11 @@ class NoteRbtV2Controller extends Controller
      *     )
      * )
      */
-    public function update(Request $request, $id)
+    public function update(NoteRbtRequest $request, $id)
     {
-        $note = NoteRbt::find($id);
-
-        if (!$note) {
-            return response()->json([
-                'status' => 'error',
-                'message' => 'Note not found'
-            ], 404);
-        }
-
-        $data = $request->all();
-        $validationData = $data;
-
-        // Convert arrays to JSON strings before validation
-        if (isset($data['maladaptives']) && is_array($data['maladaptives'])) {
-            $validationData['maladaptives'] = json_encode($data['maladaptives']);
-        }
-        if (isset($data['replacements']) && is_array($data['replacements'])) {
-            $validationData['replacements'] = json_encode($data['replacements']);
-        }
-        if (isset($data['interventions']) && is_array($data['interventions'])) {
-            $validationData['interventions'] = json_encode($data['interventions']);
-        }
-
-        // Validate request
-        validator($validationData, [
-            'insurance_id' => 'nullable|exists:insurances,id',
-            'session_date' => 'required|date',
-            'patient_id' => 'required|string',
-            'doctor_id' => 'required|exists:users,id',
-            'bip_id' => 'nullable|exists:bips,id',
-            'pos' => 'nullable|string',
-            'time_in' => 'nullable|date_format:H:i:s',
-            'time_out' => 'nullable|date_format:H:i:s|after:time_in',
-            'time_in2' => 'nullable|date_format:H:i:s',
-            'time_out2' => 'nullable|date_format:H:i:s|after:time_in2',
-            'environmental_changes' => 'nullable|string',
-            'maladaptives' => 'nullable|json',
-            'replacements' => 'nullable|json',
-            'interventions' => 'nullable|json',
-            'meet_with_client_at' => 'nullable|string',
-            'client_appeared' => 'nullable|string',
-            'as_evidenced_by' => 'nullable|string',
-            'rbt_modeled_and_demonstrated_to_caregiver' => 'nullable|string',
-            'client_response_to_treatment_this_session' => 'nullable|string',
-            'progress_noted_this_session_compared_to_previous_session' => 'nullable|string',
-            'next_session_is_scheduled_for' => 'nullable|date',
-            'provider_id' => 'nullable|exists:users,id',
-            'provider_signature' => 'nullable|string',
-            'provider_credential' => 'nullable|string',
-            'supervisor_signature' => 'nullable|string',
-            'supervisor_name' => 'nullable|exists:users,id',
-            'billed' => 'boolean',
-            'pay' => 'boolean',
-            'md' => 'nullable|string|max:20',
-            'md2' => 'nullable|string|max:20',
-            'cpt_code' => 'nullable|string',
-            'status' => 'nullable|in:pending,ok,no,review',
-            'location_id' => 'nullable|exists:locations,id',
-            'pa_service_id' => 'nullable|exists:pa_services,id',
-            'insuranceId' => 'nullable|string',
-        ])->validate();
-
-        $note->update($data);
+        $note = NoteRbt::findOrFail($id);
+        
+        $note->update($request->validated());
 
         return response()->json([
             'status' => 'success',

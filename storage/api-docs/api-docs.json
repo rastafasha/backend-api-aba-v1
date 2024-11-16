@@ -1133,6 +1133,198 @@
                         }
                     }
                 }
+            },
+            "post": {
+                "tags": [
+                    "Admin/Notes"
+                ],
+                "summary": "Create a new RBT note",
+                "description": "Creates a new RBT note with the provided data",
+                "operationId": "379713f09a8a3fc9e7d0918007f00f44",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "session_date",
+                                    "patient_id",
+                                    "doctor_id"
+                                ],
+                                "properties": {
+                                    "session_date": {
+                                        "type": "string",
+                                        "format": "date-time",
+                                        "example": "2023-12-01T00:00:00Z"
+                                    },
+                                    "patient_id": {
+                                        "type": "string"
+                                    },
+                                    "doctor_id": {
+                                        "type": "integer"
+                                    },
+                                    "bip_id": {
+                                        "type": "integer"
+                                    },
+                                    "pos": {
+                                        "type": "string"
+                                    },
+                                    "time_in": {
+                                        "type": "string",
+                                        "format": "time",
+                                        "example": "09:00:00"
+                                    },
+                                    "time_out": {
+                                        "type": "string",
+                                        "format": "time",
+                                        "example": "10:00:00"
+                                    },
+                                    "time_in2": {
+                                        "type": "string",
+                                        "format": "time",
+                                        "example": "14:00:00"
+                                    },
+                                    "time_out2": {
+                                        "type": "string",
+                                        "format": "time",
+                                        "example": "15:00:00"
+                                    },
+                                    "environmental_changes": {
+                                        "type": "string"
+                                    },
+                                    "maladaptives": {
+                                        "type": "object"
+                                    },
+                                    "replacements": {
+                                        "type": "object"
+                                    },
+                                    "interventions": {
+                                        "type": "object"
+                                    },
+                                    "meet_with_client_at": {
+                                        "type": "string"
+                                    },
+                                    "client_appeared": {
+                                        "type": "string"
+                                    },
+                                    "as_evidenced_by": {
+                                        "type": "string"
+                                    },
+                                    "rbt_modeled_and_demonstrated_to_caregiver": {
+                                        "type": "string"
+                                    },
+                                    "client_response_to_treatment_this_session": {
+                                        "type": "string"
+                                    },
+                                    "progress_noted_this_session_compared_to_previous_session": {
+                                        "type": "string"
+                                    },
+                                    "next_session_is_scheduled_for": {
+                                        "type": "string",
+                                        "format": "date-time"
+                                    },
+                                    "provider_id": {
+                                        "type": "integer"
+                                    },
+                                    "provider_signature": {
+                                        "type": "string"
+                                    },
+                                    "provider_credential": {
+                                        "type": "string"
+                                    },
+                                    "supervisor_signature": {
+                                        "type": "string"
+                                    },
+                                    "supervisor_name": {
+                                        "type": "integer"
+                                    },
+                                    "billed": {
+                                        "type": "boolean"
+                                    },
+                                    "pay": {
+                                        "type": "boolean"
+                                    },
+                                    "md": {
+                                        "type": "string"
+                                    },
+                                    "md2": {
+                                        "type": "string"
+                                    },
+                                    "cpt_code": {
+                                        "type": "string"
+                                    },
+                                    "status": {
+                                        "type": "string",
+                                        "enum": [
+                                            "pending",
+                                            "ok",
+                                            "no",
+                                            "review"
+                                        ]
+                                    },
+                                    "location_id": {
+                                        "type": "integer"
+                                    },
+                                    "pa_service_id": {
+                                        "type": "integer"
+                                    },
+                                    "insuranceId": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Note created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Note created successfully"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/NoteRbt"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "The given data was invalid."
+                                        },
+                                        "errors": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
             }
         },
         "/api/v2/notes/rbt/{id}": {
