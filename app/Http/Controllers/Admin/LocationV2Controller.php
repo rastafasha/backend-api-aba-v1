@@ -84,7 +84,7 @@ class LocationV2Controller extends Controller
 
         return response()->json([
             'status' => 'success',
-            'data' => LocationResource::collection($locations)
+            'data' => $locations
         ]);
     }
 
