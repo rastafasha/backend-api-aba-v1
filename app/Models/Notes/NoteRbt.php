@@ -102,16 +102,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  *     @OA\Property(property="updated_at", type="string", format="date-time", example="2024-11-10 14:43:31")
  * )
  */
-class NoteRbt extends Model
+class NoteRbt extends Note
 {
-    use HasFactory;
-    use SoftDeletes;
-    use HasProvider;
-    use HasSupervisor;
-    use HasDoctor;
-    use HasClientFromBip;
 
     protected $fillable = [
+        'insurance_id',
         'patient_id',
         'doctor_id',
         'bip_id',

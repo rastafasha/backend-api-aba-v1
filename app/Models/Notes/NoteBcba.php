@@ -79,14 +79,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * )
  */
 
-class NoteBcba extends Model
+class NoteBcba extends Note
 {
-    use HasFactory;
-    use SoftDeletes;
-    use HasProvider;
-    use HasSupervisor;
 
     protected $fillable = [
+        'insurance_id',
         'patient_id',
         'doctor_id',
         'bip_id',

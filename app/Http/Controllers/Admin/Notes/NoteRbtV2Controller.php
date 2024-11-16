@@ -285,6 +285,7 @@ class NoteRbtV2Controller extends Controller
 
       // Validate request
         $validated = $request->validate([
+        'insurance_id' => 'nullable|exists:insurances,id',
         'session_date' => 'required|date',
         'patient_id' => 'required|string',
         'doctor_id' => 'required|exists:users,id',
