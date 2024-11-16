@@ -355,7 +355,7 @@ class NoteRbtV2Controller extends Controller
     public function update(NoteRbtRequest $request, $id)
     {
         $note = NoteRbt::findOrFail($id);
-        
+
         $note->update($request->validated());
 
         return response()->json([

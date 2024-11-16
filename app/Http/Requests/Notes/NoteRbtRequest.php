@@ -51,6 +51,4 @@ class NoteRbtRequest extends FormRequest
             'insuranceId' => 'nullable|string',
         ];
     }
-
-    
 }
