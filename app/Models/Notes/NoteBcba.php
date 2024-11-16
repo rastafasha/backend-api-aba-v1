@@ -5,6 +5,7 @@ namespace App\Models\Notes;
 use App\Models\User;
 use App\Models\Bip\Bip;
 use App\Models\Location;
+use App\Models\Notes\Traits\HasClientFromBip;
 use App\Models\Notes\Traits\HasProvider;
 use App\Models\Notes\Traits\HasSupervisor;
 use App\Models\PaService;
@@ -85,6 +86,7 @@ class NoteBcba extends Model
     use SoftDeletes;
     use HasProvider;
     use HasSupervisor;
+    use HasClientFromBip;
 
     protected $fillable = [
         'patient_id',
@@ -150,10 +152,6 @@ class NoteBcba extends Model
         return $this->belongsTo(PaService::class, 'pa_service_id');
     }
 
-    public function bips()
-    {
-        return $this->belongsTo(Bip::class, 'bip_id');
-    }
 
     public function location()
     {
