@@ -135,7 +135,7 @@ class NoteRbtV2Controller extends Controller
       // Get paginated results (15 per page by default)
         $perPage = $request->input('per_page', 15);
         $notes = $query->orderBy('created_at', 'desc')
-        ->with(['patient', 'bips', 'location'])
+        ->with(['patient', 'bip', 'location'])
         ->paginate($perPage);
 
         return response()->json([
@@ -183,7 +183,7 @@ class NoteRbtV2Controller extends Controller
    */
     public function show($id)
     {
-        $note = NoteRbt::with(['patient', 'bips', 'location'])
+        $note = NoteRbt::with(['patient', 'bip', 'location'])
         ->find($id);
 
         if (!$note) {
