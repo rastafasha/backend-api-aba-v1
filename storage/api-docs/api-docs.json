@@ -1805,6 +1805,267 @@
                 }
             }
         },
+        "/api/note_rbt/generate-summary": {
+            "post": {
+                "tags": [
+                    "Notes"
+                ],
+                "summary": "Generate RBT session summary",
+                "operationId": "e0203046609ba84db2b55d9f54ce474e",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "diagnosis",
+                                    "maladaptives",
+                                    "replacements",
+                                    "interventions"
+                                ],
+                                "properties": {
+                                    "diagnosis": {
+                                        "description": "Patient's diagnosis",
+                                        "type": "string"
+                                    },
+                                    "birthDate": {
+                                        "description": "Patient's birth date",
+                                        "type": "string",
+                                        "format": "date"
+                                    },
+                                    "startTime": {
+                                        "description": "Session start time (HH:MM format)",
+                                        "type": "string"
+                                    },
+                                    "endTime": {
+                                        "description": "Session end time (HH:MM format)",
+                                        "type": "string"
+                                    },
+                                    "startTime2": {
+                                        "description": "Second session start time (HH:MM format)",
+                                        "type": "string"
+                                    },
+                                    "endTime2": {
+                                        "description": "Second session end time (HH:MM format)",
+                                        "type": "string"
+                                    },
+                                    "mood": {
+                                        "description": "Patient's mood during session",
+                                        "type": "string"
+                                    },
+                                    "pos": {
+                                        "description": "Place of service",
+                                        "type": "string"
+                                    },
+                                    "cpt": {
+                                        "description": "CPT code",
+                                        "type": "string"
+                                    },
+                                    "maladaptives": {
+                                        "type": "array",
+                                        "items": {
+                                            "properties": {
+                                                "behavior": {
+                                                    "type": "string"
+                                                },
+                                                "frequency": {
+                                                    "type": "integer"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "replacements": {
+                                        "type": "array",
+                                        "items": {
+                                            "properties": {
+                                                "name": {
+                                                    "type": "string"
+                                                },
+                                                "totalTrials": {
+                                                    "type": "integer"
+                                                },
+                                                "correctResponses": {
+                                                    "type": "integer"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "interventions": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "summary": {
+                                            "description": "Generated summary text",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "description": "Error message",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/note_bcba/generate-summary": {
+            "post": {
+                "tags": [
+                    "Notes"
+                ],
+                "summary": "Generate BCBA supervision summary",
+                "operationId": "ccaaf40c473232b17700215ee48d8ae7",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "diagnosis",
+                                    "caregiverGoals",
+                                    "rbtTrainingGoals",
+                                    "noteDescription"
+                                ],
+                                "properties": {
+                                    "diagnosis": {
+                                        "description": "Patient's diagnosis",
+                                        "type": "string"
+                                    },
+                                    "birthDate": {
+                                        "description": "Patient's birth date",
+                                        "type": "string",
+                                        "format": "date"
+                                    },
+                                    "startTime": {
+                                        "description": "Session start time (HH:MM format)",
+                                        "type": "string"
+                                    },
+                                    "endTime": {
+                                        "description": "Session end time (HH:MM format)",
+                                        "type": "string"
+                                    },
+                                    "startTime2": {
+                                        "description": "Second session start time (HH:MM format)",
+                                        "type": "string"
+                                    },
+                                    "endTime2": {
+                                        "description": "Second session end time (HH:MM format)",
+                                        "type": "string"
+                                    },
+                                    "pos": {
+                                        "description": "Place of service",
+                                        "type": "string"
+                                    },
+                                    "cpt": {
+                                        "description": "CPT code",
+                                        "type": "string"
+                                    },
+                                    "caregiverGoals": {
+                                        "type": "array",
+                                        "items": {
+                                            "properties": {
+                                                "goal": {
+                                                    "type": "string"
+                                                },
+                                                "percentCorrect": {
+                                                    "type": "number"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "rbtTrainingGoals": {
+                                        "type": "array",
+                                        "items": {
+                                            "properties": {
+                                                "goal": {
+                                                    "type": "string"
+                                                },
+                                                "percentCorrect": {
+                                                    "type": "number"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "noteDescription": {
+                                        "description": "Session description",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "summary": {
+                                            "description": "Generated summary text",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "description": "Error message",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/v2/patients": {
             "get": {
                 "tags": [
@@ -3533,6 +3794,10 @@
         {
             "name": "Claims",
             "description": "Claims"
+        },
+        {
+            "name": "Notes",
+            "description": "Notes"
         },
         {
             "name": "Admin/Patients",
