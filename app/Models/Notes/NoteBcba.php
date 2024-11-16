@@ -81,7 +81,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class NoteBcba extends Note
 {
-
     protected $fillable = [
         'insurance_id',
         'patient_id',

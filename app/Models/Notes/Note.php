@@ -18,8 +18,4 @@ abstract class Note extends Model
     use HasSupervisor;
     use HasClientFromBip;
     use HasDoctor;
-
-
-
-    
 }
