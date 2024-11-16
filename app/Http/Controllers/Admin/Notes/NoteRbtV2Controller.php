@@ -145,6 +145,138 @@ class NoteRbtV2Controller extends Controller
     }
 
     /**
+     * @OA\Post(
+     *     path="/api/v2/notes/rbt",
+     *     summary="Create a new RBT note",
+     *     description="Creates a new RBT note with the provided data",
+     *     tags={"Admin/Notes"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"session_date", "patient_id", "doctor_id"},
+     *             @OA\Property(property="session_date", type="string", format="date-time", example="2023-12-01T00:00:00Z"),
+     *             @OA\Property(property="patient_id", type="string"),
+     *             @OA\Property(property="doctor_id", type="integer"),
+     *             @OA\Property(property="bip_id", type="integer"),
+     *             @OA\Property(property="pos", type="string"),
+     *             @OA\Property(property="time_in", type="string", format="time", example="09:00:00"),
+     *             @OA\Property(property="time_out", type="string", format="time", example="10:00:00"),
+     *             @OA\Property(property="time_in2", type="string", format="time", example="14:00:00"),
+     *             @OA\Property(property="time_out2", type="string", format="time", example="15:00:00"),
+     *             @OA\Property(property="environmental_changes", type="string"),
+     *             @OA\Property(property="maladaptives", type="object"),
+     *             @OA\Property(property="replacements", type="object"),
+     *             @OA\Property(property="interventions", type="object"),
+     *             @OA\Property(property="meet_with_client_at", type="string"),
+     *             @OA\Property(property="client_appeared", type="string"),
+     *             @OA\Property(property="as_evidenced_by", type="string"),
+     *             @OA\Property(property="rbt_modeled_and_demonstrated_to_caregiver", type="string"),
+     *             @OA\Property(property="client_response_to_treatment_this_session", type="string"),
+     *             @OA\Property(property="progress_noted_this_session_compared_to_previous_session", type="string"),
+     *             @OA\Property(property="next_session_is_scheduled_for", type="string", format="date-time"),
+     *             @OA\Property(property="provider_id", type="integer"),
+     *             @OA\Property(property="provider_signature", type="string"),
+     *             @OA\Property(property="provider_credential", type="string"),
+     *             @OA\Property(property="supervisor_signature", type="string"),
+     *             @OA\Property(property="supervisor_name", type="integer"),
+     *             @OA\Property(property="billed", type="boolean"),
+     *             @OA\Property(property="pay", type="boolean"),
+     *             @OA\Property(property="md", type="string"),
+     *             @OA\Property(property="md2", type="string"),
+     *             @OA\Property(property="cpt_code", type="string"),
+     *             @OA\Property(property="status", type="string", enum={"pending", "ok", "no", "review"}),
+     *             @OA\Property(property="location_id", type="integer"),
+     *             @OA\Property(property="pa_service_id", type="integer"),
+     *             @OA\Property(property="insuranceId", type="string")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=201,
+     *         description="Note created successfully",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="status", type="string", example="success"),
+     *             @OA\Property(property="message", type="string", example="Note created successfully"),
+     *             @OA\Property(property="data", ref="#/components/schemas/NoteRbt")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Validation error",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="status", type="string", example="error"),
+     *             @OA\Property(property="message", type="string", example="The given data was invalid."),
+     *             @OA\Property(property="errors", type="object")
+     *         )
+     *     )
+     * )
+     */
+    public function store(Request $request)
+    {
+        $data = $request->all();
+        $validationData = $data;
+
+        // Convert arrays to JSON strings before validation
+        if (isset($data['maladaptives']) && is_array($data['maladaptives'])) {
+            $validationData['maladaptives'] = json_encode($data['maladaptives']);
+        }
+        if (isset($data['replacements']) && is_array($data['replacements'])) {
+            $validationData['replacements'] = json_encode($data['replacements']);
+        }
+        if (isset($data['interventions']) && is_array($data['interventions'])) {
+            $validationData['interventions'] = json_encode($data['interventions']);
+        }
+
+        // Validate request
+        validator($validationData, [
+            'insurance_id' => 'nullable|exists:insurances,id',
+            'session_date' => 'required|date',
+            'patient_id' => 'required|string',
+            'doctor_id' => 'required|exists:users,id',
+            'bip_id' => 'nullable|exists:bips,id',
+            'pos' => 'nullable|string',
+            'time_in' => 'nullable|date_format:H:i:s',
+            'time_out' => 'nullable|date_format:H:i:s|after:time_in',
+            'time_in2' => 'nullable|date_format:H:i:s',
+            'time_out2' => 'nullable|date_format:H:i:s|after:time_in2',
+            'environmental_changes' => 'nullable|string',
+            'maladaptives' => 'nullable|json',
+            'replacements' => 'nullable|json',
+            'interventions' => 'nullable|json',
+            'meet_with_client_at' => 'nullable|string',
+            'client_appeared' => 'nullable|string',
+            'as_evidenced_by' => 'nullable|string',
+            'rbt_modeled_and_demonstrated_to_caregiver' => 'nullable|string',
+            'client_response_to_treatment_this_session' => 'nullable|string',
+            'progress_noted_this_session_compared_to_previous_session' => 'nullable|string',
+            'next_session_is_scheduled_for' => 'nullable|date',
+            'provider_id' => 'nullable|exists:users,id',
+            'provider_signature' => 'nullable|string',
+            'provider_credential' => 'nullable|string',
+            'supervisor_signature' => 'nullable|string',
+            'supervisor_name' => 'nullable|exists:users,id',
+            'billed' => 'boolean',
+            'pay' => 'boolean',
+            'md' => 'nullable|string|max:20',
+            'md2' => 'nullable|string|max:20',
+            'cpt_code' => 'nullable|string',
+            'status' => 'nullable|in:pending,ok,no,review',
+            'location_id' => 'nullable|exists:locations,id',
+            'pa_service_id' => 'nullable|exists:pa_services,id',
+            'insuranceId' => 'nullable|string',
+        ])->validate();
+
+        $note = NoteRbt::create($data);
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Note created successfully',
+            'data' => $note,
+        ], 201);
+    }
+
+    /**
      * @OA\Get(
      *     path="/api/v2/notes/rbt/{id}",
      *     summary="Get a single RBT note",
@@ -283,8 +415,22 @@ class NoteRbtV2Controller extends Controller
             ], 404);
         }
 
+        $data = $request->all();
+        $validationData = $data;
+
+        // Convert arrays to JSON strings before validation
+        if (isset($data['maladaptives']) && is_array($data['maladaptives'])) {
+            $validationData['maladaptives'] = json_encode($data['maladaptives']);
+        }
+        if (isset($data['replacements']) && is_array($data['replacements'])) {
+            $validationData['replacements'] = json_encode($data['replacements']);
+        }
+        if (isset($data['interventions']) && is_array($data['interventions'])) {
+            $validationData['interventions'] = json_encode($data['interventions']);
+        }
+
         // Validate request
-        $validated = $request->validate([
+        validator($validationData, [
             'insurance_id' => 'nullable|exists:insurances,id',
             'session_date' => 'required|date',
             'patient_id' => 'required|string',
@@ -320,19 +466,9 @@ class NoteRbtV2Controller extends Controller
             'location_id' => 'nullable|exists:locations,id',
             'pa_service_id' => 'nullable|exists:pa_services,id',
             'insuranceId' => 'nullable|string',
-        ]);
+        ])->validate();
 
-        if (is_array($request->maladaptives)) {
-            $validated['maladaptives'] = json_encode($request->maladaptives);
-        }
-        if (is_array($request->replacements)) {
-            $validated['replacements'] = json_encode($request->replacements);
-        }
-        if (is_array($request->interventions)) {
-            $validated['interventions'] = json_encode($request->interventions);
-        }
-
-        $note->update($validated);
+        $note->update($data);
 
         return response()->json([
             'status' => 'success',
