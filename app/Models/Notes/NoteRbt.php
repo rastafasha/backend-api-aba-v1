@@ -83,8 +83,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  *     @OA\Property(property="billed", type="integer", example=0),
  *     @OA\Property(property="pay", type="integer", example=0),
  *     @OA\Property(property="status", type="string", example="ok"),
- *     @OA\Property(property="md", type="string", nullable=true),
- *     @OA\Property(property="md2", type="string", nullable=true),
  *     @OA\Property(property="cpt_code", type="string", example="97153"),
  *     @OA\Property(property="insuranceId", type="string", nullable=true),
  *     @OA\Property(
@@ -138,8 +136,6 @@ class NoteRbt extends Note
         'supervisor_id',
         'billed',
         'pay',
-        'md',
-        'md2',
         'cpt_code',
         'status',
         'location_id',

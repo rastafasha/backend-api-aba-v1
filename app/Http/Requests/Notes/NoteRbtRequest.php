@@ -42,8 +42,6 @@ class NoteRbtRequest extends FormRequest
             'supervisor_name' => 'nullable|exists:users,id',
             'billed' => 'boolean',
             'pay' => 'boolean',
-            'md' => 'nullable|string|max:20',
-            'md2' => 'nullable|string|max:20',
             'cpt_code' => 'nullable|string',
             'status' => 'nullable|in:pending,ok,no,review',
             'location_id' => 'nullable|exists:locations,id',
