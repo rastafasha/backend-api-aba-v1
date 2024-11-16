@@ -25,9 +25,9 @@ class ConsentToTreatmentResource extends JsonResource
             "parent_guardian_signature" => $this->resource->parent_guardian_signature ? env("APP_URL") . "storage/" . $this->resource->parent_guardian_signature : null,
             // "parent_guardian_signature"=> $this->resource->parent_guardian_signature ? env("APP_URL").$this->resource->parent_guardian_signature : null,
             "analyst_signature_date" => $this->resource->analyst_signature_date ? Carbon::parse($this->resource->analyst_signature_date)->format("d/m/Y") : null,
-            "parent_guardian_signature_date" => $this->resource->parent_guardian_signature_date ? Carbon::parse($this->resource->parent_guardian_signature_date)->format("d/m/Y") : null,
+            "parent_guardian_signature_date" =>
+            $this->resource->parent_guardian_signature_date ? Carbon::parse($this->resource->parent_guardian_signature_date)->format("d/m/Y") : null,
             "created_at" => $this->resource->created_at ? Carbon::parse($this->resource->created_at)->format("Y-m-d h:i A") : null,
-
         ];
     }
 }

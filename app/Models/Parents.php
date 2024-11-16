@@ -59,7 +59,7 @@ class Parents extends Authenticatable implements JWTSubject
 
     ];
 
-     /**
+    /**
      * The attributes that should be hidden for serialization.
      *
      * @var array<int, string>
@@ -78,7 +78,7 @@ class Parents extends Authenticatable implements JWTSubject
         'email_verified_at' => 'datetime',
     ];
 
-    const PARENT = 'PARENT';
+    public const PARENT = 'PARENT';
 
     public function setCreatedAtAttribute($value)
     {
@@ -99,7 +99,7 @@ class Parents extends Authenticatable implements JWTSubject
 
     public function location()
     {
-            return $this->belongsTo(Location::class, 'location_id');
+        return $this->belongsTo(Location::class, 'location_id');
     }
 
     public function patient()

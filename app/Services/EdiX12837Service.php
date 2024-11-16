@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-require __DIR__ . '/../Utils/edi837p.php';
+use App\Utils\Edi837pHelper;
 
 class EdiX12837Service
 {
@@ -19,7 +19,7 @@ class EdiX12837Service
 
     public function test($res): string
     {
-        $content = create_x12_837_file($res, $this->segTer, $this->eleDataSep, $this->compEleSep);
+        $content = Edi837pHelper::create_x12_837_file($res, $this->segTer, $this->eleDataSep, $this->compEleSep);
         return $content;
     }
 
@@ -186,7 +186,7 @@ class EdiX12837Service
 
         $ISA['Created'] = implode('*', $ISA);
         $ISA['Created'] = $ISA['Created'] . "*";
-        $ISA['Created'] = $ISA ['Created'] . $this->compEleSep . $this->segTer;
+        $ISA['Created'] = $ISA['Created'] . $this->compEleSep . $this->segTer;
 
         return trim($ISA['Created']);
     }

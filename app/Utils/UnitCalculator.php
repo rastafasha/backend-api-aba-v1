@@ -4,8 +4,8 @@ namespace App\Utils;
 
 class UnitCalculator
 {
-    const MINUTES_PER_UNIT = 15;
-    const ROUNDING_THRESHOLD = 8;
+    public const MINUTES_PER_UNIT = 15;
+    public const ROUNDING_THRESHOLD = 8;
 
     public function calculateUnits(int $minutes): int
     {

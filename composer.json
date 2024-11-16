@@ -57,8 +57,9 @@
         "post-create-project-cmd": [
             "@php artisan key:generate --ansi"
         ],
-        "lint": "phpcs --standard=PSR12 app/ routes/",
-        "lint:fix": "phpcbf --standard=PSR12 app/ routes/"
+        "lint": "phpcs --standard=phpcs.xml.dist --report=summary --basepath=. app/ routes/ ",
+        "lint:dev": "phpcs --standard=phpcs.xml.dist --basepath=. app/ routes/ ",
+        "lint:fix": "phpcbf --standard=phpcs.xml.dist app/ routes/"
     },
     "extra": {
         "laravel": {
