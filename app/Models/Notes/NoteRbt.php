@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Bip\Bip;
 use App\Models\Location;
+use App\Models\Notes\Traits\HasClientFromBip;
 use App\Models\Notes\Traits\HasDoctor;
 use App\Models\Notes\Traits\HasProvider;
 use App\Models\Notes\Traits\HasSupervisor;
@@ -108,6 +109,7 @@ class NoteRbt extends Model
     use HasProvider;
     use HasSupervisor;
     use HasDoctor;
+    use HasClientFromBip;
 
     protected $fillable = [
         'patient_id',
@@ -158,7 +160,7 @@ class NoteRbt extends Model
         'interventions' => 'json',
     ];
 
-    protected $appends = ['provider', 'supervisor', 'doctor'];
+    protected $appends = ['provider', 'supervisor', 'doctor', 'client_id'];
 
     public function patient()
     {
@@ -170,10 +172,6 @@ class NoteRbt extends Model
         return $this->belongsTo(PaService::class, 'pa_service_id');
     }
 
-    public function bips()
-    {
-        return $this->belongsTo(Bip::class, 'bip_id');
-    }
 
     // public function maladaptive()
     // {
