@@ -1,4 +1,4 @@
-name: Deploy to Cpanel - Dev
+name: Deploy to Dev
 'on':
   push:
     branches:
