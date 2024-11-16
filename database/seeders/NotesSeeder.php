@@ -54,6 +54,7 @@ class NotesSeeder extends Seeder
             ],
             [
                 'patient_id' => 'PAT001',
+                'insurance_id' => 1,
                 'doctor_id' => 3, // BCBA1
                 'bip_id' => 1,
                 'provider_id' => 5, // RBT1
@@ -137,6 +138,7 @@ class NotesSeeder extends Seeder
             ],
             [
                 'patient_id' => 'PAT002',
+                'insurance_id' => 1,
                 'doctor_id' => 4, // BCBA2
                 'bip_id' => 2,
                 'provider_id' => 6, // RBT2
