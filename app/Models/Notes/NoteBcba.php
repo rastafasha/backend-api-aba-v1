@@ -10,8 +10,6 @@ namespace App\Models\Notes;
  *     @OA\Property(property="doctor_id", type="integer", nullable=true),
  *     @OA\Property(property="bip_id", type="integer", nullable=true),
  *     @OA\Property(property="location", type="string", nullable=true),
- *     @OA\Property(property="maladaptives", type="object", nullable=true),
- *     @OA\Property(property="replacements", type="object", nullable=true),
  *     @OA\Property(property="summary_note", type="string", nullable=true),
  *     @OA\Property(property="diagnosis_code", type="string", nullable=true),
  *     @OA\Property(property="birth_date", type="string", format="date-time", nullable=true),
@@ -79,15 +77,12 @@ class NoteBcba extends Note
         'bip_id',
         'location',
 
-        'maladaptives',//json
-        'replacements',//json
-
         'summary_note',
 
         'diagnosis_code',
         'birth_date',
         'supervisor_id',
-        // 'note_description',
+        'note_description',
 
 
         'caregiver_goals', //json
@@ -97,18 +92,14 @@ class NoteBcba extends Note
         'provider_id',
 
         'supervisor_signature',
-        'supervisor_name',
+        // 'supervisor_name',
 
         'session_date',
         'session_length_total',
         'session_length_total2',
-        'environmental_changes',
 
-        'meet_with_client_at',
         'billedbcba',
         'paybcba',
-        'mdbcba',
-        'md2bcba',
         'cpt_code',
         'status',
         'location_id',
@@ -116,10 +107,10 @@ class NoteBcba extends Note
         'insuranceId',
     ];
 
-    protected $appends = ['provider', 'supervisor', 'total_units', 'total_minutes'];
-
     protected $casts = [
-        'maladaptives' => 'json',
-        'replacements' => 'json',
+        'caregiver_goals' => 'json',
+        'rbt_training_goals' => 'json',
     ];
+
+    protected $appends = ['provider', 'supervisor', 'total_units', 'total_minutes'];
 }
