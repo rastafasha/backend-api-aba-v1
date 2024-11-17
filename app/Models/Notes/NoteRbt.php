@@ -69,6 +69,7 @@ use Illuminate\Support\Facades\DB;
  *     @OA\Property(property="billed", type="integer", example=0),
  *     @OA\Property(property="paid", type="integer", example=0),
  *     @OA\Property(property="status", type="string", example="ok"),
+ *     @OA\Property(property="summary_note", type="string", nullable=true),
  *     @OA\Property(property="cpt_code", type="string", example="97153"),
  *     @OA\Property(property="insuranceId", type="string", nullable=true),
  *     @OA\Property(
@@ -96,8 +97,6 @@ class NoteRbt extends Note
     }
 
     protected $extraFillable = [
-        'doctor_id',
-        'bip_id',
         'pos',
         'session_length_total',
         'environmental_changes',

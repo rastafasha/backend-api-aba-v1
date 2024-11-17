@@ -184,6 +184,7 @@ class NoteRbtV2Controller extends Controller
      *             @OA\Property(property="paid", type="boolean"),
      *             @OA\Property(property="cpt_code", type="string"),
      *             @OA\Property(property="status", type="string", enum={"pending", "ok", "no", "review"}),
+     *             @OA\Property(property="summary_note", type="string"),
      *             @OA\Property(property="location_id", type="integer"),
      *             @OA\Property(property="pa_service_id", type="integer"),
      *             @OA\Property(property="insuranceId", type="string")
@@ -323,6 +324,7 @@ class NoteRbtV2Controller extends Controller
      *             @OA\Property(property="paid", type="boolean"),
      *             @OA\Property(property="cpt_code", type="string"),
      *             @OA\Property(property="status", type="string", enum={"pending", "ok", "no", "review"}),
+     *             @OA\Property(property="summary_note", type="string"),
      *             @OA\Property(property="location_id", type="integer"),
      *             @OA\Property(property="pa_service_id", type="integer"),
      *             @OA\Property(property="insuranceId", type="string")

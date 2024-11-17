@@ -49,25 +49,17 @@ class NoteBcba extends Note
     }
 
     protected $extraFillable = [
-        'doctor_id',
-        'bip_id',
         'summary_note',
-
         'diagnosis_code',
         'supervisor_id',
         'note_description',
-
-
         'caregiver_goals', //json
         'rbt_training_goals', //json
-
         'provider_signature',
         'supervisor_signature',
         // 'supervisor_name',
-
         'session_length_total',
         'session_length_total2',
-
         'pa_service_id',
         'insuranceId',
     ];

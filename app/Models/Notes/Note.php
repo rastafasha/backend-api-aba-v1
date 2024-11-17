@@ -38,6 +38,9 @@ abstract class Note extends Model
         'status',
         'billed',
         'paid',
+        'doctor_id',
+        'bip_id',
+        'summary_note',
     ];
 
     protected $appends = ['provider', 'supervisor', 'doctor', 'total_units', 'total_minutes', 'client_id'];

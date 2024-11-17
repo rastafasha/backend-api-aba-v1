@@ -983,7 +983,7 @@
                                     "billed": {
                                         "type": "boolean"
                                     },
-                                    "pay": {
+                                    "paid": {
                                         "type": "boolean"
                                     },
                                     "cpt_code": {
@@ -1388,7 +1388,7 @@
                                     "billed": {
                                         "type": "boolean"
                                     },
-                                    "pay": {
+                                    "paid": {
                                         "type": "boolean"
                                     },
                                     "cpt_code": {
@@ -1402,6 +1402,9 @@
                                             "no",
                                             "review"
                                         ]
+                                    },
+                                    "summary_note": {
+                                        "type": "string"
                                     },
                                     "location_id": {
                                         "type": "integer"
@@ -1647,7 +1650,7 @@
                                     "billed": {
                                         "type": "boolean"
                                     },
-                                    "pay": {
+                                    "paid": {
                                         "type": "boolean"
                                     },
                                     "cpt_code": {
@@ -1661,6 +1664,9 @@
                                             "no",
                                             "review"
                                         ]
+                                    },
+                                    "summary_note": {
+                                        "type": "string"
                                     },
                                     "location_id": {
                                         "type": "integer"
@@ -3472,7 +3478,7 @@
                         "type": "boolean",
                         "default": false
                     },
-                    "pay": {
+                    "paid": {
                         "type": "boolean",
                         "default": false
                     },
@@ -3696,13 +3702,17 @@
                         "type": "integer",
                         "example": 0
                     },
-                    "pay": {
+                    "paid": {
                         "type": "integer",
                         "example": 0
                     },
                     "status": {
                         "type": "string",
                         "example": "ok"
+                    },
+                    "summary_note": {
+                        "type": "string",
+                        "nullable": true
                     },
                     "cpt_code": {
                         "type": "string",
