@@ -37,7 +37,7 @@ abstract class Note extends Model
         'cpt_code',
         'status',
         'billed',
-        'pay',
+        'paid',
     ];
 
     protected $appends = ['provider', 'supervisor', 'doctor', 'total_units', 'total_minutes', 'client_id'];

@@ -159,7 +159,7 @@ class NoteBcbaV2Controller extends Controller
      *             @OA\Property(property="supervisor_signature", type="string"),
      *             @OA\Property(property="meet_with_client_at", type="string"),
      *             @OA\Property(property="billed", type="boolean"),
-     *             @OA\Property(property="pay", type="boolean"),
+     *             @OA\Property(property="paid", type="boolean"),
      *             @OA\Property(property="cpt_code", type="string"),
      *             @OA\Property(property="status", type="string", enum={"pending", "ok", "no", "review"}),
      *             @OA\Property(property="location_id", type="integer"),

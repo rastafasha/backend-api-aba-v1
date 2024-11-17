@@ -36,7 +36,7 @@ class CreateNoteBcbasTable extends Migration
             $table->enum('status', ['pending', 'ok', 'no', 'review'])->default('pending');
             $table->text('summary_note')->nullable();
             $table->boolean('billed')->default(false);
-            $table->boolean('pay')->default(false);
+            $table->boolean('paid')->default(false);
             // $table->string('mdbcba', 20)->nullable();
             // $table->string('md2bcba', 20)->nullable();
             $table->unsignedInteger('location_id')->nullable();

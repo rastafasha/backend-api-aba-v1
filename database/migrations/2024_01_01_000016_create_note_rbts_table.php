@@ -41,7 +41,7 @@ class CreateNoteRbtsTable extends Migration
             $table->foreignId('supervisor_id')->nullable()->constrained('users')->nullOnDelete();
             $table->foreignId('supervisor_name')->nullable()->constrained('users')->nullOnDelete();
             $table->boolean('billed')->default(false);
-            $table->boolean('pay')->default(false);
+            $table->boolean('paid')->default(false);
             // $table->string('md', 20)->nullable();
             // $table->string('md2', 20)->nullable();
             $table->enum('status', ['pending', 'ok', 'no', 'review'])->default('pending');

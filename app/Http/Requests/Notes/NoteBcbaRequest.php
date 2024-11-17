@@ -40,8 +40,8 @@ class NoteBcbaRequest extends FormRequest
 
             'meet_with_client_at' => 'nullable|string',
 
-            'billedbcba' => 'boolean',
-            'paybcba' => 'boolean',
+            'billed' => 'boolean',
+            'paid' => 'boolean',
             'cpt_code' => 'nullable|string',
             'status' => 'nullable|in:pending,ok,no,review',
             'location_id' => 'nullable|exists:locations,id',

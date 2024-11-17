@@ -67,7 +67,7 @@ use Illuminate\Support\Facades\DB;
  *     ),
  *     @OA\Property(property="provider_name_g", type="string", nullable=true),
  *     @OA\Property(property="billed", type="integer", example=0),
- *     @OA\Property(property="pay", type="integer", example=0),
+ *     @OA\Property(property="paid", type="integer", example=0),
  *     @OA\Property(property="status", type="string", example="ok"),
  *     @OA\Property(property="cpt_code", type="string", example="97153"),
  *     @OA\Property(property="insuranceId", type="string", nullable=true),
@@ -126,6 +126,8 @@ class NoteRbt extends Note
         'maladaptives' => 'json',
         'replacements' => 'json',
         'interventions' => 'json',
+        'billed' => 'boolean',
+        'paid' => 'boolean',
     ];
 
 

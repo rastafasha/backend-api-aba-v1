@@ -30,7 +30,7 @@ namespace App\Models\Notes;
  *     @OA\Property(property="status", type="string", enum={"pending", "ok", "no", "review"}, default="pending"),
  *     @OA\Property(property="summary_note", type="string", nullable=true),
  *     @OA\Property(property="billed", type="boolean", default=false),
- *     @OA\Property(property="pay", type="boolean", default=false),
+ *     @OA\Property(property="paid", type="boolean", default=false),
  *     @OA\Property(property="cpt_code", type="string", nullable=true),
  *     @OA\Property(property="location_id", type="integer", nullable=true),
  *     @OA\Property(property="pa_service_id", type="integer", nullable=true),
@@ -75,5 +75,7 @@ class NoteBcba extends Note
     protected $casts = [
         'caregiver_goals' => 'json',
         'rbt_training_goals' => 'json',
+        'billed' => 'boolean',
+        'paid' => 'boolean',
     ];
 }
