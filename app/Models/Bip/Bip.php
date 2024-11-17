@@ -9,6 +9,7 @@ use App\Models\Bip\ReductionGoal;
 use App\Models\Bip\FamilyEnvolment;
 use App\Models\Bip\SustitutionGoal;
 use App\Models\Bip\ConsentToTreatment;
+use App\Traits\CreatedAtFilterable;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Bip\MonitoringEvaluating;
 use App\Models\Bip\DeEscalationTechnique;
@@ -57,6 +58,7 @@ class Bip extends Model
 {
     use HasFactory;
     use SoftDeletes;
+    use CreatedAtFilterable;
 
     protected $fillable = [
         'type_of_assessment',
