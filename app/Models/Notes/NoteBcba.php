@@ -87,5 +87,4 @@ class NoteBcba extends Note
         'rbt_training_goals' => 'json',
     ];
 
-    protected $appends = ['provider', 'supervisor', 'doctor', 'total_units', 'total_minutes'];
 }

@@ -33,6 +33,8 @@ abstract class Note extends Model
         'time_out2',
     ];
 
+    protected $appends = ['provider', 'supervisor', 'doctor', 'total_units', 'total_minutes', 'client_id'];
+
     public function patient()
     {
         return $this->belongsTo(Patient::class, 'patient_id');

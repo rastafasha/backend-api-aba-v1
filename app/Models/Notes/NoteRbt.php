@@ -135,8 +135,6 @@ class NoteRbt extends Note
         'interventions' => 'json',
     ];
 
-    protected $appends = ['provider', 'supervisor', 'doctor', 'client_id', 'total_units', 'total_minutes'];
-
 
     public function scopefilterAdvanceClientReport(
         $query,
