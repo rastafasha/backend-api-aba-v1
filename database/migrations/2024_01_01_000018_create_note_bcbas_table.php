@@ -36,15 +36,15 @@ class CreateNoteBcbasTable extends Migration
             $table->text('summary_note')->nullable();
             $table->boolean('billedbcba')->default(false);
             $table->boolean('paybcba')->default(false);
-            $table->string('mdbcba', 20)->nullable();
-            $table->string('md2bcba', 20)->nullable();
+            // $table->string('mdbcba', 20)->nullable();
+            // $table->string('md2bcba', 20)->nullable();
             $table->unsignedInteger('location_id')->nullable();
             $table->foreignId('pa_service_id')->nullable()->constrained('pa_services')->nullOnDelete();
             $table->timestamps();
             $table->softDeletes();
 
             // Additional foreign key constraints
-            $table->foreign('rendering_provider')->references('id')->on('users')->nullOnDelete();
+            $table->foreignId('provider_id')->nullable()->constrained('users')->nullOnDelete();
             $table->foreign('supervisor_id')->references('id')->on('users')->nullOnDelete();
         });
     }

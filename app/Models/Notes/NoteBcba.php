@@ -2,19 +2,6 @@
 
 namespace App\Models\Notes;
 
-use App\Models\User;
-use App\Models\Bip\Bip;
-use App\Models\Location;
-use App\Models\Notes\Traits\HasProvider;
-use App\Models\Notes\Traits\HasSupervisor;
-use App\Models\PaService;
-use App\Models\Patient\Patient;
-use App\Utils\TimeCalculator;
-use App\Utils\UnitCalculator;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-
 /**
  * @OA\Schema(
  *     schema="NoteBcba",
@@ -81,9 +68,13 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class NoteBcba extends Note
 {
-    protected $fillable = [
-        'insurance_id',
-        'patient_id',
+    public function __construct(array $attributes = [])
+    {
+        parent::__construct($attributes);
+        $this->mergeFillable($this->extraFillable);
+    }
+
+    protected $extraFillable = [
         'doctor_id',
         'bip_id',
         'location',
@@ -109,10 +100,6 @@ class NoteBcba extends Note
         'supervisor_name',
 
         'session_date',
-        'time_in',
-        'time_out',
-        'time_in2',
-        'time_out2',
         'session_length_total',
         'session_length_total2',
         'environmental_changes',
@@ -129,56 +116,10 @@ class NoteBcba extends Note
         'insuranceId',
     ];
 
-    protected $appends = ['provider', 'supervisor', 'total_units'];
+    protected $appends = ['provider', 'supervisor', 'total_units', 'total_minutes'];
 
-    // protected $casts = [
-    //     'maladaptives' => 'json',
-    //     'replacements' => 'json',
-    // ];
-
-    public function patient()
-    {
-        return $this->belongsTo(Patient::class, 'patient_id');
-    }
-
-    public function paService()
-    {
-        return $this->belongsTo(PaService::class, 'pa_service_id');
-    }
-
-    public function bips()
-    {
-        return $this->belongsTo(Bip::class, 'bip_id');
-    }
-
-    public function location()
-    {
-        return $this->belongsTo(Location::class, 'location_id');
-    }
-
-    protected function getTotalMinutesAttribute()
-    {
-        $calculator = new TimeCalculator();
-        $totalMinutes = 0;
-
-        if ($this->time_in && $this->time_out) {
-            $totalMinutes = $calculator->timeDifference($this->time_in, $this->time_out, "minutes");
-        }
-
-        if ($this->time_in2 && $this->time_out2) {
-            $totalMinutes += $calculator->timeDifference($this->time_in2, $this->time_out2, "minutes");
-        }
-
-        return $totalMinutes;
-    }
-
-    protected function getTotalUnitsAttribute()
-    {
-        if ($this->total_minutes === null) {
-            return null;
-        }
-
-        $calculator = new UnitCalculator();
-        return $calculator->calculateUnits($this->total_minutes);
-    }
+    protected $casts = [
+        'maladaptives' => 'json',
+        'replacements' => 'json',
+    ];
 }

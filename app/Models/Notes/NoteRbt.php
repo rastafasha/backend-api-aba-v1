@@ -4,21 +4,7 @@ namespace App\Models\Notes;
 
 use App\Models\Notes\Note;
 use Carbon\Carbon;
-use App\Models\User;
-use App\Models\Bip\Bip;
-use App\Models\Location;
-use App\Models\Notes\Traits\HasClientFromBip;
-use App\Models\Notes\Traits\HasDoctor;
-use App\Models\Notes\Traits\HasProvider;
-use App\Models\Notes\Traits\HasSupervisor;
-use App\Models\Patient\Patient;
-use App\Models\PaService;
-use App\Utils\TimeCalculator;
-use App\Utils\UnitCalculator;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
  * @OA\Schema(
@@ -103,17 +89,17 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  */
 class NoteRbt extends Note
 {
-    protected $fillable = [
-        'insurance_id',
-        'patient_id',
+    public function __construct(array $attributes = [])
+    {
+        parent::__construct($attributes);
+        $this->mergeFillable($this->extraFillable);
+    }
+
+    protected $extraFillable = [
         'doctor_id',
         'bip_id',
         'pos',
         'session_date',
-        'time_in',
-        'time_out',
-        'time_in2',
-        'time_out2',
         'session_length_total',
         'environmental_changes',
         'maladaptives',
@@ -141,8 +127,6 @@ class NoteRbt extends Note
         'location_id',
         'pa_service_id',
         'insuranceId',
-
-
     ];
 
     protected $casts = [
@@ -151,92 +135,7 @@ class NoteRbt extends Note
         'interventions' => 'json',
     ];
 
-    protected $appends = ['provider', 'supervisor', 'doctor', 'client_id', 'total_units'];
-
-    public function patient()
-    {
-        return $this->belongsTo(Patient::class, 'patient_id');
-    }
-
-    public function paService()
-    {
-        return $this->belongsTo(PaService::class, 'pa_service_id');
-    }
-
-
-    // public function maladaptive()
-    // {
-    //     return $this->hasMany(Maladaptive::class);
-    // }
-    // public function replacement()
-    // {
-    //     return $this->hasMany(Replacement::class);
-    // }
-
-    protected function getTotalMinutesAttribute()
-    {
-        $calculator = new TimeCalculator();
-        $totalMinutes = 0;
-
-        if ($this->time_in && $this->time_out) {
-            $totalMinutes = $calculator->timeDifference($this->time_in, $this->time_out, "minutes");
-        }
-
-        if ($this->time_in2 && $this->time_out2) {
-            $totalMinutes += $calculator->timeDifference($this->time_in2, $this->time_out2, "minutes");
-        }
-
-        return $totalMinutes;
-    }
-
-    protected function getTotalUnitsAttribute()
-    {
-        if ($this->total_minutes === null) {
-            return null;
-        }
-
-        $calculator = new UnitCalculator();
-        return $calculator->calculateUnits($this->total_minutes);
-    }
-
-    public function location()
-    {
-        return $this->belongsTo(Location::class, 'location_id');
-    }
-
-
-    // public function scopefilterAdvanceClientReport(
-    //     $query,
-    //     $provider_name_g,
-    //     $session_date,
-    //     $patient_id,
-    //     $doctor_id
-    //     ){
-
-
-    //     if($provider_name_g){
-    //         $query->whereHas("doctor", function($q)use($provider_name_g){
-    //             $q->where(DB::raw("CONCAT(users.name,' ',IFNULL(users.surname,''),' ',IFNULL(users.email,''))"),"like","%".$provider_name_g."%");
-
-    //         });
-    //     }
-
-    //     if($provider_name_g){
-    //         $query->where("provider_name_g", $provider_name_g);
-    //     }
-
-
-    //     if($patient_id){
-    //         $query->where("patient_id", $patient_id);
-    //     }
-
-    //     if($session_date ){
-    //         $query->where("noterbts", [
-    //             Carbon::parse($session_date)->format("Y-m-d"),
-    //         ]);
-    //     }
-    //     return $query;
-    // }
+    protected $appends = ['provider', 'supervisor', 'doctor', 'client_id', 'total_units', 'total_minutes'];
 
 
     public function scopefilterAdvanceClientReport(
