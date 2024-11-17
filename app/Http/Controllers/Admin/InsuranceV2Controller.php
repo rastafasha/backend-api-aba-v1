@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\Insurance\InsuranceResource;
+use App\Http\Requests\InsuranceRequest;
 use App\Models\Insurance\Insurance;
 use Illuminate\Http\Request;
 
@@ -33,9 +33,9 @@ class InsuranceV2Controller extends Controller
      *     description="Retrieves a paginated list of insurance with optional filters",
      *     tags={"Admin/Insurance"},
      *     @OA\Parameter(
-     *         name="insurer_name",
+     *         name="name",
      *         in="query",
-     *         description="Filter by insurer name",
+     *         description="Filter by name",
      *         required=false,
      *         @OA\Schema(type="string")
      *     ),
@@ -66,25 +66,16 @@ class InsuranceV2Controller extends Controller
     {
         $query = Insurance::query();
 
-        // Filter by insurer_name if provided
-        if ($request->has('insurer_name')) {
-            $query->where('insurer_name', 'like', '%' . $request->insurer_name . '%');
-        }
-
-        // Filter by city if provided
-        if ($request->has('city')) {
-            $query->where('city', $request->city);
-        }
-
-        // Filter by state if provided
-        if ($request->has('state')) {
-            $query->where('state', $request->state);
+        // Filter by name if provided
+        if ($request->has('name')) {
+            $query->where('name', 'like', '%' . $request->name . '%');
         }
 
         // Get paginated results
-        $perPage = $request->input('per_page', 15);
         $insurances = $query->orderBy('created_at', 'desc')
-            ->paginate($perPage);
+            ->filterByCity($request->city)
+            ->filterByState($request->state)
+            ->paginate($request->input('per_page', 15));
 
         return response()->json([
             'status' => 'success',
@@ -101,8 +92,8 @@ class InsuranceV2Controller extends Controller
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(
-     *             required={"insurer_name"},
-     *             @OA\Property(property="insurer_name", type="string"),
+     *             required={"name"},
+     *             @OA\Property(property="name", type="string"),
      *             @OA\Property(property="services", type="object"),
      *             @OA\Property(property="notes", type="object"),
      *             @OA\Property(property="payer_id", type="string"),
@@ -125,26 +116,14 @@ class InsuranceV2Controller extends Controller
      *     )
      * )
      */
-    public function store(Request $request)
+    public function store(InsuranceRequest $request)
     {
-        $validated = $request->validate([
-            'insurer_name' => 'required|string|max:255',
-            'services' => 'nullable|json',
-            'notes' => 'nullable|json',
-            'payer_id' => 'nullable|string|max:255',
-            'street' => 'nullable|string|max:255',
-            'street2' => 'nullable|string|max:255',
-            'city' => 'nullable|string|max:255',
-            'state' => 'nullable|string|max:255',
-            'zip' => 'nullable|string|max:255',
-        ]);
-
-        $insurance = Insurance::create($validated);
+        $insurance = Insurance::create($request->validated());
 
         return response()->json([
             'status' => 'success',
             'message' => 'Insurance created successfully',
-            'data' => InsuranceResource::make($insurance)
+            'data' => $insurance
         ], 201);
     }
 
@@ -189,7 +168,7 @@ class InsuranceV2Controller extends Controller
 
         return response()->json([
             'status' => 'success',
-            'data' => InsuranceResource::make($insurance)
+            'data' => $insurance
         ]);
     }
 
@@ -209,7 +188,7 @@ class InsuranceV2Controller extends Controller
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(
-     *             @OA\Property(property="insurer_name", type="string"),
+     *             @OA\Property(property="name", type="string"),
      *             @OA\Property(property="services", type="object"),
      *             @OA\Property(property="notes", type="object"),
      *             @OA\Property(property="payer_id", type="string"),
@@ -230,7 +209,7 @@ class InsuranceV2Controller extends Controller
      *     )
      * )
      */
-    public function update(Request $request, $id)
+    public function update(InsuranceRequest $request, $id)
     {
         $insurance = Insurance::find($id);
 
@@ -241,24 +220,12 @@ class InsuranceV2Controller extends Controller
             ], 404);
         }
 
-        $validated = $request->validate([
-            'insurer_name' => 'required|string|max:255',
-            'services' => 'nullable|json',
-            'notes' => 'nullable|json',
-            'payer_id' => 'nullable|string|max:255',
-            'street' => 'nullable|string|max:255',
-            'street2' => 'nullable|string|max:255',
-            'city' => 'nullable|string|max:255',
-            'state' => 'nullable|string|max:255',
-            'zip' => 'nullable|string|max:255',
-        ]);
-
-        $insurance->update($validated);
+        $insurance->update($request->validated());
 
         return response()->json([
             'status' => 'success',
             'message' => 'Insurance updated successfully',
-            'data' => InsuranceResource::make($insurance->fresh())
+            'data' => $insurance
         ]);
     }
 

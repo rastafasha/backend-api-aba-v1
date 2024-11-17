@@ -65,7 +65,7 @@ class InsuranceController extends Controller
         $insurance = Insurance::findOrFail($id);
         return response()->json([
             "id" => $insurance->id,
-            "insurer_name" => $insurance->insurer_name,
+            "name" => $insurance->name,
             "services" => $insurance-> services,
             "notes" => $insurance-> notes
         ]);
@@ -114,7 +114,7 @@ class InsuranceController extends Controller
         // $codes = Insurance::where("insurer_name", $insurer_name)
         // ->where("services", $code)->first();
 
-        $insurance = Insurance::where("insurer_name", $insurer_name)
+        $insurance = Insurance::where("name", $insurer_name)
         ->where("services", "like", "%" . $code . "%")
         ->where("services", "like", "%" . $provider . "%")
         ->first();
@@ -142,7 +142,7 @@ class InsuranceController extends Controller
         } else {
             Log::error("Insurance data not found");
             Log::info("Query: " . Insurance::where([
-                "insurer_name" => $insurer_name,
+                "name" => $insurer_name,
                 "services" => [
                     "like" => "%" . $code . "%",
                     "like" => "%" . $provider . "%"
@@ -155,7 +155,7 @@ class InsuranceController extends Controller
             "code" => $code,
             "provider" => $provider,
             "unit_prize" => $unit_prize,
-            "insurer_name" => $insurance->insurer_name
+            "name" => $insurance->name
         ]);
     }
 }

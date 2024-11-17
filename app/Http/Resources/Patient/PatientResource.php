@@ -55,7 +55,7 @@ class PatientResource extends JsonResource
             'insurances' => $this->resource->insurances,
                 'insurances' => [
                     // 'id'=> $this->resource->insurances->insurer_id,
-                    'insurer_name' => $this->resource->insurances->insurer_name,
+                    'name' => $this->resource->insurances->name,
                     'notes' => $this->resource->insurances-> notes ? : null,
                     'services' => $this->resource->insurances-> services ? : null,
                 ],

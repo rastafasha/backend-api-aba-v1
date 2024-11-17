@@ -28,3 +28,11 @@ Route::prefix('v2/insurance')->group(function () {
     Route::put('/{id}', [InsuranceV2Controller::class, 'update']);
     Route::delete('/{id}', [InsuranceV2Controller::class, 'destroy']);
 });
+
+Route::prefix('v2/insurances')->group(function () {
+    Route::get('/', [InsuranceV2Controller::class, 'index']);
+    Route::post('/', [InsuranceV2Controller::class, 'store']);
+    Route::get('/{id}', [InsuranceV2Controller::class, 'show']);
+    Route::put('/{id}', [InsuranceV2Controller::class, 'update']);
+    Route::delete('/{id}', [InsuranceV2Controller::class, 'destroy']);
+});

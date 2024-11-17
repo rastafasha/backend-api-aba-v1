@@ -41,6 +41,7 @@ class LocationV2Controller extends Controller
      *     ),
      *     @OA\Parameter(name="city", in="query", description="Filter by city", required=false, @OA\Schema(type="string")),
      *     @OA\Parameter(name="state", in="query", description="Filter by state", required=false, @OA\Schema(type="string")),
+     *     @OA\Parameter(name="zip", in="query", description="Filter by zip code", required=false, @OA\Schema(type="string")),
      *     @OA\Parameter(
      *         name="per_page",
      *         in="query",
@@ -70,17 +71,11 @@ class LocationV2Controller extends Controller
             $query->where('title', 'like', '%' . $request->title . '%');
         }
 
-        if ($request->has('city')) {
-            $query->where('city', $request->city);
-        }
-
-        if ($request->has('state')) {
-            $query->where('state', $request->state);
-        }
-
-        $perPage = $request->input('per_page', 15);
         $locations = $query->orderBy('created_at', 'desc')
-            ->paginate($perPage);
+            ->filterByCity($request->city)
+            ->filterByState($request->state)
+            ->filterByZip($request->zip)
+            ->paginate($request->input('per_page', 15));
 
         return response()->json([
             'status' => 'success',

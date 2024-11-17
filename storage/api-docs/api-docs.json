@@ -283,9 +283,9 @@
                 "operationId": "2fc52d5babe24cad601e5b95bb867bf4",
                 "parameters": [
                     {
-                        "name": "insurer_name",
+                        "name": "name",
                         "in": "query",
-                        "description": "Filter by insurer name",
+                        "description": "Filter by name",
                         "required": false,
                         "schema": {
                             "type": "string"
@@ -355,10 +355,10 @@
                         "application/json": {
                             "schema": {
                                 "required": [
-                                    "insurer_name"
+                                    "name"
                                 ],
                                 "properties": {
-                                    "insurer_name": {
+                                    "name": {
                                         "type": "string"
                                     },
                                     "services": {
@@ -486,7 +486,7 @@
                         "application/json": {
                             "schema": {
                                 "properties": {
-                                    "insurer_name": {
+                                    "name": {
                                         "type": "string"
                                     },
                                     "services": {
@@ -3187,7 +3187,7 @@
             },
             "Insurance": {
                 "required": [
-                    "insurer_name"
+                    "name"
                 ],
                 "properties": {
                     "id": {
@@ -3196,7 +3196,7 @@
                         "format": "int64",
                         "example": 1
                     },
-                    "insurer_name": {
+                    "name": {
                         "description": "Name of the insurance company",
                         "type": "string",
                         "example": "Blue Cross Blue Shield"

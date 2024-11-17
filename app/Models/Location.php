@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use App\Models\Patient\Patient;
+use App\Traits\LocationFilterable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -116,6 +117,7 @@ class Location extends Model
 {
     use HasFactory;
     use SoftDeletes;
+    use LocationFilterable;
 
     protected $fillable = [
         'title',
@@ -159,12 +161,12 @@ class Location extends Model
 
         if ($name_client) {
             $query->whereHas("patient", function ($q) use ($name_client) {
-                $q->where(DB::raw("CONCAT(patients.first_name,' ',IFNULL(patients.last_name,''),' ',IFNULL(patients.email,''))"), "like", "%" . $name_patient . "%");
+                $q->where(DB::raw("CONCAT(patients.first_name,' ',IFNULL(patients.last_name,''),' ',IFNULL(patients.email,''))"), "like", "%" . $name_client . "%");
             });
         }
         if ($email_client) {
             $query->whereHas("patient", function ($q) use ($email_client) {
-                $query->where("patientID", $patientID);
+                $q->where("patientID", $email_client);
             });
         }
         if ($doctor_id) {
@@ -178,7 +180,7 @@ class Location extends Model
         }
         if ($email_doctor) {
             $query->whereHas("doctor", function ($q) use ($email_doctor) {
-                $query->where("doctor_id", $doctor_id);
+                $q->where("doctor_id", $email_doctor);
             });
         }
 

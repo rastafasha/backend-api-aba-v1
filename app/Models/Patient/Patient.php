@@ -9,6 +9,7 @@ use App\Models\Location;
 use App\Models\Bip\ReductionGoal;
 use App\Models\Insurance\Insurance;
 use App\Models\PaService;
+use App\Traits\LocationFilterable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -72,6 +73,7 @@ class Patient extends Model
 {
     use HasFactory;
     use SoftDeletes;
+    use LocationFilterable;
 
     protected $fillable = [
         'rbt_home_id',

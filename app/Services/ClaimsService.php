@@ -6,7 +6,6 @@ use App\Models\Insurance\Insurance;
 use App\Models\Notes\NoteBcba;
 use App\Models\Notes\NoteRbt;
 use App\Models\Patient\Patient;
-use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 
@@ -90,7 +89,7 @@ class ClaimsService
 
 
         return [
-            "payer_name" => $insurance->insurer_name,
+            "payer_name" => $insurance->name,
             "payer_code" => $insurance->payer_id,
             "payer_street" => $insurance->street,
             "payer_street2" => $insurance->street2,

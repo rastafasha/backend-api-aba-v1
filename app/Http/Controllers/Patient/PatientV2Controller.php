@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Patient;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\Patient\PatientResource;
 use App\Models\Patient\Patient;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -227,7 +226,7 @@ class PatientV2Controller extends Controller
         return response()->json([
             'status' => 'success',
             'message' => 'Patient updated successfully',
-            'data' => PatientResource::make($patient->fresh())
+            'data' => $patient
         ]);
     }
 

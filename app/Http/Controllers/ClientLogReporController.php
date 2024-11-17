@@ -181,7 +181,7 @@ class ClientLogReporController extends Controller
                     'insurances' => $patient-> insurances,
                         'insurances' => [
                             // 'id'=> $patient->insurances->insurer_id,
-                            'insurer_name' => $patient->insurances->insurer_name,
+                            'name' => $patient->insurances->name,
                             'notes' => json_decode($patient->insurances-> notes) ? : null,
                             'services' => json_decode($patient->insurances-> services) ? : null,
                         ],

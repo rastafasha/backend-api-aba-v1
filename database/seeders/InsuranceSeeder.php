@@ -11,7 +11,7 @@ class InsuranceSeeder extends Seeder
     {
         $insurances = [
             [
-                'insurer_name' => 'Fl Blue',
+                'name' => 'Fl Blue',
                 'services' => [
                     [
                         'code' => '97151',
@@ -72,7 +72,7 @@ class InsuranceSeeder extends Seeder
                 ]
             ],
             [
-                'insurer_name' => 'United',
+                'name' => 'United',
                 'services' => [
                     [
                         'code' => '97153',
@@ -157,7 +157,7 @@ class InsuranceSeeder extends Seeder
                 ]
             ],
             [
-                'insurer_name' => 'CIGNA',
+                'name' => 'CIGNA',
                 'services' => [
                     [
                         'code' => '97151',
@@ -197,7 +197,7 @@ class InsuranceSeeder extends Seeder
                 ]
             ],
             [
-                'insurer_name' => 'TRICARE',
+                'name' => 'TRICARE',
                 'services' => [
                     [
                         'code' => '97151',
@@ -281,7 +281,7 @@ class InsuranceSeeder extends Seeder
                 ]
             ],
             [
-                'insurer_name' => 'AETNA',
+                'name' => 'AETNA',
                 'services' => [
                     [
                         'code' => '97151',
@@ -370,7 +370,7 @@ class InsuranceSeeder extends Seeder
                 ]
             ],
             [
-                'insurer_name' => 'Medicaid',
+                'name' => 'Medicaid',
                 'services' => [
                     [
                         'code' => '97153',
@@ -446,7 +446,7 @@ class InsuranceSeeder extends Seeder
                 ]
             ],
             [
-                'insurer_name' => 'NOW KBA',
+                'name' => 'NOW KBA',
                 'services' => [
                     [
                         'code' => '97151',
