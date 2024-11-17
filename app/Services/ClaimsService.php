@@ -75,7 +75,7 @@ class ClaimsService
         }
 
         if (empty($claimsData)) {
-            return response()->json(['error' => 'No valid claims found'], 400);
+            return '';
         }
 
         $fileContent = $this->ediService->generate($claimsData);
@@ -181,14 +181,14 @@ class ClaimsService
         // Get the claim data from the RBT notes
         foreach ($notesRbt as $note) {
             $noteData = $this->getClaimDataFromRbtNote($note);
-            $service = array_filter($services, function ($service) use ($noteData) {
-                return $service['code'] == $noteData['cpt_codes'];
-            });
+            $service = array_values(array_filter($services, function ($service) use ($noteData) {
+                        return $service['code'] == $noteData['cpt_codes'];
+            }));
             if (!$service) {
                 continue;
             }
 
-            $noteTotalAmount = $note->total_units * $service[0]['unit_prize'];
+            $noteTotalAmount = number_format($note->total_units * $service[0]['unit_prize'], 2, '.', '');
 
             $procedureCodes[] = [
                 'cpt_codes' => $noteData['cpt_codes'],
@@ -199,20 +199,20 @@ class ClaimsService
                 'total_amount' => $noteTotalAmount,
                 'facility_code' => '11'  // Office setting
             ];
-            $totalAmount += $noteTotalAmount;
+            $totalAmount += floatval($noteTotalAmount);
         }
 
         // Get the claim data from the BCBA notes
         foreach ($notesBcba as $note) {
             $noteData = $this->getClaimDataFromBcbaNote($note);
-            $service = array_filter($services, function ($service) use ($noteData) {
-                return $service['code'] == $noteData['cpt_codes'];
-            });
+            $service = array_values(array_filter($services, function ($service) use ($noteData) {
+                        return $service['code'] == $noteData['cpt_codes'];
+            }));
             if (!$service) {
                 continue;
             }
 
-            $noteTotalAmount = $note->total_units * $service[0]['unit_prize'];
+            $noteTotalAmount = number_format($note->total_units * $service[0]['unit_prize'], 2, '.', '');
 
             $procedureCodes[] = [
                 'cpt_codes' => $noteData['cpt_codes'],
@@ -223,12 +223,12 @@ class ClaimsService
                 'total_amount' => $noteTotalAmount,
                 'facility_code' => '11'  // Office setting
             ];
-            $totalAmount += $noteTotalAmount;
+            $totalAmount += floatval($noteTotalAmount);
         }
 
         return array_merge($baseClaimData, [
             'procedure_codes' => $procedureCodes,
-            'total_amount' => $totalAmount
+            'total_amount' => number_format($totalAmount, 2, '.', '')
         ]);
     }
 
