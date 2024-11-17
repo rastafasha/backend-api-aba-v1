@@ -18,7 +18,6 @@ class NoteBcbaRequest extends FormRequest
             'patient_id' => 'required|string',
             'doctor_id' => 'nullable|exists:users,id',
             'bip_id' => 'nullable|exists:bips,id',
-            'birth_date' => 'nullable|date',
             'diagnosis_code' => 'nullable|string|max:50',
             'location' => 'nullable|string|max:50',
             'summary_note' => 'nullable|string',
@@ -32,8 +31,8 @@ class NoteBcbaRequest extends FormRequest
             'session_length_total' => 'nullable|numeric',
 
             'supervisor_id' => 'nullable|exists:users,id',
-            'caregiver_goals' => 'nullable|json',
-            'rbt_training_goals' => 'nullable|json',
+            'caregiver_goals' => 'nullable|array',
+            'rbt_training_goals' => 'nullable|array',
 
             'provider_signature' => 'nullable|string',
             'provider_id' => 'nullable|exists:users,id',

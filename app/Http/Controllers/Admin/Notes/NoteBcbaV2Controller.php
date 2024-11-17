@@ -141,7 +141,6 @@ class NoteBcbaV2Controller extends Controller
      *             @OA\Property(property="patient_id", type="string"),
      *             @OA\Property(property="doctor_id", type="integer"),
      *             @OA\Property(property="bip_id", type="integer"),
-     *             @OA\Property(property="birth_date", type="string", format="date-time"),
      *             @OA\Property(property="diagnosis_code", type="string", maxLength=50),
      *             @OA\Property(property="location", type="string", maxLength=50),
      *             @OA\Property(property="summary_note", type="string"),

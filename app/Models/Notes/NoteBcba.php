@@ -10,7 +10,6 @@ namespace App\Models\Notes;
  *     @OA\Property(property="patient_id", type="string", nullable=true),
  *     @OA\Property(property="doctor_id", type="integer", nullable=true),
  *     @OA\Property(property="bip_id", type="integer", nullable=true),
- *     @OA\Property(property="birth_date", type="string", format="date-time", nullable=true),
  *     @OA\Property(property="diagnosis_code", type="string", maxLength=50, nullable=true),
  *     @OA\Property(property="location", type="string", maxLength=50, nullable=true),
  *     @OA\Property(property="meet_with_client_at", type="string", nullable=true),
@@ -57,7 +56,6 @@ class NoteBcba extends Note
         'summary_note',
 
         'diagnosis_code',
-        'birth_date',
         'supervisor_id',
         'note_description',
 

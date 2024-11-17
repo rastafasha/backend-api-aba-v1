@@ -921,10 +921,6 @@
                                     "bip_id": {
                                         "type": "integer"
                                     },
-                                    "birth_date": {
-                                        "type": "string",
-                                        "format": "date-time"
-                                    },
                                     "diagnosis_code": {
                                         "type": "string",
                                         "maxLength": 50
@@ -3380,11 +3376,6 @@
                     },
                     "bip_id": {
                         "type": "integer",
-                        "nullable": true
-                    },
-                    "birth_date": {
-                        "type": "string",
-                        "format": "date-time",
                         "nullable": true
                     },
                     "diagnosis_code": {
