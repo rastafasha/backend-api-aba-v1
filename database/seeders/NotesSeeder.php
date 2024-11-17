@@ -221,8 +221,8 @@ class NotesSeeder extends Seeder
                 'status' => 'ok',
                 'location_id' => 1,
                 'cpt_code' => '97155',
-                'paybcba' => true,
-                'billedbcba' => true,
+                'pay' => true,
+                'billed' => true,
             ],
 
             // BCBA Note for Patient 2 (PAT002)
@@ -264,8 +264,8 @@ class NotesSeeder extends Seeder
                 'status' => 'ok',
                 'location_id' => 2,
                 'cpt_code' => '97155',
-                'paybcba' => true,
-                'billedbcba' => true,
+                'pay' => true,
+                'billed' => true,
             ]
         ];
 

@@ -980,10 +980,10 @@
                                     "meet_with_client_at": {
                                         "type": "string"
                                     },
-                                    "billedbcba": {
+                                    "billed": {
                                         "type": "boolean"
                                     },
-                                    "paybcba": {
+                                    "pay": {
                                         "type": "boolean"
                                     },
                                     "cpt_code": {
@@ -3468,11 +3468,11 @@
                         "type": "string",
                         "nullable": true
                     },
-                    "billedbcba": {
+                    "billed": {
                         "type": "boolean",
                         "default": false
                     },
-                    "paybcba": {
+                    "pay": {
                         "type": "boolean",
                         "default": false
                     },

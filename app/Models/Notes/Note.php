@@ -31,6 +31,13 @@ abstract class Note extends Model
         'time_out',
         'time_in2',
         'time_out2',
+        'provider_id',
+        'location_id',
+        'session_date',
+        'cpt_code',
+        'status',
+        'billed',
+        'pay',
     ];
 
     protected $appends = ['provider', 'supervisor', 'doctor', 'total_units', 'total_minutes', 'client_id'];

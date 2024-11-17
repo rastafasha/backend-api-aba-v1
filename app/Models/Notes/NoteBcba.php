@@ -29,8 +29,8 @@ namespace App\Models\Notes;
  *     @OA\Property(property="supervisor_signature", type="string", nullable=true),
  *     @OA\Property(property="status", type="string", enum={"pending", "ok", "no", "review"}, default="pending"),
  *     @OA\Property(property="summary_note", type="string", nullable=true),
- *     @OA\Property(property="billedbcba", type="boolean", default=false),
- *     @OA\Property(property="paybcba", type="boolean", default=false),
+ *     @OA\Property(property="billed", type="boolean", default=false),
+ *     @OA\Property(property="pay", type="boolean", default=false),
  *     @OA\Property(property="cpt_code", type="string", nullable=true),
  *     @OA\Property(property="location_id", type="integer", nullable=true),
  *     @OA\Property(property="pa_service_id", type="integer", nullable=true),
@@ -51,8 +51,6 @@ class NoteBcba extends Note
     protected $extraFillable = [
         'doctor_id',
         'bip_id',
-        'location',
-
         'summary_note',
 
         'diagnosis_code',
@@ -64,20 +62,12 @@ class NoteBcba extends Note
         'rbt_training_goals', //json
 
         'provider_signature',
-        'provider_id',
-
         'supervisor_signature',
         // 'supervisor_name',
 
-        'session_date',
         'session_length_total',
         'session_length_total2',
 
-        'billedbcba',
-        'paybcba',
-        'cpt_code',
-        'status',
-        'location_id',
         'pa_service_id',
         'insuranceId',
     ];
@@ -86,5 +76,4 @@ class NoteBcba extends Note
         'caregiver_goals' => 'json',
         'rbt_training_goals' => 'json',
     ];
-
 }
