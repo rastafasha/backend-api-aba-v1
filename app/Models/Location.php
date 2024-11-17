@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use App\Models\Patient\Patient;
 use App\Traits\LocationFilterable;
+use App\Traits\TitleFilterable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -118,6 +119,7 @@ class Location extends Model
     use HasFactory;
     use SoftDeletes;
     use LocationFilterable;
+    use TitleFilterable;
 
     protected $fillable = [
         'title',

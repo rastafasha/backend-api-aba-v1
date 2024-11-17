@@ -69,24 +69,24 @@ class Bip extends Model
         'current_treatment_and_progress',
         'education_status',
         'phisical_and_medical_status',
-        'maladaptives',//json
+        'maladaptives', //json
         'assestment_conducted',
-        'assestment_conducted_options',//json
-        'prevalent_setting_event_and_atecedents',//json
-        'assestmentEvaluationSettings',//json
-        'interventions',//json
+        'assestment_conducted_options', //json
+        'prevalent_setting_event_and_atecedents', //json
+        'assestmentEvaluationSettings', //json
+        'interventions', //json
         'reduction_id',
         'strengths',
         'weakneses',
         'hypothesis_based_intervention',
 
         'phiysical_and_medical',
-        'phiysical_and_medical_status',//json
+        'phiysical_and_medical_status', //json
 
-        'tangibles',//json
-        'attention',//json
-        'escape',//json
-        'sensory',//json
+        'tangibles', //json
+        'attention', //json
+        'escape', //json
+        'sensory', //json
 
         //no borrar
         // 'behavior',
@@ -104,16 +104,16 @@ class Bip extends Model
     ];
 
     protected $casts = [
-        'documents_reviewed' => 'array',
-        'maladaptives' => 'array',
-        'assestment_conducted_options' => 'array',
-        'prevalent_setting_event_and_atecedents' => 'array',
-        'interventions' => 'array',
-        'tangibles' => 'array',
-        'attention' => 'array',
-        'escape' => 'array',
-        'sensory' => 'array',
-        'phiysical_and_medical_status' => 'array',
+        'documents_reviewed' => 'json',
+        'maladaptives' => 'json',
+        'assestment_conducted_options' => 'json',
+        'prevalent_setting_event_and_atecedents' => 'json',
+        'interventions' => 'json',
+        'tangibles' => 'json',
+        'attention' => 'json',
+        'escape' => 'json',
+        'sensory' => 'json',
+        'phiysical_and_medical_status' => 'json',
     ];
 
 

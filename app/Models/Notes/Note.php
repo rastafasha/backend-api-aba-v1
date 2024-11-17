@@ -9,6 +9,7 @@ use App\Models\Notes\Traits\HasProvider;
 use App\Models\Notes\Traits\HasSupervisor;
 use App\Models\PaService;
 use App\Models\Patient\Patient;
+use App\Traits\SessionDateFilterable;
 use App\Utils\TimeCalculator;
 use App\Utils\UnitCalculator;
 use Illuminate\Database\Eloquent\Model;
@@ -23,6 +24,7 @@ abstract class Note extends Model
     use HasSupervisor;
     use HasClientFromBip;
     use HasDoctor;
+    use SessionDateFilterable;
 
     protected $fillable = [
         'insurance_id',

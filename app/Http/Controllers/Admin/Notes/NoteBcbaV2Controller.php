@@ -107,17 +107,10 @@ class NoteBcbaV2Controller extends Controller
             $query->where('location_id', $request->location_id);
         }
 
-        // Filter by date range
-        if ($request->has('date_start') && $request->has('date_end')) {
-            $query->whereBetween('session_date', [
-                $request->date_start,
-                $request->date_end
-            ]);
-        }
-
         // Get paginated results
         $perPage = $request->input('per_page', 15);
-        $notes = $query->orderBy('created_at', 'desc')
+        $notes = $query->filterByDateRange($request->date_start, $request->date_end)
+            ->orderBy('created_at', 'desc')
             ->with(['patient', 'bip', 'location'])
             ->paginate($perPage);
 
