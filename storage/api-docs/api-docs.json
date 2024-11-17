@@ -891,6 +891,157 @@
                         }
                     }
                 }
+            },
+            "post": {
+                "tags": [
+                    "Admin/Notes"
+                ],
+                "summary": "Create a new BCBA note",
+                "description": "Creates a new BCBA note with the provided data",
+                "operationId": "682c11713646fdadc80b56e53a12b2e2",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "patient_id",
+                                    "session_date"
+                                ],
+                                "properties": {
+                                    "insurance_id": {
+                                        "type": "integer"
+                                    },
+                                    "patient_id": {
+                                        "type": "string"
+                                    },
+                                    "doctor_id": {
+                                        "type": "integer"
+                                    },
+                                    "bip_id": {
+                                        "type": "integer"
+                                    },
+                                    "birth_date": {
+                                        "type": "string",
+                                        "format": "date-time"
+                                    },
+                                    "diagnosis_code": {
+                                        "type": "string",
+                                        "maxLength": 50
+                                    },
+                                    "location": {
+                                        "type": "string",
+                                        "maxLength": 50
+                                    },
+                                    "summary_note": {
+                                        "type": "string"
+                                    },
+                                    "note_description": {
+                                        "type": "string"
+                                    },
+                                    "session_date": {
+                                        "type": "string",
+                                        "format": "date"
+                                    },
+                                    "time_in": {
+                                        "type": "string",
+                                        "format": "H:i:s"
+                                    },
+                                    "time_out": {
+                                        "type": "string",
+                                        "format": "H:i:s"
+                                    },
+                                    "time_in2": {
+                                        "type": "string",
+                                        "format": "H:i:s"
+                                    },
+                                    "time_out2": {
+                                        "type": "string",
+                                        "format": "H:i:s"
+                                    },
+                                    "session_length_total": {
+                                        "type": "number",
+                                        "format": "double"
+                                    },
+                                    "supervisor_id": {
+                                        "type": "integer"
+                                    },
+                                    "caregiver_goals": {
+                                        "type": "object"
+                                    },
+                                    "rbt_training_goals": {
+                                        "type": "object"
+                                    },
+                                    "provider_signature": {
+                                        "type": "string"
+                                    },
+                                    "provider_id": {
+                                        "type": "integer"
+                                    },
+                                    "supervisor_signature": {
+                                        "type": "string"
+                                    },
+                                    "meet_with_client_at": {
+                                        "type": "string"
+                                    },
+                                    "billedbcba": {
+                                        "type": "boolean"
+                                    },
+                                    "paybcba": {
+                                        "type": "boolean"
+                                    },
+                                    "cpt_code": {
+                                        "type": "string"
+                                    },
+                                    "status": {
+                                        "type": "string",
+                                        "enum": [
+                                            "pending",
+                                            "ok",
+                                            "no",
+                                            "review"
+                                        ]
+                                    },
+                                    "location_id": {
+                                        "type": "integer"
+                                    },
+                                    "pa_service_id": {
+                                        "type": "integer"
+                                    },
+                                    "insuranceId": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Note created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Note created successfully"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/NoteBcba"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
             }
         },
         "/api/v2/notes/bcba/{id}": {
@@ -3215,8 +3366,13 @@
                     "id": {
                         "type": "integer"
                     },
+                    "insurance_id": {
+                        "type": "integer",
+                        "nullable": true
+                    },
                     "patient_id": {
-                        "type": "integer"
+                        "type": "string",
+                        "nullable": true
                     },
                     "doctor_id": {
                         "type": "integer",
@@ -3226,29 +3382,61 @@
                         "type": "integer",
                         "nullable": true
                     },
-                    "location": {
+                    "birth_date": {
                         "type": "string",
-                        "nullable": true
-                    },
-                    "maladaptives": {
-                        "type": "object",
-                        "nullable": true
-                    },
-                    "replacements": {
-                        "type": "object",
-                        "nullable": true
-                    },
-                    "summary_note": {
-                        "type": "string",
+                        "format": "date-time",
                         "nullable": true
                     },
                     "diagnosis_code": {
                         "type": "string",
+                        "maxLength": 50,
                         "nullable": true
                     },
-                    "birth_date": {
+                    "location": {
+                        "type": "string",
+                        "maxLength": 50,
+                        "nullable": true
+                    },
+                    "meet_with_client_at": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "session_date": {
                         "type": "string",
                         "format": "date-time",
+                        "nullable": true
+                    },
+                    "time_in": {
+                        "type": "string",
+                        "format": "H:i:s",
+                        "nullable": true
+                    },
+                    "time_out": {
+                        "type": "string",
+                        "format": "H:i:s",
+                        "nullable": true
+                    },
+                    "time_in2": {
+                        "type": "string",
+                        "format": "H:i:s",
+                        "nullable": true
+                    },
+                    "time_out2": {
+                        "type": "string",
+                        "format": "H:i:s",
+                        "nullable": true
+                    },
+                    "session_length_total": {
+                        "type": "number",
+                        "format": "double",
+                        "nullable": true
+                    },
+                    "note_description": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "rendering_provider": {
+                        "type": "integer",
                         "nullable": true
                     },
                     "supervisor_id": {
@@ -3275,74 +3463,29 @@
                         "type": "string",
                         "nullable": true
                     },
-                    "supervisor_name": {
-                        "type": "integer",
-                        "nullable": true
-                    },
-                    "session_date": {
+                    "status": {
                         "type": "string",
-                        "format": "date-time",
-                        "nullable": true
+                        "default": "pending",
+                        "enum": [
+                            "pending",
+                            "ok",
+                            "no",
+                            "review"
+                        ]
                     },
-                    "time_in": {
-                        "type": "string",
-                        "format": "time",
-                        "nullable": true
-                    },
-                    "time_out": {
-                        "type": "string",
-                        "format": "time",
-                        "nullable": true
-                    },
-                    "time_in2": {
-                        "type": "string",
-                        "format": "time",
-                        "nullable": true
-                    },
-                    "time_out2": {
-                        "type": "string",
-                        "format": "time",
-                        "nullable": true
-                    },
-                    "session_length_total": {
-                        "type": "string",
-                        "format": "time",
-                        "nullable": true
-                    },
-                    "session_length_total2": {
-                        "type": "string",
-                        "format": "time",
-                        "nullable": true
-                    },
-                    "environmental_changes": {
-                        "type": "string",
-                        "nullable": true
-                    },
-                    "meet_with_client_at": {
+                    "summary_note": {
                         "type": "string",
                         "nullable": true
                     },
                     "billedbcba": {
                         "type": "boolean",
-                        "nullable": true
+                        "default": false
                     },
                     "paybcba": {
                         "type": "boolean",
-                        "nullable": true
-                    },
-                    "mdbcba": {
-                        "type": "string",
-                        "nullable": true
-                    },
-                    "md2bcba": {
-                        "type": "string",
-                        "nullable": true
+                        "default": false
                     },
                     "cpt_code": {
-                        "type": "string",
-                        "nullable": true
-                    },
-                    "status": {
                         "type": "string",
                         "nullable": true
                     },
@@ -3351,58 +3494,6 @@
                         "nullable": true
                     },
                     "pa_service_id": {
-                        "type": "integer",
-                        "nullable": true
-                    },
-                    "insuranceId": {
-                        "type": "string",
-                        "nullable": true
-                    },
-                    "provider": {
-                        "properties": {
-                            "id": {
-                                "type": "integer"
-                            },
-                            "name": {
-                                "type": "string"
-                            },
-                            "surname": {
-                                "type": "string"
-                            },
-                            "npi": {
-                                "type": "string"
-                            },
-                            "electronic_signature": {
-                                "type": "string"
-                            }
-                        },
-                        "type": "object"
-                    },
-                    "supervisor": {
-                        "properties": {
-                            "id": {
-                                "type": "integer"
-                            },
-                            "name": {
-                                "type": "string"
-                            },
-                            "surname": {
-                                "type": "string"
-                            },
-                            "npi": {
-                                "type": "string"
-                            },
-                            "electronic_signature": {
-                                "type": "string"
-                            }
-                        },
-                        "type": "object"
-                    },
-                    "total_minutes": {
-                        "type": "integer",
-                        "nullable": true
-                    },
-                    "total_units": {
                         "type": "integer",
                         "nullable": true
                     },
