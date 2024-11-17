@@ -162,6 +162,34 @@ class NoteBcbaTest extends TestCase
     }
 
     /**
+     * Test total units is calculated correctly
+     */
+    public function test_total_units_is_calculated_correctly()
+    {
+        $note = NoteBcba::factory()->create([
+            'patient_id' => $this->patient->id,
+            'cpt_code' => '97155',
+            'session_date' => '2024-01-15',
+            'time_in' => '09:00:00',
+            'time_out' => '11:00:00',
+            'time_in2' => null,
+            'time_out2' => null,
+        ]);
+        $note2 = NoteBcba::factory()->create([
+            'patient_id' => $this->patient->id,
+            'cpt_code' => '97155',
+            'session_date' => '2024-01-15',
+            'time_in' => '09:00:00',
+            'time_out' => '11:08:00',
+            'time_in2' => null,
+            'time_out2' => null,
+        ]);
+
+        $this->assertEquals(8, $note->total_units);
+        $this->assertEquals(9, $note2->total_units);
+    }
+
+    /**
      * Test BCBA note validation rules
      */
     public function test_note_bcba_validation_rules()

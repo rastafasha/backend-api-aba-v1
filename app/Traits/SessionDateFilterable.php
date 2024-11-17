@@ -4,7 +4,7 @@ namespace App\Traits;
 
 trait SessionDateFilterable
 {
-    public function scopeFilterByDateRange($query, $dateStart = null, $dateEnd = null)
+    public function scopeFilterBySessionDateRange($query, $dateStart = null, $dateEnd = null)
     {
         if ($dateStart && $dateEnd) {
             return $query->whereBetween('session_date', [$dateStart, $dateEnd]);

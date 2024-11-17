@@ -32,7 +32,7 @@ return [
 
     'claimmd' => [
         'url' => env('CLAIM_MD_URL', 'https://svc.claim.md/services/upload/'),
-        'account_key' => env('CLAIM_MD_ACCOUNT_KEY'),
+        'account_key' => env('CLAIM_MD_ACCOUNT_KEY', 'test-key'),
     ],
 
 ];

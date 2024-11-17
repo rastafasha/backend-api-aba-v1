@@ -109,7 +109,7 @@ class NoteBcbaV2Controller extends Controller
 
         // Get paginated results
         $perPage = $request->input('per_page', 15);
-        $notes = $query->filterByDateRange($request->date_start, $request->date_end)
+        $notes = $query->filterBySessionDateRange($request->date_start, $request->date_end)
             ->orderBy('created_at', 'desc')
             ->with(['patient', 'bip', 'location'])
             ->paginate($perPage);

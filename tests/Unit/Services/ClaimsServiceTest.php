@@ -2,14 +2,11 @@
 
 namespace Tests\Unit\Services;
 
-use App\Models\Claim;
 use App\Models\Insurance\Insurance;
 use App\Models\Notes\NoteBcba;
 use App\Models\Notes\NoteRbt;
 use App\Models\Patient\Patient;
-use App\Models\User;
 use App\Services\ClaimsService;
-use App\Services\EdiX12837Service;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 

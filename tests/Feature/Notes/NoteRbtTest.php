@@ -166,9 +166,38 @@ class NoteRbtTest extends TestCase
                     'replacements',
                     'interventions',
                     'created_at',
-                    'updated_at'
+                    'updated_at',
+                    'total_units',
                 ]
             ]);
+    }
+
+    /**
+     * Test total units is calculated correctly
+     */
+    public function test_total_units_is_calculated_correctly()
+    {
+        $note = NoteRbt::factory()->create([
+            'patient_id' => $this->patient->id,
+            'cpt_code' => '97153',
+            'session_date' => '2024-01-15',
+            'time_in' => '09:00:00',
+            'time_out' => '11:00:00',
+            'time_in2' => null,
+            'time_out2' => null,
+        ]);
+        $note2 = NoteRbt::factory()->create([
+            'patient_id' => $this->patient->id,
+            'cpt_code' => '97153',
+            'session_date' => '2024-01-15',
+            'time_in' => '09:00:00',
+            'time_out' => '11:08:00',
+            'time_in2' => null,
+            'time_out2' => null,
+        ]);
+
+        $this->assertEquals(8, $note->total_units);
+        $this->assertEquals(9, $note2->total_units);
     }
 
     public function test_note_rbt_validation_rules()
