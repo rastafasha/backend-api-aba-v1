@@ -32,6 +32,7 @@ class NoteRbtV2Controller extends Controller
      *     summary="Get paginated RBT notes",
      *     description="Retrieves a paginated list of RBT notes with optional filters",
      *     tags={"Admin/Notes"},
+     *     @OA\Parameter(name="include", in="query", description="Include related models (comma-separated). Options: patient, bip, location, provider, supervisor, doctor", required=false, @OA\Schema(type="string")),
      *     @OA\Parameter(
      *         name="patient_id",
      *         in="query",
@@ -125,11 +126,21 @@ class NoteRbtV2Controller extends Controller
             $query->where('location_id', $request->location_id);
         }
 
+        // Handle includes
+        $allowedIncludes = ['patient', 'bip', 'location', 'provider', 'supervisor', 'doctor'];
+        $includes = [];
+        if ($request->has('include')) {
+            $includes = array_filter(
+                explode(',', $request->input('include')),
+                fn($include) => in_array(trim($include), $allowedIncludes)
+            );
+        }
+
         // Get paginated results (15 per page by default)
         $perPage = $request->input('per_page', 15);
         $notes = $query->filterBySessionDateRange($request->date_start, $request->date_end)
             ->orderBy('created_at', 'desc')
-            ->with(['patient', 'bip', 'location'])
+            ->with($includes)
             ->paginate($perPage);
 
         return response()->json([
@@ -149,7 +160,7 @@ class NoteRbtV2Controller extends Controller
      *         @OA\JsonContent(
      *             required={"session_date", "patient_id", "doctor_id"},
      *             @OA\Property(property="session_date", type="string", format="date-time", example="2023-12-01T00:00:00Z"),
-     *             @OA\Property(property="patient_id", type="string"),
+     *             @OA\Property(property="patient_id", type="integer"),
      *             @OA\Property(property="doctor_id", type="integer"),
      *             @OA\Property(property="bip_id", type="integer"),
      *             @OA\Property(property="pos", type="string"),
@@ -229,6 +240,13 @@ class NoteRbtV2Controller extends Controller
      *         required=true,
      *         @OA\Schema(type="integer")
      *     ),
+     *     @OA\Parameter(
+     *         name="include",
+     *         in="query",
+     *         description="Include related models (comma-separated). Options: patient, bip, location, provider, supervisor, doctor",
+     *         required=false,
+     *         @OA\Schema(type="string")
+     *     ),
      *     @OA\Response(
      *         response=200,
      *         description="Successful operation",
@@ -253,10 +271,19 @@ class NoteRbtV2Controller extends Controller
      *     )
      * )
      */
-    public function show($id)
+    public function show(Request $request, $id)
     {
-        $note = NoteRbt::with(['patient', 'bip', 'location'])
-            ->find($id);
+        // Handle includes
+        $allowedIncludes = ['patient', 'bip', 'location', 'provider', 'supervisor', 'doctor'];
+        $includes = [];
+        if ($request->has('include')) {
+            $includes = array_filter(
+                explode(',', $request->input('include')),
+                fn($include) => in_array(trim($include), $allowedIncludes)
+            );
+        }
+
+        $note = NoteRbt::with($includes)->find($id);
 
         if (!$note) {
             return response()->json([
@@ -289,7 +316,7 @@ class NoteRbtV2Controller extends Controller
      *         @OA\JsonContent(
      *             required={"session_date", "patient_id", "doctor_id"},
      *             @OA\Property(property="session_date", type="string", format="date-time", example="2023-12-01T00:00:00Z"),
-     *             @OA\Property(property="patient_id", type="string"),
+     *             @OA\Property(property="patient_id", type="integer"),
      *             @OA\Property(property="doctor_id", type="integer"),
      *             @OA\Property(property="bip_id", type="integer"),
      *             @OA\Property(property="pos", type="string"),

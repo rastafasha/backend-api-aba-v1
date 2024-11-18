@@ -39,7 +39,7 @@ class NoteBcbaTest extends TestCase
     public function test_can_create_note_bcba()
     {
         $noteData = [
-            'patient_id' => $this->faker->uuid,
+            'patient_id' => $this->patient->id,
             'provider_id' => $this->provider->id,
             'supervisor_id' => $this->supervisor->id,
             'location_id' => $this->location->id,
@@ -79,13 +79,13 @@ class NoteBcbaTest extends TestCase
     public function test_can_update_note_bcba()
     {
         $note = NoteBcba::factory()->create([
-            'patient_id' => $this->faker->uuid,
+            'patient_id' => $this->patient->id,
             'provider_id' => $this->provider->id,
             'location_id' => $this->location->id
         ]);
 
         $updatedData = [
-            'patient_id' => $this->faker->uuid,
+            'patient_id' => $this->patient->id,
             'session_date' => $this->faker->date(),
             'note_description' => 'Updated note description',
             'status' => 'ok',

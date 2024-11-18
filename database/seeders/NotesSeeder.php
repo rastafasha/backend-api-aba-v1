@@ -12,15 +12,15 @@ class NotesSeeder extends Seeder
     public function run()
     {
         $notes = [
-            // Notes for Patient 1 (PAT001)
+            // Notes for Patient 1
             [
-                'patient_id' => 'PAT001',
+                'patient_id' => 1,
                 'insurance_id' => 1,
-                'doctor_id' => 3, // BCBA1
+                'doctor_id' => 3,
                 'bip_id' => 1,
-                'provider_id' => 5, // RBT1
-                'supervisor_name' => 3, // BCBA1
-                'supervisor_id' => 3, // BCBA1
+                'provider_id' => 5,
+                'supervisor_name' => 3,
+                'supervisor_id' => 3,
                 'pos' => '12',
                 'session_date' => Carbon::now()->subDays(5),
                 'time_in' => '09:00:00',
@@ -56,13 +56,13 @@ class NotesSeeder extends Seeder
                 'cpt_code' => '97153',
             ],
             [
-                'patient_id' => 'PAT001',
+                'patient_id' => 1,
                 'insurance_id' => 1,
-                'doctor_id' => 3, // BCBA1
+                'doctor_id' => 3,
                 'bip_id' => 1,
-                'provider_id' => 5, // RBT1
-                'supervisor_name' => 3, // BCBA1
-                'supervisor_id' => 3, // BCBA1
+                'provider_id' => 5,
+                'supervisor_name' => 3,
+                'supervisor_id' => 3,
                 'pos' => '12',
                 'session_date' => Carbon::now()->subDays(3),
                 'time_in' => '14:00:00',
@@ -98,15 +98,15 @@ class NotesSeeder extends Seeder
                 'cpt_code' => '97153',
             ],
 
-            // Notes for Patient 2 (PAT002)
+            // Notes for Patient 2
             [
-                'patient_id' => 'PAT002',
+                'patient_id' => 2,
                 'insurance_id' => 1,
-                'doctor_id' => 4, // BCBA2
+                'doctor_id' => 4,
                 'bip_id' => 2,
-                'provider_id' => 6, // RBT2
-                'supervisor_name' => 4, // BCBA2
-                'supervisor_id' => 4, // BCBA2
+                'provider_id' => 6,
+                'supervisor_name' => 4,
+                'supervisor_id' => 4,
                 'pos' => '12',
                 'session_date' => Carbon::now()->subDays(4),
                 'time_in' => '10:00:00',
@@ -142,13 +142,13 @@ class NotesSeeder extends Seeder
                 'cpt_code' => '97153',
             ],
             [
-                'patient_id' => 'PAT002',
+                'patient_id' => 2,
                 'insurance_id' => 1,
-                'doctor_id' => 4, // BCBA2
+                'doctor_id' => 4,
                 'bip_id' => 2,
-                'provider_id' => 6, // RBT2
-                'supervisor_name' => 4, // BCBA2
-                'supervisor_id' => 4, // BCBA2
+                'provider_id' => 6,
+                'supervisor_name' => 4,
+                'supervisor_id' => 4,
                 'pos' => '12',
                 'session_date' => Carbon::now()->subDays(2),
                 'time_in' => '13:00:00',
@@ -186,15 +186,14 @@ class NotesSeeder extends Seeder
         ];
 
         $bcba_notes = [
-            // BCBA Note for Patient 1 (PAT001)
+            // BCBA Note for Patient 1
             [
-                'patient_id' => 'PAT001',
+                'patient_id' => 1,
                 'insurance_id' => 2,
-                'doctor_id' => 3, // BCBA1
+                'doctor_id' => 3,
                 'bip_id' => 1,
-                'provider_id' => 3, // BCBA1 as provider
+                'provider_id' => 3,
                 'supervisor_id' => 3,
-                // 'supervisor_name' => 3,
                 'session_date' => Carbon::now()->subDays(4),
                 'time_in' => '13:00:00',
                 'time_out' => '14:00:00',
@@ -227,15 +226,14 @@ class NotesSeeder extends Seeder
                 'cpt_code' => '97155',
             ],
 
-            // BCBA Note for Patient 2 (PAT002)
+            // BCBA Note for Patient 2
             [
-                'patient_id' => 'PAT002',
+                'patient_id' => 2,
                 'insurance_id' => 2,
-                'doctor_id' => 4, // BCBA2
+                'doctor_id' => 4,
                 'bip_id' => 1,
-                'provider_id' => 4, // BCBA2 as provider
+                'provider_id' => 4,
                 'supervisor_id' => 4,
-                // 'supervisor_name' => 4,
                 'session_date' => Carbon::now()->subDays(3),
                 'time_in' => '15:00:00',
                 'time_out' => '16:00:00',

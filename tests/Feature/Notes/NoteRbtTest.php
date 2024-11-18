@@ -38,7 +38,7 @@ class NoteRbtTest extends TestCase
     public function test_can_create_note_rbt()
     {
         $noteData = [
-            'patient_id' => $this->faker->uuid,
+            'patient_id' => $this->patient->id,
             'provider_id' => $this->provider->id,
             'supervisor_id' => $this->supervisor->id,
             'doctor_id' => $this->doctor->id,
@@ -87,13 +87,13 @@ class NoteRbtTest extends TestCase
     public function test_can_update_note_rbt()
     {
         $note = NoteRbt::factory()->create([
-            'patient_id' => $this->faker->uuid,
+            'patient_id' => $this->patient->id,
             'provider_id' => $this->provider->id,
             'location_id' => $this->location->id,
         ]);
 
         $updatedData = [
-            'patient_id' => $this->faker->uuid,
+            'patient_id' => $this->patient->id,
             'session_date' => $this->faker->date(),
             'doctor_id' => $this->doctor->id,
             'supervisor_id' => $this->supervisor->id,

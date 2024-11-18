@@ -11,7 +11,7 @@ class CreateNoteBcbasTable extends Migration
         Schema::create('note_bcbas', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->foreignId('doctor_id')->nullable()->constrained('users')->nullOnDelete();
-            $table->string('patient_id')->nullable();
+            $table->foreignId('patient_id')->nullable()->constrained('patients')->nullOnDelete();
             $table->foreignId('insurance_id')->nullable()->constrained('insurances')->nullOnDelete();
             $table->foreignId('bip_id')->nullable()->constrained('bips')->nullOnDelete();
             $table->string('diagnosis_code', 50)->nullable();

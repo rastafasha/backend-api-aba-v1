@@ -18,7 +18,7 @@ class NoteRbtFactory extends Factory
         $isMorningSession = $this->faker->boolean;
 
         return [
-            'patient_id' => $this->faker->uuid,
+            'patient_id' => \App\Models\Patient\Patient::factory(),
             'provider_id' => User::factory(),
             'supervisor_id' => User::factory(),
             'doctor_id' => User::factory(),

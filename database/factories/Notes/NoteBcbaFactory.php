@@ -21,7 +21,7 @@ class NoteBcbaFactory extends Factory
 
         return [
             'insurance_id' => Insurance::factory(),
-            'patient_id' => $this->faker->uuid,
+            'patient_id' => \App\Models\Patient\Patient::factory(),
             'doctor_id' => User::factory(),
             'bip_id' => Bip::factory(),
             'diagnosis_code' => $this->faker->regexify('[A-Z]{1}[0-9]{2}.[0-9]{1}'),

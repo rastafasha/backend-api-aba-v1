@@ -67,7 +67,7 @@ class ClaimsServiceTest extends TestCase
     {
         // Create RBT notes with morning session (2 hours = 8 units)
         $rbtNote = NoteRbt::factory()->create([
-            'patient_id' => $this->patient->patient_id,
+            'patient_id' => $this->patient->id,
             'cpt_code' => '97153',
             'session_date' => '2024-01-15',
             'time_in' => '09:00:00',
@@ -87,7 +87,7 @@ class ClaimsServiceTest extends TestCase
 
         // Assert content contains expected data
         $this->assertStringContainsString('97153', $content);
-        $this->assertStringContainsString($this->patient->patient_id, $content);
+        $this->assertStringContainsString($this->patient->id, $content);
         $this->assertStringContainsString($this->insurance->payer_id, $content);
     }
 
@@ -96,7 +96,7 @@ class ClaimsServiceTest extends TestCase
     {
         // Create BCBA note with morning session (1 hour = 4 units)
         $bcbaNote = NoteBcba::factory()->create([
-            'patient_id' => $this->patient->patient_id,
+            'patient_id' => $this->patient->id,
             'cpt_code' => '97155',
             'session_date' => '2024-01-15',
             'time_in' => '09:00:00',
@@ -116,7 +116,7 @@ class ClaimsServiceTest extends TestCase
 
         // Assert content contains expected data
         $this->assertStringContainsString('97155', $content);
-        $this->assertStringContainsString($this->patient->patient_id, $content);
+        $this->assertStringContainsString($this->patient->id, $content);
         $this->assertStringContainsString($this->insurance->payer_id, $content);
     }
 
@@ -125,7 +125,7 @@ class ClaimsServiceTest extends TestCase
     {
         // Create RBT note (2 hours = 8 units)
         $rbtNote = NoteRbt::factory()->create([
-            'patient_id' => $this->patient->patient_id,
+            'patient_id' => $this->patient->id,
             'cpt_code' => '97153',
             'session_date' => '2024-01-15',
             'time_in' => '09:00:00',
@@ -136,7 +136,7 @@ class ClaimsServiceTest extends TestCase
 
         // Create RBT note 2 (1 hour = 4 units)
         $rbtNote2 = NoteRbt::factory()->create([
-            'patient_id' => $this->patient->patient_id,
+            'patient_id' => $this->patient->id,
             'cpt_code' => '97153',
             'session_date' => '2024-01-15',
             'time_in' => '13:00:00',
@@ -160,7 +160,7 @@ class ClaimsServiceTest extends TestCase
     {
         // Create RBT note with split session
         $rbtNote = NoteRbt::factory()->create([
-            'patient_id' => $this->patient->patient_id,
+            'patient_id' => $this->patient->id,
             'cpt_code' => '97153',
             'session_date' => '2024-01-15',
             'time_in' => '09:00:00',
@@ -171,7 +171,7 @@ class ClaimsServiceTest extends TestCase
 
         // Create BCBA note with split session
         $bcbaNote = NoteBcba::factory()->create([
-            'patient_id' => $this->patient->patient_id,
+            'patient_id' => $this->patient->id,
             'cpt_code' => '97155',
             'session_date' => '2024-01-15',
             'time_in' => '11:00:00',

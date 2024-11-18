@@ -11,7 +11,7 @@ class CreateNoteRbtsTable extends Migration
         Schema::create('note_rbts', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->foreignId('doctor_id')->nullable()->constrained('users')->nullOnDelete();
-            $table->string('patient_id')->nullable();
+            $table->foreignId('patient_id')->nullable()->constrained('users')->nullOnDelete();
             $table->foreignId('bip_id')->nullable()->constrained('bips')->nullOnDelete();
             $table->foreignId('insurance_id')->nullable()->constrained('insurances')->nullOnDelete();
             $table->string('pos')->nullable();

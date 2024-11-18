@@ -15,7 +15,7 @@ class NoteBcbaRequest extends FormRequest
     {
         return [
             'insurance_id' => 'nullable|exists:insurances,id',
-            'patient_id' => 'required|string',
+            'patient_id' => 'required|exists:patients,id',
             'doctor_id' => 'nullable|exists:users,id',
             'bip_id' => 'nullable|exists:bips,id',
             'diagnosis_code' => 'nullable|string|max:50',

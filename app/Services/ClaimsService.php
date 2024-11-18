@@ -38,7 +38,7 @@ class ClaimsService
 
         // Process RBT notes
         foreach ($rbtNotesByPatient as $patientId => $notes) {
-            $patient = Patient::where('patient_id', $patientId)->first();
+            $patient = Patient::where('id', $patientId)->first();
             if (!$patient) {
                 continue;
             }
@@ -57,7 +57,7 @@ class ClaimsService
 
         // Process BCBA notes
         foreach ($bcbaNotesByPatient as $patientId => $notes) {
-            $patient = Patient::where('patient_id', $patientId)->first();
+            $patient = Patient::where('id', $patientId)->first();
             if (!$patient) {
                 continue;
             }
@@ -182,7 +182,7 @@ class ClaimsService
         foreach ($notesRbt as $note) {
             $noteData = $this->getClaimDataFromRbtNote($note);
             $service = array_values(array_filter($services, function ($service) use ($noteData) {
-                        return $service['code'] == $noteData['cpt_codes'];
+                return $service['code'] == $noteData['cpt_codes'];
             }));
             if (!$service) {
                 continue;
@@ -206,7 +206,7 @@ class ClaimsService
         foreach ($notesBcba as $note) {
             $noteData = $this->getClaimDataFromBcbaNote($note);
             $service = array_values(array_filter($services, function ($service) use ($noteData) {
-                        return $service['code'] == $noteData['cpt_codes'];
+                return $service['code'] == $noteData['cpt_codes'];
             }));
             if (!$service) {
                 continue;
