@@ -9,7 +9,8 @@ use Illuminate\Foundation\Testing\WithFaker;
 
 class LocationTest extends TestCase
 {
-    use RefreshDatabase, WithFaker;
+    use RefreshDatabase;
+    use WithFaker;
 
     /**
      * Test creating a new location

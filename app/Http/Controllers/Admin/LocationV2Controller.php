@@ -81,13 +81,13 @@ class LocationV2Controller extends Controller
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(
-     *             required={"title"},
-     *             @OA\Property(property="title", type="string", required=true),
+     *             required={"title", "city", "state"},
+     *             @OA\Property(property="title", type="string"),
      *             @OA\Property(property="address", type="string"),
      *             @OA\Property(property="phone1", type="string"),
      *             @OA\Property(property="phone2", type="string"),
-     *             @OA\Property(property="city", type="string", required=true),
-     *             @OA\Property(property="state", type="string", required=true),
+     *             @OA\Property(property="city", type="string"),
+     *             @OA\Property(property="state", type="string"),
      *             @OA\Property(property="zip", type="string"),
      *             @OA\Property(property="email", type="string"),
      *             @OA\Property(property="telfax", type="string")
