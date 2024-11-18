@@ -51,7 +51,7 @@ class OpenAIController extends Controller
      * @OA\Post(
      *     path="/api/note_rbt/generate-summary",
      *     summary="Generate RBT session summary",
-     *     tags={"Notes"},
+     *     tags={"AI"},
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(
@@ -203,7 +203,7 @@ class OpenAIController extends Controller
      * @OA\Post(
      *     path="/api/note_bcba/generate-summary",
      *     summary="Generate BCBA supervision summary",
-     *     tags={"Notes"},
+     *     tags={"AI"},
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(

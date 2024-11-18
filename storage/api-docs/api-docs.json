@@ -2705,7 +2705,7 @@
         "/api/note_rbt/generate-summary": {
             "post": {
                 "tags": [
-                    "Notes"
+                    "AI"
                 ],
                 "summary": "Generate RBT session summary",
                 "operationId": "e0203046609ba84db2b55d9f54ce474e",
@@ -2840,7 +2840,7 @@
         "/api/note_bcba/generate-summary": {
             "post": {
                 "tags": [
-                    "Notes"
+                    "AI"
                 ],
                 "summary": "Generate BCBA supervision summary",
                 "operationId": "ccaaf40c473232b17700215ee48d8ae7",
@@ -4740,8 +4740,8 @@
             "description": "Claims"
         },
         {
-            "name": "Notes",
-            "description": "Notes"
+            "name": "AI",
+            "description": "AI"
         },
         {
             "name": "Admin/Patients",
