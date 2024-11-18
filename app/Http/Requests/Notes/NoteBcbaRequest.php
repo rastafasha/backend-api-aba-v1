@@ -19,7 +19,6 @@ class NoteBcbaRequest extends FormRequest
             'doctor_id' => 'nullable|exists:users,id',
             'bip_id' => 'nullable|exists:bips,id',
             'diagnosis_code' => 'nullable|string|max:50',
-            'location' => 'nullable|string|max:50',
             'summary_note' => 'nullable|string',
             'note_description' => 'nullable|string',
 
