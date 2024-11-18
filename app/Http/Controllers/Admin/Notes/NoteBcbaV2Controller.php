@@ -32,7 +32,13 @@ class NoteBcbaV2Controller extends Controller
      *     summary="Get paginated BCBA notes",
      *     description="Retrieves a paginated list of BCBA notes with optional filters",
      *     tags={"Admin/Notes"},
-     *     @OA\Parameter(name="include", in="query", description="Include related models (comma-separated). Options: patient, bip, location, provider, supervisor, doctor", required=false, @OA\Schema(type="string")),
+     *     @OA\Parameter(
+     *         name="include",
+     *         in="query",
+     *         description="Include related models (comma-separated). Options: patient, bip, location, provider, supervisor, doctor",
+     *         required=false,
+     *         @OA\Schema(type="string")
+     *     ),
      *     @OA\Parameter(
      *         name="patient_id",
      *         in="query",
