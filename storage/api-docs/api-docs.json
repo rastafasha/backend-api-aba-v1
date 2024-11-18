@@ -824,6 +824,15 @@
                 "operationId": "77cb7895f09db2d25e17e95a758f14a8",
                 "parameters": [
                     {
+                        "name": "include",
+                        "in": "query",
+                        "description": "Include related models (comma-separated). Options: patient, bip, location, provider, supervisor, doctor",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
                         "name": "patient_id",
                         "in": "query",
                         "description": "Filter by patient ID",
@@ -924,7 +933,7 @@
                                         "type": "integer"
                                     },
                                     "patient_id": {
-                                        "type": "string"
+                                        "type": "integer"
                                     },
                                     "doctor_id": {
                                         "type": "integer"
@@ -1068,6 +1077,15 @@
                         "schema": {
                             "type": "integer"
                         }
+                    },
+                    {
+                        "name": "include",
+                        "in": "query",
+                        "description": "Include related models (comma-separated). Options: patient, bip, location, provider, supervisor, doctor",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
                     }
                 ],
                 "responses": {
@@ -1195,6 +1213,15 @@
                 "operationId": "0e451d24e5a9659f9a5e2e506f2ce081",
                 "parameters": [
                     {
+                        "name": "include",
+                        "in": "query",
+                        "description": "Include related models (comma-separated). Options: patient, bip, location, provider, supervisor, doctor",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
                         "name": "patient_id",
                         "in": "query",
                         "description": "Filter by patient ID",
@@ -1316,7 +1343,7 @@
                                         "example": "2023-12-01T00:00:00Z"
                                     },
                                     "patient_id": {
-                                        "type": "string"
+                                        "type": "integer"
                                     },
                                     "doctor_id": {
                                         "type": "integer"
@@ -1499,6 +1526,15 @@
                         "schema": {
                             "type": "integer"
                         }
+                    },
+                    {
+                        "name": "include",
+                        "in": "query",
+                        "description": "Include related models (comma-separated). Options: patient, bip, location, provider, supervisor, doctor",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
                     }
                 ],
                 "responses": {
@@ -1578,7 +1614,7 @@
                                         "example": "2023-12-01T00:00:00Z"
                                     },
                                     "patient_id": {
-                                        "type": "string"
+                                        "type": "integer"
                                     },
                                     "doctor_id": {
                                         "type": "integer"
