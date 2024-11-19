@@ -1,8 +1,8 @@
 <?php
+
 namespace Database\Seeders;
 
 use App\Models\User;
-use App\Models\UserLocation;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 
@@ -18,9 +18,10 @@ class UserSeeder extends Seeder
             'status' => 'active',
             'email_verified_at' => now(),
             'gender' => 1,
+            'location_id' => 1,
         ]);
         $oldSuperadmin->assignRole('SUPERADMIN');
-        
+
         // Create superadmin
         $superadmin = User::create([
             'name' => 'Super Admin',
@@ -29,6 +30,7 @@ class UserSeeder extends Seeder
             'status' => 'active',
             'email_verified_at' => now(),
             'gender' => 1,
+            'location_id' => 1,
         ]);
         $superadmin->assignRole('SUPERADMIN');
 
@@ -42,6 +44,7 @@ class UserSeeder extends Seeder
             'gender' => 1,
             'email_verified_at' => now(),
             'electronic_signature' => 'signatures/example.png',
+            'location_id' => 1,
         ]);
         $manager->assignRole('MANAGER');
 
@@ -57,6 +60,7 @@ class UserSeeder extends Seeder
             'npi' => '1234567890',
             'certificate_number' => 'BCBA12345',
             'electronic_signature' => 'signatures/example.png',
+            'location_id' => 1,
         ]);
         $bcba1->assignRole('BCBA');
 
@@ -71,6 +75,7 @@ class UserSeeder extends Seeder
             'npi' => '1234567891',
             'certificate_number' => 'BCBA12346',
             'electronic_signature' => 'signatures/example.png',
+            'location_id' => 1,
         ]);
         $bcba2->assignRole('BCBA');
 
@@ -85,6 +90,7 @@ class UserSeeder extends Seeder
             'phone' => '1234567892',
             'certificate_number' => 'RBT12345',
             'electronic_signature' => 'signatures/example.png',
+            'location_id' => 1,
         ]);
         $rbt1->assignRole('RBT');
 
@@ -98,15 +104,8 @@ class UserSeeder extends Seeder
             'phone' => '1234567893',
             'certificate_number' => 'RBT12346',
             'electronic_signature' => 'signatures/example.png',
+            'location_id' => 1,
         ]);
         $rbt2->assignRole('RBT');
-
-        // Assign users to locations
-        foreach (User::all() as $user) {
-            UserLocation::create([
-                'user_id' => $user->id,
-                'location_id' => 1 // Main office
-            ]);
-        }
     }
 }

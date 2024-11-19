@@ -190,4 +190,11 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->belongsToMany(Location::class, 'user_locations');
     }
+
+    public function scopeRole($query, $role)
+    {
+        return $query->whereHas('roles', function ($query) use ($role) {
+            $query->where('name', $role);
+        });
+    }
 }

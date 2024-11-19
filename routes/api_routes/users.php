@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\AdminUserController;
 use App\Http\Controllers\Admin\AdminUserSoftDeletesController;
+use App\Http\Controllers\UserV2Controller;
 
 //Admin Usuarios
 Route::get('/users', [AdminUserController::class, 'index'])
@@ -38,3 +39,10 @@ Route::put('/user/delete/restore/{id}', [AdminUserSoftDeletesController::class, 
 
 Route::delete('/user/destroy/force/{id}', [AdminUserSoftDeletesController::class, 'userDeleteforce'])
     ->name('user.delete.force');
+
+
+// V2 routes
+Route::prefix('v2/users')->group(function () {
+    Route::get('/', [UserV2Controller::class, 'index']);
+    Route::get('/{id}', [UserV2Controller::class, 'show']);
+});
