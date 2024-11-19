@@ -50,26 +50,47 @@ class BipResource extends JsonResource
             "strengths"=>$this->resource->strengths,
             "weakneses"=>$this->resource->weakneses,
             
-            'documents_reviewed'=>$this->resource->documents_reviewed ?: NULL,
-            'maladaptives'=> json_decode($this->resource-> maladaptives )?: NULL,
-            "assestment_conducted_options"=>json_decode($this->resource-> assestment_conducted_options) ?: NULL,
-            "assestmentEvaluationSettings"=>json_decode($this->resource-> assestmentEvaluationSettings) ?: NULL,
-            "prevalent_setting_event_and_atecedents"=>json_decode($this->resource-> prevalent_setting_event_and_atecedents) ?: NULL,
-            "interventions"=>json_decode($this->resource-> interventions) ?: NULL,
-            "goal_stos"=>json_decode($this->resource->goal_stos) ?: NULL,
-            "goal_ltos"=>json_decode($this->resource->goal_ltos) ?: NULL,
-            
-            
-            "hypothesis_based_intervention"=>$this->resource->hypothesis_based_intervention ,
-            
-            "tangibles"=>json_decode($this->resource->tangibles) ?: NULL,
-            "attention"=>json_decode($this->resource->attention) ?: NULL,
-            "escape"=>json_decode($this->resource->escape) ?: NULL,
-            "sensory"=>json_decode($this->resource->sensory) ?: NULL,
-            
-            "phiysical_and_medical"=>$this->resource->phiysical_and_medical,
-            "phiysical_and_medical_status"=>json_decode($this->resource->phiysical_and_medical_status) ?: NULL,
-
+            'documents_reviewed' =>
+            is_string($this->resource->documents_reviewed)
+                ? json_decode($this->resource->documents_reviewed) : $this->resource->documents_reviewed,
+            'maladaptives' =>
+            is_string($this->resource->maladaptive)
+                ? json_decode($this->resource->maladaptives) : $this->resource->maladaptive,
+            "assestment_conducted_options" =>
+            is_string($this->resource->assestment_conducted_options)
+                ? json_decode($this->resource->assestment_conducted_options) : $this->resource->assestment_conducted_options,
+            "assestmentEvaluationSettings" =>
+            is_string($this->resource->assestmentEvaluationSettings)
+                ? json_decode($this->resource->assestmentEvaluationSettings) : $this->resource->assestmentEvaluationSettings,
+            "prevalent_setting_event_and_atecedents" =>
+            is_string($this->resource->prevalent_setting_event_and_atecedents)
+                ? json_decode($this->resource->prevalent_setting_event_and_atecedents) : $this->resource->prevalent_setting_event_and_atecedents,
+            "interventions" =>
+            is_string($this->resource->interventions)
+                ? json_decode($this->resource->interventions) : $this->resource->interventions,
+            "goal_stos" =>
+            is_string($this->resource->goal_stos)
+                ? json_decode($this->resource->goal_stos) : $this->resource->goal_stos,
+            "goal_ltos" =>
+            is_string($this->resource->goal_ltos)
+                ? json_decode($this->resource->goal_ltos) : $this->resource->goal_ltos,
+            "hypothesis_based_intervention" => $this->resource->hypothesis_based_intervention,
+            "tangibles" =>
+            is_string($this->resource->tangibles)
+                ? json_decode($this->resource->tangibles) : $this->resource->tangibles,
+            "attention" =>
+            is_string($this->resource->attention)
+                ? json_decode($this->resource->attention) : $this->resource->attention,
+            "escape" =>
+            is_string($this->resource->escape)
+                ? json_decode($this->resource->escape) : $this->resource->escape,
+            "sensory" =>
+            is_string($this->resource->sensory)
+                ? json_decode($this->resource->sensory) : $this->resource->sensory,
+            "phiysical_and_medical" => $this->resource->phiysical_and_medical,
+            "phiysical_and_medical_status" =>
+            is_string($this->resource->phiysical_and_medical_status)
+                ? json_decode($this->resource->phiysical_and_medical_status) : $this->resource->phiysical_and_medical_status,
             "reduction_goal"=>$this->resource->reduction_goals ,
             "sustitution_goal"=>$this->resource->sustitution_goals , 
                 

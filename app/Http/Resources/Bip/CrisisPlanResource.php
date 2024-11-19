@@ -18,7 +18,6 @@ class CrisisPlanResource extends JsonResource
         return [
             "id"=>$this->resource->id,
             "patient_id"=>$this->resource->patient_id,
-            "client_id"=>$this->resource->client_id,
             "bip_id"=>$this->resource->bip_id,
             "crisis_description"=>$this->resource->crisis_description,
             "crisis_note"=>$this->resource->crisis_note,

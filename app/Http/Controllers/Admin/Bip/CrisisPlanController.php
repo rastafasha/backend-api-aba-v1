@@ -68,7 +68,7 @@ class CrisisPlanController extends Controller
 
         return response()->json([
             "crisiPlan" => $crisiPlan,
-            "client_id" => $client_id,
+            // "client_id" => $client_id,
             "risk_factors"=>json_decode($crisiPlan-> risk_factors),
             "suicidalities"=>json_decode($crisiPlan-> suicidalities),
             "homicidalities"=>json_decode($crisiPlan-> homicidalities),

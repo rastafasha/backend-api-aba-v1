@@ -17,7 +17,6 @@ class CrisisPlan extends Model
     protected $fillable = [
         'bip_id',
         'patient_id',
-        'client_id',
         'crisis_description',
         'crisis_note',
         'caregiver_requirements_for_prevention_of_crisis',

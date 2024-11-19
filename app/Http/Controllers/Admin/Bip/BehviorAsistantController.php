@@ -64,7 +64,7 @@ class BehviorAsistantController extends Controller
 
         return response()->json([
             "behaviorAsistant" => $behaviorAsistant,
-            "client_id" => $client_id,
+            // "client_id" => $client_id,
             "behavior_assistant_work_schedule"=>json_decode($behaviorAsistant-> behavior_assistant_work_schedule),
             
         ]);
