@@ -12,4 +12,3 @@ Route::get('deescalationtechnique/showgbyPatientId/{patient_id}', [DeEscalationT
 Route::post('deescalationtechnique/store', [DeEscalationTechniqueController::class, 'store'])->name('store');
 Route::post('deescalationtechnique/update/{goal}', [DeEscalationTechniqueController::class, 'update'])->name('update');
 Route::delete('deescalationtechnique/destroy/{id}', [DeEscalationTechniqueController::class, 'destroy'])->name('destroy');
-

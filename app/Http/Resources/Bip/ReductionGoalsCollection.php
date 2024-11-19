@@ -15,7 +15,7 @@ class ReductionGoalsCollection extends ResourceCollection
     public function toArray($request)
     {
         return [
-            "data"=> ReductionGoalsResource::collection($this->collection)
+            "data" => ReductionGoalsResource::collection($this->collection)
         ];
     }
 }

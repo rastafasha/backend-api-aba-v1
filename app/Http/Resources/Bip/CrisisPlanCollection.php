@@ -15,7 +15,7 @@ class CrisisPlanCollection extends ResourceCollection
     public function toArray($request)
     {
         return [
-            "data"=> CrisisPlanResource::collection($this->collection)
+            "data" => CrisisPlanResource::collection($this->collection)
         ];
     }
 }

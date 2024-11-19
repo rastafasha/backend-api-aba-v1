@@ -13,7 +13,7 @@ class ReductionGoal extends Model
     use HasFactory;
     use SoftDeletes;
 
-    protected $fillable =[
+    protected $fillable = [
         'bip_id',
         'patient_id',
         'client_id',
@@ -30,10 +30,10 @@ class ReductionGoal extends Model
     }
     public function patient()
     {
-        return $this->hasMany(Patient::class,'patient_id');
+        return $this->hasMany(Patient::class, 'patient_id');
     }
     public function client()
     {
-        return $this->hasMany(Patient::class,'client_id');
+        return $this->hasMany(Patient::class, 'client_id');
     }
 }

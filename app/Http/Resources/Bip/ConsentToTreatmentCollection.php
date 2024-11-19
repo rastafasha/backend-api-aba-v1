@@ -15,7 +15,7 @@ class ConsentToTreatmentCollection extends ResourceCollection
     public function toArray($request)
     {
         return [
-            "data"=> ConsentToTreatmentResource::collection($this->collection)
+            "data" => ConsentToTreatmentResource::collection($this->collection)
         ];
     }
 }

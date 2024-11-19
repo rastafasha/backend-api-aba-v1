@@ -15,7 +15,7 @@ class GeneralizationTrainingCollection extends ResourceCollection
     public function toArray($request)
     {
         return [
-            "data"=> GeneralizationTrainingResource::collection($this->collection)
+            "data" => GeneralizationTrainingResource::collection($this->collection)
         ];
     }
 }

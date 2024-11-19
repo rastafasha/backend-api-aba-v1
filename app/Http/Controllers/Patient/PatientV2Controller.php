@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Patient;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\Patient\PatientResource;
 use App\Models\Patient\Patient;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -33,6 +32,7 @@ class PatientV2Controller extends Controller
      *     summary="Get paginated patients list",
      *     description="Retrieves a paginated list of patients with optional filters",
      *     tags={"Admin/Patients"},
+     *     @OA\Parameter(name="include", in="query", description="Include related models (comma-separated). Options: insurance", required=false, @OA\Schema(type="string")),
      *     @OA\Parameter(name="search", in="query", description="Search in first name, last name and email", required=false, @OA\Schema(type="string")),
      *     @OA\Parameter(name="patient_id", in="query", description="Filter by patient ID", required=false, @OA\Schema(type="string")),
      *     @OA\Parameter(name="status", in="query", description="Filter by status", required=false, @OA\Schema(type="string")),
@@ -55,6 +55,13 @@ class PatientV2Controller extends Controller
     public function index(Request $request)
     {
         $query = Patient::query();
+
+        if ($request->has('include')) {
+            $includes = explode(',', $request->include);
+            if (in_array('insurance', $includes)) {
+                $query->with('insurances');
+            }
+        }
 
         // Search in name and email
         if ($request->has('search')) {
@@ -219,7 +226,7 @@ class PatientV2Controller extends Controller
         return response()->json([
             'status' => 'success',
             'message' => 'Patient updated successfully',
-            'data' => PatientResource::make($patient->fresh())
+            'data' => $patient
         ]);
     }
 
@@ -269,7 +276,7 @@ class PatientV2Controller extends Controller
             'last_name' => 'required|string|max:250',
             'email' => 'nullable|email|max:250',
             'phone' => 'nullable|string|max:25',
-            'patient_id' => $id ? 'nullable|string|unique:patients,patient_id,'.$id : 'nullable|string|unique:patients',
+            'patient_id' => $id ? 'nullable|string|unique:patients,patient_id,' . $id : 'nullable|string|unique:patients',
             'birth_date' => 'nullable|date|before:today',
             'gender' => 'required|integer|in:1,2',
             // 'age' => 'nullable|string|max:50',

@@ -3,6 +3,7 @@
 namespace App\Models\Insurance;
 
 use App\Models\Patient\Patient;
+use App\Traits\LocationFilterable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -10,7 +11,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 /**
  * @OA\Schema(
  *     schema="Insurance",
- *     required={"insurer_name"},
+ *     required={"name"},
  *     @OA\Property(
  *         property="id",
  *         type="integer",
@@ -19,7 +20,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  *         example=1
  *     ),
  *     @OA\Property(
- *         property="insurer_name",
+ *         property="name",
  *         type="string",
  *         description="Name of the insurance company",
  *         example="Blue Cross Blue Shield"
@@ -109,10 +110,12 @@ class Insurance extends Model
 {
     use HasFactory;
     use SoftDeletes;
-    protected $fillable=[
-        'insurer_name',
+    use LocationFilterable;
+
+    protected $fillable = [
+        'name',
         'services', //Codes, provider, description, unit prize, Hourly Fee, max_allowed
-        'notes',//description
+        'notes', //description
         'payer_id', //payer code, used for EDI X12
         'street',
         'street2',
@@ -126,12 +129,13 @@ class Insurance extends Model
         'notes' => 'json',
     ];
 
-    public function scopefilterAdvanceInsurance($query,
-    $insurer_name
-    ){
+    public function scopefilterAdvanceInsurance(
+        $query,
+        $name
+    ) {
 
-        if($insurer_name){
-            $query->where("insurer_name", $insurer_name);
+        if ($name) {
+            $query->where("name", $name);
         }
 
         return $query;
@@ -142,6 +146,4 @@ class Insurance extends Model
     {
         return $this->hasMany(Patient::class);
     }
-
-
 }

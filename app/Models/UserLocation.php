@@ -12,11 +12,8 @@ class UserLocation extends Model
     protected $table = 'user_locations';
     public $timestamps = false;
 
-    protected $fillable=[
+    protected $fillable = [
         'user_id',
         'location_id'
     ];
-
-   
-
 }

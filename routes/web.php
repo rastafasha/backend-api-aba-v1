@@ -18,7 +18,3 @@ use Illuminate\Support\Facades\Gate;
 Route::get('/', function (User $user) {
     return view('welcome');
 });
-
-
-
-

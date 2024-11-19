@@ -1,6 +1,8 @@
 <?php
+
 namespace Database\Seeders;
 
+use App\Models\Notes\NoteBcba;
 use Carbon\Carbon;
 use App\Models\Notes\NoteRbt;
 use Illuminate\Database\Seeder;
@@ -10,14 +12,15 @@ class NotesSeeder extends Seeder
     public function run()
     {
         $notes = [
-            // Notes for Patient 1 (PAT001)
+            // Notes for Patient 1
             [
-                'patient_id' => 'PAT001',
-                'doctor_id' => 3, // BCBA1
+                'patient_id' => 1,
+                'insurance_id' => 1,
+                'doctor_id' => 3,
                 'bip_id' => 1,
-                'provider_id' => 5, // RBT1
-                'supervisor_name' => 3, // BCBA1
-                'supervisor_id' => 3, // BCBA1
+                'provider_id' => 5,
+                'supervisor_name' => 3,
+                'supervisor_id' => 3,
                 'pos' => '12',
                 'session_date' => Carbon::now()->subDays(5),
                 'time_in' => '09:00:00',
@@ -48,16 +51,18 @@ class NotesSeeder extends Seeder
                 'provider_credential' => 'RBT',
                 'supervisor_signature' => 'Sarah BCBA',
                 'status' => 'ok',
+                'summary_note' => 'Patient demonstrated improved task engagement. Token economy system is proving effective.',
                 'location_id' => 1,
                 'cpt_code' => '97153',
             ],
             [
-                'patient_id' => 'PAT001',
-                'doctor_id' => 3, // BCBA1
+                'patient_id' => 1,
+                'insurance_id' => 1,
+                'doctor_id' => 3,
                 'bip_id' => 1,
-                'provider_id' => 5, // RBT1
-                'supervisor_name' => 3, // BCBA1
-                'supervisor_id' => 3, // BCBA1
+                'provider_id' => 5,
+                'supervisor_name' => 3,
+                'supervisor_id' => 3,
                 'pos' => '12',
                 'session_date' => Carbon::now()->subDays(3),
                 'time_in' => '14:00:00',
@@ -88,33 +93,35 @@ class NotesSeeder extends Seeder
                 'provider_credential' => 'RBT',
                 'supervisor_signature' => 'Sarah BCBA',
                 'status' => 'ok',
+                'summary_note' => 'Client demonstrates improved task engagement. Token economy system is proving effective.',
                 'location_id' => 1,
                 'cpt_code' => '97153',
             ],
 
-            // Notes for Patient 2 (PAT002)
+            // Notes for Patient 2
             [
-                'patient_id' => 'PAT002',
-                'doctor_id' => 4, // BCBA2
+                'patient_id' => 2,
+                'insurance_id' => 1,
+                'doctor_id' => 4,
                 'bip_id' => 2,
-                'provider_id' => 6, // RBT2
-                'supervisor_name' => 4, // BCBA2
-                'supervisor_id' => 4, // BCBA2
+                'provider_id' => 6,
+                'supervisor_name' => 4,
+                'supervisor_id' => 4,
                 'pos' => '12',
                 'session_date' => Carbon::now()->subDays(4),
                 'time_in' => '10:00:00',
                 'time_out' => '12:00:00',
                 'session_length_total' => 2.0,
                 'environmental_changes' => 'Structured environment',
-                'maladaptives' =>[
+                'maladaptives' => [
                     'self_stimming' => 4,
                     'avoidance' => 2
                 ],
-                'replacements' =>[
+                'replacements' => [
                     'task_completion' => 5,
                     'social_interaction' => 3
                 ],
-                'interventions' =>[
+                'interventions' => [
                     'positive_reinforcement' => true,
                     'token_economy' => true,
                     'visual_schedules' => true
@@ -130,16 +137,18 @@ class NotesSeeder extends Seeder
                 'provider_credential' => 'RBT',
                 'supervisor_signature' => 'Mike BCBA',
                 'status' => 'ok',
+                'summary_note' => 'Patient demonstrated improved task engagement. Token economy system is proving effective.',
                 'location_id' => 2,
                 'cpt_code' => '97153',
             ],
             [
-                'patient_id' => 'PAT002',
-                'doctor_id' => 4, // BCBA2
+                'patient_id' => 2,
+                'insurance_id' => 1,
+                'doctor_id' => 4,
                 'bip_id' => 2,
-                'provider_id' => 6, // RBT2
-                'supervisor_name' => 4, // BCBA2
-                'supervisor_id' => 4, // BCBA2
+                'provider_id' => 6,
+                'supervisor_name' => 4,
+                'supervisor_id' => 4,
                 'pos' => '12',
                 'session_date' => Carbon::now()->subDays(2),
                 'time_in' => '13:00:00',
@@ -170,13 +179,100 @@ class NotesSeeder extends Seeder
                 'provider_credential' => 'RBT',
                 'supervisor_signature' => 'Mike BCBA',
                 'status' => 'ok',
+                'summary_note' => 'Patient demonstrated improved task engagement. Token economy system is proving effective.',
                 'location_id' => 2,
                 'cpt_code' => '97153',
             ],
         ];
 
+        $bcba_notes = [
+            // BCBA Note for Patient 1
+            [
+                'patient_id' => 1,
+                'insurance_id' => 2,
+                'doctor_id' => 3,
+                'bip_id' => 1,
+                'provider_id' => 3,
+                'supervisor_id' => 3,
+                'session_date' => Carbon::now()->subDays(4),
+                'time_in' => '13:00:00',
+                'time_out' => '14:00:00',
+                'session_length_total' => 1.0,
+                'summary_note' => 'Patient showing consistent progress in communication skills. RBT implementation of behavior protocols is effective.',
+                'note_description' => 'Patient showing consistent progress in communication skills. RBT implementation of behavior protocols is effective.',
+                'caregiver_goals' => [
+                    [
+                        'criteria' => 'test',
+                        'initiation' => '2024-07-12T04:00:00.000Z',
+                        'caregiver_goal' => 'test',
+                        'current_status' => 'new',
+                        'outcome_measure' => 'test',
+                        'porcent_of_correct_response' => 12
+                    ]
+                ],
+                'rbt_training_goals' => [
+                    [
+                        'lto' => 'RBT will independently demonstrate appropriate data collection, near 100% of opportunities, across two consecutive observations.',
+                        'date' => '2024-07-12T04:00:00.000Z',
+                        'status' => 'inprogress',
+                        'porcent_of_correct_response' => 32
+                    ]
+                ],
+                'meet_with_client_at' => 'Home',
+                'provider_signature' => 'Sarah BCBA',
+                'supervisor_signature' => 'Sarah BCBA',
+                'status' => 'ok',
+                'location_id' => 1,
+                'cpt_code' => '97155',
+            ],
+
+            // BCBA Note for Patient 2
+            [
+                'patient_id' => 2,
+                'insurance_id' => 2,
+                'doctor_id' => 4,
+                'bip_id' => 1,
+                'provider_id' => 4,
+                'supervisor_id' => 4,
+                'session_date' => Carbon::now()->subDays(3),
+                'time_in' => '15:00:00',
+                'time_out' => '16:00:00',
+                'session_length_total' => 1.0,
+                'summary_note' => 'Client demonstrates improved task engagement. Token economy system is proving effective.',
+                'note_description' => 'Patient demonstrated improved task engagement. Token economy system is proving effective.',
+                'caregiver_goals' => [
+                    [
+                        'criteria' => 'test',
+                        'initiation' => '2024-07-12T04:00:00.000Z',
+                        'caregiver_goal' => 'test',
+                        'current_status' => 'new',
+                        'outcome_measure' => 'test',
+                        'porcent_of_correct_response' => 12
+                    ]
+                ],
+                'rbt_training_goals' => [
+                    [
+                        'lto' => 'RBT will independently demonstrate appropriate data collection, near 100% of opportunities, across two consecutive observations.',
+                        'date' => '2024-07-12T04:00:00.000Z',
+                        'status' => 'inprogress',
+                        'porcent_of_correct_response' => 32
+                    ]
+                ],
+                'meet_with_client_at' => 'Home',
+                'provider_signature' => 'Mike BCBA',
+                'supervisor_signature' => 'Mike BCBA',
+                'status' => 'ok',
+                'location_id' => 2,
+                'cpt_code' => '97155',
+            ]
+        ];
+
         foreach ($notes as $note) {
             NoteRbt::create($note);
+        }
+
+        foreach ($bcba_notes as $note) {
+            NoteBcba::create($note);
         }
     }
 }

@@ -36,7 +36,7 @@ Route::get('/parent/show-withpatient-bcbanote-recent/{parent}/{patient_id}', [Pa
 
 Route::post('/parent/update/{id}', [ParentController::class, 'update'])
     ->name('parents.update');
-    
+
 Route::post('parents/store', [ParentController::class, 'store'])->name('store');
 
 Route::delete('/parent/destroy/{parent}', [ParentController::class, 'destroy'])
@@ -47,7 +47,3 @@ Route::get('parent/recientes/', [ParentController::class, 'recientes'])
 
 Route::get('parent/search/{request}', [ParentController::class, 'search'])
     ->name('parents.search');
-
-
-
-

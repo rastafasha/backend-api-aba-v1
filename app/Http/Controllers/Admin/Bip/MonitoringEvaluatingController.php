@@ -20,12 +20,12 @@ class MonitoringEvaluatingController extends Controller
     {
         $monitoringEvaluatings = MonitoringEvaluating::orderBy("id", "desc")
                             ->paginate(10);
-                    
+
         return response()->json([
             "monitoringEvaluatings" => $monitoringEvaluatings ,
             // "goals" => ReductionGoalsResource::make($goals) ,
-            
-        ]); 
+
+        ]);
     }
 
     /**
@@ -38,15 +38,15 @@ class MonitoringEvaluatingController extends Controller
     {
         $patient_is_valid = Patient::where("patient_id", $request->patient_id)->first();
 
-        $request->request->add(["rbt_training_goals"=>json_encode($request->rbt_training_goals)]);
-    
+        $request->request->add(["rbt_training_goals" => json_encode($request->rbt_training_goals)]);
+
         $monitoringEvaluating = MonitoringEvaluating::create($request->all());
-        
+
         return response()->json([
-            "message"=>200,
-            "id"=>$monitoringEvaluating->id,
+            "message" => 200,
+            "id" => $monitoringEvaluating->id,
             'monitoringEvaluating' => new MonitoringEvaluatingResource($monitoringEvaluating),
-            "rbt_training_goals"=>json_decode($monitoringEvaluating-> rbt_training_goals),
+            "rbt_training_goals" => json_decode($monitoringEvaluating-> rbt_training_goals),
         ]);
     }
 
@@ -63,19 +63,17 @@ class MonitoringEvaluatingController extends Controller
         return response()->json([
             "monitoringEvaluating" => $monitoringEvaluating,
             "client_id" => $client_id,
-            "rbt_training_goals"=>json_decode($monitoringEvaluating-> rbt_training_goals),
-            
+            "rbt_training_goals" => json_decode($monitoringEvaluating-> rbt_training_goals),
+
         ]);
     }
 
     public function showbyProfile($id)
     {
-        $patient = MonitoringEvaluating::where("client_id","<>", $id)->first();
+        $patient = MonitoringEvaluating::where("client_id", "<>", $id)->first();
         return response()->json([
             "patient" => $patient,
         ]);
-
-        
     }
 
 
@@ -84,10 +82,8 @@ class MonitoringEvaluatingController extends Controller
         $monitoringEvaluatingPatientIds = MonitoringEvaluating::where("patient_id", $patient_id)->orderBy("patient_id", "desc")->get();
         return response()->json([
             "monitoringEvaluatingPatientIds" => MonitoringEvaluatingCollection::make($monitoringEvaluatingPatientIds)
-            
-        ]);
 
-        
+        ]);
     }
 
     /**
@@ -101,14 +97,14 @@ class MonitoringEvaluatingController extends Controller
     {
         $monitoringEvaluating = MonitoringEvaluating::findOrFail($id);
 
-        $request->request->add(["rbt_training_goals"=>json_encode($request->rbt_training_goals)]);
-        
+        $request->request->add(["rbt_training_goals" => json_encode($request->rbt_training_goals)]);
+
         $monitoringEvaluating->update($request->all());
-        
+
         return response()->json([
-            "message"=>200,
-            "monitoringEvaluating"=>$monitoringEvaluating,
-            "rbt_training_goals"=>json_decode($monitoringEvaluating-> rbt_training_goals),
+            "message" => 200,
+            "monitoringEvaluating" => $monitoringEvaluating,
+            "rbt_training_goals" => json_decode($monitoringEvaluating-> rbt_training_goals),
         ]);
     }
 

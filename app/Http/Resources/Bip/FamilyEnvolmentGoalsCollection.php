@@ -15,7 +15,7 @@ class FamilyEnvolmentGoalsCollection extends ResourceCollection
     public function toArray($request)
     {
         return [
-            "data"=> FamilyEnvolmentGoalsResource::collection($this->collection)
+            "data" => FamilyEnvolmentGoalsResource::collection($this->collection)
         ];
     }
 }

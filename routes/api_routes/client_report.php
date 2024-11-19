@@ -13,7 +13,7 @@ Route::get('client_report/bylocation/{location_id}', [ClientReportController::cl
 
 Route::get('client_report/byemployee/{doctor_id}/{patient_id}', [ClientReportController::class, 'showByPatientByDoctorId'])->name('showByPatientByDoctorId');
 
-Route::get('client_report/showCptUnits/{patient_id}/{cpt_code}/{provider}/', [ClientReportController::class, 'showCptUnits'] )->name('showCptUnits');
+Route::get('client_report/showCptUnits/{patient_id}/{cpt_code}/{provider}/', [ClientReportController::class, 'showCptUnits'])->name('showCptUnits');
 
 
 Route::post('client_report/store', [ClientReportController::class, 'store'])->name('store');

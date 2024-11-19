@@ -12,4 +12,3 @@ Route::get('crisisplan/showgbyPatientId/{patient_id}', [CrisisPlanController::cl
 Route::post('crisisplan/store', [CrisisPlanController::class, 'store'])->name('store');
 Route::post('crisisplan/update/{goal}', [CrisisPlanController::class, 'update'])->name('update');
 Route::delete('crisisplan/destroy/{id}', [CrisisPlanController::class, 'destroy'])->name('destroy');
-

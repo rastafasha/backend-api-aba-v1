@@ -10,7 +10,8 @@ use Illuminate\Queue\SerializesModels;
 
 class NewUserRegisterMail extends Mailable
 {
-    use Queueable, SerializesModels;
+    use Queueable;
+    use SerializesModels;
 
     public $user;
     /**
@@ -34,6 +35,6 @@ class NewUserRegisterMail extends Mailable
         //     ->markdown('emails.admin.new_user_register' , ['user' => $this->user]);
 
         $user = $this->user;
-        return $this->view('emails.new_user_register',['user' => $this->user]);
+        return $this->view('emails.new_user_register', ['user' => $this->user]);
     }
 }

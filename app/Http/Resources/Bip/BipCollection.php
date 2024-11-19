@@ -15,7 +15,7 @@ class BipCollection extends ResourceCollection
     public function toArray($request)
     {
         return [
-            "data"=> BipResource::collection($this->collection)
+            "data" => BipResource::collection($this->collection)
         ];
     }
 }

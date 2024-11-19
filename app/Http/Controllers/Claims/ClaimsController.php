@@ -44,8 +44,8 @@ class ClaimsController extends Controller
      *     tags={"Claims"},
      *     @OA\Parameter(name="status", in="query", description="Filter by status", @OA\Schema(type="string")),
      *     @OA\Parameter(name="filename", in="query", description="Filter by filename", @OA\Schema(type="string")),
-     *     @OA\Parameter(name="from", in="query", description="Filter by start date (Y-m-d)", @OA\Schema(type="string", format="date")),
-     *     @OA\Parameter(name="to", in="query", description="Filter by end date (Y-m-d)", @OA\Schema(type="string", format="date")),
+     *     @OA\Parameter(name="start_date", in="query", description="Filter by start date (Y-m-d)", @OA\Schema(type="string", format="date")),
+     *     @OA\Parameter(name="end_date", in="query", description="Filter by end date (Y-m-d)", @OA\Schema(type="string", format="date")),
      *     @OA\Parameter(name="rbt_note_ids", in="query", description="Filter by RBT note IDs", @OA\Schema(type="array", @OA\Items(type="integer"))),
      *     @OA\Parameter(name="bcba_note_ids", in="query", description="Filter by BCBA note IDs", @OA\Schema(type="array", @OA\Items(type="integer"))),
      *     @OA\Parameter(name="per_page", in="query", description="Number of items per page", @OA\Schema(type="integer", default=15)),
@@ -64,20 +64,8 @@ class ClaimsController extends Controller
     {
         $query = Claim::query();
 
-        if ($request->has('status')) {
-            $query->where('status', $request->status);
-        }
-
         if ($request->has('filename')) {
             $query->where('filename', 'like', '%' . $request->filename . '%');
-        }
-
-        if ($request->has('from')) {
-            $query->whereDate('created_at', '>=', $request->from);
-        }
-
-        if ($request->has('to')) {
-            $query->whereDate('created_at', '<=', $request->to);
         }
 
         if ($request->has('rbt_note_ids')) {
@@ -99,7 +87,9 @@ class ClaimsController extends Controller
         }
 
         $perPage = $request->input('per_page', 15);
-        $claims = $query->orderBy('created_at', 'desc')->paginate($perPage);
+        $claims = $query->filterByCreatedAtRange($request->date_start, $request->date_end)
+            ->filterByStatus($request->status)
+            ->orderBy('created_at', 'desc')->paginate($perPage);
 
         return response()->json([
             'status' => 'success',

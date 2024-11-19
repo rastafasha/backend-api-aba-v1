@@ -15,7 +15,7 @@ class SustitutionGoalsCollection extends ResourceCollection
     public function toArray($request)
     {
         return [
-            "data"=> SustitutionGoalsResource::collection($this->collection)
+            "data" => SustitutionGoalsResource::collection($this->collection)
         ];
     }
 }

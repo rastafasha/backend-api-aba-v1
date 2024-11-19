@@ -31,7 +31,6 @@ class PatientFileController extends Controller
         //     "total"=>$appointments->total(),
         //     "appointments"=> AppointmentCollection::make($appointments)
         // ]);
-
     }
 
     /**
@@ -46,38 +45,37 @@ class PatientFileController extends Controller
 
         $user_is_valid = PatientFile::where("patient_id", "<>", $request->patient_id)->first();
 
-        if($user_is_valid){
+        if ($user_is_valid) {
             return response()->json([
-                "message"=>403,
-                "message_text"=> 'el Paciente ya existe'
+                "message" => 403,
+                "message_text" => 'el Paciente ya existe'
             ]);
         }
 
-        foreach($request->file("files") as $key=>$file){
+        foreach ($request->file("files") as $key => $file) {
             $extension = $file->getClientOriginalExtension();
             $size = $file->getSize();
             $name_file = $file->getClientOriginalName();
             $data = null;
-            if(in_array(strtolower($extension), ["jpeg", "bmp","jpg","png", "pdf" ])){
+            if (in_array(strtolower($extension), ["jpeg", "bmp","jpg","png", "pdf" ])) {
                 $data = getImageSize($file);
-                
             }
             $path = Storage::putFile("patientFiles", $file);
 
             $patientFile = PatientFile::create([
-                'patient_id' =>$request->patient_id,
-                'name_file' =>$name_file,
-                'size' =>$size,
-                'resolution' =>$data ? $data[0]."x".$data[1]: NULL,
-                'file' =>$path,
-                'type'  =>$extension,
+                'patient_id' => $request->patient_id,
+                'name_file' => $name_file,
+                'size' => $size,
+                'resolution' => $data ? $data[0] . "x" . $data[1] : null,
+                'file' => $path,
+                'type'  => $extension,
             ]);
         }
 
         // error_log($clase);
         error_log($patientFile);
 
-        return response()->json([ 'patientFile'=> PatientFileResource::make($patientFile)]);
+        return response()->json([ 'patientFile' => PatientFileResource::make($patientFile)]);
     }
 
     /**
@@ -86,17 +84,15 @@ class PatientFileController extends Controller
      * @param  int  $patient_id
      * @return \Illuminate\Http\Response
      */
-    
+
 
     public function showByPatient($patient_id)
     {
         $patientFiles = PatientFile::where("patient_id", $patient_id)->get();
-    
+
         return response()->json([
             "patientFiles" => PatientFileCollection::make($patientFiles),
         ]);
-
-        
     }
 
     /**
@@ -112,7 +108,7 @@ class PatientFileController extends Controller
         $patientFile->update($request ->all());
 
         return response()->json([
-            'patientFile'=> PatientFileResource::make($patientFile)
+            'patientFile' => PatientFileResource::make($patientFile)
         ]);
     }
 
@@ -126,7 +122,7 @@ class PatientFileController extends Controller
         $patientFile->delete();
 
         return response()->json([
-            "message"=> 200
+            "message" => 200
         ]);
     }
 }

@@ -4,6 +4,8 @@ namespace App\Models;
 
 use App\Models\Notes\NoteBcba;
 use App\Models\Notes\NoteRbt;
+use App\Traits\CreatedAtFilterable;
+use App\Traits\StatusFilterable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -63,6 +65,8 @@ use Illuminate\Database\Eloquent\Model;
 class Claim extends Model
 {
     use HasFactory;
+    use CreatedAtFilterable;
+    use StatusFilterable;
 
     protected $fillable = [
         'status',
@@ -89,5 +93,4 @@ class Claim extends Model
         return $this->belongsToMany(NoteBcba::class, 'note_bcbas')
             ->withTimestamps();
     }
-    
 }

@@ -33,4 +33,3 @@ Route::prefix('v2/patients')->group(function () {
     Route::put('/{id}', [PatientV2Controller::class, 'update']);
     Route::delete('/{id}', [PatientV2Controller::class, 'destroy']);
 });
-    

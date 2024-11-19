@@ -67,7 +67,7 @@ class PatientSeeder extends Seeder
                 'bcba_home_id' => 4, // BCBA2
                 'diagnosis_code' => 'F84.0',
                 'education' => '3rd Grade',
-                'pos_covered' => '["03", "12"]',
+                'pos_covered' => ["03", "12"],
                 'welcome' => 'yes',
                 'consent' => 'yes',
                 'insurance_card' => 'yes',

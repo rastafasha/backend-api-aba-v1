@@ -15,14 +15,14 @@ class PatientFileResource extends JsonResource
     public function toArray($request)
     {
         return[
-            'id'=>$this->resource-> id,
-            'patient_id'=>$this->resource->patient_id,
-            'name_file'=> $this->resource->name_file,
-                    'size'=> $this->resource->size,
-                    'resolution'=> $this->resource->resolution,
-                    'file'=> env("APP_URL")."storage/".$this->resource->file,
+            'id' => $this->resource-> id,
+            'patient_id' => $this->resource->patient_id,
+            'name_file' => $this->resource->name_file,
+                    'size' => $this->resource->size,
+                    'resolution' => $this->resource->resolution,
+                    'file' => env("APP_URL") . "storage/" . $this->resource->file,
                     // 'file'=> env("APP_URL").$this->resource->file,
-                    'type'=> $this->resource->type,
+                    'type' => $this->resource->type,
             // 'files'=>$this->resource->files->map(function($file){
             //     return [
             //         'id'=> $file->id,

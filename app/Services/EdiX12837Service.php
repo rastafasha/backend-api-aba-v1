@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-require __DIR__ . '/../Utils/edi837p.php';
+use App\Utils\Edi837pHelper;
 
 class EdiX12837Service
 {
@@ -19,7 +19,7 @@ class EdiX12837Service
 
     public function test($res): string
     {
-        $content = create_x12_837_file($res, $this->segTer, $this->eleDataSep, $this->compEleSep);
+        $content = Edi837pHelper::create_x12_837_file($res, $this->segTer, $this->eleDataSep, $this->compEleSep);
         return $content;
     }
 
@@ -28,93 +28,122 @@ class EdiX12837Service
         $file_data = "";
         $loopcounter = 0;
 
-        foreach($res as $row) {
+        foreach ($res as $row) {
             // ISA - Interchange Control Header
-            $file_data .= $this->createISA($row).PHP_EOL;
+            $file_data .= $this->createISA($row) . PHP_EOL;
 
             // GS - Functional Group Header
-            $file_data .= $this->createGS($row).PHP_EOL;
+            $file_data .= $this->createGS($row) . PHP_EOL;
 
             // ST - Transaction Set Header
-            $file_data .= $this->createST($row).PHP_EOL;  ++$loopcounter;
+            $file_data .= $this->createST($row) . PHP_EOL;
+            ++$loopcounter;
 
             // BHT - Beginning of Hierarchical Transaction
-            $file_data .= $this->createBHT($row).PHP_EOL; ++$loopcounter;
+            $file_data .= $this->createBHT($row) . PHP_EOL;
+            ++$loopcounter;
 
             // Submitter Information - 1000A
-            $file_data .= $this->createNM1($row,'SUBMITTER').PHP_EOL; ++$loopcounter;
-            if(!empty($row['submitter_telephone'])) {
-                $file_data .= $this->createPER($row,'TE').PHP_EOL; ++$loopcounter;
+            $file_data .= $this->createNM1($row, 'SUBMITTER') . PHP_EOL;
+            ++$loopcounter;
+            if (!empty($row['submitter_telephone'])) {
+                $file_data .= $this->createPER($row, 'TE') . PHP_EOL;
+                ++$loopcounter;
             }
-            if(!empty($row['submitter_email'])) {
-                $file_data .= $this->createPER($row,'EM').PHP_EOL; ++$loopcounter;
+            if (!empty($row['submitter_email'])) {
+                $file_data .= $this->createPER($row, 'EM') . PHP_EOL;
+                ++$loopcounter;
             }
 
             // Receiver Information - 1000B
-            $file_data .= $this->createNM1($row,'RC').PHP_EOL; ++$loopcounter;
+            $file_data .= $this->createNM1($row, 'RC') . PHP_EOL;
+            ++$loopcounter;
 
             // Billing Provider Hierarchical Level - 2000A
-            $file_data .= $this->createHL($row,1).PHP_EOL; ++$loopcounter;
+            $file_data .= $this->createHL($row, 1) . PHP_EOL;
+            ++$loopcounter;
 
             // Billing Provider Specialty Information
-            $file_data .= $this->createPRV($row).PHP_EOL; ++$loopcounter;
+            $file_data .= $this->createPRV($row) . PHP_EOL;
+            ++$loopcounter;
 
             // Billing Provider Name - 2010AA
-            $file_data .= $this->createNM1($row,'BP').PHP_EOL; ++$loopcounter;
-            $file_data .= $this->createN3($row,'BP').PHP_EOL; ++$loopcounter;
-            $file_data .= $this->createN4($row,'BP').PHP_EOL; ++$loopcounter;
+            $file_data .= $this->createNM1($row, 'BP') . PHP_EOL;
+            ++$loopcounter;
+            $file_data .= $this->createN3($row, 'BP') . PHP_EOL;
+            ++$loopcounter;
+            $file_data .= $this->createN4($row, 'BP') . PHP_EOL;
+            ++$loopcounter;
 
             // Billing Provider Tax ID
-            if(!empty($row['billing_provider_federal_taxid'])) {
-                $file_data .= $this->createREF($row,'EI').PHP_EOL; ++$loopcounter;
+            if (!empty($row['billing_provider_federal_taxid'])) {
+                $file_data .= $this->createREF($row, 'EI') . PHP_EOL;
+                ++$loopcounter;
             }
 
             // Subscriber Hierarchical Level - 2000B
-            $file_data .= $this->createHL($row,2).PHP_EOL; ++$loopcounter;
+            $file_data .= $this->createHL($row, 2) . PHP_EOL;
+            ++$loopcounter;
 
             // Subscriber Information
-            $file_data .= $this->createSBR($row,'PR').PHP_EOL; ++$loopcounter;
-            $file_data .= $this->createNM1($row,'IL').PHP_EOL; ++$loopcounter;
-            $file_data .= $this->createN3($row,'SB').PHP_EOL; ++$loopcounter;
-            $file_data .= $this->createN4($row,'SB').PHP_EOL; ++$loopcounter;
-            $file_data .= $this->createDMG($row).PHP_EOL; ++$loopcounter;
+            $file_data .= $this->createSBR($row, 'PR') . PHP_EOL;
+            ++$loopcounter;
+            $file_data .= $this->createNM1($row, 'IL') . PHP_EOL;
+            ++$loopcounter;
+            $file_data .= $this->createN3($row, 'SB') . PHP_EOL;
+            ++$loopcounter;
+            $file_data .= $this->createN4($row, 'SB') . PHP_EOL;
+            ++$loopcounter;
+            $file_data .= $this->createDMG($row) . PHP_EOL;
+            ++$loopcounter;
 
             // Payer Name - 2010BB
-            $file_data .= $this->createNM1($row,'PR').PHP_EOL; ++$loopcounter;
+            $file_data .= $this->createNM1($row, 'PR') . PHP_EOL;
+            ++$loopcounter;
 
             // Claim Information - 2300
-            $file_data .= $this->createCLM($row).PHP_EOL; ++$loopcounter;
+            $file_data .= $this->createCLM($row) . PHP_EOL;
+            ++$loopcounter;
 
             // Prior Authorization
-            if(!empty($row['prior_auth_code'])) {
-                $file_data .= $this->createREF($row,'G1').PHP_EOL; ++$loopcounter;
+            if (!empty($row['prior_auth_code'])) {
+                $file_data .= $this->createREF($row, 'G1') . PHP_EOL;
+                ++$loopcounter;
             }
 
             // Diagnosis Codes
-            $file_data .= $this->createHI($row,1).PHP_EOL; ++$loopcounter;
+            $file_data .= $this->createHI($row, 1) . PHP_EOL;
+            ++$loopcounter;
 
             // Referring Provider
-            if(!empty($row['ref_physician_npi'])) {
-                $file_data .= $this->createNM1($row,'DN').PHP_EOL; ++$loopcounter;
+            if (!empty($row['ref_physician_npi'])) {
+                $file_data .= $this->createNM1($row, 'DN') . PHP_EOL;
+                ++$loopcounter;
             }
 
             // Rendering Provider
-            if(!empty($row['rendering_provider_npi'])) {
-                $file_data .= $this->createNM1($row,82).PHP_EOL; ++$loopcounter;
-                $file_data .= $this->createPRV($row).PHP_EOL; ++$loopcounter;
+            if (!empty($row['rendering_provider_npi'])) {
+                $file_data .= $this->createNM1($row, 82) . PHP_EOL;
+                ++$loopcounter;
+                $file_data .= $this->createPRV($row) . PHP_EOL;
+                ++$loopcounter;
             }
 
             // Service Lines - 2400
-            if(sizeof($row['procedure_codes'])) {
+            if (sizeof($row['procedure_codes'])) {
                 $loopindex = 1;
-                foreach($row['procedure_codes'] as $proc_items) {
-                    $file_data .= $this->createLX($row,$loopindex).PHP_EOL; ++$loopcounter;
-                    $file_data .= $this->createSV1($row,$proc_items).PHP_EOL; ++$loopcounter;
-                    $file_data .= $this->createDTP($row,472,'','',$proc_items['dos']).PHP_EOL; ++$loopcounter;
+                foreach ($row['procedure_codes'] as $proc_items) {
+                    $file_data .= $this->createLX($row, $loopindex) . PHP_EOL;
+                    ++$loopcounter;
+                    $file_data .= $this->createSV1($row, $proc_items) . PHP_EOL;
+                    ++$loopcounter;
+                    $file_data .= $this->createDTP($row, 472, '', '', $proc_items['dos']) . PHP_EOL;
+                    ++$loopcounter;
 
                     // Add Line Item Control Number if needed
-                    if(!empty($proc_items['line_item_control_number'])) {
-                        $file_data .= $this->createREF($row,'6R').PHP_EOL; ++$loopcounter;
+                    if (!empty($proc_items['line_item_control_number'])) {
+                        $file_data .= $this->createREF($row, '6R') . PHP_EOL;
+                        ++$loopcounter;
                     }
 
                     $loopindex++;
@@ -123,13 +152,13 @@ class EdiX12837Service
 
             // Transaction Set Trailer
             ++$loopcounter;
-            $file_data .= $this->createSE($row,$loopcounter).PHP_EOL;
+            $file_data .= $this->createSE($row, $loopcounter) . PHP_EOL;
 
             // Functional Group Trailer
-            $file_data .= $this->createGE($row).PHP_EOL;
+            $file_data .= $this->createGE($row) . PHP_EOL;
 
             // Interchange Control Trailer
-            $file_data .= $this->createIEA($row).PHP_EOL;
+            $file_data .= $this->createIEA($row) . PHP_EOL;
         }
 
         return $file_data;
@@ -140,24 +169,24 @@ class EdiX12837Service
         $ISA = array();
         $ISA[0] = "ISA";
         $ISA[1] = "00";
-        $ISA[2] = str_pad("",10," ");
+        $ISA[2] = str_pad("", 10, " ");
         $ISA[3] = "00";
-        $ISA[4] = str_pad("",10," ");
+        $ISA[4] = str_pad("", 10, " ");
         $ISA[5] = "ZZ";                // Change from "30" to "ZZ"
-        $ISA[6] = str_pad($row['x12_sender_id'],15," ");
+        $ISA[6] = str_pad($row['x12_sender_id'], 15, " ");
         $ISA[7] = "ZZ";                // Change from "30" to "ZZ"
-        $ISA[8] = str_pad($row['x12_reciever_id'],15," ");
-        $ISA[9] = str_pad(date('ymd'),6," ");
-        $ISA[10] = str_pad(date('Hi'),4," ");
-        $ISA[11] = str_pad("^",1," ");
-        $ISA[12] = str_pad(substr($row['x12_version'],0,5),5," ");
-        $ISA[13] = str_pad("000000001",9," ");
-        $ISA[14] = str_pad("1",1," ");
-        $ISA[15] = str_pad("P",1," ");
+        $ISA[8] = str_pad($row['x12_reciever_id'], 15, " ");
+        $ISA[9] = str_pad(date('ymd'), 6, " ");
+        $ISA[10] = str_pad(date('Hi'), 4, " ");
+        $ISA[11] = str_pad("^", 1, " ");
+        $ISA[12] = str_pad(substr($row['x12_version'], 0, 5), 5, " ");
+        $ISA[13] = str_pad("000000001", 9, " ");
+        $ISA[14] = str_pad("1", 1, " ");
+        $ISA[15] = str_pad("P", 1, " ");
 
         $ISA['Created'] = implode('*', $ISA);
-        $ISA['Created'] = $ISA['Created'] ."*";
-        $ISA['Created'] = $ISA ['Created'] . $this->compEleSep. $this->segTer;
+        $ISA['Created'] = $ISA['Created'] . "*";
+        $ISA['Created'] = $ISA['Created'] . $this->compEleSep . $this->segTer;
 
         return trim($ISA['Created']);
     }
@@ -171,7 +200,7 @@ class EdiX12837Service
         $GS[3] = $row['x12_reciever_id'];
         $GS[4] = date('Ymd');
         $GS[5] = date('His');
-        $GS[6] = str_pad($row['group_number'],9,"0",STR_PAD_LEFT);
+        $GS[6] = str_pad($row['group_number'], 9, "0", STR_PAD_LEFT);
         $GS[7] = "X";
         $GS[8] = $row['x12_version'];
 
@@ -186,7 +215,7 @@ class EdiX12837Service
         $GE = array();
         $GE[0] = "GE";
         $GE[1] = "1";
-        $GE[2] = str_pad($row['group_number'],9,"0",STR_PAD_LEFT);
+        $GE[2] = str_pad($row['group_number'], 9, "0", STR_PAD_LEFT);
 
         $GE['Created'] = implode('*', $GE);
         $GE['Created'] = $GE['Created'] . $this->segTer;
@@ -212,7 +241,7 @@ class EdiX12837Service
         $ST = array();
         $ST[0] = "ST";
         $ST[1] = "837";
-        $ST[2] = str_pad($row['batch_number'],9,"0",STR_PAD_LEFT);
+        $ST[2] = str_pad($row['batch_number'], 9, "0", STR_PAD_LEFT);
         $ST[3] = $row['x12_version'];
 
         $ST['Created'] = implode('*', $ST);
@@ -227,9 +256,9 @@ class EdiX12837Service
         $BHT[0] = "BHT";
         $BHT[1] = "0019";
         $BHT[2] = "00";
-        $BHT[3] = str_pad($row['transcode'],11,"0",STR_PAD_LEFT);
-        $BHT[4] = str_pad(date('Ymd'),8," ");
-        $BHT[5] = str_pad(date('Hi'),4," ");
+        $BHT[3] = str_pad($row['transcode'], 11, "0", STR_PAD_LEFT);
+        $BHT[4] = str_pad(date('Ymd'), 8, " ");
+        $BHT[5] = str_pad(date('Hi'), 4, " ");
         $BHT[6] = "CH";
 
         $BHT['Created'] = implode('*', $BHT);
@@ -243,7 +272,7 @@ class EdiX12837Service
         $NM1 = array();
         $NM1[0] = "NM1";
 
-        if($nm1Cast == 'RC') {
+        if ($nm1Cast == 'RC') {
             $NM1[1] = "40";
             $NM1[2] = "2";
             $NM1[3] = $row["payer_name"];
@@ -253,8 +282,7 @@ class EdiX12837Service
             $NM1[7] = "";
             $NM1[8] = "46";
             $NM1[9] = $row["payer_code"];
-        }
-        else if($nm1Cast == '87') {
+        } elseif ($nm1Cast == '87') {
             $NM1[1] = "87";
             $NM1[2] = "2";
             $NM1[3] = $row['billing_provider_lastname'];
@@ -264,8 +292,7 @@ class EdiX12837Service
             $NM1[7] = "";
             $NM1[8] = "XX";
             $NM1[9] = $row['billing_provider_npi'];
-        }
-        else if($nm1Cast == 'BP') {
+        } elseif ($nm1Cast == 'BP') {
             $NM1[1] = "85";
             $NM1[2] = "2";
             $NM1[3] = $row['billing_provider_lastname'];
@@ -275,8 +302,7 @@ class EdiX12837Service
             $NM1[7] = "";
             $NM1[8] = "XX";
             $NM1[9] = $row['billing_provider_npi'];
-        }
-        else if($nm1Cast == 'SUBMITTER') {
+        } elseif ($nm1Cast == 'SUBMITTER') {
             $NM1[1] = "41";
             $NM1[2] = "2";
             $NM1[3] = $row['submitter_org_name'];
@@ -286,8 +312,7 @@ class EdiX12837Service
             $NM1[7] = "";
             $NM1[8] = "46";
             $NM1[9] = $row['submitter_tax_id'];
-        }
-        else if($nm1Cast == 'SB') {
+        } elseif ($nm1Cast == 'SB') {
             $NM1[1] = "41";
             $NM1[2] = "1";
             $NM1[3] = $row['subscriber_lname'];
@@ -297,8 +322,7 @@ class EdiX12837Service
             $NM1[7] = "";
             $NM1[8] = "46";
             $NM1[9] = $row['subscriber_policy_number'];
-        }
-        else if($nm1Cast == 'IL') {
+        } elseif ($nm1Cast == 'IL') {
             $NM1[1] = "IL";
             $NM1[2] = "1";
             $NM1[3] = $row['subscriber_lname'];
@@ -308,8 +332,7 @@ class EdiX12837Service
             $NM1[7] = "";
             $NM1[8] = "MI";
             $NM1[9] = $row['subscriber_policy_number'];
-        }
-        else if($nm1Cast == 'DN') {
+        } elseif ($nm1Cast == 'DN') {
             $NM1[1] = "DN";
             $NM1[2] = "1";
             $NM1[3] = $row['ref_physician_lname'];
@@ -319,8 +342,7 @@ class EdiX12837Service
             $NM1[7] = "";
             $NM1[8] = "XX";
             $NM1[9] = $row['ref_physician_npi'];
-        }
-        else if($nm1Cast == 82) {
+        } elseif ($nm1Cast == 82) {
             $NM1[1] = "82";
             $NM1[2] = "1";
             $NM1[3] = $row['rendering_provider_lname'];
@@ -330,8 +352,7 @@ class EdiX12837Service
             $NM1[7] = "";
             $NM1[8] = "XX";
             $NM1[9] = $row['rendering_provider_npi'];
-        }
-        else if($nm1Cast == 77) {
+        } elseif ($nm1Cast == 77) {
             $NM1[1] = "82";
             $NM1[2] = "2";
             $NM1[3] = $row["facility_name"];
@@ -341,8 +362,7 @@ class EdiX12837Service
             $NM1[7] = "";
             $NM1[8] = "XX";
             $NM1[9] = $row['facility_npi'];
-        }
-        else if($nm1Cast == 'PR') {
+        } elseif ($nm1Cast == 'PR') {
             $NM1[1] = "PR";
             $NM1[2] = "2";
             $NM1[3] = $row["payer_name"];
@@ -352,8 +372,7 @@ class EdiX12837Service
             $NM1[7] = "";
             $NM1[8] = "PI";
             $NM1[9] = $row["payer_code"];
-        }
-        else if($nm1Cast == 'PR2') {
+        } elseif ($nm1Cast == 'PR2') {
             $NM1[1] = "PR";
             $NM1[2] = "2";
             $NM1[3] = $row["secondary_payer_name"];
@@ -378,11 +397,11 @@ class EdiX12837Service
         $PER[1] = "IC";
         $PER[2] = "";
 
-        if($type == 'TE') {
+        if ($type == 'TE') {
             $PER[3] = "TE";
             $PER[4] = $row['submitter_telephone'];
         }
-        if($type == 'EM') {
+        if ($type == 'EM') {
             $PER[3] = "EM";
             $PER[4] = $row['submitter_email'];
         }
@@ -398,13 +417,12 @@ class EdiX12837Service
         $HL = array();
         $HL[0] = "HL";
 
-        if($nHlCounter == 1) {
+        if ($nHlCounter == 1) {
             $HL[1] = "1";
             $HL[2] = "";
             $HL[3] = "20";
             $HL[4] = "1";
-        }
-        else if($nHlCounter == 2) {
+        } elseif ($nHlCounter == 2) {
             $HL[1] = "2";
             $HL[2] = "1";
             $HL[3] = "22";
@@ -436,23 +454,19 @@ class EdiX12837Service
         $N3 = array();
         $N3[0] = "N3";
 
-        if($ref == 'SB') {
+        if ($ref == 'SB') {
             $N3[1] = $row['subscriber_address'];
             $N3[2] = $row['subscriber_address2'];
-        }
-        else if($ref == 'BP') {
+        } elseif ($ref == 'BP') {
             $N3[1] = $row['billing_provider_street'];
             $N3[2] = $row['billing_provider_street2'];
-        }
-        else if($ref == 'PR') {
+        } elseif ($ref == 'PR') {
             $N3[1] = $row['payer_street'];
             $N3[2] = $row['payer_street2'];
-        }
-        else if($ref == 'PR2') {
+        } elseif ($ref == 'PR2') {
             $N3[1] = $row['secondary_payer_street'];
             $N3[2] = $row['secondary_payer_street2'];
-        }
-        else if($ref == 'FA') {
+        } elseif ($ref == 'FA') {
             $N3[1] = $row['facility_address'];
             $N3[2] = "";
         }
@@ -468,27 +482,23 @@ class EdiX12837Service
         $N4 = array();
         $N4[0] = "N4";
 
-        if($ref == 'SB') {
+        if ($ref == 'SB') {
             $N4[1] = $row['subscriber_city'];
             $N4[2] = $row['subscriber_state'];
             $N4[3] = $row['subscriber_zip'];
-        }
-        else if($ref == 'BP') {
+        } elseif ($ref == 'BP') {
             $N4[1] = $row['billing_provider_city'];
             $N4[2] = $row['billing_provider_state'];
             $N4[3] = $row['billing_provider_zip'];
-        }
-        else if($ref == 'PR') {
+        } elseif ($ref == 'PR') {
             $N4[1] = $row['payer_city'];
             $N4[2] = $row['payer_state'];
             $N4[3] = $row['payer_zip'];
-        }
-        else if($ref == 'PR2') {
+        } elseif ($ref == 'PR2') {
             $N4[1] = $row['secondary_payer_city'];
             $N4[2] = $row['secondary_payer_state'];
             $N4[3] = $row['secondary_payer_zip'];
-        }
-        else if($ref == 'FA') {
+        } elseif ($ref == 'FA') {
             $N4[1] = $row['facility_city'];
             $N4[2] = $row['facility_state'];
             $N4[3] = $row['facility_zip'];
@@ -505,31 +515,31 @@ class EdiX12837Service
         $REF = array();
         $REF[0] = "REF";
 
-        if($ref == 'SY') {
+        if ($ref == 'SY') {
             $REF[1] = $ref;
             $REF[2] = $row['billing_provider_pin'];
         }
-        if($ref == 'EI') {
+        if ($ref == 'EI') {
             $REF[1] = $ref;
             $REF[2] = $row['billing_provider_federal_taxid'];
         }
-        if($ref == 'G1') {
+        if ($ref == 'G1') {
             $REF[1] = $ref;
             $REF[2] = $row['prior_auth_code'];
         }
-        if($ref == 'F8') {
+        if ($ref == 'F8') {
             $REF[1] = $ref;
             $REF[2] = $row['original_claim_number'];
         }
-        if($ref == 'X4') {
+        if ($ref == 'X4') {
             $REF[1] = $ref;
             $REF[2] = $row['original_claim_number'];
         }
-        if($ref == 'EA') {
+        if ($ref == 'EA') {
             $REF[1] = $ref;
             $REF[2] = $row['patient_mrn'];
         }
-        if($ref == '9F') {
+        if ($ref == '9F') {
             $REF[1] = $ref;
             $REF[2] = $row['referral_number'];
         }
@@ -545,15 +555,15 @@ class EdiX12837Service
         $SBR = array();
         $SBR[0] = "SBR";
 
-        if($ref == 'OT') {
+        if ($ref == 'OT') {
             $SBR[1] = "S";
-        } else if($ref == 'PR') {
+        } elseif ($ref == 'PR') {
             $SBR[1] = "P";
         }
 
         $SBR[2] = $this->translateRelationship($row['subscriber_relationship']);
 
-        if($ref == 'OT') {
+        if ($ref == 'OT') {
             $SBR[3] = "";
             $SBR[4] = $row['subscriber_secondary_payer_name'];
             $SBR[5] = $row['subscriber_secondary_insurance_type'];
@@ -599,7 +609,7 @@ class EdiX12837Service
         $CLM[2] = $row['total_amount'];
         $CLM[3] = "";
         $CLM[4] = "";
-        $CLM[5] = "11:" . "B" . ":" .$row['claim_type'];
+        $CLM[5] = "11:" . "B" . ":" . $row['claim_type'];
         $CLM[6] = "Y";
         $CLM[7] = "A";
         $CLM[8] = "Y";
@@ -619,22 +629,22 @@ class EdiX12837Service
         $DTP[1] = $ref;
         $DTP[2] = "D8";
 
-        if($ref == '431') {
+        if ($ref == '431') {
             $DTP[3] = $row['patient_encounter_date'];
         }
-        if($ref == '472') {
+        if ($ref == '472') {
             $DTP[3] = $dos;
         }
-        if($ref == '454') {
+        if ($ref == '454') {
             $DTP[3] = $row['patient_first_encounter_date'];
         }
-        if($ref == '304') {
+        if ($ref == '304') {
             $DTP[3] = $row['patient_last_visit_date'];
         }
-        if($ref == '435') {
+        if ($ref == '435') {
             $DTP[3] = $row['patient_admission_date'];
         }
-        if($ref == '096') {
+        if ($ref == '096') {
             $DTP[3] = $row['patient_discharge_date'];
         }
 
@@ -675,15 +685,15 @@ class EdiX12837Service
         $HI = array();
         $HI[0] = "HI";
 
-        if($primary == 1) {
+        if ($primary == 1) {
             $icd_type = ($row['primary_problem_type_code'] == "ICD9") ? "BK" : "ABK";
-            $HI[1] = $icd_type.":".$row['primary_problem_code'];
+            $HI[1] = $icd_type . ":" . $row['primary_problem_code'];
         } else {
             $loopvar = 1; //Max loop 12
-            if(sizeof($row['other_diag_list'])) {
-                foreach($row['other_diag_list'] as $items) {
+            if (sizeof($row['other_diag_list'])) {
+                foreach ($row['other_diag_list'] as $items) {
                     $icd_type = ($items['icd_type'] == "ICD9") ? "BF" : "ABF";
-                    $HI[$loopvar] = $icd_type.":".$items['icd_codes'];
+                    $HI[$loopvar] = $icd_type . ":" . $items['icd_codes'];
                     $loopvar++;
                 }
             }
@@ -711,7 +721,7 @@ class EdiX12837Service
     {
         $SV1 = array();
         $SV1[0] = "SV1";
-        $SV1[1] = "HC:".$items['cpt_codes'];
+        $SV1[1] = "HC:" . $items['cpt_codes'];
         $SV1[2] = $items['cpt_charge'];
         $SV1[3] = "UN";
         $SV1[4] = $items['quantity'];
@@ -730,7 +740,7 @@ class EdiX12837Service
         $SE = array();
         $SE[0] = "SE";
         $SE[1] = $segmentcount;
-        $SE[2] = str_pad($row['batch_number'],9,"0",STR_PAD_LEFT);
+        $SE[2] = str_pad($row['batch_number'], 9, "0", STR_PAD_LEFT);
 
         $SE['Created'] = implode('*', $SE);
         $SE['Created'] = $SE['Created'] . $this->segTer;

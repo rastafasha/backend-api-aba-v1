@@ -16,12 +16,12 @@ class BehaviorAsistantResource extends JsonResource
     public function toArray($request)
     {
         return [
-            "id"=>$this->resource->id,
-            "patient_id"=>$this->resource->patient_id,
-            "client_id"=>$this->resource->client_id,
-            "bip_id"=>$this->resource->bip_id,
-            "behavior_assistant_work_schedule"=>json_decode($this->resource->behavior_assistant_work_schedule) ? : null,
-            "created_at"=>$this->resource->created_at ? Carbon::parse($this->resource->created_at)->format("Y-m-d h:i A") : NULL,            
+            "id" => $this->resource->id,
+            "patient_id" => $this->resource->patient_id,
+            "client_id" => $this->resource->client_id,
+            "bip_id" => $this->resource->bip_id,
+            "behavior_assistant_work_schedule" => json_decode($this->resource->behavior_assistant_work_schedule) ? : null,
+            "created_at" => $this->resource->created_at ? Carbon::parse($this->resource->created_at)->format("Y-m-d h:i A") : null,
 
         ];
     }

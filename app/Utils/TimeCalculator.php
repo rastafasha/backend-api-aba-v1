@@ -9,7 +9,7 @@ class TimeCalculator
 {
     /**
      * Calculate the time difference between two timestamps
-     * 
+     *
      * @param string|Carbon|DateTimeInterface $startTime
      * @param string|Carbon|DateTimeInterface $endTime
      * @param string $format Format to return the difference ('hours', 'minutes', 'seconds', 'array', 'string')
@@ -20,24 +20,24 @@ class TimeCalculator
         // Convert inputs to Carbon instances
         $start = static::parseTime($startTime);
         $end = static::parseTime($endTime);
-        
+
         // Calculate the difference
         $diff = $end->diff($start);
-        
+
         // Return based on requested format
-        switch($format) {
+        switch ($format) {
             case 'hours':
                 return ($diff->h + ($diff->days * 24)) + $diff->i / 60;
-            
+
             case 'minutes':
                 return ($diff->h + ($diff->days * 24)) * 60 + $diff->i;
-            
+
             case 'seconds':
                 return (($diff->h + ($diff->days * 24)) * 60 + $diff->i) * 60 + $diff->s;
-            
+
             case 'string':
                 return static::formatDifference($diff);
-            
+
             case 'array':
                 return [
                     'days' => $diff->days,
@@ -48,12 +48,12 @@ class TimeCalculator
                     'total_minutes' => ($diff->h + ($diff->days * 24)) * 60 + $diff->i,
                     'total_seconds' => (($diff->h + ($diff->days * 24)) * 60 + $diff->i) * 60 + $diff->s,
                 ];
-            
+
             default:
                 throw new \InvalidArgumentException("Invalid format specified");
         }
     }
-    
+
     /**
      * Parse various time formats into Carbon instance
      */
@@ -62,21 +62,21 @@ class TimeCalculator
         if ($time instanceof Carbon) {
             return $time;
         }
-        
+
         if ($time instanceof DateTimeInterface) {
             return Carbon::instance($time);
         }
-        
+
         return Carbon::parse($time);
     }
-    
+
     /**
      * Format the time difference into a human-readable string
      */
     private static function formatDifference($diff): string
     {
         $parts = [];
-        
+
         if ($diff->days > 0) {
             $parts[] = $diff->days . ' day' . ($diff->days !== 1 ? 's' : '');
         }
@@ -89,7 +89,7 @@ class TimeCalculator
         if ($diff->s > 0 || empty($parts)) {
             $parts[] = $diff->s . ' second' . ($diff->s !== 1 ? 's' : '');
         }
-        
+
         return implode(', ', $parts);
     }
 }

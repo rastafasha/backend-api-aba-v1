@@ -15,7 +15,7 @@ class BillingCollection extends ResourceCollection
     public function toArray($request)
     {
         return [
-            "data"=> BillingResource::collection($this->collection)
+            "data" => BillingResource::collection($this->collection)
         ];
     }
 }

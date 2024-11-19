@@ -22,12 +22,12 @@ class ConsentToTreatmentController extends Controller
     {
         $consentToTreatments = ConsentToTreatment::orderBy("id", "desc")
                             ->paginate(10);
-                    
+
         return response()->json([
             "consentToTreatments" => $consentToTreatments ,
             // "goals" => ReductionGoalsResource::make($goals) ,
-            
-        ]); 
+
+        ]);
     }
 
     /**
@@ -40,37 +40,37 @@ class ConsentToTreatmentController extends Controller
     {
         $patient_is_valid = Patient::where("patient_id", $request->patient_id)->first();
 
-        if($request->hasFile('imagen')){
+        if ($request->hasFile('imagen')) {
             $path = Storage::putFile("signatures", $request->file('imagen'));
-            $request->request->add(["analyst_signature"=>$path]);
+            $request->request->add(["analyst_signature" => $path]);
         }
 
-        if($request->analyst_signature_date){
-            $date_clean = preg_replace('/\(.*\)|[A-Z]{3}-\d{4}/', '',$request->analyst_signature_date );
+        if ($request->analyst_signature_date) {
+            $date_clean = preg_replace('/\(.*\)|[A-Z]{3}-\d{4}/', '', $request->analyst_signature_date);
             $request->request->add(["analyst_signature_date" => Carbon::parse($date_clean)->format('Y-m-d h:i:s')]);
         }
 
-        if($request->hasFile('imagenn')){
+        if ($request->hasFile('imagenn')) {
             $path = Storage::putFile("signatures", $request->file('imagenn'));
-            $request->request->add(["parent_guardian_signature"=>$path]);
+            $request->request->add(["parent_guardian_signature" => $path]);
         }
 
-        if($request->parent_guardian_signature_date){
-            $date_clean1 = preg_replace('/\(.*\)|[A-Z]{3}-\d{4}/', '',$request->parent_guardian_signature_date );
+        if ($request->parent_guardian_signature_date) {
+            $date_clean1 = preg_replace('/\(.*\)|[A-Z]{3}-\d{4}/', '', $request->parent_guardian_signature_date);
             $request->request->add(["parent_guardian_signature_date" => Carbon::parse($date_clean1)->format('Y-m-d h:i:s')]);
         }
 
-        
+
         $consentToTreatment = ConsentToTreatment::create($request->all());
-        
-        
+
+
         return response()->json([
-            "message"=>200,
-            "id"=>$consentToTreatment->id,
+            "message" => 200,
+            "id" => $consentToTreatment->id,
         ]);
     }
 
-   
+
 
     /**
      * Update the specified resource in storage.
@@ -83,30 +83,30 @@ class ConsentToTreatmentController extends Controller
     {
         $consentToTreatment = ConsentToTreatment::findOrFail($id);
 
-        if($request->hasFile('imagen')){
-            if($bip->analyst_signature){
+        if ($request->hasFile('imagen')) {
+            if ($bip->analyst_signature) {
                 Storage::delete($bip->analyst_signature);
             }
             $path = Storage::putFile("signatures", $request->file('imagen'));
-            $request->request->add(["analyst_signature"=>$path]);
+            $request->request->add(["analyst_signature" => $path]);
         }
-        if($request->hasFile('imagenn')){
-            if($bip->parent_guardian_signature){
+        if ($request->hasFile('imagenn')) {
+            if ($bip->parent_guardian_signature) {
                 Storage::delete($bip->parent_guardian_signature);
             }
             $path = Storage::putFile("signatures", $request->file('imagenn'));
-            $request->request->add(["parent_guardian_signature"=>$path]);
+            $request->request->add(["parent_guardian_signature" => $path]);
         }
 
-        if($request->parent_guardian_signature_date){
-            $date_clean1 = preg_replace('/\(.*\)|[A-Z]{3}-\d{4}/', '',$request->parent_guardian_signature_date );
+        if ($request->parent_guardian_signature_date) {
+            $date_clean1 = preg_replace('/\(.*\)|[A-Z]{3}-\d{4}/', '', $request->parent_guardian_signature_date);
             $request->request->add(["parent_guardian_signature_date" => Carbon::parse($date_clean1)->format('Y-m-d h:i:s')]);
         }
         $consentToTreatment->update($request->all());
-        
+
         return response()->json([
-            "message"=>200,
-            "consentToTreatment"=>$consentToTreatment,
+            "message" => 200,
+            "consentToTreatment" => $consentToTreatment,
         ]);
     }
 
@@ -122,19 +122,16 @@ class ConsentToTreatmentController extends Controller
 
         return response()->json([
             "consentToTreatment" => $consentToTreatment,
-            
+
         ]);
-        
     }
 
     public function showbyProfile($id)
     {
-        $patient = ConsentToTreatment::where("client_id","<>", $id)->first();
+        $patient = ConsentToTreatment::where("client_id", "<>", $id)->first();
         return response()->json([
             "patient" => $patient,
         ]);
-
-        
     }
 
 
@@ -143,10 +140,8 @@ class ConsentToTreatmentController extends Controller
         $consentToTreatmentPatientIds = ConsentToTreatment::where("patient_id", $patient_id)->orderBy("patient_id", "desc")->get();
         return response()->json([
             "consentToTreatmentPatientIds" => ConsentToTreatmentCollection::make($consentToTreatmentPatientIds)
-            
-        ]);
 
-        
+        ]);
     }
 
 

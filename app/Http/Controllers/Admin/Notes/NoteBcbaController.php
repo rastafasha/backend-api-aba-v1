@@ -30,21 +30,21 @@ class NoteBcbaController extends Controller
                             ->paginate(10);
         return response()->json([
             // "total"=>$patients->total(),
-            "note_bcbas"=> NoteBcbaCollection::make($note_bcbas)
+            "note_bcbas" => NoteBcbaCollection::make($note_bcbas)
         ]);
     }
 
     public function config()
     {
-        $specialists = User::where("status",'active')->get();
+        $specialists = User::where("status", 'active')->get();
 
-        $role_rbt= User::orderBy("id", "desc")
-        ->whereHas("roles", function($q){
-            $q->where("name","like","%RBT%");
+        $role_rbt = User::orderBy("id", "desc")
+        ->whereHas("roles", function ($q) {
+            $q->where("name", "like", "%RBT%");
         })->get();
-        $role_bcba= User::orderBy("id", "desc")
-        ->whereHas("roles", function($q){
-            $q->where("name","like","%BCBA%");
+        $role_bcba = User::orderBy("id", "desc")
+        ->whereHas("roles", function ($q) {
+            $q->where("name", "like", "%BCBA%");
         })->get();
 
         return response()->json([
@@ -52,44 +52,44 @@ class NoteBcbaController extends Controller
             // "roles_rbt" => $role_rbt,
             // "roles_bcba" => $role_bcba,
             "specialists" => UserCollection::make($specialists),
-             "specialists"=>$specialists->map(function($specialist){
+             "specialists" => $specialists->map(function ($specialist) {
                 return[
                     // "location_id"=> $specialist->location_id,
-                    "id"=> $specialist->id,
-                    "avatar"=> $specialist->avatar,
-                    "electronic_signature"=> $specialist->electronic_signature,
-                    "name"=> $specialist->name,
-                    "surname"=> $specialist->surname,
+                    "id" => $specialist->id,
+                    "avatar" => $specialist->avatar,
+                    "electronic_signature" => $specialist->electronic_signature,
+                    "name" => $specialist->name,
+                    "surname" => $specialist->surname,
 
                 ];
-            }),
+             }),
 
 
             "roles_rbt" => UserCollection::make($role_rbt),
-             "roles_rbt"=>$role_rbt->map(function($rol_rbt){
+             "roles_rbt" => $role_rbt->map(function ($rol_rbt) {
                 return[
                     // "location_id"=> $rol_rbt->location_id,
-                    "id"=> $rol_rbt->id,
-                    "avatar"=> $rol_rbt->avatar,
-                    "electronic_signature"=> $rol_rbt->electronic_signature,
-                    "name"=> $rol_rbt->name,
-                    "surname"=> $rol_rbt->surname,
+                    "id" => $rol_rbt->id,
+                    "avatar" => $rol_rbt->avatar,
+                    "electronic_signature" => $rol_rbt->electronic_signature,
+                    "name" => $rol_rbt->name,
+                    "surname" => $rol_rbt->surname,
 
                 ];
-            }),
+             }),
 
             "roles_bcba" => UserCollection::make($role_bcba),
-             "roles_bcba"=>$role_bcba->map(function($rol_bcba){
+             "roles_bcba" => $role_bcba->map(function ($rol_bcba) {
                 return[
                     // "location_id"=> $rol_bcba->location_id,
-                    "id"=> $rol_bcba->id,
-                    "avatar"=> $rol_bcba->avatar,
-                    "electronic_signature"=> $rol_bcba->electronic_signature,
-                    "name"=> $rol_bcba->name,
-                    "surname"=> $rol_bcba->surname,
+                    "id" => $rol_bcba->id,
+                    "avatar" => $rol_bcba->avatar,
+                    "electronic_signature" => $rol_bcba->electronic_signature,
+                    "name" => $rol_bcba->name,
+                    "surname" => $rol_bcba->surname,
 
                 ];
-            }),
+             }),
 
         ]);
     }
@@ -107,19 +107,19 @@ class NoteBcbaController extends Controller
         $doctor = User::where("id", $request->doctor_id)->first();
 
         $request->request->add([
-          "caregiver_goals"=>json_encode($request->caregiver_goals),
+          "caregiver_goals" => json_encode($request->caregiver_goals),
           "pa_service_id" => $request->pa_service_id,
         ]);
-        $request->request->add(["rbt_training_goals"=>json_encode($request->rbt_training_goals)]);
+        $request->request->add(["rbt_training_goals" => json_encode($request->rbt_training_goals)]);
 
         $request->request->add(["summary_note" => $request->summary_note]);
 
-        if($request->imagen){
-            $request->request->add(["provider_signature"=>$request->imagen]);
+        if ($request->imagen) {
+            $request->request->add(["provider_signature" => $request->imagen]);
         }
 
-        if($request->imagenn){
-            $request->request->add(["supervisor_signature"=>$request->imagenn]);
+        if ($request->imagenn) {
+            $request->request->add(["supervisor_signature" => $request->imagenn]);
         }
         // if($request->hasFile('imagen')){
         //     $path = Storage::putFile("notebcbas", $request->file('imagen'));
@@ -130,35 +130,35 @@ class NoteBcbaController extends Controller
         //     $request->request->add(["supervisor_signature"=>$path]);
         // }
 
-        if($request->birth_date){
-            $date_clean = preg_replace('/\(.*\)|[A-Z]{3}-\d{4}/', '',$request->birth_date );
+        if ($request->birth_date) {
+            $date_clean = preg_replace('/\(.*\)|[A-Z]{3}-\d{4}/', '', $request->birth_date);
             $request->request->add(["birth_date" => Carbon::parse($date_clean)->format('Y-m-d h:i:s')]);
         }
 
 
-        if($request->session_date){
-            $date_clean = preg_replace('/\(.*\)|[A-Z]{3}-\d{4}/', '',$request->session_date );
+        if ($request->session_date) {
+            $date_clean = preg_replace('/\(.*\)|[A-Z]{3}-\d{4}/', '', $request->session_date);
             $request->request->add(["session_date" => Carbon::parse($date_clean)->format('Y-m-d h:i:s')]);
         }
-        if($request->next_session_is_scheduled_for){
-            $date_clean1 = preg_replace('/\(.*\)|[A-Z]{3}-\d{4}/', '',$request->next_session_is_scheduled_for );
+        if ($request->next_session_is_scheduled_for) {
+            $date_clean1 = preg_replace('/\(.*\)|[A-Z]{3}-\d{4}/', '', $request->next_session_is_scheduled_for);
             $request->request->add(["next_session_is_scheduled_for" => Carbon::parse($date_clean1)->format('Y-m-d h:i:s')]);
         }
 
-        if($request->time_in){
-            $time_clean = preg_replace('/\(.*\)|[A-Z]{3}-\d{4}/', '',$request->time_in );
+        if ($request->time_in) {
+            $time_clean = preg_replace('/\(.*\)|[A-Z]{3}-\d{4}/', '', $request->time_in);
             $request->request->add(["time_in" => Carbon::parse($time_clean)->format('h:i:s')]);
         }
-        if($request->time_out){
-            $time_clean1 = preg_replace('/\(.*\)|[A-Z]{3}-\d{4}/', '',$request->time_out );
+        if ($request->time_out) {
+            $time_clean1 = preg_replace('/\(.*\)|[A-Z]{3}-\d{4}/', '', $request->time_out);
             $request->request->add(["time_out" => Carbon::parse($time_clean1)->format('h:i:s')]);
         }
-        if($request->time_in2){
-            $time_clean3 = preg_replace('/\(.*\)|[A-Z]{3}-\d{4}/', '',$request->time_in2 );
+        if ($request->time_in2) {
+            $time_clean3 = preg_replace('/\(.*\)|[A-Z]{3}-\d{4}/', '', $request->time_in2);
             $request->request->add(["time_in2" => Carbon::parse($time_clean3)->format('h:i:s')]);
         }
-        if($request->time_out2){
-            $time_clean4 = preg_replace('/\(.*\)|[A-Z]{3}-\d{4}/', '',$request->time_out2 );
+        if ($request->time_out2) {
+            $time_clean4 = preg_replace('/\(.*\)|[A-Z]{3}-\d{4}/', '', $request->time_out2);
             $request->request->add(["time_out2" => Carbon::parse($time_clean4)->format('h:i:s')]);
         }
 
@@ -183,8 +183,8 @@ class NoteBcbaController extends Controller
 
         return response()->json([
             "noteBcba" => NoteBcbaResource::make($noteBcba),
-            "caregiver_goals"=>json_decode($noteBcba-> caregiver_goals),
-            "rbt_training_goals"=>json_decode($noteBcba-> rbt_training_goals),
+            "caregiver_goals" => json_decode($noteBcba-> caregiver_goals),
+            "rbt_training_goals" => json_decode($noteBcba-> rbt_training_goals),
         ]);
     }
 
@@ -197,8 +197,6 @@ class NoteBcbaController extends Controller
         return response()->json([
             "noteBcbas" => NoteBcbaCollection::make($noteBcbas),
         ]);
-
-
     }
 
 
@@ -210,10 +208,8 @@ class NoteBcbaController extends Controller
         return response()->json([
             // "noteBcba" => $noteBcba,
             "noteBcba" => NoteBcbaCollection::make($noteBcba),
-            "pa_assessments"=>$patient->pa_assessments ? json_decode($patient->pa_assessments) : [],
+            "pa_assessments" => $patient->pa_assessments ? json_decode($patient->pa_assessments) : [],
         ]);
-
-
     }
     public function showReplacementsByPatient($patient_id)
     {
@@ -221,13 +217,11 @@ class NoteBcbaController extends Controller
         $familiEnvolments = FamilyEnvolment::where("patient_id", $patient_id)->get();
         $monitoringEvaluatingPatientIds = MonitoringEvaluating::where("patient_id", $patient_id)->orderBy("patient_id", "desc")->get();
         return response()->json([
-        "pa_assessments"=>$patient->pa_assessments ? json_decode($patient->pa_assessments) : null,
-            "familiEnvolments" =>FamilyEnvolmentGoalsCollection::make($familiEnvolments) ,
+        "pa_assessments" => $patient->pa_assessments ? json_decode($patient->pa_assessments) : null,
+            "familiEnvolments" => FamilyEnvolmentGoalsCollection::make($familiEnvolments) ,
             "monitoringEvaluatingPatientIds" => MonitoringEvaluatingCollection::make($monitoringEvaluatingPatientIds),
             // "rbt_training_goals"=>json_decode($monitoringEvaluatingPatientIds-> rbt_training_goals),
         ]);
-
-
     }
 
 
@@ -244,19 +238,19 @@ class NoteBcbaController extends Controller
         $noteBcba = NoteBcba::findOrFail($id);
 
         $request->request->add([
-          "caregiver_goals"=>json_encode($request->caregiver_goals),
+          "caregiver_goals" => json_encode($request->caregiver_goals),
           "pa_service_id" => $request->pa_service_id,
         ]);
-        $request->request->add(["rbt_training_goals"=>json_encode($request->rbt_training_goals)]);
+        $request->request->add(["rbt_training_goals" => json_encode($request->rbt_training_goals)]);
 
         $request->request->add(["summary_note" => $request->summary_note]);
 
-        if($request->imagen){
-            $request->request->add(["provider_signature"=>$request->imagen]);
+        if ($request->imagen) {
+            $request->request->add(["provider_signature" => $request->imagen]);
         }
 
-        if($request->imagenn){
-            $request->request->add(["supervisor_signature"=>$request->imagenn]);
+        if ($request->imagenn) {
+            $request->request->add(["supervisor_signature" => $request->imagenn]);
         }
         // if($request->hasFile('imagen')){
         //     $path = Storage::putFile("notebcbas", $request->file('imagen'));
@@ -267,13 +261,13 @@ class NoteBcbaController extends Controller
         //     $request->request->add(["supervisor_signature"=>$path]);
         // }
 
-        if($request->birth_date){
-            $date_clean = preg_replace('/\(.*\)|[A-Z]{3}-\d{4}/', '',$request->birth_date );
+        if ($request->birth_date) {
+            $date_clean = preg_replace('/\(.*\)|[A-Z]{3}-\d{4}/', '', $request->birth_date);
             $request->request->add(["birth_date" => Carbon::parse($date_clean)->format('Y-m-d h:i:s')]);
         }
 
-        if($request->session_date){
-            $date_clean = preg_replace('/\(.*\)|[A-Z]{3}-\d{4}/', '',$request->session_date );
+        if ($request->session_date) {
+            $date_clean = preg_replace('/\(.*\)|[A-Z]{3}-\d{4}/', '', $request->session_date);
             $request->request->add(["session_date" => Carbon::parse($date_clean)->format('Y-m-d h:i:s')]);
         }
 
@@ -282,9 +276,9 @@ class NoteBcbaController extends Controller
 
         return response()->json([
             "message" => 200,
-            "noteBcba"=>$noteBcba,
-            "caregiver_goals"=>json_decode($noteBcba-> caregiver_goals),
-            "rbt_training_goals"=>json_decode($noteBcba-> rbt_training_goals),
+            "noteBcba" => $noteBcba,
+            "caregiver_goals" => json_decode($noteBcba-> caregiver_goals),
+            "rbt_training_goals" => json_decode($noteBcba-> rbt_training_goals),
         ]);
     }
 
@@ -309,10 +303,9 @@ class NoteBcbaController extends Controller
         $noteBcbas = NoteBcba::where('status', 2)->orderBy("id", "desc")
                             ->paginate(10);
         return response()->json([
-            "total"=>$noteBcbas->total(),
-            "noteBcbas"=> NoteBcbaCollection::make($noteBcbas)
+            "total" => $noteBcbas->total(),
+            "noteBcbas" => NoteBcbaCollection::make($noteBcbas)
         ]);
-
     }
 
     public function updateStatus(Request $request, $id)
@@ -321,7 +314,6 @@ class NoteBcbaController extends Controller
         $noteBcba->status = $request->status;
         $noteBcba->update();
         return $noteBcba;
-
     }
 
     public function updateModifier(Request $request, $id)
@@ -333,6 +325,5 @@ class NoteBcbaController extends Controller
         $noteBcba->md2bcba = $request->md2bcba;
         $noteBcba->update();
         return $noteBcba;
-
     }
 }

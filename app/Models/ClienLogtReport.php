@@ -8,6 +8,4 @@ use Illuminate\Database\Eloquent\Model;
 class ClienLogtReport extends Model
 {
     use HasFactory;
-
-    
 }

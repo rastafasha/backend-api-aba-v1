@@ -6,20 +6,19 @@ use App\Models\Insurance\Insurance;
 use App\Models\Notes\NoteBcba;
 use App\Models\Notes\NoteRbt;
 use App\Models\Patient\Patient;
-use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 
 class ClaimsService
 {
-  private $ediService;
+    private $ediService;
 
-  public function __construct(EdiX12837Service $ediService)
-  {
-    $this->ediService = $ediService;
-  }
+    public function __construct(EdiX12837Service $ediService)
+    {
+        $this->ediService = $ediService;
+    }
 
-  public function generateFromNotes(array $notesRbtIds, array $notesBcbaIds)
+    public function generateFromNotes(array $notesRbtIds, array $notesBcbaIds)
     {
         // Ensure there's an array of either RBT or BCBA note ids.
         $notesRbtIds = !empty($notesRbtIds) ? $notesRbtIds : [];
@@ -39,8 +38,10 @@ class ClaimsService
 
         // Process RBT notes
         foreach ($rbtNotesByPatient as $patientId => $notes) {
-            $patient = Patient::where('patient_id', $patientId)->first();
-            if (!$patient) continue;
+            $patient = Patient::where('id', $patientId)->first();
+            if (!$patient) {
+                continue;
+            }
 
             $patientData = $this->getPatientData($patient);
             $insuranceData = $this->getInsuranceData($patient);
@@ -56,8 +57,10 @@ class ClaimsService
 
         // Process BCBA notes
         foreach ($bcbaNotesByPatient as $patientId => $notes) {
-            $patient = Patient::where('patient_id', $patientId)->first();
-            if (!$patient) continue;
+            $patient = Patient::where('id', $patientId)->first();
+            if (!$patient) {
+                continue;
+            }
 
             $patientData = $this->getPatientData($patient);
             $insuranceData = $this->getInsuranceData($patient);
@@ -72,7 +75,7 @@ class ClaimsService
         }
 
         if (empty($claimsData)) {
-            return response()->json(['error' => 'No valid claims found'], 400);
+            return '';
         }
 
         $fileContent = $this->ediService->generate($claimsData);
@@ -86,7 +89,7 @@ class ClaimsService
 
 
         return [
-            "payer_name" => $insurance->insurer_name,
+            "payer_name" => $insurance->name,
             "payer_code" => $insurance->payer_id,
             "payer_street" => $insurance->street,
             "payer_street2" => $insurance->street2,
@@ -178,14 +181,14 @@ class ClaimsService
         // Get the claim data from the RBT notes
         foreach ($notesRbt as $note) {
             $noteData = $this->getClaimDataFromRbtNote($note);
-            $service = array_filter($services, function ($service) use ($noteData) {
+            $service = array_values(array_filter($services, function ($service) use ($noteData) {
                 return $service['code'] == $noteData['cpt_codes'];
-            });
+            }));
             if (!$service) {
                 continue;
             }
 
-            $noteTotalAmount = $note->total_units * $service[0]['unit_prize'];
+            $noteTotalAmount = number_format($note->total_units * $service[0]['unit_prize'], 2, '.', '');
 
             $procedureCodes[] = [
                 'cpt_codes' => $noteData['cpt_codes'],
@@ -196,20 +199,20 @@ class ClaimsService
                 'total_amount' => $noteTotalAmount,
                 'facility_code' => '11'  // Office setting
             ];
-            $totalAmount += $noteTotalAmount;
+            $totalAmount += floatval($noteTotalAmount);
         }
 
         // Get the claim data from the BCBA notes
         foreach ($notesBcba as $note) {
             $noteData = $this->getClaimDataFromBcbaNote($note);
-            $service = array_filter($services, function ($service) use ($noteData) {
+            $service = array_values(array_filter($services, function ($service) use ($noteData) {
                 return $service['code'] == $noteData['cpt_codes'];
-            });
+            }));
             if (!$service) {
                 continue;
             }
 
-            $noteTotalAmount = $note->total_units * $service[0]['unit_prize'];
+            $noteTotalAmount = number_format($note->total_units * $service[0]['unit_prize'], 2, '.', '');
 
             $procedureCodes[] = [
                 'cpt_codes' => $noteData['cpt_codes'],
@@ -220,12 +223,12 @@ class ClaimsService
                 'total_amount' => $noteTotalAmount,
                 'facility_code' => '11'  // Office setting
             ];
-            $totalAmount += $noteTotalAmount;
+            $totalAmount += floatval($noteTotalAmount);
         }
 
         return array_merge($baseClaimData, [
             'procedure_codes' => $procedureCodes,
-            'total_amount' => $totalAmount
+            'total_amount' => number_format($totalAmount, 2, '.', '')
         ]);
     }
 

@@ -27,6 +27,7 @@ class CrisisPlanResource extends JsonResource
             "homicidalities"=>json_decode($this->resource->homicidalities) ? : null,
             "created_at"=>$this->resource->created_at ? Carbon::parse($this->resource->created_at)->format("Y-m-d h:i A") : NULL,            
 
+
         ];
     }
 }

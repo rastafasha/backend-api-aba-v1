@@ -10,7 +10,8 @@ class Replacement extends Model
 {
     use HasFactory;
     use SoftDeletes;
-    protected $fillable=[
+
+    protected $fillable = [
         'patient_id',
         'note_rbt_id',
         'goal',

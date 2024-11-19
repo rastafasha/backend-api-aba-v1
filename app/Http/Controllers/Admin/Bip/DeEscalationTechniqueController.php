@@ -20,12 +20,12 @@ class DeEscalationTechniqueController extends Controller
     {
         $deEscalationTechniques = DeEscalationTechnique::orderBy("id", "desc")
                             ->paginate(10);
-                    
+
         return response()->json([
             "deEscalationTechniques" => $deEscalationTechniques ,
             // "goals" => ReductionGoalsResource::make($goals) ,
-            
-        ]); 
+
+        ]);
     }
 
     /**
@@ -38,17 +38,17 @@ class DeEscalationTechniqueController extends Controller
     {
         $patient_is_valid = Patient::where("patient_id", $request->patient_id)->first();
 
-        $request->request->add(["recomendation_lists"=>json_encode($request->recomendation_lists)]);
-        
+        $request->request->add(["recomendation_lists" => json_encode($request->recomendation_lists)]);
+
 
         $deEscalationTechnique = DeEscalationTechnique::create($request->all());
-        
-        
+
+
         return response()->json([
-            "message"=>200,
-            "id"=>$deEscalationTechnique->id,
+            "message" => 200,
+            "id" => $deEscalationTechnique->id,
             'deEscalationTechnique' => new DeEscalationTechniqueResource($deEscalationTechnique),
-            "recomendation_lists"=>json_decode($deEscalationTechnique-> recomendation_lists),
+            "recomendation_lists" => json_decode($deEscalationTechnique-> recomendation_lists),
         ]);
     }
 
@@ -65,19 +65,17 @@ class DeEscalationTechniqueController extends Controller
         return response()->json([
             "deEscalationTechnique" => $deEscalationTechnique,
             "client_id" => $client_id,
-            "recomendation_lists"=>json_decode($deEscalationTechnique-> recomendation_lists),
-            
+            "recomendation_lists" => json_decode($deEscalationTechnique-> recomendation_lists),
+
         ]);
     }
 
     public function showbyProfile($id)
     {
-        $patient = DeEscalationTechnique::where("client_id","<>", $id)->first();
+        $patient = DeEscalationTechnique::where("client_id", "<>", $id)->first();
         return response()->json([
             "patient" => $patient,
         ]);
-
-        
     }
 
 
@@ -86,10 +84,8 @@ class DeEscalationTechniqueController extends Controller
         $deEscalationTechniquePatientIds = DeEscalationTechnique::where("patient_id", $patient_id)->orderBy("patient_id", "desc")->get();
         return response()->json([
             "deEscalationTechniquePatientIds" => DeEscalationTechniqueCollection::make($deEscalationTechniquePatientIds)
-            
-        ]);
 
-        
+        ]);
     }
 
     /**
@@ -103,14 +99,14 @@ class DeEscalationTechniqueController extends Controller
     {
         $deEscalationTechnique = DeEscalationTechnique::findOrFail($id);
 
-        $request->request->add(["recomendation_lists"=>json_encode($request->recomendation_lists)]);
-        
+        $request->request->add(["recomendation_lists" => json_encode($request->recomendation_lists)]);
+
         $deEscalationTechnique->update($request->all());
-        
+
         return response()->json([
-            "message"=>200,
-            "deEscalationTechnique"=>$deEscalationTechnique,
-            "recomendation_lists"=>json_decode($deEscalationTechnique-> recomendation_lists),
+            "message" => 200,
+            "deEscalationTechnique" => $deEscalationTechnique,
+            "recomendation_lists" => json_decode($deEscalationTechnique-> recomendation_lists),
         ]);
     }
 

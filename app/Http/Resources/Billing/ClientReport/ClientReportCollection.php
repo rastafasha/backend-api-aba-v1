@@ -15,7 +15,7 @@ class ClientReportCollection extends ResourceCollection
     public function toArray($request)
     {
         return [
-            "data"=> ClientReportResource::collection($this->collection)
+            "data" => ClientReportResource::collection($this->collection)
         ];
     }
 }

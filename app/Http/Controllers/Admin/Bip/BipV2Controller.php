@@ -3,13 +3,13 @@
 namespace App\Http\Controllers\Admin\Bip;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\BipRequest;
 use App\Models\Bip\Bip;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 
 class BipV2Controller extends Controller
 {
-
     /**
      * @OA\Get(
      *     path="/api/v2/bips",
@@ -46,17 +46,10 @@ class BipV2Controller extends Controller
             $query->where('type_of_assessment', $request->type_of_assessment);
         }
 
-        if ($request->has('date_from')) {
-            $query->whereDate('created_at', '>=', Carbon::parse($request->date_from));
-        }
-
-        if ($request->has('date_to')) {
-            $query->whereDate('created_at', '<=', Carbon::parse($request->date_to));
-        }
-
         // Get paginated results
         $perPage = $request->input('per_page', 15);
-        $bips = $query->orderBy('created_at', 'desc')
+        $bips = $query->filterByCreatedAtRange($request->date_from, $request->date_to)
+            ->orderBy('created_at', 'desc')
             ->paginate($perPage);
 
         return response()->json([
@@ -84,10 +77,9 @@ class BipV2Controller extends Controller
      *     )
      * )
      */
-    public function store(Request $request)
+    public function store(BipRequest $request)
     {
-        $validated = $request->validate($this->getValidationRules());
-
+        $validated = $request->validated();
         $bip = Bip::create($validated);
 
         return response()->json([
@@ -162,19 +154,10 @@ class BipV2Controller extends Controller
      *     @OA\Response(response=404, description="BIP not found")
      * )
      */
-    public function update(Request $request, $id)
+    public function update(BipRequest $request, $id)
     {
-        $bip = Bip::find($id);
-
-        if (!$bip) {
-            return response()->json([
-                'status' => 'error',
-                'message' => 'BIP not found'
-            ], 404);
-        }
-
-        $validated = $request->validate($this->getValidationRules());
-
+        $bip = Bip::findOrFail($id);
+        $validated = $request->validated();
         $bip->update($validated);
 
         return response()->json([
@@ -217,36 +200,5 @@ class BipV2Controller extends Controller
             'status' => 'success',
             'message' => 'BIP deleted successfully'
         ]);
-    }
-
-    private function getValidationRules()
-    {
-        return [
-            'type_of_assessment' => 'required|integer',
-            'documents_reviewed' => 'nullable|array',
-            'client_id' => 'required|exists:users,id',
-            'doctor_id' => 'nullable|exists:users,id',
-            'patient_id' => 'nullable|string|max:50',
-            'background_information' => 'nullable|string',
-            'previus_treatment_and_result' => 'nullable|string',
-            'current_treatment_and_progress' => 'nullable|string',
-            'education_status' => 'nullable|string',
-            'phisical_and_medical_status' => 'nullable|string',
-            'maladaptives' => 'nullable|array',
-            'assestment_conducted' => 'nullable|string',
-            'assestment_conducted_options' => 'nullable|array',
-            'prevalent_setting_event_and_atecedents' => 'nullable|array',
-            'assestmentEvaluationSettings' => 'nullable|array',
-            'interventions' => 'nullable|array',
-            'strengths' => 'nullable|string',
-            'weakneses' => 'nullable|string',
-            'hypothesis_based_intervention' => 'nullable|string',
-            'phiysical_and_medical' => 'nullable|string',
-            'phiysical_and_medical_status' => 'nullable|array',
-            'tangibles' => 'nullable|array',
-            'attention' => 'nullable|array',
-            'escape' => 'nullable|array',
-            'sensory' => 'nullable|array',
-        ];
     }
 }
