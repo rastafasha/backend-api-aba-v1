@@ -21,6 +21,7 @@ class BipResource extends JsonResource
             "doctor_id" => $this->resource->doctor_id,
             "doctor" => $this->resource->doctor ?
                 [
+
                     "id" => $this->resource->doctor->id,
                     "full_name" => $this->resource->doctor->name . ' ' . $this->resource->doctor->surname,
                     "avatar" => $this->resource->doctor->avatar ? env("APP_URL") . "storage/" . $this->resource->doctor->avatar : null,
@@ -75,6 +76,7 @@ class BipResource extends JsonResource
             "phiysical_and_medical_status" =>
             is_string($this->resource->phiysical_and_medical_status)
                 ? json_decode($this->resource->phiysical_and_medical_status) : $this->resource->phiysical_and_medical_status,
+
             "reduction_goal" => $this->resource->reduction_goals,
             "sustitution_goal" => $this->resource->sustitution_goals,
             "family_envolment" => $this->resource->family_envolments,
@@ -84,6 +86,7 @@ class BipResource extends JsonResource
             "de_escalation_technique" => $this->resource->de_escalation_techniques,
             "consent_to_treatment" => $this->resource->consent_to_treatments,
             "created_at" => $this->resource->created_at ? Carbon::parse($this->resource->created_at)->format("Y-m-d") : null,
+
         ];
     }
 }

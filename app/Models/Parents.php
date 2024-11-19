@@ -42,12 +42,9 @@ class Parents extends Authenticatable implements JWTSubject
 
     protected $fillable = [
         'name',
-        'email',
-        'password',
-        'location_id',
-        'patient_id',
-        //
         'surname',
+        'email',
+        'patient_id',
         'phone',
         'birth_date',
         'gender',
@@ -55,6 +52,8 @@ class Parents extends Authenticatable implements JWTSubject
         'avatar',
         'status',
         'documents_pending',
+        'location_id',
+        'password',
 
 
     ];
@@ -94,7 +93,7 @@ class Parents extends Authenticatable implements JWTSubject
 
     public function isParent()
     {
-        return $this->role === ParentModel::PARENT;
+        return $this->role === Parents::PARENT;
     }
 
     public function location()
