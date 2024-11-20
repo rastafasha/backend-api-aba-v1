@@ -11,6 +11,50 @@ class NotesSeeder extends Seeder
 {
     public function run()
     {
+        // First, let's ensure PaServices have their spent_units set to 0 initially
+        $paServices = [
+            [
+                'patient_id' => 1,
+                'pa_services' => 'Behavioral Analysis',
+                'cpt' => '97153',
+                'n_units' => 100,
+                'spent_units' => 0,
+                'start_date' => Carbon::now()->subDays(30),
+                'end_date' => Carbon::now()->addDays(30),
+            ],
+            [
+                'patient_id' => 1,
+                'pa_services' => 'BCBA Supervision',
+                'cpt' => '97155',
+                'n_units' => 50,
+                'spent_units' => 0,
+                'start_date' => Carbon::now()->subDays(30),
+                'end_date' => Carbon::now()->addDays(30),
+            ],
+            [
+                'patient_id' => 2,
+                'pa_services' => 'Behavioral Analysis',
+                'cpt' => '97153',
+                'n_units' => 100,
+                'spent_units' => 0,
+                'start_date' => Carbon::now()->subDays(30),
+                'end_date' => Carbon::now()->addDays(30),
+            ],
+            [
+                'patient_id' => 2,
+                'pa_services' => 'BCBA Supervision',
+                'cpt' => '97155',
+                'n_units' => 50,
+                'spent_units' => 0,
+                'start_date' => Carbon::now()->subDays(30),
+                'end_date' => Carbon::now()->addDays(30),
+            ],
+        ];
+
+        foreach ($paServices as $service) {
+            \App\Models\PaService::create($service);
+        }
+
         $notes = [
             // Notes for Patient 1
             [

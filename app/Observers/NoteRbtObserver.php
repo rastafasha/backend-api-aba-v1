@@ -26,11 +26,11 @@ class NoteRbtObserver
 
     public function deleting(NoteRbt $note)
     {
-        // Restore units when a note is deleted
+        // Remove units from spent total when a note is deleted
         $units = $note->total_units;
         $paService = $note->paService;
 
-        $paService->remaining_units += $units;
+        $paService->spent_units -= $units;
         $paService->save();
     }
 }
