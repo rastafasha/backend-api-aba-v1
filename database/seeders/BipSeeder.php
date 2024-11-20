@@ -24,14 +24,7 @@ class BipSeeder extends Seeder
                 'phisical_and_medical_status' => 'Generally healthy, no major concerns',
                 'strengths' => 'Good motor skills, responsive to reinforcement',
                 'weakneses' => 'Communication difficulties, attention challenges',
-                'maladaptives' => [
-                    'tantrums' => true,
-                    'aggression' => true
-                ],
-                'interventions' => [
-                    'positive_reinforcement' => true,
-                    'token_economy' => true
-                ],
+                
             ],
             [
                 'id' => 2,

@@ -361,8 +361,12 @@ class PatientController extends Controller
 
         return response()->json([
             "patient" => PatientResource::make($patient),
-            "pa_assessments" => json_decode($patient->pa_assessments) ? : null,
-            "pos_covered" => json_decode($patient->pos_covered) ? : null,
+            "pa_assessments" => is_string($patient->pa_assessments)
+            ? json_decode($patient->pa_assessments)
+            : $patient->pa_assessments,
+            "pos_covered" =>is_string($patient->pos_covered)
+            ? json_decode($patient->pos_covered)
+            : $patient->pos_covered,
         ]);
     }
 
