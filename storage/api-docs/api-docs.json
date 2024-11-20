@@ -4995,6 +4995,10 @@
                         "type": "integer",
                         "example": 8
                     },
+                    "spent_units": {
+                        "type": "integer",
+                        "example": 0
+                    },
                     "start_date": {
                         "type": "string",
                         "format": "date",

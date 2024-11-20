@@ -19,7 +19,7 @@ class CreatePaServicesTable extends Migration
             $table->string('pa_services');
             $table->string('cpt');
             $table->integer('n_units')->default(0);
-            $table->integer('remaining_units')->default(0);
+            $table->integer('spent_units')->default(0);
             $table->date('start_date');
             $table->date('end_date');
             $table->timestamps();

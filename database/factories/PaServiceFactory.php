@@ -34,7 +34,7 @@ class PaServiceFactory extends Factory
                 '97157', // Multiple-family group adaptive behavior treatment guidance
             ]),
             'n_units' => $this->faker->numberBetween(50, 100),
-            'remaining_units' => $this->faker->numberBetween(40, 50),
+            'spent_units' => $this->faker->numberBetween(0, 10),
             'start_date' => $startDate,
             'end_date' => $endDate,
         ];

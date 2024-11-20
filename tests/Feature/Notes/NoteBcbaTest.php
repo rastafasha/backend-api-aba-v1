@@ -32,7 +32,7 @@ class NoteBcbaTest extends TestCase
         $this->paService = PaService::factory()->create([
             'patient_id' => $this->patient->id,
             'n_units' => 100,
-            'remaining_units' => 100,
+            'spent_units' => 0,
         ]);
         $this->provider = User::factory()->create();
         $this->supervisor = User::factory()->create();
