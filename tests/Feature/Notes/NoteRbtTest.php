@@ -8,6 +8,7 @@ use App\Models\Location;
 use App\Models\Insurance\Insurance;
 use App\Models\Notes\NoteRbt;
 use App\Models\Patient\Patient;
+use App\Models\PaService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 
@@ -21,6 +22,7 @@ class NoteRbtTest extends TestCase
     protected $doctor;
     protected $location;
     protected $insurance;
+    protected $paService;
 
     protected function setUp(): void
     {
@@ -28,6 +30,11 @@ class NoteRbtTest extends TestCase
 
         // Create necessary related models
         $this->patient = Patient::factory()->create();
+        $this->paService = PaService::factory()->create([
+            'patient_id' => $this->patient->id,
+            'n_units' => 100,
+            'remaining_units' => 100,
+        ]);
         $this->provider = User::factory()->create();
         $this->supervisor = User::factory()->create();
         $this->doctor = User::factory()->create();
@@ -67,6 +74,7 @@ class NoteRbtTest extends TestCase
             'cpt_code' => '97153',
             'billed' => false,
             'paid' => false,
+            'pa_service_id' => $this->paService->id,
         ];
 
         $response = $this->postJson('/api/v2/notes/rbt', $noteData);
@@ -90,6 +98,7 @@ class NoteRbtTest extends TestCase
             'patient_id' => $this->patient->id,
             'provider_id' => $this->provider->id,
             'location_id' => $this->location->id,
+            'pa_service_id' => $this->paService->id,
         ]);
 
         $updatedData = [
@@ -102,7 +111,8 @@ class NoteRbtTest extends TestCase
             'status' => 'ok',
             'time_in' => '09:00:00',
             'time_out' => '10:00:00',
-            'session_length_total' => 60
+            'session_length_total' => 60,
+            'pa_service_id' => $this->paService->id,
         ];
 
         $response = $this->putJson("/api/v2/notes/rbt/{$note->id}", $updatedData);

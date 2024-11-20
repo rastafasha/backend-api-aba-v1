@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Models\Notes\NoteBcba;
+use App\Models\Notes\NoteRbt;
 use App\Models\Patient\Patient;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -35,6 +37,7 @@ class PaService extends Model
         'n_units',
         'start_date',
         'end_date',
+        'remaining_units',
     ];
 
     protected $casts = [
@@ -45,5 +48,26 @@ class PaService extends Model
     public function patient()
     {
         return $this->belongsTo(Patient::class);
+    }
+
+    public function rbtNotes()
+    {
+        return $this->hasMany(NoteRbt::class);
+    }
+
+    public function bcbaNotes()
+    {
+        return $this->hasMany(NoteBcba::class);
+    }
+
+    public function consumeUnits(int $units): bool
+    {
+        if ($this->remaining_units >= $units) {
+            $this->remaining_units -= $units;
+            $this->save();
+            return true;
+        } else {
+            return false;
+        }
     }
 }

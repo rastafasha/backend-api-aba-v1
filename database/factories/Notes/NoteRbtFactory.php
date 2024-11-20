@@ -7,6 +7,7 @@ use App\Models\Notes\NoteRbt;
 use App\Models\User;
 use App\Models\Location;
 use App\Models\Insurance\Insurance;
+use App\Models\PaService;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class NoteRbtFactory extends Factory
@@ -61,6 +62,7 @@ class NoteRbtFactory extends Factory
             'cpt_code' => '97153',
             'billed' => $this->faker->boolean,
             'paid' => $this->faker->boolean,
+            'pa_service_id' => PaService::factory(),
         ];
     }
 }
