@@ -40,14 +40,7 @@ class BipSeeder extends Seeder
                 'phisical_and_medical_status' => 'No significant health concerns',
                 'strengths' => 'Strong visual learning skills',
                 'weakneses' => 'Social interaction challenges',
-                'maladaptives' => [
-                    'self_stimming' => true,
-                    'avoidance' => true
-                ],
-                'interventions' => [
-                    'positive_reinforcement' => true,
-                    'visual_schedules' => true
-                ],
+                
             ],
         ];
 
