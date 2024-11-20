@@ -42,7 +42,6 @@ namespace App\Models\Notes;
 
 class NoteBcba extends Note
 {
-
     protected $fillable = [
         'insurance_id',
         'patient_id',

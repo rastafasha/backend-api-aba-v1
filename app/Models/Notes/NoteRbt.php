@@ -90,7 +90,6 @@ use Illuminate\Support\Facades\DB;
  */
 class NoteRbt extends Note
 {
-
     protected $fillable = [
         'insurance_id',
         'patient_id',
