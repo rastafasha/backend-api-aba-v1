@@ -90,13 +90,25 @@ use Illuminate\Support\Facades\DB;
  */
 class NoteRbt extends Note
 {
-    public function __construct(array $attributes = [])
-    {
-        parent::__construct($attributes);
-        $this->mergeFillable($this->extraFillable);
-    }
 
-    protected $extraFillable = [
+    protected $fillable = [
+        'insurance_id',
+        'patient_id',
+        'time_in',
+        'time_out',
+        'time_in2',
+        'time_out2',
+        'provider_id',
+        'location_id',
+        'session_date',
+        'cpt_code',
+        'status',
+        'billed',
+        'paid',
+        'doctor_id',
+        'bip_id',
+        'summary_note',
+        'pa_service_id',
         'pos',
         'session_length_total',
         'environmental_changes',
@@ -117,7 +129,6 @@ class NoteRbt extends Note
         'supervisor_signature',
         'supervisor_name',
         'supervisor_id',
-        'pa_service_id',
         'insuranceId',
     ];
 

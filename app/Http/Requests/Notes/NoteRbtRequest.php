@@ -18,6 +18,7 @@ class NoteRbtRequest extends FormRequest
             'session_date' => 'required|date',
             'patient_id' => 'required|exists:patients,id',
             'doctor_id' => 'required|exists:users,id',
+            'pa_service_id' => 'required|exists:pa_services,id',
             'bip_id' => 'nullable|exists:bips,id',
             'pos' => 'nullable|string',
             'time_in' => 'nullable|date_format:H:i:s',
@@ -45,8 +46,9 @@ class NoteRbtRequest extends FormRequest
             'cpt_code' => 'nullable|string',
             'status' => 'nullable|in:pending,ok,no,review',
             'location_id' => 'nullable|exists:locations,id',
-            'pa_service_id' => 'nullable|exists:pa_services,id',
             'insuranceId' => 'nullable|string',
+            'supervisor_id' => 'nullable|exists:users,id',
+            'summary_note' => 'nullable|string',
         ];
     }
 }

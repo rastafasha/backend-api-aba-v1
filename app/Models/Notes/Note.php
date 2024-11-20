@@ -40,6 +40,7 @@ abstract class Note extends Model
         'doctor_id',
         'bip_id',
         'summary_note',
+        'pa_service_id',
     ];
 
     protected $appends = ['total_units', 'total_minutes'];

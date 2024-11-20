@@ -42,13 +42,25 @@ namespace App\Models\Notes;
 
 class NoteBcba extends Note
 {
-    public function __construct(array $attributes = [])
-    {
-        parent::__construct($attributes);
-        $this->mergeFillable($this->extraFillable);
-    }
 
-    protected $extraFillable = [
+    protected $fillable = [
+        'insurance_id',
+        'patient_id',
+        'time_in',
+        'time_out',
+        'time_in2',
+        'time_out2',
+        'provider_id',
+        'location_id',
+        'session_date',
+        'cpt_code',
+        'status',
+        'billed',
+        'paid',
+        'doctor_id',
+        'bip_id',
+        'summary_note',
+        'pa_service_id',
         'summary_note',
         'diagnosis_code',
         'supervisor_id',
@@ -60,7 +72,6 @@ class NoteBcba extends Note
         // 'supervisor_name',
         'session_length_total',
         'session_length_total2',
-        'pa_service_id',
         'insuranceId',
     ];
 
