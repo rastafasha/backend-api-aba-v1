@@ -23,6 +23,7 @@ class InsuranceRequest extends FormRequest
             'city' => 'nullable|string',
             'state' => 'nullable|string',
             'zip' => 'nullable|string',
+            'is_self_subscriber' => 'nullable|boolean',
         ];
     }
 }
