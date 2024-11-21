@@ -65,7 +65,8 @@ class InsuranceController extends Controller
         $insurance = Insurance::findOrFail($id);
         return response()->json([
             "id" => $insurance->id,
-            "name" => $insurance->name,
+            // "name" => $insurance->name,
+            "insurance" =>$insurance,
             "services" => $insurance-> services,
             "notes" => $insurance-> notes
         ]);
