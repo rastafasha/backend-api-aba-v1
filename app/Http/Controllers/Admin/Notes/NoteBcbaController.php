@@ -183,8 +183,14 @@ class NoteBcbaController extends Controller
 
         return response()->json([
             "noteBcba" => NoteBcbaResource::make($noteBcba),
-            "caregiver_goals" => json_decode($noteBcba-> caregiver_goals),
-            "rbt_training_goals" => json_decode($noteBcba-> rbt_training_goals),
+            "caregiver_goals" =>
+            is_string($noteBcba->caregiver_goals)
+                ? json_decode($noteBcba->caregiver_goals)
+                : $noteBcba->caregiver_goals,
+            "rbt_training_goals" =>
+            is_string($noteBcba->rbt_training_goals)
+                ? json_decode($noteBcba->rbt_training_goals)
+                : $noteBcba->rbt_training_goals,
         ]);
     }
 
@@ -277,8 +283,14 @@ class NoteBcbaController extends Controller
         return response()->json([
             "message" => 200,
             "noteBcba" => $noteBcba,
-            "caregiver_goals" => json_decode($noteBcba-> caregiver_goals),
-            "rbt_training_goals" => json_decode($noteBcba-> rbt_training_goals),
+            "caregiver_goals" =>
+            is_string($noteBcba->caregiver_goals)
+                ? json_decode($noteBcba->caregiver_goals)
+                : $noteBcba->caregiver_goals,
+            "rbt_training_goals" =>
+            is_string($noteBcba->rbt_training_goals)
+                ? json_decode($noteBcba->rbt_training_goals)
+                : $noteBcba->rbt_training_goals,
         ]);
     }
 
