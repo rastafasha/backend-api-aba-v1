@@ -495,9 +495,18 @@ class NoteRbtController extends Controller
             "noteRbt" => NoteRbtResource::make($noteRbt),
 
 
-            "interventions" => json_decode($noteRbt-> interventions),
-            "maladaptives" => json_decode($noteRbt-> maladaptives),
-            "replacements" => json_decode($noteRbt-> replacements),
+            "interventions" =>
+            is_string($noteRbt->interventions)
+                ? json_decode($noteRbt->interventions)
+                : $noteRbt->interventions,
+            "maladaptives" =>
+            is_string($noteRbt->maladaptives)
+                ? json_decode($noteRbt->maladaptives)
+                : $noteRbt->maladaptives,
+            "replacements" =>
+            is_string($noteRbt->replacements)
+                ? json_decode($noteRbt->replacements)
+                : $noteRbt->replacements,
             // "provider_name"=>$noteRbt->provider_name,
             "provider_name" => $doctor->map(function ($provider_name) {
                 return[
@@ -647,9 +656,18 @@ class NoteRbtController extends Controller
         return response()->json([
             "message" => 200,
             "noteRbt" => $noteRbt,
-            "interventions" => json_decode($noteRbt-> interventions),
-            "maladaptives" => json_decode($noteRbt-> maladaptives),
-            "replacements" => json_decode($noteRbt-> replacements),
+            "interventions" =>
+            is_string($noteRbt->interventions)
+                ? json_decode($noteRbt->interventions)
+                : $noteRbt->interventions,
+            "maladaptives" =>
+            is_string($noteRbt->maladaptives)
+                ? json_decode($noteRbt->maladaptives)
+                : $noteRbt->maladaptives,
+            "replacements" =>
+            is_string($noteRbt->replacements)
+                ? json_decode($noteRbt->replacements)
+                : $noteRbt->replacements,
         ]);
     }
 

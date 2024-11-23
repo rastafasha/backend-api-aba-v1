@@ -66,7 +66,7 @@ class InsuranceController extends Controller
         return response()->json([
             "id" => $insurance->id,
             // "name" => $insurance->name,
-            "insurance" =>$insurance,
+            "insurance" => $insurance,
             "services" => $insurance-> services,
             "notes" => $insurance-> notes
         ]);

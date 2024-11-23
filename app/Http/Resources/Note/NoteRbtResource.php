@@ -22,9 +22,18 @@ class NoteRbtResource extends JsonResource
             "session_date" => $this->resource->session_date ? Carbon::parse($this->resource->session_date)->format("Y-m-d") : null,
             "next_session_is_scheduled_for" => $this->resource->next_session_is_scheduled_for,
 
-            "interventions" => json_decode($this->resource->interventions) ?: null,
-            "replacements" => json_decode($this->resource->replacements) ?: null,
-            'maladaptives' => json_decode($this->resource->maladaptives) ?: null,
+            "interventions" =>
+            is_string($this->resource->interventions)
+                ? json_decode($this->resource->interventions) : $this->resource->interventions,
+
+            "replacements" =>
+            is_string($this->resource->replacements)
+                ? json_decode($this->resource->replacements) : $this->resource->replacements,
+
+            "maladaptives" =>
+            is_string($this->resource->maladaptives)
+                ? json_decode($this->resource->maladaptives) : $this->resource->maladaptives,
+
 
             "bip_id" => $this->resource->bip_id,
             "pos" => $this->resource->pos,
