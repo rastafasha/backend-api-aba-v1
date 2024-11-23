@@ -25,15 +25,15 @@ class NoteRbtResource extends JsonResource
             "interventions" =>
             is_string($this->resource->interventions)
                 ? json_decode($this->resource->interventions) : $this->resource->interventions,
-            
+
             "replacements" =>
             is_string($this->resource->replacements)
                 ? json_decode($this->resource->replacements) : $this->resource->replacements,
-            
+
             "maladaptives" =>
             is_string($this->resource->maladaptives)
                 ? json_decode($this->resource->maladaptives) : $this->resource->maladaptives,
-            
+
 
             "bip_id" => $this->resource->bip_id,
             "pos" => $this->resource->pos,

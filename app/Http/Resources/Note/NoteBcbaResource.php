@@ -28,7 +28,7 @@ class NoteBcbaResource extends JsonResource
                 "rbt_training_goals" =>
             is_string($this->resource->rbt_training_goals)
                 ? json_decode($this->resource->rbt_training_goals) : $this->resource->rbt_training_goals,
-            
+
             "location" => $this->resource->location,
 
             "summary_note" => $this->resource->summary_note,
