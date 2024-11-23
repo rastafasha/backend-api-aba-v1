@@ -46,6 +46,8 @@ class PaService extends Model
         'end_date' => 'date'
     ];
 
+    protected $appends = ['available_units'];
+
     public function patient()
     {
         return $this->belongsTo(Patient::class);
@@ -69,5 +71,11 @@ class PaService extends Model
             return true;
         }
         return false;
+    }
+
+    // add available units to the response
+    public function getAvailableUnitsAttribute()
+    {
+        return $this->n_units - $this->spent_units;
     }
 }
