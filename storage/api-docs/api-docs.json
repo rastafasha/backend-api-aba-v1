@@ -384,6 +384,10 @@
                                     },
                                     "zip": {
                                         "type": "string"
+                                    },
+                                    "is_self_subscriber": {
+                                        "type": "boolean",
+                                        "default": false
                                     }
                                 },
                                 "type": "object"
@@ -842,6 +846,15 @@
                         }
                     },
                     {
+                        "name": "patient_identifier",
+                        "in": "query",
+                        "description": "Filter by patient identifier",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
                         "name": "bip_id",
                         "in": "query",
                         "description": "Filter by BIP ID",
@@ -1228,6 +1241,15 @@
                         "required": false,
                         "schema": {
                             "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "patient_identifier",
+                        "in": "query",
+                        "description": "Filter by patient identifier",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
                         }
                     },
                     {

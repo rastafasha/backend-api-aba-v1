@@ -101,7 +101,7 @@ class InsuranceV2Controller extends Controller
      *             @OA\Property(property="street2", type="string"),
      *             @OA\Property(property="city", type="string"),
      *             @OA\Property(property="state", type="string"),
-     *             @OA\Property(property="zip", type="string")
+     *             @OA\Property(property="zip", type="string"),
      *             @OA\Property(property="is_self_subscriber", type="boolean", default=false)
      *         )
      *     ),

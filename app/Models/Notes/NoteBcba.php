@@ -80,5 +80,4 @@ class NoteBcba extends Note
         'billed' => 'boolean',
         'paid' => 'boolean',
     ];
-
 }
