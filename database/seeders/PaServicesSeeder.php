@@ -13,6 +13,7 @@ class PaServicesSeeder extends Seeder
         $paServices = [
             [
                 'patient_id' => 1,
+
                 'pa_services' => 'service 1 RBT',
                 'cpt' => '97153',
                 'n_units' => 100,

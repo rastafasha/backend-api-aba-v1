@@ -22,9 +22,10 @@ class DatabaseSeeder extends Seeder
             PaServicesSeeder::class,
             BipSeeder::class,
             NotesSeeder::class,
-            ReductionGoalsSeeder::class,
-            FamilyEnvolmentsSeeder::class,
-            MonitoringEvaluatingsSeeder::class,
+            FamilyEnvolvementsSeeder::class,
+            ReductionGoalSeeder::class,
+            UserLocationsSeeder::class,
+
         ]);
 
     }

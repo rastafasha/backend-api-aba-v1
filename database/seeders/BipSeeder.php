@@ -24,15 +24,9 @@ class BipSeeder extends Seeder
                 'phisical_and_medical_status' => 'Generally healthy, no major concerns',
                 'strengths' => 'Good motor skills, responsive to reinforcement',
                 'weakneses' => 'Communication difficulties, attention challenges',
-                'maladaptives' => [
-                    [
-                        "baseline_date" => "2024-07-12T04:00:00.000Z",
-                        "baseline_level" => "24",
-                        "initial_interesting" => 12,
-                        "maladaptive_behavior" => "test",
-                        "topografical_definition" => "testdsd teslts asd"
-                    ]
-                ]
+
+                'maladaptives' => '"[{\"index\":1,\"maladaptive_behavior\":\"Bad Words\",\"topografical_definition\":\"Said bad word every day\",\"baseline_level\":\"43\",\"baseline_date\":\"2024-11-23T04:00:00.000Z\",\"initial_interesting\":30,\"current_intensity\":58},{\"index\":2,\"maladaptive_behavior\":\"Drawin walls\",\"topografical_definition\":\"draw wall til sleep\",\"baseline_level\":\"30\",\"baseline_date\":\"2024-11-24T04:00:00.000Z\",\"initial_interesting\":30,\"current_intensity\":70}]"',
+
 
             ],
             [
@@ -49,6 +43,10 @@ class BipSeeder extends Seeder
                 'phisical_and_medical_status' => 'No significant health concerns',
                 'strengths' => 'Strong visual learning skills',
                 'weakneses' => 'Social interaction challenges',
+
+                'maladaptives' => '"[{\"index\":1,\"maladaptive_behavior\":\"Bad Words\",\"topografical_definition\":\"Said bad word every day\",\"baseline_level\":\"43\",\"baseline_date\":\"2024-11-23T04:00:00.000Z\",\"initial_interesting\":30,\"current_intensity\":58},{\"index\":2,\"maladaptive_behavior\":\"Drawin walls\",\"topografical_definition\":\"draw wall til sleep\",\"baseline_level\":\"30\",\"baseline_date\":\"2024-11-24T04:00:00.000Z\",\"initial_interesting\":30,\"current_intensity\":70}]"',
+
+
 
             ],
         ];
