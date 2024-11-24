@@ -25,7 +25,7 @@ class DatabaseSeeder extends Seeder
             FamilyEnvolmentsSeeder::class,
             ReductionGoalsSeeder::class,
             UserLocationsSeeder::class,
-
+            MonitoringEvaluatingsSeeder::class,
         ]);
 
     }
