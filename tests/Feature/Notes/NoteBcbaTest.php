@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Location;
 use App\Models\Insurance\Insurance;
 use App\Models\Notes\NoteBcba;
+use App\Models\PaService;
 use App\Models\Patient\Patient;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -20,6 +21,7 @@ class NoteBcbaTest extends TestCase
     protected $supervisor;
     protected $location;
     protected $insurance;
+    protected $paService;
 
     protected function setUp(): void
     {
@@ -27,6 +29,11 @@ class NoteBcbaTest extends TestCase
 
         // Create necessary related models
         $this->patient = Patient::factory()->create();
+        $this->paService = PaService::factory()->create([
+            'patient_id' => $this->patient->id,
+            'n_units' => 100,
+            'spent_units' => 0,
+        ]);
         $this->provider = User::factory()->create();
         $this->supervisor = User::factory()->create();
         $this->location = Location::factory()->create();
@@ -44,6 +51,7 @@ class NoteBcbaTest extends TestCase
             'supervisor_id' => $this->supervisor->id,
             'location_id' => $this->location->id,
             'insurance_id' => $this->insurance->id,
+            'pa_service_id' => $this->paService->id,
             'session_date' => $this->faker->date(),
             'time_in' => '09:00:00',
             'time_out' => '10:00:00',
@@ -81,7 +89,8 @@ class NoteBcbaTest extends TestCase
         $note = NoteBcba::factory()->create([
             'patient_id' => $this->patient->id,
             'provider_id' => $this->provider->id,
-            'location_id' => $this->location->id
+            'location_id' => $this->location->id,
+            'pa_service_id' => $this->paService->id,
         ]);
 
         $updatedData = [
@@ -167,6 +176,7 @@ class NoteBcbaTest extends TestCase
     public function test_total_units_is_calculated_correctly()
     {
         $note = NoteBcba::factory()->create([
+            'pa_service_id' => $this->paService->id,
             'patient_id' => $this->patient->id,
             'cpt_code' => '97155',
             'session_date' => '2024-01-15',
@@ -176,6 +186,7 @@ class NoteBcbaTest extends TestCase
             'time_out2' => null,
         ]);
         $note2 = NoteBcba::factory()->create([
+            'pa_service_id' => $this->paService->id,
             'patient_id' => $this->patient->id,
             'cpt_code' => '97155',
             'session_date' => '2024-01-15',

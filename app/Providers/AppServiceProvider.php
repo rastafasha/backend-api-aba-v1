@@ -2,6 +2,10 @@
 
 namespace App\Providers;
 
+use App\Models\Notes\NoteBcba;
+use App\Models\Notes\NoteRbt;
+use App\Observers\NoteBcbaObserver;
+use App\Observers\NoteRbtObserver;
 use App\Services\EdiX12837Service;
 use Illuminate\Support\ServiceProvider;
 
@@ -26,6 +30,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        NoteRbt::observe(NoteRbtObserver::class);
+        NoteBcba::observe(NoteBcbaObserver::class);
     }
 }

@@ -384,6 +384,10 @@
                                     },
                                     "zip": {
                                         "type": "string"
+                                    },
+                                    "is_self_subscriber": {
+                                        "type": "boolean",
+                                        "default": false
                                     }
                                 },
                                 "type": "object"
@@ -842,6 +846,15 @@
                         }
                     },
                     {
+                        "name": "patient_identifier",
+                        "in": "query",
+                        "description": "Filter by patient identifier",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
                         "name": "bip_id",
                         "in": "query",
                         "description": "Filter by BIP ID",
@@ -1228,6 +1241,15 @@
                         "required": false,
                         "schema": {
                             "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "patient_identifier",
+                        "in": "query",
+                        "description": "Filter by patient identifier",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
                         }
                     },
                     {
@@ -2377,6 +2399,290 @@
                 }
             }
         },
+        "/api/v2/roles": {
+            "get": {
+                "tags": [
+                    "Admin/Roles"
+                ],
+                "summary": "Get paginated roles",
+                "description": "Retrieves a paginated list of roles with optional search filter",
+                "operationId": "7ef8da7123353e3edf3003e17501b646",
+                "parameters": [
+                    {
+                        "name": "search",
+                        "in": "query",
+                        "description": "Search roles by name",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "per_page",
+                        "in": "query",
+                        "description": "Number of items per page",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 15
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/Role"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Admin/Roles"
+                ],
+                "summary": "Create a new role",
+                "description": "Creates a new role with the specified permissions",
+                "operationId": "ddc26a6207c9461868dd202674052528",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "permissions"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "RBT"
+                                    },
+                                    "permissions": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string",
+                                            "example": "view_users"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Role created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Role created successfully"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/Role"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error"
+                    }
+                }
+            }
+        },
+        "/api/v2/roles/{id}": {
+            "get": {
+                "tags": [
+                    "Admin/Roles"
+                ],
+                "summary": "Get a single role",
+                "description": "Retrieves a specific role by its ID",
+                "operationId": "0715cbf1198362be2a9b4cdc6b64ad2a",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the role",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/Role"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Role not found"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Admin/Roles"
+                ],
+                "summary": "Update a role",
+                "description": "Updates an existing role",
+                "operationId": "db0bf0c88b2faa0ea634ceafd6b9a1cb",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the role",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "permissions"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "RBT"
+                                    },
+                                    "permissions": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string",
+                                            "example": "view_users"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Role updated successfully"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/Role"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Role not found"
+                    },
+                    "422": {
+                        "description": "Validation error"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Admin/Roles"
+                ],
+                "summary": "Delete a role",
+                "description": "Deletes an existing role if it has no associated users",
+                "operationId": "45caa799970d9a8b37b150c9aef5aca8",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the role",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Role deleted successfully"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Role not found"
+                    },
+                    "403": {
+                        "description": "Role cannot be deleted due to associated users"
+                    }
+                }
+            }
+        },
         "/api/v2/claims": {
             "get": {
                 "tags": [
@@ -3260,6 +3566,138 @@
                     }
                 }
             }
+        },
+        "/api/v2/users": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Get paginated users",
+                "description": "Retrieves a paginated list of users with optional filters",
+                "operationId": "811df0f5f0131a1a1dec528f80edd836",
+                "parameters": [
+                    {
+                        "name": "role",
+                        "in": "query",
+                        "description": "Filter by user role",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "include",
+                        "in": "query",
+                        "description": "Include related models (comma-separated). Options: locations",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "per_page",
+                        "in": "query",
+                        "description": "Number of items per page",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 15
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/PaginatedUserResponse"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v2/users/{id}": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Get a single user",
+                "description": "Retrieves a specific user by their ID",
+                "operationId": "f69ac29d790fc951e7b30574078de477",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the user",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "include",
+                        "in": "query",
+                        "description": "Include related models (comma-separated). Options: locations",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/User"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "User not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "User not found"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     },
     "components": {
@@ -3518,6 +3956,78 @@
                 },
                 "type": "object"
             },
+            "Role": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "RBT"
+                    },
+                    "guard_name": {
+                        "type": "string",
+                        "example": "api"
+                    },
+                    "permissions": {
+                        "type": "array",
+                        "items": {
+                            "properties": {
+                                "id": {
+                                    "type": "integer",
+                                    "example": 1
+                                },
+                                "name": {
+                                    "type": "string",
+                                    "example": "register_rol"
+                                },
+                                "guard_name": {
+                                    "type": "string",
+                                    "example": "api"
+                                },
+                                "created_at": {
+                                    "type": "string",
+                                    "format": "datetime",
+                                    "example": "2024-11-19T17:18:13.000000Z"
+                                },
+                                "updated_at": {
+                                    "type": "string",
+                                    "format": "datetime",
+                                    "example": "2024-11-19T17:18:13.000000Z"
+                                },
+                                "pivot": {
+                                    "properties": {
+                                        "role_id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "permission_id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    },
+                    "permissions_names": {
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "example": "view_users"
+                        }
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "datetime",
+                        "example": "2024-03-20 10:00:00"
+                    }
+                },
+                "type": "object"
+            },
             "PaginatedClaimResponse": {
                 "properties": {
                     "current_page": {
@@ -3610,6 +4120,61 @@
                     },
                     "total": {
                         "type": "integer"
+                    }
+                },
+                "type": "object"
+            },
+            "PaginatedUserResponse": {
+                "properties": {
+                    "current_page": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/User"
+                        }
+                    },
+                    "first_page_url": {
+                        "type": "string",
+                        "example": "http://example.com/api/v2/users?page=1"
+                    },
+                    "from": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "last_page": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "last_page_url": {
+                        "type": "string",
+                        "example": "http://example.com/api/v2/users?page=1"
+                    },
+                    "next_page_url": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "path": {
+                        "type": "string",
+                        "example": "http://example.com/api/v2/users"
+                    },
+                    "per_page": {
+                        "type": "integer",
+                        "example": 15
+                    },
+                    "prev_page_url": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "to": {
+                        "type": "integer",
+                        "example": 15
+                    },
+                    "total": {
+                        "type": "integer",
+                        "example": 100
                     }
                 },
                 "type": "object"
@@ -4452,6 +5017,10 @@
                         "type": "integer",
                         "example": 8
                     },
+                    "spent_units": {
+                        "type": "integer",
+                        "example": 0
+                    },
                     "start_date": {
                         "type": "string",
                         "format": "date",
@@ -4743,6 +5312,64 @@
                     }
                 },
                 "type": "object"
+            },
+            "User": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "John"
+                    },
+                    "surname": {
+                        "type": "string",
+                        "example": "Doe"
+                    },
+                    "email": {
+                        "type": "string",
+                        "format": "email",
+                        "example": "john.doe@example.com"
+                    },
+                    "roles": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "example": [
+                            "admin",
+                            "user"
+                        ]
+                    },
+                    "location_id": {
+                        "type": "integer",
+                        "example": 1,
+                        "nullable": true
+                    },
+                    "locations": {
+                        "type": "array",
+                        "items": {
+                            "properties": {
+                                "id": {
+                                    "type": "integer",
+                                    "example": 1
+                                },
+                                "name": {
+                                    "type": "string",
+                                    "example": "Main Office"
+                                },
+                                "address": {
+                                    "type": "string",
+                                    "example": "123 Main St"
+                                }
+                            },
+                            "type": "object"
+                        },
+                        "nullable": true
+                    }
+                },
+                "type": "object"
             }
         }
     },
@@ -4772,6 +5399,10 @@
             "description": "Admin/PA Services"
         },
         {
+            "name": "Admin/Roles",
+            "description": "Admin/Roles"
+        },
+        {
             "name": "Claims",
             "description": "Claims"
         },
@@ -4782,6 +5413,10 @@
         {
             "name": "Admin/Patients",
             "description": "Admin/Patients"
+        },
+        {
+            "name": "Users",
+            "description": "Users"
         }
     ]
 }

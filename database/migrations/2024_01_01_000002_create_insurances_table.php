@@ -20,6 +20,7 @@ class CreateInsurancesTable extends Migration
             $table->string('state')->nullable();
             $table->string('zip')->nullable();
             $table->string('payer_id')->nullable();
+            $table->boolean('is_self_subscriber')->default(false);
             $table->timestamps();
             $table->softDeletes();
         });

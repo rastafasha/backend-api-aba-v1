@@ -14,16 +14,17 @@ class CreatePaServicesTable extends Migration
     public function up()
     {
         Schema::create('pa_services', function (Blueprint $table) {
-          $table->id();
-          $table->foreignId('patient_id')->constrained('patients')->onDelete('cascade');
-          $table->string('pa_services');
-          $table->string('cpt');
-          $table->integer('n_units');
-          $table->date('start_date');
-          $table->date('end_date');
-          $table->timestamps();
-          $table->softDeletes();
-      });
+            $table->id();
+            $table->foreignId('patient_id')->constrained('patients')->onDelete('cascade');
+            $table->string('pa_services');
+            $table->string('cpt');
+            $table->integer('n_units')->default(0);
+            $table->integer('spent_units')->default(0);
+            $table->date('start_date');
+            $table->date('end_date');
+            $table->timestamps();
+            $table->softDeletes();
+        });
     }
 
     /**

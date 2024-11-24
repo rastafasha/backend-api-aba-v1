@@ -11,12 +11,57 @@ class NotesSeeder extends Seeder
 {
     public function run()
     {
+        // First, let's ensure PaServices have their spent_units set to 0 initially
+        $paServices = [
+            [
+                'patient_id' => 1,
+                'pa_services' => 'Behavioral Analysis',
+                'cpt' => '97153',
+                'n_units' => 100,
+                'spent_units' => 0,
+                'start_date' => Carbon::now()->subDays(30),
+                'end_date' => Carbon::now()->addDays(30),
+            ],
+            [
+                'patient_id' => 1,
+                'pa_services' => 'BCBA Supervision',
+                'cpt' => '97155',
+                'n_units' => 50,
+                'spent_units' => 0,
+                'start_date' => Carbon::now()->subDays(30),
+                'end_date' => Carbon::now()->addDays(30),
+            ],
+            [
+                'patient_id' => 2,
+                'pa_services' => 'Behavioral Analysis',
+                'cpt' => '97153',
+                'n_units' => 100,
+                'spent_units' => 0,
+                'start_date' => Carbon::now()->subDays(30),
+                'end_date' => Carbon::now()->addDays(30),
+            ],
+            [
+                'patient_id' => 2,
+                'pa_services' => 'BCBA Supervision',
+                'cpt' => '97155',
+                'n_units' => 50,
+                'spent_units' => 0,
+                'start_date' => Carbon::now()->subDays(30),
+                'end_date' => Carbon::now()->addDays(30),
+            ],
+        ];
+
+        foreach ($paServices as $service) {
+            \App\Models\PaService::create($service);
+        }
+
         $notes = [
             // Notes for Patient 1
             [
                 'patient_id' => 1,
                 'insurance_id' => 1,
                 'doctor_id' => 3,
+                'pa_service_id' => 1,
                 'bip_id' => 1,
                 'provider_id' => 5,
                 'supervisor_name' => 3,
@@ -59,6 +104,7 @@ class NotesSeeder extends Seeder
                 'patient_id' => 1,
                 'insurance_id' => 1,
                 'doctor_id' => 3,
+                'pa_service_id' => 1,
                 'bip_id' => 1,
                 'provider_id' => 5,
                 'supervisor_name' => 3,
@@ -103,6 +149,7 @@ class NotesSeeder extends Seeder
                 'patient_id' => 2,
                 'insurance_id' => 1,
                 'doctor_id' => 4,
+                'pa_service_id' => 3,
                 'bip_id' => 2,
                 'provider_id' => 6,
                 'supervisor_name' => 4,
@@ -145,6 +192,7 @@ class NotesSeeder extends Seeder
                 'patient_id' => 2,
                 'insurance_id' => 1,
                 'doctor_id' => 4,
+                'pa_service_id' => 3,
                 'bip_id' => 2,
                 'provider_id' => 6,
                 'supervisor_name' => 4,
@@ -191,6 +239,7 @@ class NotesSeeder extends Seeder
                 'patient_id' => 1,
                 'insurance_id' => 2,
                 'doctor_id' => 3,
+                'pa_service_id' => 2,
                 'bip_id' => 1,
                 'provider_id' => 3,
                 'supervisor_id' => 3,
@@ -231,6 +280,7 @@ class NotesSeeder extends Seeder
                 'patient_id' => 2,
                 'insurance_id' => 2,
                 'doctor_id' => 4,
+                'pa_service_id' => 4,
                 'bip_id' => 1,
                 'provider_id' => 4,
                 'supervisor_id' => 4,

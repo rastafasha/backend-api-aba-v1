@@ -14,6 +14,33 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
+/**
+ * @OA\Schema(
+ *     schema="User",
+ *     @OA\Property(property="id", type="integer", example=1),
+ *     @OA\Property(property="name", type="string", example="John"),
+ *     @OA\Property(property="surname", type="string", example="Doe"),
+ *     @OA\Property(property="email", type="string", format="email", example="john.doe@example.com"),
+ *     @OA\Property(
+ *         property="roles",
+ *         type="array",
+ *         @OA\Items(type="string"),
+ *         example={"admin", "user"}
+ *     ),
+ *     @OA\Property(property="location_id", type="integer", example=1, nullable=true),
+ *     @OA\Property(
+ *         property="locations",
+ *         type="array",
+ *         nullable=true,
+ *         @OA\Items(
+ *             type="object",
+ *             @OA\Property(property="id", type="integer", example=1),
+ *             @OA\Property(property="name", type="string", example="Main Office"),
+ *             @OA\Property(property="address", type="string", example="123 Main St")
+ *         )
+ *     )
+ * )
+ */
 class User extends Authenticatable implements JWTSubject
 {
     use HasApiTokens;

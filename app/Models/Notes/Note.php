@@ -40,9 +40,10 @@ abstract class Note extends Model
         'doctor_id',
         'bip_id',
         'summary_note',
+        'pa_service_id',
     ];
 
-    protected $appends = ['total_units', 'total_minutes'];
+    protected $appends = ['total_units', 'total_minutes', 'patient_identifier'];
 
     protected static $userFields = ['id', 'name', 'surname', 'npi', 'electronic_signature'];
 
@@ -79,6 +80,11 @@ abstract class Note extends Model
     public function doctor()
     {
         return $this->belongsTo(User::class, 'doctor_id')->select(self::$userFields);
+    }
+
+    public function getPatientIdentifierAttribute()
+    {
+        return Patient::where('id', $this->patient_id)->value('patient_id');
     }
 
     protected function getTotalMinutesAttribute()
