@@ -17,8 +17,8 @@ class MonitoringEvaluating extends Model
         'bip_id',
         'patient_id',
         'client_id',
-        'rbt_training_goals',//json
-
+        'rbt_training_goals', //json
+        'treatment_fidelity',
     ];
 
     public function bips()

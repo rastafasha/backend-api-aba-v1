@@ -264,7 +264,7 @@ class OpenAIController extends Controller
             'rbtTrainingGoals' => 'required|array',
             'rbtTrainingGoals.*.goal' => 'required|string',
             'rbtTrainingGoals.*.percentCorrect' => 'required|numeric',
-            'noteDescription' => 'required|string',
+            // 'noteDescription' => 'required|string',
         ]);
 
         $prompt = $this->constructBcbaPrompt($request);

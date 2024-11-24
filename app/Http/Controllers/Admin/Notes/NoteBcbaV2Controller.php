@@ -46,6 +46,12 @@ class NoteBcbaV2Controller extends Controller
      *         required=false,
      *         @OA\Schema(type="integer")
      *     ),
+     *     @OA\Parameter(name="patient_identifier",
+     *         in="query",
+     *         description="Filter by patient identifier",
+     *         required=false,
+     *         @OA\Schema(type="string")
+     *     ),
      *     @OA\Parameter(
      *         name="bip_id",
      *         in="query",
@@ -102,6 +108,13 @@ class NoteBcbaV2Controller extends Controller
         // Filter by patient_id
         if ($request->has('patient_id')) {
             $query->where('patient_id', $request->patient_id);
+        }
+
+        // Filter by patient_identifier
+        if ($request->has('patient_identifier')) {
+            $query->whereHas('patient', function ($q) use ($request) {
+                $q->where('patient_id', $request->patient_identifier);
+            });
         }
 
         // Filter by bip_id

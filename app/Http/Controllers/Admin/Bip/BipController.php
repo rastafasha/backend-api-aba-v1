@@ -538,10 +538,8 @@ class BipController extends Controller
                     'pa_services' => $service->pa_services,
                     'cpt' => $service->cpt,
                     'n_units' => $service->n_units,
-                    'available_units' => $this->unitCalculationService->calculateAvailableUnits(
-                        $patient_id,
-                        $service->id,
-                    ),
+                    'available_units' => $service->available_units,
+                    'spent_units' => $service->spent_units,
                     'start_date' => $service->start_date->format('Y-m-d'),
                     'end_date' => $service->end_date->format('Y-m-d'),
                 ];
