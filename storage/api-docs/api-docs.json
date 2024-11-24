@@ -1362,7 +1362,7 @@
                                     "session_date": {
                                         "type": "string",
                                         "format": "date-time",
-                                        "example": "2023-12-01T00:00:00Z"
+                                        "example": "2023-12-01"
                                     },
                                     "patient_id": {
                                         "type": "integer"

@@ -178,7 +178,7 @@ class NoteRbtV2Controller extends Controller
      *         required=true,
      *         @OA\JsonContent(
      *             required={"session_date", "patient_id", "doctor_id"},
-     *             @OA\Property(property="session_date", type="string", format="date-time", example="2023-12-01T00:00:00Z"),
+     *             @OA\Property(property="session_date", type="string", format="date-time", example="2023-12-01"),
      *             @OA\Property(property="patient_id", type="integer"),
      *             @OA\Property(property="doctor_id", type="integer"),
      *             @OA\Property(property="bip_id", type="integer"),
