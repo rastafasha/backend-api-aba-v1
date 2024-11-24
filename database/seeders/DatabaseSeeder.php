@@ -24,6 +24,9 @@ class DatabaseSeeder extends Seeder
             PaServicesSeeder::class,
             BipSeeder::class,
             NotesSeeder::class,
+            FamilyEnvolvementsSeeder::class,
+            ReductionGoalSeeder::class,
+            UserLocationsSeeder::class,
         ]);
 
     }
