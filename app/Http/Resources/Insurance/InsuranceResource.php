@@ -23,6 +23,7 @@ class InsuranceResource extends JsonResource
             // 'services'=> json_decode($this->resource-> services) ? : null,//trae el json convertido para manipular
             // 'notes'=> json_decode($this->resource-> notes) ? : null,//trae el json convertido para manipular
             "payer_id" => $this->resource->payer_id,
+            "is_self_subscriber" => $this->resource->is_self_subscriber,
             "street" => $this->resource->street,
             "street2" => $this->resource->street2,
             "city" => $this->resource->city,

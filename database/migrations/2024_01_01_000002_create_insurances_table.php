@@ -13,6 +13,7 @@ class CreateInsurancesTable extends Migration
             $table->string('name')->nullable();
             $table->json('services')->nullable()->comment('Codes, provider, description, unit prize, Hourly Fee, max_allowed');
             $table->json('notes')->nullable()->comment('description');
+            $table->string('is_self_subscriber', 50)->default('false');
             $table->string('street')->nullable();
             $table->string('street2')->nullable();
             $table->string('city')->nullable();
