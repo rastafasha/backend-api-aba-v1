@@ -39,8 +39,11 @@ class NoteRbtResource extends JsonResource
             "pos" => $this->resource->pos,
             "environmental_changes" => $this->resource->environmental_changes,
             "provider_credential" => $this->resource->provider_credential,
+            "provider_id" => $this->resource->provider_id,
+            "supervisor_id" => $this->resource->supervisor_id,
 
             "patient_id" => $this->resource->patient_id,
+            'patient_identifier' => $this->resource->patient_identifier,
             "doctor_id" => $this->resource->doctor_id,
             "meet_with_client_at" => $this->resource->meet_with_client_at,
 

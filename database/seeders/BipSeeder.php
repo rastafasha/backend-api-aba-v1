@@ -24,7 +24,16 @@ class BipSeeder extends Seeder
                 'phisical_and_medical_status' => 'Generally healthy, no major concerns',
                 'strengths' => 'Good motor skills, responsive to reinforcement',
                 'weakneses' => 'Communication difficulties, attention challenges',
-                
+                'maladaptives' => [
+                    [
+                        "baseline_date" => "2024-07-12T04:00:00.000Z",
+                        "baseline_level" => "24",
+                        "initial_interesting" => 12,
+                        "maladaptive_behavior" => "test",
+                        "topografical_definition" => "testdsd teslts asd"
+                    ]
+                ]
+
             ],
             [
                 'id' => 2,
@@ -40,7 +49,7 @@ class BipSeeder extends Seeder
                 'phisical_and_medical_status' => 'No significant health concerns',
                 'strengths' => 'Strong visual learning skills',
                 'weakneses' => 'Social interaction challenges',
-                
+
             ],
         ];
 
