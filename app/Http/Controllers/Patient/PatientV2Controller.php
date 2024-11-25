@@ -170,7 +170,7 @@ class PatientV2Controller extends Controller
      */
     public function show($id)
     {
-        $patient = Patient::find($id)->with(['paServices'])->first();
+        $patient = Patient::with(['paServices'])->find($id);
 
         if (!$patient) {
             return response()->json([
