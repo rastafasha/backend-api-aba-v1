@@ -6,6 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Models\Patient\Patient;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use App\Models\PaService;
+use App\Http\Requests\PaServiceRequest;
+
 
 /**
  * @OA\Schema(
@@ -136,6 +139,15 @@ class PatientV2Controller extends Controller
         $validated = $request->validate($this->getValidationRules());
 
         $patient = Patient::create($validated);
+
+        if($patient->id) {
+            foreach($request->pa_assessments as $pa) {
+                $validatedData = PaService::validate($pa);
+                $paService = new PaService($validatedData);
+                $paService->patient_id = $patient->id;
+                $paService->save();
+            }
+        }
 
         return response()->json([
             'status' => 'success',
@@ -385,7 +397,7 @@ class PatientV2Controller extends Controller
             ])],
 
             // Additional Settings
-            'pa_assessments' => 'nullable|json',
+            // 'pa_assessments' => 'nullable|json',
             'telehealth' => ['nullable', 'string', 'max:50', Rule::in(['true', 'false'])],
             'pay' => ['nullable', 'string', 'max:50', Rule::in(['true', 'false'])],
         ];
