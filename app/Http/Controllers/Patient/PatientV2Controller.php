@@ -9,7 +9,6 @@ use Illuminate\Validation\Rule;
 use App\Models\PaService;
 use App\Http\Requests\PaServiceRequest;
 
-
 /**
  * @OA\Schema(
  *     schema="PaginatedPatientResponse",
@@ -140,8 +139,8 @@ class PatientV2Controller extends Controller
 
         $patient = Patient::create($validated);
 
-        if($patient->id) {
-            foreach($request->pa_assessments as $pa) {
+        if ($patient->id) {
+            foreach ($request->pa_assessments as $pa) {
                 $validatedData = PaService::validate($pa);
                 $paService = new PaService($validatedData);
                 $paService->patient_id = $patient->id;
