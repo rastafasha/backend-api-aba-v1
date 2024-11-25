@@ -115,6 +115,7 @@ class Patient extends Model
         'insurer_id',
 
         'insuranceId',
+        'insurance_identifier',
         // 'insurer_secundary',
         // 'insuranceId_secundary',
         'elegibility_date',

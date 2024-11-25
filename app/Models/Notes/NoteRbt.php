@@ -32,6 +32,7 @@ use Illuminate\Support\Facades\DB;
  *         @OA\Property(property="aggression", type="integer", example=1)
  *     ),
  *     @OA\Property(property="bip_id", type="integer", example=1),
+ *     @OA\Property(property="insurance_identifier", type="string", example="123456789"),
  *     @OA\Property(property="pos", type="string", example="12"),
  *     @OA\Property(property="environmental_changes", type="string", example="None noted"),
  *     @OA\Property(property="provider_credential", type="string", example="RBT"),

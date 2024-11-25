@@ -4597,6 +4597,10 @@
                         "type": "integer",
                         "nullable": true
                     },
+                    "insurance_identifier": {
+                        "type": "string",
+                        "nullable": true
+                    },
                     "diagnosis_code": {
                         "type": "string",
                         "maxLength": 50,
@@ -4785,6 +4789,10 @@
                     "bip_id": {
                         "type": "integer",
                         "example": 1
+                    },
+                    "insurance_identifier": {
+                        "type": "string",
+                        "example": "123456789"
                     },
                     "pos": {
                         "type": "string",

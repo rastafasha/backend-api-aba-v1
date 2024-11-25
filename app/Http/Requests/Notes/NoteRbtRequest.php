@@ -47,6 +47,7 @@ class NoteRbtRequest extends FormRequest
             'status' => 'nullable|in:pending,ok,no,review',
             'location_id' => 'nullable|exists:locations,id',
             'insuranceId' => 'nullable|string',
+            'insurance_identifier' => 'nullable|string',
             'supervisor_id' => 'nullable|exists:users,id',
             'summary_note' => 'nullable|string',
         ];

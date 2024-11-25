@@ -46,6 +46,7 @@ class NoteBcbaRequest extends FormRequest
             'location_id' => 'nullable|exists:locations,id',
             'pa_service_id' => 'nullable|exists:pa_services,id',
             'insuranceId' => 'nullable|string',
+            'insurance_identifier' => 'nullable|string',
         ];
     }
 }

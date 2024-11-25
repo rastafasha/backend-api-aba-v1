@@ -27,6 +27,7 @@ class PatientSeeder extends Seeder
                 'relationship' => 'Mother',
                 'location_id' => 1,
                 'insurer_id' => 1,
+                'insurance_identifier' => '123456789',
                 'rbt_home_id' => 5, // RBT1
                 'bcba_home_id' => 3, // BCBA1
                 'diagnosis_code' => 'F84.0',
@@ -63,6 +64,7 @@ class PatientSeeder extends Seeder
                 'relationship' => 'Father',
                 'location_id' => 2,
                 'insurer_id' => 2,
+                'insurance_identifier' => '987654321',
                 'rbt_home_id' => 6, // RBT2
                 'bcba_home_id' => 4, // BCBA2
                 'diagnosis_code' => 'F84.0',
