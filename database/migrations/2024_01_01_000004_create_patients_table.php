@@ -37,6 +37,7 @@ class CreatePatientsTable extends Migration
             $table->string('summer_schedule')->nullable();
             $table->text('special_note')->nullable();
             $table->foreignId('insurer_id')->nullable()->constrained('insurances')->nullOnDelete();
+            $table->foreignId('insurer_secondary_id')->nullable()->constrained('insurances')->nullOnDelete();
             $table->string('insuranceId', 50)->nullable();
             $table->string('insurance_identifier')->nullable();
             $table->string('insurance_secondary_identifier')->nullable();

@@ -310,6 +310,7 @@ class PatientV2Controller extends Controller
             'diagnosis_code' => 'nullable|string',
             'patient_control' => 'nullable|string',
             'insurer_id' => 'nullable|exists:insurances,id',
+            'insurer_secondary_id' => 'nullable|exists:insurances,id',
             'insuranceId' => 'nullable|string|max:50',
             'insurance_identifier' => 'nullable|string',
             'insurance_secondary_identifier' => 'nullable|string',

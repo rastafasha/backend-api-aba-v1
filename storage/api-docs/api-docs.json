@@ -5213,7 +5213,13 @@
                         ]
                     },
                     "insurer_id": {
-                        "description": "Insurance provider ID",
+                        "description": "Insurance ID",
+                        "type": "integer",
+                        "format": "int64",
+                        "nullable": true
+                    },
+                    "insurer_secondary_id": {
+                        "description": "Insurance secondary ID",
                         "type": "integer",
                         "format": "int64",
                         "nullable": true

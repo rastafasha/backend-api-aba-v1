@@ -46,7 +46,8 @@ use Illuminate\Support\Facades\DB;
  *     @OA\Property(property="status", type="string",
  *      enum={"incoming", "active", "inactive", "onHold", "onDischarge", "waitintOnPa", "waitintOnPaIa", "waitintOnIa", "waitintOnServices", "waitintOnStaff", "waitintOnSchool"},
  *      default="inactive", description="Patient status"),
- *     @OA\Property(property="insurer_id", type="integer", format="int64", nullable=true, description="Insurance provider ID"),
+ *     @OA\Property(property="insurer_id", type="integer", format="int64", nullable=true, description="Insurance ID"),
+ *     @OA\Property(property="insurer_secondary_id", type="integer", format="int64", nullable=true, description="Insurance secondary ID"),
  *     @OA\Property(property="insurance_identifier", type="string", nullable=true),
  *     @OA\Property(property="insurance_secondary_identifier", type="string", nullable=true),
  *     @OA\Property(property="telehealth", type="string", maxLength=50, default="false", description="Telehealth status"),
@@ -115,6 +116,7 @@ class Patient extends Model
 
         //benefits
         'insurer_id',
+        'insurer_secondary_id',
 
         'insuranceId',
         'insurance_identifier',
