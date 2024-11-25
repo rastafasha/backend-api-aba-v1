@@ -25,7 +25,26 @@ class BipSeeder extends Seeder
                 'strengths' => 'Good motor skills, responsive to reinforcement',
                 'weakneses' => 'Communication difficulties, attention challenges',
 
-                'maladaptives' => '"[{\"index\":1,\"maladaptive_behavior\":\"Bad Words\",\"topografical_definition\":\"Said bad word every day\",\"baseline_level\":\"43\",\"baseline_date\":\"2024-11-23T04:00:00.000Z\",\"initial_interesting\":30,\"current_intensity\":58},{\"index\":2,\"maladaptive_behavior\":\"Drawin walls\",\"topografical_definition\":\"draw wall til sleep\",\"baseline_level\":\"30\",\"baseline_date\":\"2024-11-24T04:00:00.000Z\",\"initial_interesting\":30,\"current_intensity\":70}]"',
+                'maladaptives' => [
+                    [
+                        'index' => 1,
+                        'maladaptive_behavior' => 'Bad Words',
+                        'topografical_definition' => 'Said bad word every day',
+                        'baseline_level' => '43',
+                        'baseline_date' => '2024-11-23T04:00:00.000Z',
+                        'initial_interesting' => 30,
+                        'current_intensity' => 58
+                    ],
+                    [
+                        'index' => 2,
+                        'maladaptive_behavior' => 'Drawin walls', 
+                        'topografical_definition' => 'draw wall til sleep',
+                        'baseline_level' => '30',
+                        'baseline_date' => '2024-11-24T04:00:00.000Z',
+                        'initial_interesting' => 30,
+                        'current_intensity' => 70
+                    ]
+                ],
 
 
             ],
@@ -44,7 +63,26 @@ class BipSeeder extends Seeder
                 'strengths' => 'Strong visual learning skills',
                 'weakneses' => 'Social interaction challenges',
 
-                'maladaptives' => '"[{\"index\":1,\"maladaptive_behavior\":\"Bad Words\",\"topografical_definition\":\"Said bad word every day\",\"baseline_level\":\"43\",\"baseline_date\":\"2024-11-23T04:00:00.000Z\",\"initial_interesting\":30,\"current_intensity\":58},{\"index\":2,\"maladaptive_behavior\":\"Drawin walls\",\"topografical_definition\":\"draw wall til sleep\",\"baseline_level\":\"30\",\"baseline_date\":\"2024-11-24T04:00:00.000Z\",\"initial_interesting\":30,\"current_intensity\":70}]"',
+                'maladaptives' => [
+                    [
+                        'index' => 1,
+                        'maladaptive_behavior' => 'Bad Words',
+                        'topografical_definition' => 'Said bad word every day',
+                        'baseline_level' => '43',
+                        'baseline_date' => '2024-11-23T04:00:00.000Z',
+                        'initial_interesting' => 30,
+                        'current_intensity' => 58
+                    ],
+                    [
+                        'index' => 2,
+                        'maladaptive_behavior' => 'Drawin walls',
+                        'topografical_definition' => 'draw wall til sleep',
+                        'baseline_level' => '30',
+                        'baseline_date' => '2024-11-24T04:00:00.000Z',
+                        'initial_interesting' => 30,
+                        'current_intensity' => 70
+                    ]
+                ],
 
 
 
