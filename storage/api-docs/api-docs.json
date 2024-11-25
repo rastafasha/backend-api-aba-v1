@@ -5218,6 +5218,14 @@
                         "format": "int64",
                         "nullable": true
                     },
+                    "insurance_identifier": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "insurance_secondary_identifier": {
+                        "type": "string",
+                        "nullable": true
+                    },
                     "telehealth": {
                         "description": "Telehealth status",
                         "type": "string",

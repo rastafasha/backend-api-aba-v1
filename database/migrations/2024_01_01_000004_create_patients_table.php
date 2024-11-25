@@ -39,6 +39,7 @@ class CreatePatientsTable extends Migration
             $table->foreignId('insurer_id')->nullable()->constrained('insurances')->nullOnDelete();
             $table->string('insuranceId', 50)->nullable();
             $table->string('insurance_identifier')->nullable();
+            $table->string('insurance_secondary_identifier')->nullable();
             $table->string('eqhlid')->nullable();
             $table->timestamp('elegibility_date')->nullable();
             $table->json('pos_covered')->nullable();
