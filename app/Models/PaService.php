@@ -8,6 +8,7 @@ use App\Models\Patient\Patient;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Facades\Validator;
 
 /**
  * @OA\Schema(
@@ -73,9 +74,19 @@ class PaService extends Model
         return false;
     }
 
-    // add available units to the response
     public function getAvailableUnitsAttribute()
     {
         return $this->n_units - $this->spent_units;
+    }
+
+    public static function validate($data)
+    {
+        return Validator::make($data, [
+            'pa_services' => 'required|string|max:255',
+            'cpt' => 'required|string|max:255',
+            'n_units' => 'required|integer|min:0',
+            'start_date' => 'required|date',
+            'end_date' => 'required|date|after:start_date',
+        ])->validate();
     }
 }
