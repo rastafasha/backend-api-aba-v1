@@ -24,6 +24,7 @@ class DatabaseSeeder extends Seeder
             NotesSeeder::class,
             FamilyEnvolmentsSeeder::class,
             ReductionGoalsSeeder::class,
+            SustitutionGoalsSeeder::class,
             UserLocationsSeeder::class,
             MonitoringEvaluatingsSeeder::class,
         ]);
