@@ -122,11 +122,13 @@ class Insurance extends Model
         'city',
         'state',
         'zip',
+        'is_self_subscriber',
     ];
 
     protected $casts = [
         'services' => 'json',
         'notes' => 'json',
+        'is_self_subscriber' => 'boolean',
     ];
 
     public function scopefilterAdvanceInsurance(

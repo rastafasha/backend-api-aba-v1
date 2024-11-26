@@ -171,7 +171,9 @@ class Patient extends Model
 
     protected $casts = [
         'pos_covered' => 'array',
-        'birth_date' => 'date:m-d-Y',
+        'birth_date' => 'date:Y-m-d',
+        'pay' => 'boolean',
+        'telehealth' => 'boolean',
     ];
 
     protected $appends = ['age'];

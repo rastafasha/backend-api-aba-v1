@@ -82,8 +82,10 @@ class CreatePatientsTable extends Migration
             $table->unsignedBigInteger('clin_director_id')->nullable();
 
             // Flags
-            $table->string('telehealth', 50)->default('false');
-            $table->string('pay', 50)->default('false');
+            // $table->string('telehealth', 50)->default('false');
+            $table->boolean('telehealth')->default(false);
+            // $table->string('pay', 50)->default('false');
+            $table->boolean('pay')->default(false);
 
             $table->timestamps();
             $table->softDeletes();
