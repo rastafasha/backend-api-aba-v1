@@ -48,7 +48,12 @@ class PatientTest extends TestCase
             'pay' => 'false'
         ];
 
-        $response = $this->postJson('/api/v2/patients', $patientData);
+        $paAssessments = [];
+
+        $requestData = $patientData;
+        $requestData['pa_assessments'] = $paAssessments;
+
+        $response = $this->postJson('/api/v2/patients', $requestData);
 
         $response->assertStatus(201)
             ->assertJson([
@@ -60,6 +65,16 @@ class PatientTest extends TestCase
             'first_name' => $patientData['first_name'],
             'email' => $patientData['email']
         ]);
+
+        foreach ($paAssessments as $pa) {
+            $this->assertDatabaseHas('pa_services', [
+                'pa_services' => $pa['pa_services'],
+                'cpt' => $pa['cpt'],
+                'n_units' => $pa['n_units'],
+                'start_date' => $pa['start_date'],
+                'end_date' => $pa['end_date'],
+            ]);
+        }
     }
 
     /**
