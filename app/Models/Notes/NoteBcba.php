@@ -80,5 +80,6 @@ class NoteBcba extends Note
         'rbt_training_goals' => 'json',
         'billed' => 'boolean',
         'paid' => 'boolean',
+        'session_date' => 'date:Y-m-d',
     ];
 }

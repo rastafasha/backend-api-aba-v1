@@ -120,16 +120,16 @@ class PatientTest extends TestCase
             'pa_services' => 'Behavioral Analysis',
             'cpt' => '97151',
             'n_units' => 2,
-            'start_date' => '2024-01-01 00:00:00',
-            'end_date' => '2024-02-01 00:00:00',
+            'start_date' => '2024-01-01',
+            'end_date' => '2024-02-01',
         ]);
 
         $this->assertDatabaseHas('pa_services', [
             'pa_services' => 'BCBA Supervision',
             'cpt' => '97155',
             'n_units' => 1,
-            'start_date' => '2024-01-01 00:00:00',
-            'end_date' => '2024-02-01 00:00:00',
+            'start_date' => '2024-01-01',
+            'end_date' => '2024-02-01',
         ]);
     }
 

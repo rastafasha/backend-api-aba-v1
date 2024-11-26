@@ -138,6 +138,7 @@ class NoteRbt extends Note
         'interventions' => 'json',
         'billed' => 'boolean',
         'paid' => 'boolean',
+        'session_date' => 'date:Y-m-d',
     ];
 
 
