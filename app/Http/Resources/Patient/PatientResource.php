@@ -77,9 +77,12 @@ class PatientResource extends JsonResource
 
 
             "status" => $this->resource->status,
-            // "insuranceId"=>$this->resource->insuranceId,
-            // "insurer_secundary"=>$this->resource->insurer_secundary,
-            // "insuranceId_secundary"=>$this->resource->insuranceId_secundary,
+            "insuranceId"=>$this->resource->insuranceId,
+            "insurance_identifier"=>$this->resource->insurance_identifier,
+            "insurer_secundary"=>$this->resource->insurer_secundary,
+            "insurer_secondary_id"=>$this->resource->insurer_secondary_id,
+            "insurance_secondary_identifier"=>$this->resource->insurance_secondary_identifier,
+            
             "elegibility_date" => $this->resource->elegibility_date ? Carbon::parse($this->resource->elegibility_date)->format("Y/m/d") : null,
 
             "pos_covered" => $this->resource->pos_covered ,
