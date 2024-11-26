@@ -69,6 +69,7 @@ class NoteBcba extends Note
         'rbt_training_goals', //json
         'provider_signature',
         'supervisor_signature',
+        'meet_with_client_at',
         // 'supervisor_name',
         'session_length_total',
         'session_length_total2',
