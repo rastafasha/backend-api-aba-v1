@@ -139,7 +139,7 @@ class PatientV2Controller extends Controller
 
         $patient = Patient::create($validated);
 
-        if ($patient->id) {
+        if ($patient->id && $request->has('pa_assessments')) {
             foreach ($request->pa_assessments as $pa) {
                 $validatedData = PaService::validate($pa);
                 $paService = new PaService($validatedData);

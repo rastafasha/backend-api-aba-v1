@@ -48,12 +48,62 @@ class PatientTest extends TestCase
             'pay' => 'false'
         ];
 
-        $paAssessments = [];
 
-        $requestData = $patientData;
-        $requestData['pa_assessments'] = $paAssessments;
+        $response = $this->postJson('/api/v2/patients', $patientData);
 
-        $response = $this->postJson('/api/v2/patients', $requestData);
+        $response->assertStatus(201)
+            ->assertJson([
+                'status' => 'success',
+                'message' => 'Patient created successfully'
+            ]);
+
+        $this->assertDatabaseHas('patients', [
+            'first_name' => $patientData['first_name'],
+            'email' => $patientData['email']
+        ]);
+    }
+
+    /**
+     * Test creating a new patient with pa_assessments
+     */
+    public function test_can_create_patient_with_pa_assessments()
+    {
+        $patientData = [
+            'first_name' => $this->faker->firstName,
+            'last_name' => $this->faker->lastName,
+            'email' => $this->faker->unique()->safeEmail,
+            'phone' => $this->faker->phoneNumber,
+            'gender' => 1,
+            'birth_date' => $this->faker->date(),
+            'address' => $this->faker->address,
+            'city' => $this->faker->city,
+            'state' => $this->faker->state,
+            'zip' => $this->faker->postcode,
+            'status' => 'active',
+            'language' => $this->faker->randomElement(['English', 'Spanish', 'French']),
+            'insurer_id' => $this->insurance->id,
+            'location_id' => $this->location->id,
+            'telehealth' => 'false',
+            'pay' => 'false',
+            'pa_assessments' => [
+                [
+                    'pa_services' => 'Behavioral Analysis',
+                    'cpt' => '97151',
+                    'n_units' => 2,
+                    'start_date' => '2024-01-01',
+                    'end_date' => '2024-02-01'
+                ],
+                [
+                    'pa_services' => 'BCBA Supervision',
+                    'cpt' => '97155',
+                    'n_units' => 1,
+                    'start_date' => '2024-01-01',
+                    'end_date' => '2024-02-01'
+                ]
+            ]
+        ];
+
+        $response = $this->postJson('/api/v2/patients', $patientData);
 
         $response->assertStatus(201)
             ->assertJson([
@@ -66,16 +116,23 @@ class PatientTest extends TestCase
             'email' => $patientData['email']
         ]);
 
-        foreach ($paAssessments as $pa) {
-            $this->assertDatabaseHas('pa_services', [
-                'pa_services' => $pa['pa_services'],
-                'cpt' => $pa['cpt'],
-                'n_units' => $pa['n_units'],
-                'start_date' => $pa['start_date'],
-                'end_date' => $pa['end_date'],
-            ]);
-        }
+        $this->assertDatabaseHas('pa_services', [
+            'pa_services' => 'Behavioral Analysis',
+            'cpt' => '97151',
+            'n_units' => 2,
+            'start_date' => '2024-01-01 00:00:00',
+            'end_date' => '2024-02-01 00:00:00',
+        ]);
+
+        $this->assertDatabaseHas('pa_services', [
+            'pa_services' => 'BCBA Supervision',
+            'cpt' => '97155',
+            'n_units' => 1,
+            'start_date' => '2024-01-01 00:00:00',
+            'end_date' => '2024-02-01 00:00:00',
+        ]);
     }
+
 
     /**
      * Test updating an existing patient
