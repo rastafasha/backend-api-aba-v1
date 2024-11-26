@@ -44,8 +44,8 @@ class PatientTest extends TestCase
             'status' => 'active',
             'insurer_id' => $this->insurance->id,
             'location_id' => $this->location->id,
-            'telehealth' => 'false',
-            'pay' => 'false'
+            'telehealth' => false,
+            'pay' => false
         ];
 
 
@@ -83,8 +83,8 @@ class PatientTest extends TestCase
             'language' => $this->faker->randomElement(['English', 'Spanish', 'French']),
             'insurer_id' => $this->insurance->id,
             'location_id' => $this->location->id,
-            'telehealth' => 'false',
-            'pay' => 'false',
+            'telehealth' => false,
+            'pay' => false,
             'pa_assessments' => [
                 [
                     'pa_services' => 'Behavioral Analysis',
@@ -158,8 +158,8 @@ class PatientTest extends TestCase
             'status' => 'active',
             'insurer_id' => $this->insurance->id,
             'location_id' => $this->location->id,
-            'telehealth' => 'false',
-            'pay' => 'false'
+            'telehealth' => false,
+            'pay' => false
         ];
 
         $response = $this->putJson("/api/v2/patients/{$patient->id}", $updatedData);
