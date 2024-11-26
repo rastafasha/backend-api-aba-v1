@@ -223,4 +223,32 @@ class PatientTest extends TestCase
         $statusResponse = $this->getJson('/api/v2/patients?status=active');
         $statusResponse->assertStatus(200);
     }
+
+    public function test_show_endpoint_returns_correct_patient()
+    {
+        // Create multiple patients
+        $patient1 = Patient::factory()->create(['first_name' => 'Patient One']);
+        $patient2 = Patient::factory()->create(['first_name' => 'Patient Two']);
+        $patient3 = Patient::factory()->create(['first_name' => 'Patient Three']);
+
+        // Request the second patient specifically
+        $response = $this->getJson("/api/v2/patients/{$patient2->id}");
+
+        $response->assertStatus(200)
+            ->assertJson([
+                'status' => 'success',
+                'data' => [
+                    'id' => $patient2->id,
+                    'first_name' => 'Patient Two'
+                ]
+            ]);
+
+        // Verify it's not returning the first patient
+        $response->assertJsonMissing([
+            'data' => [
+                'id' => $patient1->id,
+                'first_name' => 'Patient One'
+            ]
+        ]);
+    }
 }

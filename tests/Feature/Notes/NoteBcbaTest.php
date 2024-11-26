@@ -258,4 +258,63 @@ class NoteBcbaTest extends TestCase
         $patientFilterResponse = $this->getJson("/api/v2/notes/bcba?patient_id={$this->patient->id}");
         $patientFilterResponse->assertStatus(200);
     }
+
+    /**
+     * Test that show endpoint returns correct note and not just first record
+     */
+    public function test_show_endpoint_returns_correct_note_bcba()
+    {
+        // Create multiple notes with distinct data
+        $note1 = NoteBcba::factory()->create([
+            'patient_id' => $this->patient->id,
+            'provider_id' => $this->provider->id,
+            'supervisor_id' => $this->supervisor->id,
+            'location_id' => $this->location->id,
+            'pa_service_id' => $this->paService->id,
+            'note_description' => 'Description One',
+            'session_date' => '2024-01-01',
+        ]);
+
+        $note2 = NoteBcba::factory()->create([
+            'patient_id' => $this->patient->id,
+            'provider_id' => $this->provider->id,
+            'supervisor_id' => $this->supervisor->id,
+            'location_id' => $this->location->id,
+            'pa_service_id' => $this->paService->id,
+            'note_description' => 'Description Two',
+            'session_date' => '2024-01-02',
+        ]);
+
+        $note3 = NoteBcba::factory()->create([
+            'patient_id' => $this->patient->id,
+            'provider_id' => $this->provider->id,
+            'supervisor_id' => $this->supervisor->id,
+            'location_id' => $this->location->id,
+            'pa_service_id' => $this->paService->id,
+            'note_description' => 'Description Three',
+            'session_date' => '2024-01-03',
+        ]);
+
+        // Request the second note specifically
+        $response = $this->getJson("/api/v2/notes/bcba/{$note2->id}");
+
+        $response->assertStatus(200)
+            ->assertJson([
+                'status' => 'success',
+                'data' => [
+                    'id' => $note2->id,
+                    'note_description' => 'Description Two',
+                    'session_date' => '2024-01-02'
+                ]
+            ]);
+
+        // Verify it's not returning the first note
+        $response->assertJsonMissing([
+            'data' => [
+                'id' => $note1->id,
+                'note_description' => 'Description One',
+                'session_date' => '2024-01-01'
+            ]
+        ]);
+    }
 }

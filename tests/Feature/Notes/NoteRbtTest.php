@@ -260,4 +260,52 @@ class NoteRbtTest extends TestCase
         $patientFilterResponse = $this->getJson("/api/v2/notes/rbt?patient_id={$this->patient->id}");
         $patientFilterResponse->assertStatus(200);
     }
+
+    /**
+     * Test that show endpoint returns correct note and not just first record
+     */
+    public function test_show_endpoint_returns_correct_note_rbt()
+    {
+        // Create multiple notes with distinct data
+        $note1 = NoteRbt::factory()->create([
+            'patient_id' => $this->patient->id,
+            'provider_id' => $this->provider->id,
+            'client_response_to_treatment_this_session' => 'Response One',
+            'pa_service_id' => $this->paService->id,
+        ]);
+
+        $note2 = NoteRbt::factory()->create([
+            'patient_id' => $this->patient->id,
+            'provider_id' => $this->provider->id,
+            'client_response_to_treatment_this_session' => 'Response Two',
+            'pa_service_id' => $this->paService->id,
+        ]);
+
+        $note3 = NoteRbt::factory()->create([
+            'patient_id' => $this->patient->id,
+            'provider_id' => $this->provider->id,
+            'client_response_to_treatment_this_session' => 'Response Three',
+            'pa_service_id' => $this->paService->id,
+        ]);
+
+        // Request the second note specifically
+        $response = $this->getJson("/api/v2/notes/rbt/{$note2->id}");
+
+        $response->assertStatus(200)
+            ->assertJson([
+                'status' => 'success',
+                'data' => [
+                    'id' => $note2->id,
+                    'client_response_to_treatment_this_session' => 'Response Two'
+                ]
+            ]);
+
+        // Verify it's not returning the first note
+        $response->assertJsonMissing([
+            'data' => [
+                'id' => $note1->id,
+                'client_response_to_treatment_this_session' => 'Response One'
+            ]
+        ]);
+    }
 }
