@@ -214,7 +214,8 @@ class BipController extends Controller
                 "pa_services" => $paServices,
                 "diagnosis_code" => $patient->diagnosis_code,
                 "insurer_id" => $patient->insurer_id, // el id interno del insuerer
-                "insuranceId" => $patient->insuranceId, // el id externo (o code) del insuerer
+                // "insuranceId" => $patient->insuranceId, // el id externo (o code) del insuerer
+                "insurance_identifier" => $patient->insurance_identifier,
             ] : null
         ]);
     }
@@ -384,7 +385,8 @@ class BipController extends Controller
                 "pa_services" => $paServices,
                 "pa_assessments" => json_encode($paServices),
                 "insurer_id" => $patient->insurer_id,
-                "insuranceId" => $patient->insuranceId,
+                // "insuranceId" => $patient->insuranceId,
+                "insurance_identifier" => $patient->insurance_identifier,
             ] : null,
         ]);
     }
