@@ -63,7 +63,7 @@ class PaServiceV2Controller extends Controller
      */
     public function index(Request $request, $patient_id)
     {
-        $patient = Patient::where('patient_id', $patient_id)->first();
+        $patient = Patient::where('id', $patient_id)->first();
 
         if (!$patient) {
             return response()->json([
@@ -113,7 +113,7 @@ class PaServiceV2Controller extends Controller
      */
     public function store(PaServiceRequest $request, $patient_id)
     {
-        $patient = Patient::where('patient_id', $patient_id)->first();
+        $patient = Patient::where('id', $patient_id)->first();
 
         if (!$patient) {
             return response()->json([
@@ -159,7 +159,7 @@ class PaServiceV2Controller extends Controller
      */
     public function show($patient_id, $id)
     {
-        $patient = Patient::where('patient_id', $patient_id)->first();
+        $patient = Patient::where('id', $patient_id)->first();
 
         if (!$patient) {
             return response()->json([
@@ -218,7 +218,7 @@ class PaServiceV2Controller extends Controller
      */
     public function update(PaServiceRequest $request, $patient_id, $id)
     {
-        $patient = Patient::where('patient_id', $patient_id)->first();
+        $patient = Patient::where('id', $patient_id)->first();
 
         if (!$patient) {
             return response()->json([
@@ -271,7 +271,7 @@ class PaServiceV2Controller extends Controller
      */
     public function destroy($patient_id, $id)
     {
-        $patient = Patient::where('patient_id', $patient_id)->first();
+        $patient = Patient::where('id', $patient_id)->first();
 
         if (!$patient) {
             return response()->json([
