@@ -27,7 +27,7 @@ class PaServiceTest extends TestCase
             'patient_id' => $this->patient->id
         ]);
 
-        $response = $this->getJson("/api/v2/patients/{$this->patient->patient_id}/pa-services");
+        $response = $this->getJson("/api/v2/patients/{$this->patient->id}/pa-services");
 
         $response->assertStatus(200)
             ->assertJsonStructure([
@@ -72,7 +72,7 @@ class PaServiceTest extends TestCase
         ];
 
         $response = $this->postJson(
-            "/api/v2/patients/{$this->patient->patient_id}/pa-services",
+            "/api/v2/patients/{$this->patient->id}/pa-services",
             $paServiceData
         );
 
@@ -96,7 +96,7 @@ class PaServiceTest extends TestCase
         ]);
 
         $response = $this->getJson(
-            "/api/v2/patients/{$this->patient->patient_id}/pa-services/{$paService->id}"
+            "/api/v2/patients/{$this->patient->id}/pa-services/{$paService->id}"
         );
 
         $response->assertStatus(200)
@@ -134,7 +134,7 @@ class PaServiceTest extends TestCase
         ];
 
         $response = $this->putJson(
-            "/api/v2/patients/{$this->patient->patient_id}/pa-services/{$paService->id}",
+            "/api/v2/patients/{$this->patient->id}/pa-services/{$paService->id}",
             $updatedData
         );
 
@@ -157,7 +157,7 @@ class PaServiceTest extends TestCase
         ]);
 
         $response = $this->deleteJson(
-            "/api/v2/patients/{$this->patient->patient_id}/pa-services/{$paService->id}"
+            "/api/v2/patients/{$this->patient->id}/pa-services/{$paService->id}"
         );
 
         $response->assertStatus(200)
@@ -185,7 +185,7 @@ class PaServiceTest extends TestCase
     public function test_validates_required_fields_for_creation()
     {
         $response = $this->postJson(
-            "/api/v2/patients/{$this->patient->patient_id}/pa-services",
+            "/api/v2/patients/{$this->patient->id}/pa-services",
             []
         );
 
