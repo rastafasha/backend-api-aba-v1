@@ -188,9 +188,9 @@ class GraphicReductionController extends Controller
                 $number_of_occurrences += $maladaptive->number_of_occurrences;
             }
             $maladaptivesCollection->push($number_of_occurrences);
-            
+
             $maladaptives = json_decode($item->maladaptives, false);
-            
+
             $mald = json_decode($maladaptives, true);
             foreach ($mald as $m) {
                 foreach ($m as $k => $v) {
@@ -218,7 +218,6 @@ class GraphicReductionController extends Controller
 
             $last_date->add(new DateInterval('P7D')); // add 7 days to the first date
             // echo $last_date->format('Y-m-d'); // print the resulting date in the desired format
-
         }
 
         // Log::debug("JSON strings: " . json_encode($json_strings, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT));
@@ -229,15 +228,15 @@ class GraphicReductionController extends Controller
         // Convert maladaptives from string to JSON array
         // $maladaptives = json_decode($item->maladaptives, false);
         // Log::debug("maladaptives: " . $maladaptives);
-        
+
 
         $filtered_maladaptives = []; // Initialize as an empty array
 
-        
+
 
 
         //calcular la semana
-        
+
 
         return response()->json([
 
@@ -408,16 +407,14 @@ class GraphicReductionController extends Controller
 
             $last_date->add(new DateInterval('P7D')); // add 7 days to the first date
             // echo $last_date->format('Y-m-d'); // print the resulting date in the desired format
-
-
         }
 
-        
 
 
 
 
-        
+
+
 
         $filtered_data = [];
         $filtered_goals = [];
