@@ -941,7 +941,7 @@ CREATE TABLE `users` (
   `languages` varchar(50) DEFAULT NULL,
   `ss_number` varchar(150) DEFAULT NULL,
   `date_of_hire` timestamp NULL DEFAULT current_timestamp(),
-  `start_pay` timestamp NULL DEFAULT current_timestamp(),
+  `start_pay` timestamp NULL DEFAULT ,
   `driver_license_expiration` timestamp NULL DEFAULT current_timestamp(),
   `cpr_every_2_years` varchar(255) DEFAULT NULL,
   `background_every_5_years` varchar(255) DEFAULT NULL,
