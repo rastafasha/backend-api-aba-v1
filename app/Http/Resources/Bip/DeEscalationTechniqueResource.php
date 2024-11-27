@@ -20,9 +20,11 @@ class DeEscalationTechniqueResource extends JsonResource
             "patient_id" => $this->resource->patient_id,
             "client_id" => $this->resource->client_id,
             "bip_id" => $this->resource->bip_id,
-            "description" => $this->resource->description,
-            "service_recomendation" => $this->resource->service_recomendation,
-            "recomendation_lists" => json_decode($this->resource->recomendation_lists) ? : null,
+            "recomendation_lists" =>
+            is_string($this->resource->recomendation_lists)
+                ? json_decode($this->resource->recomendation_lists) : $this->resource->family_envolment->caregivers_training_goals,
+
+            // "recomendation_lists" => json_decode($this->resource->recomendation_lists) ? : null,
             "created_at" => $this->resource->created_at ? Carbon::parse($this->resource->created_at)->format("Y-m-d h:i A") : null,
 
         ];

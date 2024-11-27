@@ -24,8 +24,17 @@ class ReductionGoalsResource extends JsonResource
             "client_id" => $this->resource->client_id,
             "bip_id" => $this->resource->bip_id,
             "current_status" => $this->resource->current_status,
-            "goalstos" => json_decode($this->resource->goalstos) ? : null,
-            "goalltos" => json_decode($this->resource->goalltos) ? : null,
+            // "goalstos" => json_decode($this->resource->goalstos) ? : null,
+            // "goalltos" => json_decode($this->resource->goalltos) ? : null,
+
+            "goalstos" =>
+            is_string($this->resource->goalstos)
+                ? json_decode($this->resource->goalstos) : $this->resource->family_envolment->caregivers_training_goals,
+
+            "goalltos" =>
+                is_string($this->resource->goalltos)
+                    ? json_decode($this->resource->goalltos) : $this->resource->family_envolment->caregivers_training_goals,
+
             "created_at" => $this->resource->created_at ? Carbon::parse($this->resource->created_at)->format("Y-m-d h:i A") : null,
 
         ];
