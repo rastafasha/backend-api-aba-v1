@@ -80,6 +80,7 @@ class BipResource extends JsonResource
             "reduction_goal" => $this->resource->reduction_goals,
             "sustitution_goal" => $this->resource->sustitution_goals,
             "family_envolment" => $this->resource->family_envolments,
+
             "monitoring_evalutating" => $this->resource->monitoring_evalutatings,
             "generalization_training" => $this->resource->generalization_trainings,
             "crisis_plan" => $this->resource->crisis_plans,

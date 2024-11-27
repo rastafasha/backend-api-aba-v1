@@ -399,6 +399,12 @@ class BipController extends Controller
 
         return response()->json([
             "bip" => BipResource::make($bip),
+            "maladaptives" =>
+            is_string($bip->maladaptives)
+                ? json_decode($bip->maladaptives)
+                : $bip->maladaptives,
+
+
             "patient" => $patient->id ? [
                 "id" => $patient->id,
                 "patient_id" => $patient->patient_id,

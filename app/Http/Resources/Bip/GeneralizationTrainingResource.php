@@ -21,7 +21,11 @@ class GeneralizationTrainingResource extends JsonResource
             "client_id" => $this->resource->client_id,
             "bip_id" => $this->resource->bip_id,
             "discharge_plan" => $this->resource->discharge_plan,
-            "transition_fading_plans" => json_decode($this->resource->transition_fading_plans) ? : null,
+            "transition_fading_plans" =>
+            is_string($this->resource->transition_fading_plans)
+                ? json_decode($this->resource->transition_fading_plans) : $this->resource->family_envolment->caregivers_training_goals,
+
+            // "transition_fading_plans" => json_decode($this->resource->transition_fading_plans) ? : null,
             "created_at" => $this->resource->created_at ? Carbon::parse($this->resource->created_at)->format("Y-m-d h:i A") : null,
 
         ];

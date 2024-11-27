@@ -20,7 +20,10 @@ class FamilyEnvolmentGoalsResource extends JsonResource
             "patient_id" => $this->resource->patient_id,
             "client_id" => $this->resource->client_id,
             "bip_id" => $this->resource->bip_id,
-            "caregivers_training_goals" => json_decode($this->resource->caregivers_training_goals) ? : null,
+            "caregivers_training_goals" =>
+            is_string($this->resource->caregivers_training_goals)
+                ? json_decode($this->resource->caregivers_training_goals) : $this->resource->family_envolment->caregivers_training_goals,
+
             "created_at" => $this->resource->created_at ? Carbon::parse($this->resource->created_at)->format("Y-m-d h:i A") : null,
 
         ];
