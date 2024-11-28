@@ -331,5 +331,4 @@ class NoteBcbaController extends Controller
         $noteBcba->update();
         return $noteBcba;
     }
-
 }

@@ -708,7 +708,7 @@ class NoteRbtController extends Controller
         $noteRbt->update();
         return $noteRbt;
     }
-   
+
 
     private function cleanDateString($dateString)
     {
