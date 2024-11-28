@@ -212,6 +212,8 @@ class GraphicReductionController extends Controller
                 return $maladaptive['maladaptive_behavior'] == $filter_value;
             });
 
+            Log::debug($filtered_maladaptives);
+            
             $first_date = $sessions->first();
 
             // $first_date = new DateTime('2024-03-07'); // create a DateTime object for the first date

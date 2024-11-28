@@ -21,11 +21,8 @@ Route::post('note_bcba/store', [NoteBcbaController::class, 'storebcba'])->name('
 Route::post('note_bcba/update/{id}', [NoteBcbaController::class, 'update'])->name('update');
 Route::delete('note_bcba/destroy/{id}', [NoteBcbaController::class, 'destroy'])->name('destroy');
 
-Route::put('/note_bcba/update/modifier/{note_bcba:id}', [NoteBcbaController::class, 'updateModifier'])
-    ->name('note_bcba.updateModifier');
-
-Route::put('/note_bcba/update/status/{note_bcba:id}', [NoteBcbaController::class, 'updateStatus'])
-    ->name('note_bcba.updateStatus');
+// Route::put('/note_bcba/update-status/{note_bcba:id}', [NoteBcbaController::class, 'updateStatus'])
+//     ->name('note_bcba.updateStatus');
 
 Route::post('/note_bcba/generate-summary', [OpenAIController::class, 'generateBcbaSummary'])
     ->name('note_bcba.generateSummary');
@@ -37,5 +34,6 @@ Route::prefix('v2/notes')->group(function () {
     Route::get('/bcba/{id}', [NoteBcbaV2Controller::class, 'show']);
     Route::post('/bcba', [NoteBcbaV2Controller::class, 'store']);
     Route::put('/bcba/{id}', [NoteBcbaV2Controller::class, 'update']);
+    Route::put('/bcba/update-status/{id}', [NoteBcbaController::class, 'updateStatus']);
     Route::delete('/bcba/{id}', [NoteBcbaV2Controller::class, 'destroy']);
 });

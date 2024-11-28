@@ -57,6 +57,8 @@ class NoteBcba extends Note
         'status',
         'billed',
         'paid',
+        'md',
+        'md2',
         'doctor_id',
         'bip_id',
         'summary_note',

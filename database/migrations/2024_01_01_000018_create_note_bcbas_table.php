@@ -38,8 +38,8 @@ class CreateNoteBcbasTable extends Migration
             $table->text('summary_note')->nullable();
             $table->boolean('billed')->default(false);
             $table->boolean('paid')->default(false);
-            // $table->string('mdbcba', 20)->nullable();
-            // $table->string('md2bcba', 20)->nullable();
+            $table->string('md', 20)->nullable();
+            $table->string('md2', 20)->nullable();
             $table->unsignedInteger('location_id')->nullable();
             $table->foreignId('pa_service_id')->nullable()->constrained('pa_services')->nullOnDelete();
             $table->timestamps();
