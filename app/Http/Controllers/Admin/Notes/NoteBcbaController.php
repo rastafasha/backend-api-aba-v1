@@ -323,18 +323,11 @@ class NoteBcbaController extends Controller
     public function updateStatus(Request $request, $id)
     {
         $noteBcba = NoteBcba::findOrfail($id);
+        $noteBcba->billed = $request->billed;
+        $noteBcba->paid = $request->paid;
+        $noteBcba->md = $request->md;
+        $noteBcba->md2 = $request->md2;
         $noteBcba->status = $request->status;
-        $noteBcba->update();
-        return $noteBcba;
-    }
-
-    public function updateModifier(Request $request, $id)
-    {
-        $noteBcba = NoteBcba::findOrfail($id);
-        $noteBcba->billedbcba = $request->billedbcba;
-        $noteBcba->paybcba = $request->paybcba;
-        $noteBcba->mdbcba = $request->mdbcba;
-        $noteBcba->md2bcba = $request->md2bcba;
         $noteBcba->update();
         return $noteBcba;
     }

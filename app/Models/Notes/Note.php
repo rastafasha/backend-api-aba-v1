@@ -37,6 +37,8 @@ abstract class Note extends Model
         'status',
         'billed',
         'paid',
+        'md',
+        'md2',
         'doctor_id',
         'bip_id',
         'summary_note',

@@ -23,11 +23,9 @@ Route::delete('note_rbt/destroy/{id}', [NoteRbtController::class, 'destroy'])->n
 
 Route::post('note_rbt/storeReplacemts', [NoteRbtController::class, 'storeReplacemts'])->name('storeReplacemts');
 
-Route::put('note_rbt/update/status/{note_rbt:id}', [NoteRbtController::class, 'updateStatus'])
-    ->name('note_rbt.updateStatus');
+// Route::put('note_rbt/update-status/{note_rbt:id}', [NoteRbtController::class, 'updateStatus'])
+//     ->name('note_rbt.updateStatus');
 
-Route::put('note_rbt/update/modifier/{note_rbt:id}', [NoteRbtController::class, 'updateModifier'])
-    ->name('note_rbt.updateModifier');
 
 Route::post("note_rbt/generate-summary", [OpenAIController::class, "generateSummary"])
     ->name("note_rbt.generateSummary");
@@ -38,5 +36,6 @@ Route::prefix('v2/notes')->group(function () {
     Route::get('/rbt/{id}', [App\Http\Controllers\Admin\Notes\NoteRbtV2Controller::class, 'show']);
     Route::post('/rbt', [App\Http\Controllers\Admin\Notes\NoteRbtV2Controller::class, 'store']);
     Route::put('/rbt/{id}', [App\Http\Controllers\Admin\Notes\NoteRbtV2Controller::class, 'update']);
+    Route::put('/rbt/update-status/{id}', [NoteRbtController::class, 'updateStatus']);
     Route::delete('/rbt/{id}', [App\Http\Controllers\Admin\Notes\NoteRbtV2Controller::class, 'destroy']);
 });
