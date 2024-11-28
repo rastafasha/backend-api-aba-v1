@@ -377,6 +377,7 @@ class BipController extends Controller
                 "location_id" => $patient->location_id,
                 "first_name" => $patient->first_name,
                 "last_name" => $patient->last_name,
+                "birth_date" => $patient->birth_date,
                 "diagnosis_code" => $patient->diagnosis_code,
                 "pos_covered" =>
                 is_string($patient->pos_covered)
