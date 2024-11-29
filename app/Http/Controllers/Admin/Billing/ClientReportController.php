@@ -678,7 +678,7 @@ class ClientReportController extends Controller
             ->where("patient_id", $patient->id);
 
         $noteRbt = NoteRbt::where("provider_id", $doctor_id)
-            
+
             ->where("patient_id", $patient->id);
 
 
@@ -912,7 +912,7 @@ class ClientReportController extends Controller
         $paService = PaService::where("patient_id", $patient->id)->get();
 
         return response()->json([
-            "doctor_id"=>$doctor_id,
+            "doctor_id" => $doctor_id,
             "doctor" => $doctor,
             "doctor" => $doctor->id ? [
                 "doctor_id" => $doctor->id,
@@ -949,7 +949,7 @@ class ClientReportController extends Controller
                 "bcba_home_id" => $patient->bcba_home_id,
                 "bcba2_school_id" => $patient->bcba2_school_id,
             ] : null,
-            
+
 
 
 

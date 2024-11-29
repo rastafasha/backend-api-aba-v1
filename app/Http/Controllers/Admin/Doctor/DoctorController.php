@@ -285,7 +285,7 @@ class DoctorController extends Controller
             // ...
         ]);
 
-       
+
         if ($request->hasFile('imagen')) {
             $path = Storage::putFile("staffs", $request->file('imagen'));
             $request->request->add(["avatar" => $path]);
