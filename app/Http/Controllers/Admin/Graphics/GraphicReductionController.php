@@ -205,14 +205,13 @@ class GraphicReductionController extends Controller
 
             // Define the value you want to filter by
             $filter_value = $maladaptive_behavior;
-            Log::debug("filter_value: " . $filter_value);
+            // Log::debug("filter_value: " . $filter_value);
 
             // Filter the maladaptives array
             $filtered_maladaptives = array_filter($mald, function ($maladaptive) use ($filter_value) {
                 return $maladaptive['maladaptive_behavior'] == $filter_value;
             });
 
-            Log::debug($filtered_maladaptives);
 
             $first_date = $sessions->first();
 
@@ -396,7 +395,7 @@ class GraphicReductionController extends Controller
             }
             // Define the value you want to filter by
             $filter_value1 = $goal;
-            Log::debug("filter_value: " . $filter_value1);
+            // Log::debug("filter_value: " . $filter_value1);
 
             // Filter the maladaptives array
             $filtered_goals = array_filter($goa, function ($goal) use ($filter_value1) {
@@ -420,6 +419,7 @@ class GraphicReductionController extends Controller
 
         $filtered_data = [];
         $filtered_goals = [];
+        $filtered_names = [];
 
         return response()->json([
 

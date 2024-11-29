@@ -285,9 +285,6 @@ class DoctorController extends Controller
             // ...
         ]);
 
-        if ($validator->fails()) {
-            return response()->json(['error' => $validator->messages()], 422);
-        }
 
         if ($request->hasFile('imagen')) {
             $path = Storage::putFile("staffs", $request->file('imagen'));
