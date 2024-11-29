@@ -140,24 +140,24 @@ class PatientV2Controller extends Controller
 
         $patient = Patient::create($validated);
 
-        // if ($patient->id && $request->has('pa_services') && is_array($request->pa_services)) {
-        //     foreach ($request->pa_services as $pa) {
-        //         $validatedData = PaService::validate($pa);
-        //         $paService = new PaService($validatedData);
-        //         $paService->id_patient = $patient->id;
-        //         // $paService->save();
-        //         $paService = PaService::create($request->all());
-        //     }
-        // }
-
-        if ($patient->id) {
+        if ($patient->id && $request->has('pa_services') && is_array($request->pa_services)) {
             foreach ($request->pa_services as $pa) {
                 $validatedData = PaService::validate($pa);
                 $paService = new PaService($validatedData);
                 $paService->id_patient = $patient->id;
-                $paService->save();
+                // $paService->save();
+                $paService = PaService::create($request->all());
             }
         }
+
+        // if ($patient->id) {
+        //     foreach ($request->pa_services as $pa) {
+        //         $validatedData = PaService::validate($pa);
+        //         $paService = new PaService($validatedData);
+        //         $paService->id_patient = $patient->id;
+        //         $paService->save();
+        //     }
+        // }
 
         return response()->json([
             'status' => 'success',

@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Validator;
 /**
  * @OA\Schema(
  *     schema="PaService",
- *     required={"patient_id", "pa_services", "cpt", "n_units", "start_date", "end_date"},
+ *     required={"id_patient", "pa_services", "cpt", "n_units", "start_date", "end_date"},
  *     @OA\Property(property="id", type="integer", format="int64", example=1),
  *     @OA\Property(property="patient_id", type="integer", format="int64", example=1),
  *     @OA\Property(property="pa_services", type="string", example="Behavioral Analysis"),
