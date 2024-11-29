@@ -24,7 +24,7 @@ class PaServiceTest extends TestCase
     public function test_can_list_pa_services()
     {
         PaService::factory()->count(3)->create([
-            'patient_id' => $this->patient->id
+            'id_patient' => $this->patient->id
         ]);
 
         $response = $this->getJson("/api/v2/patients/{$this->patient->id}/pa-services");
