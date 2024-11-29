@@ -37,8 +37,8 @@ class PaServiceTest extends TestCase
                     'data' => [
                         '*' => [
                             'id',
-                            'patient_id',
-                            'pa_services',
+                            'id_patient',
+                            'pa_service',
                             'cpt',
                             'n_units',
                             'start_date',
@@ -64,7 +64,7 @@ class PaServiceTest extends TestCase
     public function test_can_create_pa_service()
     {
         $paServiceData = [
-            'pa_services' => 'Behavioral Analysis',
+            'pa_service' => 'Behavioral Analysis',
             'cpt' => '97151',
             'n_units' => 8,
             'start_date' => '2024-03-01',
@@ -83,8 +83,8 @@ class PaServiceTest extends TestCase
             ]);
 
         $this->assertDatabaseHas('pa_services', [
-            'patient_id' => $this->patient->id,
-            'pa_services' => $paServiceData['pa_services'],
+            'id_patient' => $this->patient->id,
+            'pa_service' => $paServiceData['pa_service'],
             'cpt' => $paServiceData['cpt']
         ]);
     }
@@ -92,7 +92,7 @@ class PaServiceTest extends TestCase
     public function test_can_show_pa_service()
     {
         $paService = PaService::factory()->create([
-            'patient_id' => $this->patient->id
+            'id_patient' => $this->patient->id
         ]);
 
         $response = $this->getJson(
@@ -107,8 +107,8 @@ class PaServiceTest extends TestCase
                 'status',
                 'data' => [
                     'id',
-                    'patient_id',
-                    'pa_services',
+                    'id_patient',
+                    'pa_service',
                     'cpt',
                     'n_units',
                     'start_date',
@@ -122,11 +122,11 @@ class PaServiceTest extends TestCase
     public function test_can_update_pa_service()
     {
         $paService = PaService::factory()->create([
-            'patient_id' => $this->patient->id
+            'id_patient' => $this->patient->id
         ]);
 
         $updatedData = [
-            'pa_services' => 'Updated Service',
+            'pa_service' => 'Updated Service',
             'cpt' => '97153',
             'n_units' => 12,
             'start_date' => '2024-04-01',
@@ -191,7 +191,7 @@ class PaServiceTest extends TestCase
 
         $response->assertStatus(422)
             ->assertJsonValidationErrors([
-                'pa_services',
+                'pa_service',
                 'cpt',
                 'n_units',
                 'start_date',
