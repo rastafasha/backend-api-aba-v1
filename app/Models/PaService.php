@@ -33,8 +33,9 @@ class PaService extends Model
     use SoftDeletes;
 
     protected $fillable = [
-        'patient_id',
-        'pa_services',
+        // 'patient_id',
+        'id_patient',
+        'pa_service',
         'cpt',
         'n_units',
         'start_date',
@@ -82,7 +83,7 @@ class PaService extends Model
     public static function validate($data)
     {
         return Validator::make($data, [
-            'pa_services' => 'required|string|max:255',
+            'pa_service' => 'required|string|max:255',
             'cpt' => 'required|string|max:255',
             'n_units' => 'required|integer|min:0',
             'start_date' => 'required|date',

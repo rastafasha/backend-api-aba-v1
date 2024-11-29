@@ -14,8 +14,8 @@ class NotesSeeder extends Seeder
         // First, let's ensure PaServices have their spent_units set to 0 initially
         $paServices = [
             [
-                'patient_id' => 1,
-                'pa_services' => 'Behavioral Analysis',
+                'id_patient' => 1,
+                'pa_service' => 'Behavioral Analysis',
                 'cpt' => '97153',
                 'n_units' => 100,
                 'spent_units' => 0,
@@ -23,8 +23,8 @@ class NotesSeeder extends Seeder
                 'end_date' => Carbon::now()->addDays(30),
             ],
             [
-                'patient_id' => 1,
-                'pa_services' => 'BCBA Supervision',
+                'id_patient' => 1,
+                'pa_service' => 'BCBA Supervision',
                 'cpt' => '97155',
                 'n_units' => 50,
                 'spent_units' => 0,
@@ -32,8 +32,8 @@ class NotesSeeder extends Seeder
                 'end_date' => Carbon::now()->addDays(30),
             ],
             [
-                'patient_id' => 2,
-                'pa_services' => 'Behavioral Analysis',
+                'id_patient' => 2,
+                'pa_service' => 'Behavioral Analysis',
                 'cpt' => '97153',
                 'n_units' => 100,
                 'spent_units' => 0,
@@ -41,8 +41,8 @@ class NotesSeeder extends Seeder
                 'end_date' => Carbon::now()->addDays(30),
             ],
             [
-                'patient_id' => 2,
-                'pa_services' => 'BCBA Supervision',
+                'id_patient' => 2,
+                'pa_service' => 'BCBA Supervision',
                 'cpt' => '97155',
                 'n_units' => 50,
                 'spent_units' => 0,

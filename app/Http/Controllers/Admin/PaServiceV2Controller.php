@@ -97,8 +97,8 @@ class PaServiceV2Controller extends Controller
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(
-     *             required={"pa_services", "cpt", "n_units", "start_date", "end_date"},
-     *             @OA\Property(property="pa_services", type="string", example="Behavioral Analysis"),
+     *             required={"pa_service", "cpt", "n_units", "start_date", "end_date"},
+     *             @OA\Property(property="pa_service", type="string", example="Behavioral Analysis"),
      *             @OA\Property(property="cpt", type="string", example="97151"),
      *             @OA\Property(property="n_units", type="integer", example=8),
      *             @OA\Property(property="start_date", type="string", format="date", example="2024-03-01"),
@@ -124,7 +124,7 @@ class PaServiceV2Controller extends Controller
 
         $validated = $request->validated();
         $paService = new PaService($validated);
-        $paService->patient_id = $patient->id;
+        $paService->id_patient = $patient->id;
         $paService->save();
 
         return response()->json([
@@ -203,7 +203,7 @@ class PaServiceV2Controller extends Controller
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(
-     *             @OA\Property(property="pa_services", type="string"),
+     *             @OA\Property(property="pa_service", type="string"),
      *             @OA\Property(property="cpt", type="string"),
      *             @OA\Property(property="n_units", type="integer"),
      *             @OA\Property(property="start_date", type="string", format="date"),

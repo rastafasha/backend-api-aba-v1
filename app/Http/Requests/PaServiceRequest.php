@@ -24,7 +24,7 @@ class PaServiceRequest extends FormRequest
     public function rules()
     {
         $rules = [
-            'pa_services' => 'required|string|max:255',
+            'pa_service' => 'required|string|max:255',
             'cpt' => 'required|string|max:255',
             'n_units' => 'required|integer|min:0',
             'start_date' => 'required|date',
@@ -49,8 +49,8 @@ class PaServiceRequest extends FormRequest
     public function messages()
     {
         return [
-            'pa_services.required' => 'The PA service name is required.',
-            'pa_services.max' => 'The PA service name cannot exceed 255 characters.',
+            'pa_service.required' => 'The PA service name is required.',
+            'pa_service.max' => 'The PA service name cannot exceed 255 characters.',
             'cpt.required' => 'The CPT code is required.',
             'cpt.max' => 'The CPT code cannot exceed 255 characters.',
             'n_units.required' => 'The number of units is required.',

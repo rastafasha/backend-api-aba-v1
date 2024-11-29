@@ -35,9 +35,9 @@ class PaServiceController extends Controller
     /**
      * Get all PA services for a patient
      */
-    public function index($patient_id)
+    public function index($id_patient)
     {
-        $patient = Patient::where('patient_id', $patient_id)->first();
+        $patient = Patient::where('id', $id_patient)->first();
 
         if (!$patient) {
             return response()->json([
@@ -47,6 +47,7 @@ class PaServiceController extends Controller
 
         $paServices = $patient->paServices()
             ->orderBy('created_at', 'desc')
+            ->where('id_patient', $id_patient)
             ->get();
 
         return response()->json([
@@ -69,8 +70,8 @@ class PaServiceController extends Controller
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(
-     *             required={"pa_services", "cpt", "n_units", "start_date", "end_date"},
-     *             @OA\Property(property="pa_services", type="string", example="Behavioral Analysis"),
+     *             required={"pa_service", "cpt", "n_units", "start_date", "end_date"},
+     *             @OA\Property(property="pa_service", type="string", example="Behavioral Analysis"),
      *             @OA\Property(property="cpt", type="string", example="97151"),
      *             @OA\Property(property="n_units", type="integer", example=8),
      *             @OA\Property(property="start_date", type="string", format="date", example="2024-03-01"),
@@ -89,9 +90,9 @@ class PaServiceController extends Controller
      *     @OA\Response(response=422, description="Validation failed")
      * )
      */
-    public function store(Request $request, $patient_id)
+    public function store(Request $request, $id_patient)
     {
-        $patient = Patient::where('patient_id', $patient_id)->first();
+        $patient = Patient::where('id_patient', $id_patient)->first();
 
         if (!$patient) {
             return response()->json([
@@ -100,7 +101,7 @@ class PaServiceController extends Controller
         }
 
         $validator = Validator::make($request->all(), [
-            'pa_services' => 'required|string|max:255',
+            'pa_service' => 'required|string|max:255',
             'cpt' => 'required|string|max:255',
             'n_units' => 'required|integer|min:0',
             'start_date' => 'required|date',
@@ -115,7 +116,7 @@ class PaServiceController extends Controller
         }
 
         $paService = new PaService($request->all());
-        $paService->patient_id = $patient->id;
+        $paService->id_patient = $patient->id;
         $paService->save();
 
         return response()->json([
@@ -198,7 +199,7 @@ class PaServiceController extends Controller
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(
-     *             @OA\Property(property="pa_services", type="string", example="Behavioral Analysis"),
+     *             @OA\Property(property="pa_service", type="string", example="Behavioral Analysis"),
      *             @OA\Property(property="cpt", type="string", example="97151"),
      *             @OA\Property(property="n_units", type="integer", example=8),
      *             @OA\Property(property="start_date", type="string", format="date", example="2024-03-01"),
@@ -219,7 +220,7 @@ class PaServiceController extends Controller
      */
     public function update(Request $request, $patient_id, $id)
     {
-        $patient = Patient::where('patient_id', $patient_id)->first();
+        $patient = Patient::where('id', $id)->first();
 
         if (!$patient) {
             return response()->json([
@@ -236,7 +237,7 @@ class PaServiceController extends Controller
         }
 
         $validator = Validator::make($request->all(), [
-            'pa_services' => 'sometimes|required|string|max:255',
+            'pa_service' => 'sometimes|required|string|max:255',
             'cpt' => 'sometimes|required|string|max:255',
             'n_units' => 'sometimes|required|integer|min:0',
             'start_date' => 'sometimes|required|date',
