@@ -80,6 +80,7 @@ class PatientV2Controller extends Controller
             $query->where('patient_id', $request->patient_id);
         }
 
+
         if ($request->has('status')) {
             $query->where('status', $request->status);
         }
@@ -139,24 +140,24 @@ class PatientV2Controller extends Controller
 
         $patient = Patient::create($validated);
 
-        if ($patient->id && $request->has('pa_assessments') && is_array($request->pa_assessments)) {
-            foreach ($request->pa_assessments as $pa) {
-                $validatedData = PaService::validate($pa);
-                $paService = new PaService($validatedData);
-                $paService->patient_id = $patient->id;
-                $paService->save();
-                // $paService = PaService::create($request->all());
-            }
-        }
-
-        // if ($patient->id) {
-        //     foreach ($request->pa_assessments as $pa) {
+        // if ($patient->id && $request->has('pa_services') && is_array($request->pa_services)) {
+        //     foreach ($request->pa_services as $pa) {
         //         $validatedData = PaService::validate($pa);
         //         $paService = new PaService($validatedData);
-        //         $paService->patient_id = $patient->id;
-        //         $paService->save();
+        //         $paService->id_patient = $patient->id;
+        //         // $paService->save();
+        //         $paService = PaService::create($request->all());
         //     }
         // }
+
+        if ($patient->id) {
+            foreach ($request->pa_services as $pa) {
+                $validatedData = PaService::validate($pa);
+                $paService = new PaService($validatedData);
+                $paService->id_patient = $patient->id;
+                $paService->save();
+            }
+        }
 
         return response()->json([
             'status' => 'success',
@@ -332,7 +333,7 @@ class PatientV2Controller extends Controller
             'patient_control' => 'nullable|string',
             'insurer_id' => 'nullable|exists:insurances,id',
             'insurer_secondary_id' => 'nullable|exists:insurances,id',
-            'insuranceId' => 'nullable|string|max:50',
+            // 'insuranceId' => 'nullable|string|max:50',
             'insurance_identifier' => 'nullable|string',
             'insurance_secondary_identifier' => 'nullable|string',
             'eqhlid' => 'nullable|string',

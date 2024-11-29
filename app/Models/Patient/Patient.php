@@ -89,7 +89,7 @@ class Patient extends Model
         'last_name',
         'email',
         'phone',
-        'patient_id', // en este caso el es ingresado manualmente ... // para la relacion con el id es client_id
+        'patient_id', // en este caso el es ingresado manualmente ...
         'birth_date',
         'gender',
         'address',
@@ -118,11 +118,9 @@ class Patient extends Model
         'insurer_id',
         'insurer_secondary_id',
 
-        'insuranceId',
+        // 'insuranceId',
         'insurance_identifier',
         'insurance_secondary_identifier',
-        'insurer_secundary',
-        'insurer_secondary_id',
         'elegibility_date',
         'pos_covered',
         'deductible_individual_I_F',
@@ -149,7 +147,7 @@ class Patient extends Model
         'interview',
 
         //pas
-        'pa_assessments',
+        // 'pa_assessments',
         'status',
 
         //??
@@ -490,6 +488,6 @@ class Patient extends Model
 
     public function paServices()
     {
-        return $this->hasMany(PaService::class, 'patient_id');
+        return $this->hasMany(PaService::class, 'id_patient');
     }
 }

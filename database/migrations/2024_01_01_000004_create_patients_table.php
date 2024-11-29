@@ -38,7 +38,7 @@ class CreatePatientsTable extends Migration
             $table->text('special_note')->nullable();
             $table->foreignId('insurer_id')->nullable()->constrained('insurances')->nullOnDelete();
             $table->foreignId('insurer_secondary_id')->nullable()->constrained('insurances')->nullOnDelete();
-            $table->string('insuranceId', 50)->nullable();
+            // $table->string('insuranceId', 50)->nullable();
             $table->string('insurance_identifier')->nullable();
             $table->string('insurance_secondary_identifier')->nullable();
             $table->string('eqhlid')->nullable();
@@ -56,9 +56,9 @@ class CreatePatientsTable extends Migration
                 'waitintOnServices', 'waitintOnStaff', 'waitintOnSchool'
             ])->default('inactive');
             $table->string('patient_control')->nullable();
-            $table->json('pa_assessments')->nullable();
-            $table->string('compayment_per_visit')->nullable();
-            $table->string('insurer_secundary', 50)->nullable();
+            // $table->json('pa_assessments')->nullable();
+            // $table->string('compayment_per_visit')->nullable();
+            // $table->string('insurer_secundary', 50)->nullable();
 
             // Status enums
             $table->enum('welcome', ['waiting', 'reviewing', 'psycho eval', 'requested', 'need new', 'yes', 'no', '2 insurance'])->default('waiting');

@@ -48,8 +48,16 @@ class PatientResource extends JsonResource
             "special_note" => $this->resource->special_note,
             "patient_control" => $this->resource->patient_control,
 
+            "status" => $this->resource->status,
+
             //benefits
+            // "insuranceId" => $this->resource->insuranceId,
             "insurer_id" => $this->resource->insurer_id,
+            "insurance_identifier" => $this->resource->insurance_identifier,
+            // "insurer_secundary" => $this->resource->insurer_secundary,
+            "insurer_secondary_id" => $this->resource->insurer_secondary_id,
+            "insurance_secondary_identifier" => $this->resource->insurance_secondary_identifier,
+
 
 
             'insurances' => $this->resource->insurances,
@@ -60,7 +68,7 @@ class PatientResource extends JsonResource
                     'services' => $this->resource->insurances-> services ? : null,
                 ],
 
-                "location_id" => $this->resource->location_id,
+            "location_id" => $this->resource->location_id,
                     'locals' => [
                         // 'id'=> $this->resource->clinic->location_id,
                         'title' => $this->resource->locals->title,
@@ -76,12 +84,6 @@ class PatientResource extends JsonResource
 
 
 
-            "status" => $this->resource->status,
-            "insuranceId" => $this->resource->insuranceId,
-            "insurance_identifier" => $this->resource->insurance_identifier,
-            "insurer_secundary" => $this->resource->insurer_secundary,
-            "insurer_secondary_id" => $this->resource->insurer_secondary_id,
-            "insurance_secondary_identifier" => $this->resource->insurance_secondary_identifier,
 
             "elegibility_date" => $this->resource->elegibility_date ? Carbon::parse($this->resource->elegibility_date)->format("Y/m/d") : null,
 
@@ -111,7 +113,7 @@ class PatientResource extends JsonResource
             "pay" => $this->resource->pay,
 
             //pas
-            "pa_assessments" => $this->resource->pa_assessments ? : null,
+            // "pa_assessments" => $this->resource->pa_assessments ? : null,
             // "pa_services"=>$this->resource->paServices,
 
             "rbt_home_id" => $this->resource->rbt_home_id,

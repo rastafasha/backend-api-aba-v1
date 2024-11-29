@@ -18,7 +18,7 @@ Route::get('patients/config/{location_id}', [PatientController::class, 'config']
 
 
 
-Route::post('patients/store', [PatientController::class, 'store'])->name('store');
+Route::post('patients/store', [PatientV2Controller::class, 'store'])->name('store');
 Route::post('patients/update/{patient}', [PatientController::class, 'update'])->name('update');
 Route::post('patients/patientupdate/{patient}', [PatientController::class, 'patientUpdate'])->name('patientUpdate');
 Route::delete('patients/destroy/{id}', [PatientController::class, 'destroy'])->name('destroy');

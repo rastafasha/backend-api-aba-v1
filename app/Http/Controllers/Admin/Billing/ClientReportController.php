@@ -363,19 +363,11 @@ class ClientReportController extends Controller
             ] : null,
 
 
-            // "pos_covered" => $patient->pos_covered
-            //     ? json_decode($patient->pos_covered) : null,
-
-
-            // "pa_assessments" => $patient->pa_assessments
-            //     ? json_decode($patient->pa_assessments) : null,
 
             "pos_covered" => is_string($patient->pos_covered)
                             ? json_decode($patient->pos_covered)
                             : $patient->pos_covered,
-            "pa_assessments" => is_string($patient->pa_assessments)
-                            ? json_decode($patient->pa_assessments)
-                            : $patient->pa_assessments,
+
 
             "pa_services" => $patient->paServices,
             "totalPages" => $pages,
