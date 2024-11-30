@@ -24,7 +24,7 @@ class PaServiceTest extends TestCase
     public function test_can_list_pa_services()
     {
         PaService::factory()->count(3)->create([
-            'id_patient' => $this->patient->id
+            'patient_id' => $this->patient->id
         ]);
 
         $response = $this->getJson("/api/v2/patients/{$this->patient->id}/pa-services");
@@ -37,7 +37,7 @@ class PaServiceTest extends TestCase
                     'data' => [
                         '*' => [
                             'id',
-                            'id_patient',
+                            'patient_id',
                             'pa_service',
                             'cpt',
                             'n_units',
@@ -83,7 +83,7 @@ class PaServiceTest extends TestCase
             ]);
 
         $this->assertDatabaseHas('pa_services', [
-            'id_patient' => $this->patient->id,
+            'patient_id' => $this->patient->id,
             'pa_service' => $paServiceData['pa_service'],
             'cpt' => $paServiceData['cpt']
         ]);
@@ -92,7 +92,7 @@ class PaServiceTest extends TestCase
     public function test_can_show_pa_service()
     {
         $paService = PaService::factory()->create([
-            'id_patient' => $this->patient->id
+            'patient_id' => $this->patient->id
         ]);
 
         $response = $this->getJson(
@@ -107,7 +107,7 @@ class PaServiceTest extends TestCase
                 'status',
                 'data' => [
                     'id',
-                    'id_patient',
+                    'patient_id',
                     'pa_service',
                     'cpt',
                     'n_units',
@@ -122,7 +122,7 @@ class PaServiceTest extends TestCase
     public function test_can_update_pa_service()
     {
         $paService = PaService::factory()->create([
-            'id_patient' => $this->patient->id
+            'patient_id' => $this->patient->id
         ]);
 
         $updatedData = [
@@ -171,7 +171,7 @@ class PaServiceTest extends TestCase
         ]);
     }
 
-    public function test_returns_404_for_invalid_patient()
+    public function test_returns_404_for_invalpatient_id()
     {
         $response = $this->getJson("/api/v2/patients/invalid-id/pa-services");
 

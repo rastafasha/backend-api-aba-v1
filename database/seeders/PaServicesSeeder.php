@@ -12,7 +12,7 @@ class PaServicesSeeder extends Seeder
     {
         $paServices = [
             [
-                'id_patient' => 1,
+                'patient_id' => 1,
 
                 'pa_service' => 'service 1 RBT',
                 'cpt' => '97153',
@@ -22,7 +22,7 @@ class PaServicesSeeder extends Seeder
                 'end_date' => Date::now()->addDays(100)->format('Y-m-d'),
             ],
             [
-                'id_patient' => 1,
+                'patient_id' => 1,
                 'pa_service' => 'service 1 BCBA',
                 'cpt' => '97155',
                 'n_units' => 50,
@@ -31,7 +31,7 @@ class PaServicesSeeder extends Seeder
                 'end_date' => Date::now()->addDays(100)->format('Y-m-d'),
             ],
             [
-                'id_patient' => 2,
+                'patient_id' => 2,
                 'pa_service' => 'service 2 RBT',
                 'cpt' => '97153',
                 'n_units' => 100,
@@ -40,7 +40,7 @@ class PaServicesSeeder extends Seeder
                 'end_date' => Date::now()->addDays(100)->format('Y-m-d'),
             ],
             [
-                'id_patient' => 2,
+                'patient_id' => 2,
                 'pa_service' => 'service 2 BCBA',
                 'cpt' => '97155',
                 'n_units' => 50,

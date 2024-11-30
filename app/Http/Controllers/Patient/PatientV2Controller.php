@@ -144,7 +144,7 @@ class PatientV2Controller extends Controller
             foreach ($request->pa_services as $pa) {
                 $validatedData = PaService::validate($pa);
                 $paService = new PaService($validatedData);
-                $paService->id_patient = $patient->id;
+                $paService->patient_id = $patient->id;
                 // $paService->save();
                 $paService = PaService::create($request->all());
             }
@@ -154,7 +154,7 @@ class PatientV2Controller extends Controller
         //     foreach ($request->pa_services as $pa) {
         //         $validatedData = PaService::validate($pa);
         //         $paService = new PaService($validatedData);
-        //         $paService->id_patient = $patient->id;
+        //         $paService->patient_id = $patient->id;
         //         $paService->save();
         //     }
         // }
