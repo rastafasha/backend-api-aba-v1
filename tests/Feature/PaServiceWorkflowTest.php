@@ -70,7 +70,7 @@ class PaServiceWorkflowTest extends TestCase
 
         // Verify both PA services were created
         $this->assertDatabaseHas('pa_services', [
-            'pa_service' => 'Behavioral Analysis',
+            'pa_service' => 'Behavioral Analysis Test',
             'cpt' => '97151',
             'n_units' => 8
         ]);
