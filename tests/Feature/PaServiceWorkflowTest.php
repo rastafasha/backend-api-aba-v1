@@ -52,8 +52,10 @@ class PaServiceWorkflowTest extends TestCase
                     'pa_service' => 'BCBA Analysis Test',
                     'cpt' => '97151',
                     'n_units' => 8,
-                    'start_date' => $this->faker->date(),
-                    'end_date' => $this->faker->date('Y-m-d', '+1 week')
+                    // 'start_date' => $this->faker->date(),
+                    // 'end_date' => $this->faker->date('Y-m-d', '+1 week')
+                    'start_date' => $startDate,
+                     'end_date' => $endDate
                 ],
                 [
                     'pa_service' => 'BCBA Supervision Test',
