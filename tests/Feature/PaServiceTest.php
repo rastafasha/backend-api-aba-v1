@@ -64,7 +64,7 @@ class PaServiceTest extends TestCase
     public function test_can_create_pa_service()
     {
         $paServiceData = [
-            'pa_service' => 'Behavioral Analysis',
+            'pa_service' => 'BCBA Analysis Test',
             'cpt' => '97151',
             'n_units' => 8,
             'start_date' => '2024-03-01',

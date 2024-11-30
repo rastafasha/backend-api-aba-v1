@@ -42,20 +42,20 @@ class PaServiceWorkflowTest extends TestCase
             'location_id' => $this->location->id,
             'telehealth' => false,
             'pay' => false,
-            'pa_assessments' => [
+            'pa_services' => [
                 [
-                    'pa_service' => 'Behavioral Analysis',
+                    'pa_service' => 'BCBA Analysis Test',
                     'cpt' => '97151',
                     'n_units' => 8,
-                    'start_date' => '2024-03-01',
-                    'end_date' => '2024-04-01'
+                    'start_date' => $this->faker->date(),
+                    'end_date' => $this->faker->date('Y-m-d', '+1 week')
                 ],
                 [
-                    'pa_service' => 'BCBA Supervision',
+                    'pa_service' => 'BCBA Supervision Test',
                     'cpt' => '97155',
                     'n_units' => 4,
-                    'start_date' => '2024-03-01',
-                    'end_date' => '2024-04-01'
+                    'start_date' => $this->faker->date(),
+                    'end_date' => $this->faker->date('Y-m-d', '+1 week')
                 ]
             ]
         ];
@@ -70,13 +70,14 @@ class PaServiceWorkflowTest extends TestCase
 
         // Verify both PA services were created
         $this->assertDatabaseHas('pa_services', [
-            'pa_service' => 'Behavioral Analysis',
+            
+            'pa_service' => 'BCBA Analysis Test',
             'cpt' => '97151',
             'n_units' => 8
         ]);
 
         $this->assertDatabaseHas('pa_services', [
-            'pa_service' => 'BCBA Supervision',
+            'pa_service' => 'BCBA Supervision Test',
             'cpt' => '97155',
             'n_units' => 4
         ]);
@@ -90,7 +91,7 @@ class PaServiceWorkflowTest extends TestCase
 
         // Add PA service to first patient
         $paService1Data = [
-            'pa_service' => 'Behavioral Analysis Test',
+            'pa_service' => 'BCBA Analysis Test',
             'cpt' => '97151',
             'n_units' => 8,
             'start_date' => '2024-03-01',
@@ -131,7 +132,7 @@ class PaServiceWorkflowTest extends TestCase
         // Verify services were created for correct patients
         $this->assertDatabaseHas('pa_services', [
             'patient_id' => $patient1->id,
-            'pa_service' => 'Behavioral Analysis Test',
+            'pa_service' => 'BCBA Analysis Test',
             'cpt' => '97151'
         ]);
 
