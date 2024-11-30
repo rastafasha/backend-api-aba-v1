@@ -12,8 +12,8 @@ class CreateLocationsTable extends Migration
             $table->bigIncrements('id');
             $table->string('title', 150)->nullable();
             $table->string('avatar')->nullable();
-            $table->string('city', 150)->nullable();
-            $table->string('state', 150)->nullable();
+            $table->string('city', 150);
+            $table->string('state', 150);
             $table->string('zip', 150)->nullable();
             $table->text('address')->nullable();
             $table->string('email', 150)->nullable();

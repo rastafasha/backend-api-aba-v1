@@ -19,12 +19,22 @@ class SustitutionGoalsResource extends JsonResource
             "id" => $this->resource->id,
             "goal" => $this->resource->goal,
             "client_id" => $this->resource->client_id,
-            "patient_id" => $this->resource->patient_id,
+            "patient_identifier" => $this->resource->patient_identifier,
             "current_status" => $this->resource->current_status,
             "bip_id" => $this->resource->bip_id,
             "description" => $this->resource->description,
-            "goalstos" => json_decode($this->resource->goalstos) ? : null,
-            "goalltos" => json_decode($this->resource->goalltos) ? : null,
+            // "goalstos" => json_decode($this->resource->goalstos) ? : null,
+            // "goalltos" => json_decode($this->resource->goalltos) ? : null,
+
+            "goalstos" =>
+            is_string($this->resource->goalstos)
+                ? json_decode($this->resource->goalstos) : $this->resource->family_envolment->caregivers_training_goals,
+
+            "goalltos" =>
+            is_string($this->resource->goalltos)
+                ? json_decode($this->resource->goalltos) : $this->resource->family_envolment->caregivers_training_goals,
+
+
             "created_at" => $this->resource->created_at ? Carbon::parse($this->resource->created_at)->format("Y-m-d h:i A") : null,
 
         ];

@@ -18,7 +18,7 @@ class ClientReportResource extends JsonResource
         return [
             "id" => $this->resource->id,
             // traemos al paciente
-            'patient_id' => $this->resource->patient_id,
+            'patient_identifier' => $this->resource->patient_identifier,
 
               // traemos al especialista
             'sponsor_id' => $this->resource->sponsor_id,

@@ -29,7 +29,7 @@ class CreateUsersTable extends Migration
             $table->string('languages', 50)->nullable();
             $table->string('ss_number', 150)->nullable();
             $table->timestamp('date_of_hire')->nullable()->useCurrent();
-            $table->timestamp('start_pay')->nullable()->useCurrent();
+            $table->string('start_pay')->nullable()->nullable();
             $table->timestamp('driver_license_expiration')->nullable()->useCurrent();
             $table->string('cpr_every_2_years')->nullable();
             $table->string('background_every_5_years')->nullable();

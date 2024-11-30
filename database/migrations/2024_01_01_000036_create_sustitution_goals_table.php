@@ -13,7 +13,7 @@ class CreateSustitutionGoalsTable extends Migration
             $table->string('goal')->nullable();
             $table->string('current_status', 155)->nullable();
             $table->text('description')->nullable();
-            $table->string('patient_id', 150)->nullable();
+            $table->string('patient_identifier', 150)->nullable();
             $table->foreignId('client_id')->nullable()->constrained('users')->nullOnDelete();
             $table->foreignId('bip_id')->constrained('bips')->onDelete('cascade');
             $table->json('goalstos')->nullable()->comment('JSON array of STO goals');

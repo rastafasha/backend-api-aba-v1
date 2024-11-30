@@ -16,7 +16,7 @@ class PatientFileResource extends JsonResource
     {
         return[
             'id' => $this->resource-> id,
-            'patient_id' => $this->resource->patient_id,
+            'patient_identifier' => $this->resource->patient_identifier,
             'name_file' => $this->resource->name_file,
                     'size' => $this->resource->size,
                     'resolution' => $this->resource->resolution,

@@ -3,8 +3,6 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use Spatie\Permission\Models\Role;
-use Spatie\Permission\Models\Permission;
 
 class DatabaseSeeder extends Seeder
 {
@@ -24,6 +22,11 @@ class DatabaseSeeder extends Seeder
             PaServicesSeeder::class,
             BipSeeder::class,
             NotesSeeder::class,
+            FamilyEnvolmentsSeeder::class,
+            ReductionGoalsSeeder::class,
+            SustitutionGoalsSeeder::class,
+            UserLocationsSeeder::class,
+            MonitoringEvaluatingsSeeder::class,
         ]);
 
     }

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin\Notes;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\Note\NoteBcbaResource;
+use App\Http\Requests\Notes\NoteBcbaRequest;
 use App\Models\Notes\NoteBcba;
 use Illuminate\Http\Request;
 
@@ -33,11 +33,24 @@ class NoteBcbaV2Controller extends Controller
      *     description="Retrieves a paginated list of BCBA notes with optional filters",
      *     tags={"Admin/Notes"},
      *     @OA\Parameter(
+     *         name="include",
+     *         in="query",
+     *         description="Include related models (comma-separated). Options: patient, bip, location, provider, supervisor, doctor",
+     *         required=false,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Parameter(
      *         name="patient_id",
      *         in="query",
      *         description="Filter by patient ID",
      *         required=false,
      *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Parameter(name="patient_identifier",
+     *         in="query",
+     *         description="Filter by patient identifier",
+     *         required=false,
+     *         @OA\Schema(type="string")
      *     ),
      *     @OA\Parameter(
      *         name="bip_id",
@@ -97,6 +110,14 @@ class NoteBcbaV2Controller extends Controller
             $query->where('patient_id', $request->patient_id);
         }
 
+        // Filter by patient_identifier
+        if ($request->has('patient_identifier')) {
+            $query->where('patient_identifier', $request->patient_identifier);
+            // $query->whereHas('patient', function ($q) use ($request) {
+            //     $q->where('patient_id', $request->patient_identifier);
+            // });
+        }
+
         // Filter by bip_id
         if ($request->has('bip_id')) {
             $query->where('bip_id', $request->bip_id);
@@ -107,24 +128,90 @@ class NoteBcbaV2Controller extends Controller
             $query->where('location_id', $request->location_id);
         }
 
-        // Filter by date range
-        if ($request->has('date_start') && $request->has('date_end')) {
-            $query->whereBetween('session_date', [
-                $request->date_start,
-                $request->date_end
-            ]);
+        // Handle includes
+        $allowedIncludes = ['patient', 'bip', 'location', 'provider', 'supervisor', 'doctor'];
+        $includes = [];
+        if ($request->has('include')) {
+            $includes = array_filter(
+                explode(',', $request->input('include')),
+                fn($include) => in_array(trim($include), $allowedIncludes)
+            );
         }
 
         // Get paginated results
         $perPage = $request->input('per_page', 15);
-        $notes = $query->orderBy('created_at', 'desc')
-            ->with(['patient', 'bips', 'location', 'rendering', 'tecnico', 'supervisor'])
+        $notes = $query->filterBySessionDateRange($request->date_start, $request->date_end)
+            ->orderBy('created_at', 'desc')
+            ->with($includes)
             ->paginate($perPage);
 
         return response()->json([
             'status' => 'success',
-            'data' => NoteBcbaResource::collection($notes)
+            'data' => $notes
         ]);
+    }
+
+    /**
+     * @OA\Post(
+     *     path="/api/v2/notes/bcba",
+     *     summary="Create a new BCBA note",
+     *     description="Creates a new BCBA note with the provided data",
+     *     tags={"Admin/Notes"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"patient_id", "session_date"},
+     *             @OA\Property(property="insurance_id", type="integer"),
+     *             @OA\Property(property="patient_id", type="integer"),
+     *             @OA\Property(property="patient_identifier", type="string", maxLength=50),
+     *             @OA\Property(property="doctor_id", type="integer"),
+     *             @OA\Property(property="bip_id", type="integer"),
+     *             @OA\Property(property="diagnosis_code", type="string", maxLength=50),
+     *             @OA\Property(property="location", type="string", maxLength=50),
+     *             @OA\Property(property="summary_note", type="string"),
+     *             @OA\Property(property="note_description", type="string"),
+     *             @OA\Property(property="session_date", type="string", format="date"),
+     *             @OA\Property(property="time_in", type="string", format="H:i:s"),
+     *             @OA\Property(property="time_out", type="string", format="H:i:s"),
+     *             @OA\Property(property="time_in2", type="string", format="H:i:s"),
+     *             @OA\Property(property="time_out2", type="string", format="H:i:s"),
+     *             @OA\Property(property="session_length_total", type="number", format="double"),
+     *             @OA\Property(property="supervisor_id", type="integer"),
+     *             @OA\Property(property="caregiver_goals", type="object"),
+     *             @OA\Property(property="rbt_training_goals", type="object"),
+     *             @OA\Property(property="provider_signature", type="string"),
+     *             @OA\Property(property="provider_id", type="integer"),
+     *             @OA\Property(property="supervisor_signature", type="string"),
+     *             @OA\Property(property="meet_with_client_at", type="string"),
+     *             @OA\Property(property="billed", type="boolean"),
+     *             @OA\Property(property="paid", type="boolean"),
+     *             @OA\Property(property="cpt_code", type="string"),
+     *             @OA\Property(property="status", type="string", enum={"pending", "ok", "no", "review"}),
+     *             @OA\Property(property="location_id", type="integer"),
+     *             @OA\Property(property="pa_service_id", type="integer"),
+     *             @OA\Property(property="insuranceId", type="string")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=201,
+     *         description="Note created successfully",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="status", type="string", example="success"),
+     *             @OA\Property(property="message", type="string", example="Note created successfully"),
+     *             @OA\Property(property="data", ref="#/components/schemas/NoteBcba")
+     *         )
+     *     )
+     * )
+     */
+    public function store(NoteBcbaRequest $request)
+    {
+        $note = NoteBcba::create($request->validated());
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Note created successfully',
+            'data' => $note,
+        ], 201);
     }
 
     /**
@@ -139,6 +226,13 @@ class NoteBcbaV2Controller extends Controller
      *         description="ID of the BCBA note",
      *         required=true,
      *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Parameter(
+     *         name="include",
+     *         in="query",
+     *         description="Include related models (comma-separated). Options: patient, bip, location, provider, supervisor, doctor",
+     *         required=false,
+     *         @OA\Schema(type="string")
      *     ),
      *     @OA\Response(
      *         response=200,
@@ -159,10 +253,19 @@ class NoteBcbaV2Controller extends Controller
      *     )
      * )
      */
-    public function show($id)
+    public function show(Request $request, $id)
     {
-        $note = NoteBcba::with(['patient', 'bips', 'location', 'rendering', 'tecnico', 'supervisor'])
-            ->find($id);
+        // Handle includes
+        $allowedIncludes = ['patient', 'bip', 'location', 'provider', 'supervisor', 'doctor'];
+        $includes = [];
+        if ($request->has('include')) {
+            $includes = array_filter(
+                explode(',', $request->input('include')),
+                fn($include) => in_array(trim($include), $allowedIncludes)
+            );
+        }
+
+        $note = NoteBcba::with($includes)->find($id);
 
         if (!$note) {
             return response()->json([
@@ -173,7 +276,7 @@ class NoteBcbaV2Controller extends Controller
 
         return response()->json([
             'status' => 'success',
-            'data' => NoteBcbaResource::make($note)
+            'data' => $note
         ]);
     }
 
@@ -212,32 +315,16 @@ class NoteBcbaV2Controller extends Controller
      *     )
      * )
      */
-    public function update(Request $request, $id)
+    public function update(NoteBcbaRequest $request, $id)
     {
-        $note = NoteBcba::find($id);
+        $note = NoteBcba::findOrFail($id);
 
-        if (!$note) {
-            return response()->json([
-                'status' => 'error',
-                'message' => 'Note not found'
-            ], 404);
-        }
-
-        $validated = $request->validate([
-            'session_date' => 'required|date',
-            'patient_id' => 'required|exists:patients,id',
-            'bip_id' => 'nullable|exists:bips,id',
-            'location_id' => 'nullable|exists:locations,id',
-            'summary_note' => 'nullable|string',
-            'status' => 'nullable|string'
-        ]);
-
-        $note->update($validated);
+        $note->update($request->validated());
 
         return response()->json([
             'status' => 'success',
             'message' => 'Note updated successfully',
-            'data' => NoteBcbaResource::make($note->fresh(['patient', 'bips', 'location', 'rendering', 'tecnico', 'supervisor']))
+            'data' => $note,
         ]);
     }
 

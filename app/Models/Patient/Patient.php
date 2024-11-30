@@ -9,6 +9,7 @@ use App\Models\Location;
 use App\Models\Bip\ReductionGoal;
 use App\Models\Insurance\Insurance;
 use App\Models\PaService;
+use App\Traits\LocationFilterable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -45,7 +46,10 @@ use Illuminate\Support\Facades\DB;
  *     @OA\Property(property="status", type="string",
  *      enum={"incoming", "active", "inactive", "onHold", "onDischarge", "waitintOnPa", "waitintOnPaIa", "waitintOnIa", "waitintOnServices", "waitintOnStaff", "waitintOnSchool"},
  *      default="inactive", description="Patient status"),
- *     @OA\Property(property="insurer_id", type="integer", format="int64", nullable=true, description="Insurance provider ID"),
+ *     @OA\Property(property="insurer_id", type="integer", format="int64", nullable=true, description="Insurance ID"),
+ *     @OA\Property(property="insurer_secondary_id", type="integer", format="int64", nullable=true, description="Insurance secondary ID"),
+ *     @OA\Property(property="insurance_identifier", type="string", nullable=true),
+ *     @OA\Property(property="insurance_secondary_identifier", type="string", nullable=true),
  *     @OA\Property(property="telehealth", type="string", maxLength=50, default="false", description="Telehealth status"),
  *     @OA\Property(property="pay", type="string", maxLength=50, default="false", description="Payment status"),
  *     @OA\Property(property="created_at", type="string", format="date-time", nullable=true),
@@ -72,6 +76,7 @@ class Patient extends Model
 {
     use HasFactory;
     use SoftDeletes;
+    use LocationFilterable;
 
     protected $fillable = [
         'rbt_home_id',
@@ -84,7 +89,7 @@ class Patient extends Model
         'last_name',
         'email',
         'phone',
-        'patient_id', // en este caso el es ingresado manualmente ... // para la relacion con el id es client_id
+        'patient_identifier', // en este caso el es ingresado manualmente ...
         'birth_date',
         'gender',
         'address',
@@ -111,10 +116,11 @@ class Patient extends Model
 
         //benefits
         'insurer_id',
+        'insurer_secondary_id',
 
-        'insuranceId',
-        // 'insurer_secundary',
-        // 'insuranceId_secundary',
+        // 'insuranceId',
+        'insurance_identifier',
+        'insurance_secondary_identifier',
         'elegibility_date',
         'pos_covered',
         'deductible_individual_I_F',
@@ -141,7 +147,7 @@ class Patient extends Model
         'interview',
 
         //pas
-        'pa_assessments',
+        // 'pa_assessments',
         'status',
 
         //??
@@ -163,7 +169,9 @@ class Patient extends Model
 
     protected $casts = [
         'pos_covered' => 'array',
-        'birth_date' => 'date:m-d-Y',
+        'birth_date' => 'date:Y-m-d',
+        'pay' => 'boolean',
+        'telehealth' => 'boolean',
     ];
 
     protected $appends = ['age'];
@@ -390,12 +398,12 @@ class Patient extends Model
     }
     public function bip()
     {
-        return $this->hasOne(Bip::class, 'patient_id');
+        return $this->hasOne(Bip::class, 'patient_identifier');
     }
 
     public function reductiongoal()
     {
-        return $this->hasMany(ReductionGoal::class, 'patient_id');
+        return $this->hasMany(ReductionGoal::class, 'patient_identifier');
     }
 
 
@@ -406,14 +414,14 @@ class Patient extends Model
     //filtro buscador
     public function scopefilterAdvancePatient(
         $query,
-        $patient_id,
+        $patient_identifier,
         $name_patient,
         $email_patient,
         $status
     ) {
 
-        if ($patient_id) {
-            $query->where("patient_id", $patient_id);
+        if ($patient_identifier) {
+            $query->where("patient_identifier", $patient_identifier);
         }
 
         if ($name_patient) {
@@ -438,7 +446,7 @@ class Patient extends Model
     //filtro buscador
     public function scopefilterAdvanceClientLog(
         $query,
-        $patient_id,
+        $patient_identifier,
         $name_patient,
         $email_patient,
         $status
@@ -449,8 +457,8 @@ class Patient extends Model
         //         $clin_director,
     ) {
 
-        if ($patient_id) {
-            $query->where("patient_id", $patient_id);
+        if ($patient_identifier) {
+            $query->where("patient_identifier", $patient_identifier);
         }
 
         if ($name_patient) {
@@ -480,6 +488,6 @@ class Patient extends Model
 
     public function paServices()
     {
-        return $this->hasMany(PaService::class, 'patient_id');
+        return $this->hasMany(PaService::class);
     }
 }

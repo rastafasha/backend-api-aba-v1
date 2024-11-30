@@ -283,9 +283,9 @@
                 "operationId": "2fc52d5babe24cad601e5b95bb867bf4",
                 "parameters": [
                     {
-                        "name": "insurer_name",
+                        "name": "name",
                         "in": "query",
-                        "description": "Filter by insurer name",
+                        "description": "Filter by name",
                         "required": false,
                         "schema": {
                             "type": "string"
@@ -355,10 +355,10 @@
                         "application/json": {
                             "schema": {
                                 "required": [
-                                    "insurer_name"
+                                    "name"
                                 ],
                                 "properties": {
-                                    "insurer_name": {
+                                    "name": {
                                         "type": "string"
                                     },
                                     "services": {
@@ -384,6 +384,10 @@
                                     },
                                     "zip": {
                                         "type": "string"
+                                    },
+                                    "is_self_subscriber": {
+                                        "type": "boolean",
+                                        "default": false
                                     }
                                 },
                                 "type": "object"
@@ -486,7 +490,7 @@
                         "application/json": {
                             "schema": {
                                 "properties": {
-                                    "insurer_name": {
+                                    "name": {
                                         "type": "string"
                                     },
                                     "services": {
@@ -593,6 +597,15 @@
                         }
                     },
                     {
+                        "name": "zip",
+                        "in": "query",
+                        "description": "Filter by zip code",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
                         "name": "per_page",
                         "in": "query",
                         "description": "Number of items per page",
@@ -638,7 +651,9 @@
                         "application/json": {
                             "schema": {
                                 "required": [
-                                    "title"
+                                    "title",
+                                    "city",
+                                    "state"
                                 ],
                                 "properties": {
                                     "title": {
@@ -813,12 +828,30 @@
                 "operationId": "77cb7895f09db2d25e17e95a758f14a8",
                 "parameters": [
                     {
+                        "name": "include",
+                        "in": "query",
+                        "description": "Include related models (comma-separated). Options: patient, bip, location, provider, supervisor, doctor",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
                         "name": "patient_id",
                         "in": "query",
                         "description": "Filter by patient ID",
                         "required": false,
                         "schema": {
                             "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "patient_identifier",
+                        "in": "query",
+                        "description": "Filter by patient identifier",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
                         }
                     },
                     {
@@ -891,6 +924,153 @@
                         }
                     }
                 }
+            },
+            "post": {
+                "tags": [
+                    "Admin/Notes"
+                ],
+                "summary": "Create a new BCBA note",
+                "description": "Creates a new BCBA note with the provided data",
+                "operationId": "682c11713646fdadc80b56e53a12b2e2",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "patient_id",
+                                    "session_date"
+                                ],
+                                "properties": {
+                                    "insurance_id": {
+                                        "type": "integer"
+                                    },
+                                    "patient_id": {
+                                        "type": "integer"
+                                    },
+                                    "doctor_id": {
+                                        "type": "integer"
+                                    },
+                                    "bip_id": {
+                                        "type": "integer"
+                                    },
+                                    "diagnosis_code": {
+                                        "type": "string",
+                                        "maxLength": 50
+                                    },
+                                    "location": {
+                                        "type": "string",
+                                        "maxLength": 50
+                                    },
+                                    "summary_note": {
+                                        "type": "string"
+                                    },
+                                    "note_description": {
+                                        "type": "string"
+                                    },
+                                    "session_date": {
+                                        "type": "string",
+                                        "format": "date"
+                                    },
+                                    "time_in": {
+                                        "type": "string",
+                                        "format": "H:i:s"
+                                    },
+                                    "time_out": {
+                                        "type": "string",
+                                        "format": "H:i:s"
+                                    },
+                                    "time_in2": {
+                                        "type": "string",
+                                        "format": "H:i:s"
+                                    },
+                                    "time_out2": {
+                                        "type": "string",
+                                        "format": "H:i:s"
+                                    },
+                                    "session_length_total": {
+                                        "type": "number",
+                                        "format": "double"
+                                    },
+                                    "supervisor_id": {
+                                        "type": "integer"
+                                    },
+                                    "caregiver_goals": {
+                                        "type": "object"
+                                    },
+                                    "rbt_training_goals": {
+                                        "type": "object"
+                                    },
+                                    "provider_signature": {
+                                        "type": "string"
+                                    },
+                                    "provider_id": {
+                                        "type": "integer"
+                                    },
+                                    "supervisor_signature": {
+                                        "type": "string"
+                                    },
+                                    "meet_with_client_at": {
+                                        "type": "string"
+                                    },
+                                    "billed": {
+                                        "type": "boolean"
+                                    },
+                                    "paid": {
+                                        "type": "boolean"
+                                    },
+                                    "cpt_code": {
+                                        "type": "string"
+                                    },
+                                    "status": {
+                                        "type": "string",
+                                        "enum": [
+                                            "pending",
+                                            "ok",
+                                            "no",
+                                            "review"
+                                        ]
+                                    },
+                                    "location_id": {
+                                        "type": "integer"
+                                    },
+                                    "pa_service_id": {
+                                        "type": "integer"
+                                    },
+                                    "insuranceId": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Note created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Note created successfully"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/NoteBcba"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
             }
         },
         "/api/v2/notes/bcba/{id}": {
@@ -909,6 +1089,15 @@
                         "required": true,
                         "schema": {
                             "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "include",
+                        "in": "query",
+                        "description": "Include related models (comma-separated). Options: patient, bip, location, provider, supervisor, doctor",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
                         }
                     }
                 ],
@@ -1037,12 +1226,30 @@
                 "operationId": "0e451d24e5a9659f9a5e2e506f2ce081",
                 "parameters": [
                     {
+                        "name": "include",
+                        "in": "query",
+                        "description": "Include related models (comma-separated). Options: patient, bip, location, provider, supervisor, doctor",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
                         "name": "patient_id",
                         "in": "query",
                         "description": "Filter by patient ID",
                         "required": false,
                         "schema": {
                             "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "patient_identifier",
+                        "in": "query",
+                        "description": "Filter by patient identifier",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
                         }
                     },
                     {
@@ -1133,87 +1340,14 @@
                         }
                     }
                 }
-            }
-        },
-        "/api/v2/notes/rbt/{id}": {
-            "get": {
-                "tags": [
-                    "Admin/Notes"
-                ],
-                "summary": "Get a single RBT note",
-                "description": "Retrieves a specific RBT note by its ID",
-                "operationId": "66d698c39561942aabd064f22901060d",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "ID of the RBT note",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Successful operation",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "status": {
-                                            "type": "string",
-                                            "example": "success"
-                                        },
-                                        "data": {
-                                            "$ref": "#/components/schemas/NoteRbt"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Note not found",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "status": {
-                                            "type": "string",
-                                            "example": "error"
-                                        },
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Note not found"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    }
-                }
             },
-            "put": {
+            "post": {
                 "tags": [
                     "Admin/Notes"
                 ],
-                "summary": "Update an RBT note",
-                "description": "Updates an existing RBT note",
-                "operationId": "c5595abc6308b393aab21756895d32e8",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "ID of the RBT note",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
-                    }
-                ],
+                "summary": "Create a new RBT note",
+                "description": "Creates a new RBT note with the provided data",
+                "operationId": "379713f09a8a3fc9e7d0918007f00f44",
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -1228,10 +1362,10 @@
                                     "session_date": {
                                         "type": "string",
                                         "format": "date-time",
-                                        "example": "2023-12-01T00:00:00Z"
+                                        "example": "2023-12-01"
                                     },
                                     "patient_id": {
-                                        "type": "string"
+                                        "type": "integer"
                                     },
                                     "doctor_id": {
                                         "type": "integer"
@@ -1314,14 +1448,8 @@
                                     "billed": {
                                         "type": "boolean"
                                     },
-                                    "pay": {
+                                    "paid": {
                                         "type": "boolean"
-                                    },
-                                    "md": {
-                                        "type": "string"
-                                    },
-                                    "md2": {
-                                        "type": "string"
                                     },
                                     "cpt_code": {
                                         "type": "string"
@@ -1334,6 +1462,280 @@
                                             "no",
                                             "review"
                                         ]
+                                    },
+                                    "summary_note": {
+                                        "type": "string"
+                                    },
+                                    "location_id": {
+                                        "type": "integer"
+                                    },
+                                    "pa_service_id": {
+                                        "type": "integer"
+                                    },
+                                    "insuranceId": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Note created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Note created successfully"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/NoteRbt"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "The given data was invalid."
+                                        },
+                                        "errors": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v2/notes/rbt/{id}": {
+            "get": {
+                "tags": [
+                    "Admin/Notes"
+                ],
+                "summary": "Get a single RBT note",
+                "description": "Retrieves a specific RBT note by its ID",
+                "operationId": "66d698c39561942aabd064f22901060d",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the RBT note",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "include",
+                        "in": "query",
+                        "description": "Include related models (comma-separated). Options: patient, bip, location, provider, supervisor, doctor",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/NoteRbt"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Note not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Note not found"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Admin/Notes"
+                ],
+                "summary": "Update an RBT note",
+                "description": "Updates an existing RBT note",
+                "operationId": "c5595abc6308b393aab21756895d32e8",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the RBT note",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "session_date",
+                                    "patient_id",
+                                    "doctor_id"
+                                ],
+                                "properties": {
+                                    "session_date": {
+                                        "type": "string",
+                                        "format": "date-time",
+                                        "example": "2023-12-01T00:00:00Z"
+                                    },
+                                    "patient_id": {
+                                        "type": "integer"
+                                    },
+                                    "doctor_id": {
+                                        "type": "integer"
+                                    },
+                                    "bip_id": {
+                                        "type": "integer"
+                                    },
+                                    "pos": {
+                                        "type": "string"
+                                    },
+                                    "time_in": {
+                                        "type": "string",
+                                        "format": "time",
+                                        "example": "09:00:00"
+                                    },
+                                    "time_out": {
+                                        "type": "string",
+                                        "format": "time",
+                                        "example": "10:00:00"
+                                    },
+                                    "time_in2": {
+                                        "type": "string",
+                                        "format": "time",
+                                        "example": "14:00:00"
+                                    },
+                                    "time_out2": {
+                                        "type": "string",
+                                        "format": "time",
+                                        "example": "15:00:00"
+                                    },
+                                    "environmental_changes": {
+                                        "type": "string"
+                                    },
+                                    "maladaptives": {
+                                        "type": "object"
+                                    },
+                                    "replacements": {
+                                        "type": "object"
+                                    },
+                                    "interventions": {
+                                        "type": "object"
+                                    },
+                                    "meet_with_client_at": {
+                                        "type": "string"
+                                    },
+                                    "client_appeared": {
+                                        "type": "string"
+                                    },
+                                    "as_evidenced_by": {
+                                        "type": "string"
+                                    },
+                                    "rbt_modeled_and_demonstrated_to_caregiver": {
+                                        "type": "string"
+                                    },
+                                    "client_response_to_treatment_this_session": {
+                                        "type": "string"
+                                    },
+                                    "progress_noted_this_session_compared_to_previous_session": {
+                                        "type": "string"
+                                    },
+                                    "next_session_is_scheduled_for": {
+                                        "type": "string",
+                                        "format": "date-time"
+                                    },
+                                    "provider_id": {
+                                        "type": "integer"
+                                    },
+                                    "provider_signature": {
+                                        "type": "string"
+                                    },
+                                    "provider_credential": {
+                                        "type": "string"
+                                    },
+                                    "supervisor_signature": {
+                                        "type": "string"
+                                    },
+                                    "supervisor_name": {
+                                        "type": "integer"
+                                    },
+                                    "billed": {
+                                        "type": "boolean"
+                                    },
+                                    "paid": {
+                                        "type": "boolean"
+                                    },
+                                    "cpt_code": {
+                                        "type": "string"
+                                    },
+                                    "status": {
+                                        "type": "string",
+                                        "enum": [
+                                            "pending",
+                                            "ok",
+                                            "no",
+                                            "review"
+                                        ]
+                                    },
+                                    "summary_note": {
+                                        "type": "string"
                                     },
                                     "location_id": {
                                         "type": "integer"
@@ -1444,6 +1846,843 @@
                 }
             }
         },
+        "/api/patients/{patient_id}/pa-services": {
+            "get": {
+                "tags": [
+                    "PA Services"
+                ],
+                "summary": "Get all PA services for a patient",
+                "operationId": "dca1262bb8f49350e75acfa515056707",
+                "parameters": [
+                    {
+                        "name": "patient_id",
+                        "in": "path",
+                        "description": "ID of the patient",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of PA services",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "pa_services": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/PaService"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Patient not found"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "PA Services"
+                ],
+                "summary": "Create a new PA service",
+                "operationId": "83268284fcc6eaa09dd3947211de6ab8",
+                "parameters": [
+                    {
+                        "name": "patient_id",
+                        "in": "path",
+                        "description": "ID of the patient",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "pa_services",
+                                    "cpt",
+                                    "n_units",
+                                    "start_date",
+                                    "end_date"
+                                ],
+                                "properties": {
+                                    "pa_services": {
+                                        "type": "string",
+                                        "example": "Behavioral Analysis"
+                                    },
+                                    "cpt": {
+                                        "type": "string",
+                                        "example": "97151"
+                                    },
+                                    "n_units": {
+                                        "type": "integer",
+                                        "example": 8
+                                    },
+                                    "start_date": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2024-03-01"
+                                    },
+                                    "end_date": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2024-04-01"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "PA service created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "PA service created successfully"
+                                        },
+                                        "pa_service": {
+                                            "$ref": "#/components/schemas/PaService"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Patient not found"
+                    },
+                    "422": {
+                        "description": "Validation failed"
+                    }
+                }
+            }
+        },
+        "/api/patients/{patient_id}/pa-services/{id}": {
+            "get": {
+                "tags": [
+                    "PA Services"
+                ],
+                "summary": "Get a specific PA service",
+                "operationId": "de7e896529d5c12cff225030487dc207",
+                "parameters": [
+                    {
+                        "name": "patient_id",
+                        "in": "path",
+                        "description": "ID of the patient",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the PA service",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "PA service details",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "pa_service": {
+                                            "$ref": "#/components/schemas/PaService"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Patient or PA service not found"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "PA Services"
+                ],
+                "summary": "Update a PA service",
+                "operationId": "da06ce8f6d58d595dbbfdd5b4210508a",
+                "parameters": [
+                    {
+                        "name": "patient_id",
+                        "in": "path",
+                        "description": "ID of the patient",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the PA service",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "pa_services": {
+                                        "type": "string",
+                                        "example": "Behavioral Analysis"
+                                    },
+                                    "cpt": {
+                                        "type": "string",
+                                        "example": "97151"
+                                    },
+                                    "n_units": {
+                                        "type": "integer",
+                                        "example": 8
+                                    },
+                                    "start_date": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2024-03-01"
+                                    },
+                                    "end_date": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2024-04-01"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "PA service updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "PA service updated successfully"
+                                        },
+                                        "pa_service": {
+                                            "$ref": "#/components/schemas/PaService"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Patient or PA service not found"
+                    },
+                    "422": {
+                        "description": "Validation failed"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "PA Services"
+                ],
+                "summary": "Delete a PA service",
+                "operationId": "9d89d7a343dc2027366f53c22e3f6150",
+                "parameters": [
+                    {
+                        "name": "patient_id",
+                        "in": "path",
+                        "description": "ID of the patient",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the PA service",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "PA service deleted successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "PA service deleted successfully"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Patient or PA service not found"
+                    }
+                }
+            }
+        },
+        "/api/v2/patients/{patient_id}/pa-services": {
+            "get": {
+                "tags": [
+                    "Admin/PA Services"
+                ],
+                "summary": "Get paginated PA services list for a patient",
+                "operationId": "1f0487852b4957237caac5a3b2abe153",
+                "parameters": [
+                    {
+                        "name": "patient_id",
+                        "in": "path",
+                        "description": "ID of the patient",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "per_page",
+                        "in": "query",
+                        "description": "Number of items per page",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 15
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/PaginatedPaServiceResponse"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Patient not found"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Admin/PA Services"
+                ],
+                "summary": "Create a new PA service",
+                "operationId": "2a936b7250606d99539722846b315e55",
+                "parameters": [
+                    {
+                        "name": "patient_id",
+                        "in": "path",
+                        "description": "ID of the patient",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "pa_services",
+                                    "cpt",
+                                    "n_units",
+                                    "start_date",
+                                    "end_date"
+                                ],
+                                "properties": {
+                                    "pa_services": {
+                                        "type": "string",
+                                        "example": "Behavioral Analysis"
+                                    },
+                                    "cpt": {
+                                        "type": "string",
+                                        "example": "97151"
+                                    },
+                                    "n_units": {
+                                        "type": "integer",
+                                        "example": 8
+                                    },
+                                    "start_date": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2024-03-01"
+                                    },
+                                    "end_date": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2024-04-01"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "PA service created successfully"
+                    }
+                }
+            }
+        },
+        "/api/v2/patients/{patient_id}/pa-services/{id}": {
+            "get": {
+                "tags": [
+                    "Admin/PA Services"
+                ],
+                "summary": "Get a single PA service",
+                "operationId": "d3fcce7d0ae49f17eeaa0e537706d6c0",
+                "parameters": [
+                    {
+                        "name": "patient_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Admin/PA Services"
+                ],
+                "summary": "Update a PA service",
+                "operationId": "fe4802b3c5350fdc90663e58f2c57851",
+                "parameters": [
+                    {
+                        "name": "patient_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "pa_services": {
+                                        "type": "string"
+                                    },
+                                    "cpt": {
+                                        "type": "string"
+                                    },
+                                    "n_units": {
+                                        "type": "integer"
+                                    },
+                                    "start_date": {
+                                        "type": "string",
+                                        "format": "date"
+                                    },
+                                    "end_date": {
+                                        "type": "string",
+                                        "format": "date"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "PA service updated successfully"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Admin/PA Services"
+                ],
+                "summary": "Delete a PA service",
+                "operationId": "381f42d90beb0df64630315880b1b1ad",
+                "parameters": [
+                    {
+                        "name": "patient_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "PA service deleted successfully"
+                    }
+                }
+            }
+        },
+        "/api/v2/roles": {
+            "get": {
+                "tags": [
+                    "Admin/Roles"
+                ],
+                "summary": "Get paginated roles",
+                "description": "Retrieves a paginated list of roles with optional search filter",
+                "operationId": "7ef8da7123353e3edf3003e17501b646",
+                "parameters": [
+                    {
+                        "name": "search",
+                        "in": "query",
+                        "description": "Search roles by name",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "per_page",
+                        "in": "query",
+                        "description": "Number of items per page",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 15
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/Role"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Admin/Roles"
+                ],
+                "summary": "Create a new role",
+                "description": "Creates a new role with the specified permissions",
+                "operationId": "ddc26a6207c9461868dd202674052528",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "permissions"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "RBT"
+                                    },
+                                    "permissions": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string",
+                                            "example": "view_users"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Role created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Role created successfully"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/Role"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error"
+                    }
+                }
+            }
+        },
+        "/api/v2/roles/{id}": {
+            "get": {
+                "tags": [
+                    "Admin/Roles"
+                ],
+                "summary": "Get a single role",
+                "description": "Retrieves a specific role by its ID",
+                "operationId": "0715cbf1198362be2a9b4cdc6b64ad2a",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the role",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/Role"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Role not found"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Admin/Roles"
+                ],
+                "summary": "Update a role",
+                "description": "Updates an existing role",
+                "operationId": "db0bf0c88b2faa0ea634ceafd6b9a1cb",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the role",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "permissions"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "RBT"
+                                    },
+                                    "permissions": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string",
+                                            "example": "view_users"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Role updated successfully"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/Role"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Role not found"
+                    },
+                    "422": {
+                        "description": "Validation error"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Admin/Roles"
+                ],
+                "summary": "Delete a role",
+                "description": "Deletes an existing role if it has no associated users",
+                "operationId": "45caa799970d9a8b37b150c9aef5aca8",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the role",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Role deleted successfully"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Role not found"
+                    },
+                    "403": {
+                        "description": "Role cannot be deleted due to associated users"
+                    }
+                }
+            }
+        },
         "/api/v2/claims": {
             "get": {
                 "tags": [
@@ -1470,7 +2709,7 @@
                         }
                     },
                     {
-                        "name": "from",
+                        "name": "start_date",
                         "in": "query",
                         "description": "Filter by start date (Y-m-d)",
                         "schema": {
@@ -1479,7 +2718,7 @@
                         }
                     },
                     {
-                        "name": "to",
+                        "name": "end_date",
                         "in": "query",
                         "description": "Filter by end date (Y-m-d)",
                         "schema": {
@@ -1805,6 +3044,267 @@
                 }
             }
         },
+        "/api/note_rbt/generate-summary": {
+            "post": {
+                "tags": [
+                    "AI"
+                ],
+                "summary": "Generate RBT session summary",
+                "operationId": "e0203046609ba84db2b55d9f54ce474e",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "diagnosis",
+                                    "maladaptives",
+                                    "replacements",
+                                    "interventions"
+                                ],
+                                "properties": {
+                                    "diagnosis": {
+                                        "description": "Patient's diagnosis",
+                                        "type": "string"
+                                    },
+                                    "birthDate": {
+                                        "description": "Patient's birth date",
+                                        "type": "string",
+                                        "format": "date"
+                                    },
+                                    "startTime": {
+                                        "description": "Session start time (HH:MM format)",
+                                        "type": "string"
+                                    },
+                                    "endTime": {
+                                        "description": "Session end time (HH:MM format)",
+                                        "type": "string"
+                                    },
+                                    "startTime2": {
+                                        "description": "Second session start time (HH:MM format)",
+                                        "type": "string"
+                                    },
+                                    "endTime2": {
+                                        "description": "Second session end time (HH:MM format)",
+                                        "type": "string"
+                                    },
+                                    "mood": {
+                                        "description": "Patient's mood during session",
+                                        "type": "string"
+                                    },
+                                    "pos": {
+                                        "description": "Place of service",
+                                        "type": "string"
+                                    },
+                                    "cpt": {
+                                        "description": "CPT code",
+                                        "type": "string"
+                                    },
+                                    "maladaptives": {
+                                        "type": "array",
+                                        "items": {
+                                            "properties": {
+                                                "behavior": {
+                                                    "type": "string"
+                                                },
+                                                "frequency": {
+                                                    "type": "integer"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "replacements": {
+                                        "type": "array",
+                                        "items": {
+                                            "properties": {
+                                                "name": {
+                                                    "type": "string"
+                                                },
+                                                "totalTrials": {
+                                                    "type": "integer"
+                                                },
+                                                "correctResponses": {
+                                                    "type": "integer"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "interventions": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "summary": {
+                                            "description": "Generated summary text",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "description": "Error message",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/note_bcba/generate-summary": {
+            "post": {
+                "tags": [
+                    "AI"
+                ],
+                "summary": "Generate BCBA supervision summary",
+                "operationId": "ccaaf40c473232b17700215ee48d8ae7",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "diagnosis",
+                                    "caregiverGoals",
+                                    "rbtTrainingGoals",
+                                    "noteDescription"
+                                ],
+                                "properties": {
+                                    "diagnosis": {
+                                        "description": "Patient's diagnosis",
+                                        "type": "string"
+                                    },
+                                    "birthDate": {
+                                        "description": "Patient's birth date",
+                                        "type": "string",
+                                        "format": "date"
+                                    },
+                                    "startTime": {
+                                        "description": "Session start time (HH:MM format)",
+                                        "type": "string"
+                                    },
+                                    "endTime": {
+                                        "description": "Session end time (HH:MM format)",
+                                        "type": "string"
+                                    },
+                                    "startTime2": {
+                                        "description": "Second session start time (HH:MM format)",
+                                        "type": "string"
+                                    },
+                                    "endTime2": {
+                                        "description": "Second session end time (HH:MM format)",
+                                        "type": "string"
+                                    },
+                                    "pos": {
+                                        "description": "Place of service",
+                                        "type": "string"
+                                    },
+                                    "cpt": {
+                                        "description": "CPT code",
+                                        "type": "string"
+                                    },
+                                    "caregiverGoals": {
+                                        "type": "array",
+                                        "items": {
+                                            "properties": {
+                                                "goal": {
+                                                    "type": "string"
+                                                },
+                                                "percentCorrect": {
+                                                    "type": "number"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "rbtTrainingGoals": {
+                                        "type": "array",
+                                        "items": {
+                                            "properties": {
+                                                "goal": {
+                                                    "type": "string"
+                                                },
+                                                "percentCorrect": {
+                                                    "type": "number"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "noteDescription": {
+                                        "description": "Session description",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "summary": {
+                                            "description": "Generated summary text",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "description": "Error message",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/v2/patients": {
             "get": {
                 "tags": [
@@ -1814,6 +3314,15 @@
                 "description": "Retrieves a paginated list of patients with optional filters",
                 "operationId": "11a3a3c89a6814a07c7929ceb80e3dce",
                 "parameters": [
+                    {
+                        "name": "include",
+                        "in": "query",
+                        "description": "Include related models (comma-separated). Options: insurance",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
                     {
                         "name": "search",
                         "in": "query",
@@ -2057,6 +3566,138 @@
                     }
                 }
             }
+        },
+        "/api/v2/users": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Get paginated users",
+                "description": "Retrieves a paginated list of users with optional filters",
+                "operationId": "811df0f5f0131a1a1dec528f80edd836",
+                "parameters": [
+                    {
+                        "name": "role",
+                        "in": "query",
+                        "description": "Filter by user role",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "include",
+                        "in": "query",
+                        "description": "Include related models (comma-separated). Options: locations",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "per_page",
+                        "in": "query",
+                        "description": "Number of items per page",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 15
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/PaginatedUserResponse"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v2/users/{id}": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Get a single user",
+                "description": "Retrieves a specific user by their ID",
+                "operationId": "f69ac29d790fc951e7b30574078de477",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the user",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "include",
+                        "in": "query",
+                        "description": "Include related models (comma-separated). Options: locations",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/User"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "User not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "User not found"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     },
     "components": {
@@ -2267,6 +3908,126 @@
                 },
                 "type": "object"
             },
+            "PaginatedPaServiceResponse": {
+                "properties": {
+                    "current_page": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/PaService"
+                        }
+                    },
+                    "first_page_url": {
+                        "type": "string"
+                    },
+                    "from": {
+                        "type": "integer"
+                    },
+                    "last_page": {
+                        "type": "integer"
+                    },
+                    "last_page_url": {
+                        "type": "string"
+                    },
+                    "next_page_url": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "path": {
+                        "type": "string"
+                    },
+                    "per_page": {
+                        "type": "integer",
+                        "example": 15
+                    },
+                    "prev_page_url": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "to": {
+                        "type": "integer"
+                    },
+                    "total": {
+                        "type": "integer"
+                    }
+                },
+                "type": "object"
+            },
+            "Role": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "RBT"
+                    },
+                    "guard_name": {
+                        "type": "string",
+                        "example": "api"
+                    },
+                    "permissions": {
+                        "type": "array",
+                        "items": {
+                            "properties": {
+                                "id": {
+                                    "type": "integer",
+                                    "example": 1
+                                },
+                                "name": {
+                                    "type": "string",
+                                    "example": "register_rol"
+                                },
+                                "guard_name": {
+                                    "type": "string",
+                                    "example": "api"
+                                },
+                                "created_at": {
+                                    "type": "string",
+                                    "format": "datetime",
+                                    "example": "2024-11-19T17:18:13.000000Z"
+                                },
+                                "updated_at": {
+                                    "type": "string",
+                                    "format": "datetime",
+                                    "example": "2024-11-19T17:18:13.000000Z"
+                                },
+                                "pivot": {
+                                    "properties": {
+                                        "role_id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "permission_id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    },
+                    "permissions_names": {
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "example": "view_users"
+                        }
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "datetime",
+                        "example": "2024-03-20 10:00:00"
+                    }
+                },
+                "type": "object"
+            },
             "PaginatedClaimResponse": {
                 "properties": {
                     "current_page": {
@@ -2359,6 +4120,61 @@
                     },
                     "total": {
                         "type": "integer"
+                    }
+                },
+                "type": "object"
+            },
+            "PaginatedUserResponse": {
+                "properties": {
+                    "current_page": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/User"
+                        }
+                    },
+                    "first_page_url": {
+                        "type": "string",
+                        "example": "http://example.com/api/v2/users?page=1"
+                    },
+                    "from": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "last_page": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "last_page_url": {
+                        "type": "string",
+                        "example": "http://example.com/api/v2/users?page=1"
+                    },
+                    "next_page_url": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "path": {
+                        "type": "string",
+                        "example": "http://example.com/api/v2/users"
+                    },
+                    "per_page": {
+                        "type": "integer",
+                        "example": 15
+                    },
+                    "prev_page_url": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "to": {
+                        "type": "integer",
+                        "example": 15
+                    },
+                    "total": {
+                        "type": "integer",
+                        "example": 100
                     }
                 },
                 "type": "object"
@@ -2584,7 +4400,7 @@
             },
             "Insurance": {
                 "required": [
-                    "insurer_name"
+                    "name"
                 ],
                 "properties": {
                     "id": {
@@ -2593,7 +4409,7 @@
                         "format": "int64",
                         "example": 1
                     },
-                    "insurer_name": {
+                    "name": {
                         "description": "Name of the insurance company",
                         "type": "string",
                         "example": "Blue Cross Blue Shield"
@@ -2765,8 +4581,13 @@
                     "id": {
                         "type": "integer"
                     },
+                    "insurance_id": {
+                        "type": "integer",
+                        "nullable": true
+                    },
                     "patient_id": {
-                        "type": "integer"
+                        "type": "string",
+                        "nullable": true
                     },
                     "doctor_id": {
                         "type": "integer",
@@ -2776,29 +4597,60 @@
                         "type": "integer",
                         "nullable": true
                     },
-                    "location": {
-                        "type": "string",
-                        "nullable": true
-                    },
-                    "maladaptives": {
-                        "type": "object",
-                        "nullable": true
-                    },
-                    "replacements": {
-                        "type": "object",
-                        "nullable": true
-                    },
-                    "summary_note": {
+                    "insurance_identifier": {
                         "type": "string",
                         "nullable": true
                     },
                     "diagnosis_code": {
                         "type": "string",
+                        "maxLength": 50,
                         "nullable": true
                     },
-                    "birth_date": {
+                    "location": {
+                        "type": "string",
+                        "maxLength": 50,
+                        "nullable": true
+                    },
+                    "meet_with_client_at": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "session_date": {
                         "type": "string",
                         "format": "date-time",
+                        "nullable": true
+                    },
+                    "time_in": {
+                        "type": "string",
+                        "format": "H:i:s",
+                        "nullable": true
+                    },
+                    "time_out": {
+                        "type": "string",
+                        "format": "H:i:s",
+                        "nullable": true
+                    },
+                    "time_in2": {
+                        "type": "string",
+                        "format": "H:i:s",
+                        "nullable": true
+                    },
+                    "time_out2": {
+                        "type": "string",
+                        "format": "H:i:s",
+                        "nullable": true
+                    },
+                    "session_length_total": {
+                        "type": "number",
+                        "format": "double",
+                        "nullable": true
+                    },
+                    "note_description": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "rendering_provider": {
+                        "type": "integer",
                         "nullable": true
                     },
                     "supervisor_id": {
@@ -2825,74 +4677,29 @@
                         "type": "string",
                         "nullable": true
                     },
-                    "supervisor_name": {
-                        "type": "integer",
-                        "nullable": true
-                    },
-                    "session_date": {
+                    "status": {
                         "type": "string",
-                        "format": "date-time",
-                        "nullable": true
+                        "default": "pending",
+                        "enum": [
+                            "pending",
+                            "ok",
+                            "no",
+                            "review"
+                        ]
                     },
-                    "time_in": {
-                        "type": "string",
-                        "format": "time",
-                        "nullable": true
-                    },
-                    "time_out": {
-                        "type": "string",
-                        "format": "time",
-                        "nullable": true
-                    },
-                    "time_in2": {
-                        "type": "string",
-                        "format": "time",
-                        "nullable": true
-                    },
-                    "time_out2": {
-                        "type": "string",
-                        "format": "time",
-                        "nullable": true
-                    },
-                    "session_length_total": {
-                        "type": "string",
-                        "format": "time",
-                        "nullable": true
-                    },
-                    "session_length_total2": {
-                        "type": "string",
-                        "format": "time",
-                        "nullable": true
-                    },
-                    "environmental_changes": {
+                    "summary_note": {
                         "type": "string",
                         "nullable": true
                     },
-                    "meet_with_client_at": {
-                        "type": "string",
-                        "nullable": true
-                    },
-                    "billedbcba": {
+                    "billed": {
                         "type": "boolean",
-                        "nullable": true
+                        "default": false
                     },
-                    "paybcba": {
+                    "paid": {
                         "type": "boolean",
-                        "nullable": true
-                    },
-                    "mdbcba": {
-                        "type": "string",
-                        "nullable": true
-                    },
-                    "md2bcba": {
-                        "type": "string",
-                        "nullable": true
+                        "default": false
                     },
                     "cpt_code": {
-                        "type": "string",
-                        "nullable": true
-                    },
-                    "status": {
                         "type": "string",
                         "nullable": true
                     },
@@ -2901,58 +4708,6 @@
                         "nullable": true
                     },
                     "pa_service_id": {
-                        "type": "integer",
-                        "nullable": true
-                    },
-                    "insuranceId": {
-                        "type": "string",
-                        "nullable": true
-                    },
-                    "provider": {
-                        "properties": {
-                            "id": {
-                                "type": "integer"
-                            },
-                            "name": {
-                                "type": "string"
-                            },
-                            "surname": {
-                                "type": "string"
-                            },
-                            "npi": {
-                                "type": "string"
-                            },
-                            "electronic_signature": {
-                                "type": "string"
-                            }
-                        },
-                        "type": "object"
-                    },
-                    "supervisor": {
-                        "properties": {
-                            "id": {
-                                "type": "integer"
-                            },
-                            "name": {
-                                "type": "string"
-                            },
-                            "surname": {
-                                "type": "string"
-                            },
-                            "npi": {
-                                "type": "string"
-                            },
-                            "electronic_signature": {
-                                "type": "string"
-                            }
-                        },
-                        "type": "object"
-                    },
-                    "total_minutes": {
-                        "type": "integer",
-                        "nullable": true
-                    },
-                    "total_units": {
                         "type": "integer",
                         "nullable": true
                     },
@@ -3034,6 +4789,10 @@
                     "bip_id": {
                         "type": "integer",
                         "example": 1
+                    },
+                    "insurance_identifier": {
+                        "type": "string",
+                        "example": "123456789"
                     },
                     "pos": {
                         "type": "string",
@@ -3164,7 +4923,7 @@
                         "type": "integer",
                         "example": 0
                     },
-                    "pay": {
+                    "paid": {
                         "type": "integer",
                         "example": 0
                     },
@@ -3172,11 +4931,7 @@
                         "type": "string",
                         "example": "ok"
                     },
-                    "md": {
-                        "type": "string",
-                        "nullable": true
-                    },
-                    "md2": {
+                    "summary_note": {
                         "type": "string",
                         "nullable": true
                     },
@@ -3234,6 +4989,70 @@
                         "type": "string",
                         "format": "date-time",
                         "example": "2024-11-10 14:43:31"
+                    }
+                },
+                "type": "object"
+            },
+            "PaService": {
+                "required": [
+                    "patient_id",
+                    "pa_services",
+                    "cpt",
+                    "n_units",
+                    "start_date",
+                    "end_date"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int64",
+                        "example": 1
+                    },
+                    "patient_id": {
+                        "type": "integer",
+                        "format": "int64",
+                        "example": 1
+                    },
+                    "pa_services": {
+                        "type": "string",
+                        "example": "Behavioral Analysis"
+                    },
+                    "cpt": {
+                        "type": "string",
+                        "example": "97151"
+                    },
+                    "n_units": {
+                        "type": "integer",
+                        "example": 8
+                    },
+                    "spent_units": {
+                        "type": "integer",
+                        "example": 0
+                    },
+                    "start_date": {
+                        "type": "string",
+                        "format": "date",
+                        "example": "2024-03-01"
+                    },
+                    "end_date": {
+                        "type": "string",
+                        "format": "date",
+                        "example": "2024-04-01"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "datetime",
+                        "example": "2024-03-01T12:00:00Z"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "datetime",
+                        "example": "2024-03-01T12:00:00Z"
+                    },
+                    "deleted_at": {
+                        "type": "string",
+                        "format": "datetime",
+                        "nullable": true
                     }
                 },
                 "type": "object"
@@ -3394,9 +5213,23 @@
                         ]
                     },
                     "insurer_id": {
-                        "description": "Insurance provider ID",
+                        "description": "Insurance ID",
                         "type": "integer",
                         "format": "int64",
+                        "nullable": true
+                    },
+                    "insurer_secondary_id": {
+                        "description": "Insurance secondary ID",
+                        "type": "integer",
+                        "format": "int64",
+                        "nullable": true
+                    },
+                    "insurance_identifier": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "insurance_secondary_identifier": {
+                        "type": "string",
                         "nullable": true
                     },
                     "telehealth": {
@@ -3501,6 +5334,64 @@
                     }
                 },
                 "type": "object"
+            },
+            "User": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "John"
+                    },
+                    "surname": {
+                        "type": "string",
+                        "example": "Doe"
+                    },
+                    "email": {
+                        "type": "string",
+                        "format": "email",
+                        "example": "john.doe@example.com"
+                    },
+                    "roles": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "example": [
+                            "admin",
+                            "user"
+                        ]
+                    },
+                    "location_id": {
+                        "type": "integer",
+                        "example": 1,
+                        "nullable": true
+                    },
+                    "locations": {
+                        "type": "array",
+                        "items": {
+                            "properties": {
+                                "id": {
+                                    "type": "integer",
+                                    "example": 1
+                                },
+                                "name": {
+                                    "type": "string",
+                                    "example": "Main Office"
+                                },
+                                "address": {
+                                    "type": "string",
+                                    "example": "123 Main St"
+                                }
+                            },
+                            "type": "object"
+                        },
+                        "nullable": true
+                    }
+                },
+                "type": "object"
             }
         }
     },
@@ -3522,12 +5413,32 @@
             "description": "Admin/Notes"
         },
         {
+            "name": "PA Services",
+            "description": "PA Services"
+        },
+        {
+            "name": "Admin/PA Services",
+            "description": "Admin/PA Services"
+        },
+        {
+            "name": "Admin/Roles",
+            "description": "Admin/Roles"
+        },
+        {
             "name": "Claims",
             "description": "Claims"
         },
         {
+            "name": "AI",
+            "description": "AI"
+        },
+        {
             "name": "Admin/Patients",
             "description": "Admin/Patients"
+        },
+        {
+            "name": "Users",
+            "description": "Users"
         }
     ]
 }

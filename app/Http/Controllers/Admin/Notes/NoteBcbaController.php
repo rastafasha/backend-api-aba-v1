@@ -103,7 +103,7 @@ class NoteBcbaController extends Controller
     public function storebcba(Request $request)
     {
         $patient = null;
-        $patient = Patient::where("patient_id", $request->patient_id)->first();
+        $patient = Patient::where("patient_identifier", $request->patient_identifier)->first();
         $doctor = User::where("id", $request->doctor_id)->first();
 
         $request->request->add([
@@ -183,16 +183,22 @@ class NoteBcbaController extends Controller
 
         return response()->json([
             "noteBcba" => NoteBcbaResource::make($noteBcba),
-            "caregiver_goals" => json_decode($noteBcba-> caregiver_goals),
-            "rbt_training_goals" => json_decode($noteBcba-> rbt_training_goals),
+            "caregiver_goals" =>
+            is_string($noteBcba->caregiver_goals)
+                ? json_decode($noteBcba->caregiver_goals)
+                : $noteBcba->caregiver_goals,
+            "rbt_training_goals" =>
+            is_string($noteBcba->rbt_training_goals)
+                ? json_decode($noteBcba->rbt_training_goals)
+                : $noteBcba->rbt_training_goals,
         ]);
     }
 
 
-    public function showByPatientId($patient_id)
+    public function showByPatientId($patient_identifier)
     {
-        $noteBcbas = NoteBcba::where("patient_id", $patient_id)->orderBy('id', 'desc')->get();
-        $patient = Patient::where("patient_id", $patient_id)->first();
+        $noteBcbas = NoteBcba::where("patient_identifier", $patient_identifier)->orderBy('id', 'desc')->get();
+        $patient = Patient::where("patient_identifier", $patient_identifier)->first();
 
         return response()->json([
             "noteBcbas" => NoteBcbaCollection::make($noteBcbas),
@@ -200,10 +206,10 @@ class NoteBcbaController extends Controller
     }
 
 
-    public function showNoteBcbaByPatient($patient_id)
+    public function showNoteBcbaByPatient($patient_identifier)
     {
-        $noteBcba = NoteBcba::where("patient_id", $patient_id)->get();
-        $patient = Patient::findOrFail($patient_id);
+        $noteBcba = NoteBcba::where("patient_identifier", $patient_identifier)->get();
+        $patient = Patient::findOrFail($patient_identifier);
 
         return response()->json([
             // "noteBcba" => $noteBcba,
@@ -211,11 +217,11 @@ class NoteBcbaController extends Controller
             "pa_assessments" => $patient->pa_assessments ? json_decode($patient->pa_assessments) : [],
         ]);
     }
-    public function showReplacementsByPatient($patient_id)
+    public function showReplacementsByPatient($patient_identifier)
     {
-        $patient = Patient::where("patient_id", $patient_id)->first();
-        $familiEnvolments = FamilyEnvolment::where("patient_id", $patient_id)->get();
-        $monitoringEvaluatingPatientIds = MonitoringEvaluating::where("patient_id", $patient_id)->orderBy("patient_id", "desc")->get();
+        $patient = Patient::where("patient_identifier", $patient_identifier)->first();
+        $familiEnvolments = FamilyEnvolment::where("patient_identifier", $patient_identifier)->get();
+        $monitoringEvaluatingPatientIds = MonitoringEvaluating::where("patient_identifier", $patient_identifier)->orderBy("patient_identifier", "desc")->get();
         return response()->json([
         "pa_assessments" => $patient->pa_assessments ? json_decode($patient->pa_assessments) : null,
             "familiEnvolments" => FamilyEnvolmentGoalsCollection::make($familiEnvolments) ,
@@ -277,8 +283,14 @@ class NoteBcbaController extends Controller
         return response()->json([
             "message" => 200,
             "noteBcba" => $noteBcba,
-            "caregiver_goals" => json_decode($noteBcba-> caregiver_goals),
-            "rbt_training_goals" => json_decode($noteBcba-> rbt_training_goals),
+            "caregiver_goals" =>
+            is_string($noteBcba->caregiver_goals)
+                ? json_decode($noteBcba->caregiver_goals)
+                : $noteBcba->caregiver_goals,
+            "rbt_training_goals" =>
+            is_string($noteBcba->rbt_training_goals)
+                ? json_decode($noteBcba->rbt_training_goals)
+                : $noteBcba->rbt_training_goals,
         ]);
     }
 
@@ -311,18 +323,11 @@ class NoteBcbaController extends Controller
     public function updateStatus(Request $request, $id)
     {
         $noteBcba = NoteBcba::findOrfail($id);
+        $noteBcba->billed = $request->billed;
+        $noteBcba->paid = $request->paid;
+        $noteBcba->md = $request->md;
+        $noteBcba->md2 = $request->md2;
         $noteBcba->status = $request->status;
-        $noteBcba->update();
-        return $noteBcba;
-    }
-
-    public function updateModifier(Request $request, $id)
-    {
-        $noteBcba = NoteBcba::findOrfail($id);
-        $noteBcba->billedbcba = $request->billedbcba;
-        $noteBcba->paybcba = $request->paybcba;
-        $noteBcba->mdbcba = $request->mdbcba;
-        $noteBcba->md2bcba = $request->md2bcba;
         $noteBcba->update();
         return $noteBcba;
     }

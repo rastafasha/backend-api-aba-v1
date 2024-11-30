@@ -3,10 +3,11 @@
 namespace App\Http\Controllers\Patient;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\Patient\PatientResource;
 use App\Models\Patient\Patient;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use App\Models\PaService;
+use App\Http\Requests\PaServiceRequest;
 
 /**
  * @OA\Schema(
@@ -33,6 +34,7 @@ class PatientV2Controller extends Controller
      *     summary="Get paginated patients list",
      *     description="Retrieves a paginated list of patients with optional filters",
      *     tags={"Admin/Patients"},
+     *     @OA\Parameter(name="include", in="query", description="Include related models (comma-separated). Options: insurance", required=false, @OA\Schema(type="string")),
      *     @OA\Parameter(name="search", in="query", description="Search in first name, last name and email", required=false, @OA\Schema(type="string")),
      *     @OA\Parameter(name="patient_id", in="query", description="Filter by patient ID", required=false, @OA\Schema(type="string")),
      *     @OA\Parameter(name="status", in="query", description="Filter by status", required=false, @OA\Schema(type="string")),
@@ -56,6 +58,13 @@ class PatientV2Controller extends Controller
     {
         $query = Patient::query();
 
+        if ($request->has('include')) {
+            $includes = explode(',', $request->include);
+            if (in_array('insurance', $includes)) {
+                $query->with('insurances');
+            }
+        }
+
         // Search in name and email
         if ($request->has('search')) {
             $search = $request->search;
@@ -67,9 +76,10 @@ class PatientV2Controller extends Controller
         }
 
         // Apply filters
-        if ($request->has('patient_id')) {
-            $query->where('patient_id', $request->patient_id);
+        if ($request->has('patient_identifier')) {
+            $query->where('patient_identifier', $request->patient_identifier);
         }
+
 
         if ($request->has('status')) {
             $query->where('status', $request->status);
@@ -130,6 +140,28 @@ class PatientV2Controller extends Controller
 
         $patient = Patient::create($validated);
 
+
+        // if ($patient->id && $request->has('pa_services') && is_array($request->pa_services)) {
+        //     foreach ($request->pa_services as $pa) {
+        //         $validatedData = PaService::validate($pa);
+        //         $paService = new PaService($validatedData);
+        //         $paService->patient_id = $patient->id;
+        //         // $paService->save();
+        //         $paService = PaService::create($request->all());
+        //     }
+        // }
+
+
+        if ($patient->id && $request->has('pa_services') && is_array($request->pa_services)) {
+            foreach ($request->pa_services as $pa) {
+                $validatedData = PaService::validate($pa);
+                $paService = new PaService($validatedData);
+                $paService->patient_id = $patient->id;
+                $paService->save();
+                // $paService = PaService::create($request->all());
+            }
+        }
+
         return response()->json([
             'status' => 'success',
             'message' => 'Patient created successfully',
@@ -163,7 +195,7 @@ class PatientV2Controller extends Controller
      */
     public function show($id)
     {
-        $patient = Patient::find($id)->with(['paServices'])->first();
+        $patient = Patient::with(['paServices'])->find($id);
 
         if (!$patient) {
             return response()->json([
@@ -219,7 +251,7 @@ class PatientV2Controller extends Controller
         return response()->json([
             'status' => 'success',
             'message' => 'Patient updated successfully',
-            'data' => PatientResource::make($patient->fresh())
+            'data' => $patient
         ]);
     }
 
@@ -269,8 +301,9 @@ class PatientV2Controller extends Controller
             'last_name' => 'required|string|max:250',
             'email' => 'nullable|email|max:250',
             'phone' => 'nullable|string|max:25',
-            'patient_id' => $id ? 'nullable|string|unique:patients,patient_id,' . $id : 'nullable|string|unique:patients',
-            'birth_date' => 'nullable|date|before:today',
+            'patient_identifier' => $id ? 'nullable|string|unique:patients,patient_id,' . $id : 'nullable|string|unique:patients',
+            // 'patient_id' => $id ? 'nullable|number|unique:patients,patient_id,' . $id : 'nullable|number|unique:patients',
+            'birth_date' => 'nullable|date:Y-m-d|before:today',
             'gender' => 'required|integer|in:1,2',
             // 'age' => 'nullable|string|max:50',
             'avatar' => 'nullable|string',
@@ -303,7 +336,10 @@ class PatientV2Controller extends Controller
             'diagnosis_code' => 'nullable|string',
             'patient_control' => 'nullable|string',
             'insurer_id' => 'nullable|exists:insurances,id',
-            'insuranceId' => 'nullable|string|max:50',
+            'insurer_secondary_id' => 'nullable|exists:insurances,id',
+            // 'insuranceId' => 'nullable|string|max:50',
+            'insurance_identifier' => 'nullable|string',
+            'insurance_secondary_identifier' => 'nullable|string',
             'eqhlid' => 'nullable|string',
             'elegibility_date' => 'nullable|date',
             'pos_covered' => 'nullable|array',
@@ -378,9 +414,11 @@ class PatientV2Controller extends Controller
             ])],
 
             // Additional Settings
-            'pa_assessments' => 'nullable|json',
-            'telehealth' => ['nullable', 'string', 'max:50', Rule::in(['true', 'false'])],
-            'pay' => ['nullable', 'string', 'max:50', Rule::in(['true', 'false'])],
+            // 'pa_assessments' => 'nullable|json',
+            // 'telehealth' => ['nullable', 'string', 'max:50', Rule::in(['true', 'false'])],
+            // 'pay' => ['nullable', 'string', 'max:50', Rule::in(['true', 'false'])],
+            'telehealth' => 'nullable|boolean',
+            'pay' => 'nullable|boolean',
         ];
     }
 }

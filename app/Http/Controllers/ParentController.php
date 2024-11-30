@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Bip\Bip;
 use App\Models\Parents;
+use App\Models\Location;
 use Illuminate\Http\Request;
 use App\Models\Notes\NoteRbt;
 use App\Models\Notes\NoteBcba;
@@ -14,6 +15,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Resources\Parent\ParentResource;
 use App\Http\Resources\Patient\PatientResource;
+use App\Http\Resources\Location\LocationCollection;
 
 class ParentController extends Controller
 {
@@ -60,9 +62,9 @@ class ParentController extends Controller
             // ...
         ]);
 
-        if ($validator->fails()) {
-            return response()->json(['error' => $validator->messages()], 422);
-        }
+        // if ($validator->fails()) {
+        //     return response()->json(['error' => $validator->messages()], 422);
+        // }
 
         if ($request->password) {
             $request->request->add(["password" => Hash::make($request->password)]);

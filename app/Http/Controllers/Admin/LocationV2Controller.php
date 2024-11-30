@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\Location\LocationResource;
+use App\Http\Requests\LocationRequest;
 use App\Models\Location;
 use Illuminate\Http\Request;
 
@@ -32,15 +32,10 @@ class LocationV2Controller extends Controller
      *     summary="Get paginated locations list",
      *     description="Retrieves a paginated list of locations with optional filters",
      *     tags={"Admin/Locations"},
-     *     @OA\Parameter(
-     *         name="title",
-     *         in="query",
-     *         description="Filter by location title",
-     *         required=false,
-     *         @OA\Schema(type="string")
-     *     ),
+     *     @OA\Parameter(name="title",in="query",description="Filter by location title",required=false, @OA\Schema(type="string")),
      *     @OA\Parameter(name="city", in="query", description="Filter by city", required=false, @OA\Schema(type="string")),
      *     @OA\Parameter(name="state", in="query", description="Filter by state", required=false, @OA\Schema(type="string")),
+     *     @OA\Parameter(name="zip", in="query", description="Filter by zip code", required=false, @OA\Schema(type="string")),
      *     @OA\Parameter(
      *         name="per_page",
      *         in="query",
@@ -64,27 +59,16 @@ class LocationV2Controller extends Controller
      */
     public function index(Request $request)
     {
-        $query = Location::query();
-
-        if ($request->has('title')) {
-            $query->where('title', 'like', '%' . $request->title . '%');
-        }
-
-        if ($request->has('city')) {
-            $query->where('city', $request->city);
-        }
-
-        if ($request->has('state')) {
-            $query->where('state', $request->state);
-        }
-
-        $perPage = $request->input('per_page', 15);
-        $locations = $query->orderBy('created_at', 'desc')
-            ->paginate($perPage);
+        $locations = Location::query()->orderBy('created_at', 'desc')
+            ->filterByCity($request->city)
+            ->filterByState($request->state)
+            ->filterByZip($request->zip)
+            ->filterByTitle($request->title)
+            ->paginate($request->input('per_page', 15));
 
         return response()->json([
             'status' => 'success',
-            'data' => LocationResource::collection($locations)
+            'data' => $locations
         ]);
     }
 
@@ -97,7 +81,7 @@ class LocationV2Controller extends Controller
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(
-     *             required={"title"},
+     *             required={"title", "city", "state"},
      *             @OA\Property(property="title", type="string"),
      *             @OA\Property(property="address", type="string"),
      *             @OA\Property(property="phone1", type="string"),
@@ -115,27 +99,16 @@ class LocationV2Controller extends Controller
      *     )
      * )
      */
-    public function store(Request $request)
+    public function store(LocationRequest $request)
     {
-        $validated = $request->validate([
-            'title' => 'required|string|max:150',
-            'address' => 'nullable|string',
-            'phone1' => 'nullable|string|max:50',
-            'phone2' => 'nullable|string|max:50',
-            'city' => 'nullable|string|max:150',
-            'state' => 'nullable|string|max:150',
-            'zip' => 'nullable|string|max:150',
-            'email' => 'nullable|email|max:150',
-            'telfax' => 'nullable|string',
-            'avatar' => 'nullable|string'
-        ]);
+        $validated = $request->validated();
 
         $location = Location::create($validated);
 
         return response()->json([
             'status' => 'success',
             'message' => 'Location created successfully',
-            'data' => LocationResource::make($location)
+            'data' => $location
         ], 201);
     }
 
@@ -175,7 +148,7 @@ class LocationV2Controller extends Controller
 
         return response()->json([
             'status' => 'success',
-            'data' => LocationResource::make($location)
+            'data' => $location
         ]);
     }
 
@@ -216,7 +189,7 @@ class LocationV2Controller extends Controller
      *     )
      * )
      */
-    public function update(Request $request, $id)
+    public function update(LocationRequest $request, $id)
     {
         $location = Location::find($id);
 
@@ -227,25 +200,14 @@ class LocationV2Controller extends Controller
             ], 404);
         }
 
-        $validated = $request->validate([
-            'title' => 'required|string|max:150',
-            'address' => 'nullable|string',
-            'phone1' => 'nullable|string|max:50',
-            'phone2' => 'nullable|string|max:50',
-            'city' => 'nullable|string|max:150',
-            'state' => 'nullable|string|max:150',
-            'zip' => 'nullable|string|max:150',
-            'email' => 'nullable|email|max:150',
-            'telfax' => 'nullable|string',
-            'avatar' => 'nullable|string'
-        ]);
+        $validated = $request->validated();
 
         $location->update($validated);
 
         return response()->json([
             'status' => 'success',
             'message' => 'Location updated successfully',
-            'data' => LocationResource::make($location->fresh())
+            'data' => $location
         ]);
     }
 

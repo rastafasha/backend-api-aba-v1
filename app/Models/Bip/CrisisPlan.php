@@ -16,8 +16,7 @@ class CrisisPlan extends Model
 
     protected $fillable = [
         'bip_id',
-        'patient_id',
-        'client_id',
+        'patient_identifier',
         'crisis_description',
         'crisis_note',
         'caregiver_requirements_for_prevention_of_crisis',
@@ -40,7 +39,7 @@ class CrisisPlan extends Model
 
     public function patient()
     {
-        return $this->belongsTo(Patient::class, 'patient_id');
+        return $this->belongsTo(Patient::class, 'patient_identifier');
     }
 
     public function client()

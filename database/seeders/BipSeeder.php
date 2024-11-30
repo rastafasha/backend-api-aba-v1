@@ -13,7 +13,7 @@ class BipSeeder extends Seeder
             [
                 'id' => 1,
                 'client_id' => 1, // Make sure this user exists
-                'patient_id' => 'PAT001',
+                'patient_identifier' => 'PAT001',
                 'doctor_id' => 3, // BCBA1
                 'type_of_assessment' => 3,
                 'documents_reviewed' => ['Initial Assessment', 'Medical Records'],
@@ -24,19 +24,34 @@ class BipSeeder extends Seeder
                 'phisical_and_medical_status' => 'Generally healthy, no major concerns',
                 'strengths' => 'Good motor skills, responsive to reinforcement',
                 'weakneses' => 'Communication difficulties, attention challenges',
+
                 'maladaptives' => [
-                    'tantrums' => true,
-                    'aggression' => true
+                    [
+                        'index' => 1,
+                        'maladaptive_behavior' => 'Bad Words',
+                        'topografical_definition' => 'Said bad word every day',
+                        'baseline_level' => '43',
+                        'baseline_date' => '2024-11-23T04:00:00.000Z',
+                        'initial_interesting' => 30,
+                        'current_intensity' => 58
+                    ],
+                    [
+                        'index' => 2,
+                        'maladaptive_behavior' => 'Drawin walls', 
+                        'topografical_definition' => 'draw wall til sleep',
+                        'baseline_level' => '30',
+                        'baseline_date' => '2024-11-24T04:00:00.000Z',
+                        'initial_interesting' => 30,
+                        'current_intensity' => 70
+                    ]
                 ],
-                'interventions' => [
-                    'positive_reinforcement' => true,
-                    'token_economy' => true
-                ],
+
+
             ],
             [
                 'id' => 2,
                 'client_id' => 2, // Make sure this user exists
-                'patient_id' => 'PAT002',
+                'patient_identifier' => 'PAT002',
                 'doctor_id' => 4, // BCBA2
                 'type_of_assessment' => 3,
                 'documents_reviewed' => ['Behavioral Assessment', 'School Records'],
@@ -47,14 +62,30 @@ class BipSeeder extends Seeder
                 'phisical_and_medical_status' => 'No significant health concerns',
                 'strengths' => 'Strong visual learning skills',
                 'weakneses' => 'Social interaction challenges',
+
                 'maladaptives' => [
-                    'self_stimming' => true,
-                    'avoidance' => true
+                    [
+                        'index' => 1,
+                        'maladaptive_behavior' => 'Bad Words',
+                        'topografical_definition' => 'Said bad word every day',
+                        'baseline_level' => '43',
+                        'baseline_date' => '2024-11-23T04:00:00.000Z',
+                        'initial_interesting' => 30,
+                        'current_intensity' => 58
+                    ],
+                    [
+                        'index' => 2,
+                        'maladaptive_behavior' => 'Drawin walls',
+                        'topografical_definition' => 'draw wall til sleep',
+                        'baseline_level' => '30',
+                        'baseline_date' => '2024-11-24T04:00:00.000Z',
+                        'initial_interesting' => 30,
+                        'current_intensity' => 70
+                    ]
                 ],
-                'interventions' => [
-                    'positive_reinforcement' => true,
-                    'visual_schedules' => true
-                ],
+
+
+
             ],
         ];
 

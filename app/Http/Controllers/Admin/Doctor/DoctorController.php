@@ -42,17 +42,17 @@ class DoctorController extends Controller
 
         $search = $request->search;
         $users = User::where(DB::raw("CONCAT(users.name,' ',IFNULL(users.surname,''),' ',users.email)"), "like", "%" . $search . "%")
-                    // "name", "like", "%".$search."%"
-                    // ->orWhere("surname", "like", "%".$search."%")
-                    // ->orWhere("email", "like", "%".$search."%")
-                    ->orderBy("id", "desc")
-                    // ->whereHas("roles", function($q){
-                    //     $q->where("name","like","%DOCTOR%");
-                    // })
-                    ->get();
+            // "name", "like", "%".$search."%"
+            // ->orWhere("surname", "like", "%".$search."%")
+            // ->orWhere("email", "like", "%".$search."%")
+            ->orderBy("id", "desc")
+            // ->whereHas("roles", function($q){
+            //     $q->where("name","like","%DOCTOR%");
+            // })
+            ->get();
 
         return response()->json([
-            "users" => UserCollection::make($users) ,
+            "users" => UserCollection::make($users),
 
         ]);
     }
@@ -91,11 +91,11 @@ class DoctorController extends Controller
 
         $doctor = User::findOrFail($id);
         $patients = Patient::Where('rbt_home_id', $id)
-                ->orWhere('rbt2_school_id', $id)
-                ->orWhere('bcba_home_id', $id)
-                ->orWhere('bcba2_school_id', $id)
-                ->orWhere('clin_director_id', $id)
-                ->get();
+            ->orWhere('rbt2_school_id', $id)
+            ->orWhere('bcba_home_id', $id)
+            ->orWhere('bcba2_school_id', $id)
+            ->orWhere('clin_director_id', $id)
+            ->get();
         $bips = Bip::Where('doctor_id', $id)->get();
         $notes_rbts = NoteRbt::Where('doctor_id', $id)->get();
         $notes_bcbas = NoteBcba::Where('doctor_id', $id)->get();
@@ -109,74 +109,74 @@ class DoctorController extends Controller
 
             "doctor" => UserResource::make($doctor),
             "doctor" => $doctor,
-                    'doctor' => [
-                        'id' => $doctor->id,
-                        'location_id' => $doctor->location_id,
-                        // 'location_id'=> $doctor->count($location_id),
-                        "locations" => LocationCollection::make($locations),
+            'doctor' => [
+                'id' => $doctor->id,
+                'location_id' => $doctor->location_id,
+                // 'location_id'=> $doctor->count($location_id),
+                "locations" => LocationCollection::make($locations),
 
-                        // $request ->request->add(['who_is_it_for' => json_encode(explode(',', $request->who_is_it_for))]);
-                        "name" => $doctor->name,
-                        "surname" => $doctor->surname,
-                        "full_name" => $doctor->name . ' ' . $doctor->surname,
-                        "email" => $doctor->email,
-                        "password" => $doctor->password,
-                        // "rolename"=>$doctor->rolename,
-                        "phone" => $doctor->phone,
-                        "birth_date" => $doctor->birth_date ? Carbon::parse($doctor->birth_date)->format("Y/m/d") : null,
-                        "gender" => $doctor->gender,
-                        "address" => $doctor->address,
-                        "status" => $doctor->status,
-                        "avatar" => $doctor->avatar ? env("APP_URL") . "storage/" . $doctor->avatar : null,
-                        // "avatar"=> $doctor->avatar ? env("APP_URL").$doctor->avatar : null,
-                        "roles" => $doctor->roles->first(),
-                        "currently_pay_through_company" => $doctor->currently_pay_through_company,
-                        "llc" => $doctor->llc,
-                        "ien" => $doctor->ien,
-                        "wc" => $doctor->wc,
-                        "electronic_signature" => $doctor->electronic_signature ? env("APP_URL") . "storage/" . $doctor->electronic_signature : null,
-                        // "electronic_signature"=>$doctor->electronic_signature ? env("APP_URL").$doctor->electronic_signature : null,
-                        "agency_location" => $doctor->agency_location,
-                        "city" => $doctor->city,
-                        "languages" => $doctor->languages,
-                        "dob" => $doctor->dob,
-                        "ss_number" => $doctor->ss_number,
-                        "date_of_hire" => $doctor->date_of_hire ? Carbon::parse($doctor->date_of_hire)->format("Y/m/d") : null,
-                        "start_pay" => $doctor->start_pay ,
-                        "driver_license_expiration" => $doctor->driver_license_expiration ? Carbon::parse($doctor->driver_license_expiration)->format("Y/m/d") : null,
-                        "cpr_every_2_years" => $doctor->cpr_every_2_years,
-                        "background_every_5_years" => $doctor->background_every_5_years,
-                        "e_verify" => $doctor->e_verify,
-                        "national_sex_offender_registry" => $doctor->national_sex_offender_registry,
-                        "certificate_number" => $doctor->certificate_number,
-                        "bacb_license_expiration" => $doctor->bacb_license_expiration ? Carbon::parse($doctor->bacb_license_expiration)->format("Y/m/d") : null,
-                        "liability_insurance_annually" => $doctor->liability_insurance_annually,
-                        "local_police_rec_every_5_years" => $doctor->local_police_rec_every_5_years,
-                        "npi" => $doctor->npi,
-                        "medicaid_provider" => $doctor->medicaid_provider,
+                // $request ->request->add(['who_is_it_for' => json_encode(explode(',', $request->who_is_it_for))]);
+                "name" => $doctor->name,
+                "surname" => $doctor->surname,
+                "full_name" => $doctor->name . ' ' . $doctor->surname,
+                "email" => $doctor->email,
+                "password" => $doctor->password,
+                // "rolename"=>$doctor->rolename,
+                "phone" => $doctor->phone,
+                "birth_date" => $doctor->birth_date ? Carbon::parse($doctor->birth_date)->format("Y/m/d") : null,
+                "gender" => $doctor->gender,
+                "address" => $doctor->address,
+                "status" => $doctor->status,
+                "avatar" => $doctor->avatar ? env("APP_URL") . "storage/" . $doctor->avatar : null,
+                // "avatar"=> $doctor->avatar ? env("APP_URL").$doctor->avatar : null,
+                "roles" => $doctor->roles->first(),
+                "currently_pay_through_company" => $doctor->currently_pay_through_company,
+                "llc" => $doctor->llc,
+                "ien" => $doctor->ien,
+                "wc" => $doctor->wc,
+                "electronic_signature" => $doctor->electronic_signature ? env("APP_URL") . "storage/" . $doctor->electronic_signature : null,
+                // "electronic_signature"=>$doctor->electronic_signature ? env("APP_URL").$doctor->electronic_signature : null,
+                "agency_location" => $doctor->agency_location,
+                "city" => $doctor->city,
+                "languages" => $doctor->languages,
+                "dob" => $doctor->dob,
+                "ss_number" => $doctor->ss_number,
+                "date_of_hire" => $doctor->date_of_hire ? Carbon::parse($doctor->date_of_hire)->format("Y/m/d") : null,
+                "start_pay" => $doctor->start_pay,
+                "driver_license_expiration" => $doctor->driver_license_expiration ? Carbon::parse($doctor->driver_license_expiration)->format("Y/m/d") : null,
+                "cpr_every_2_years" => $doctor->cpr_every_2_years,
+                "background_every_5_years" => $doctor->background_every_5_years,
+                "e_verify" => $doctor->e_verify,
+                "national_sex_offender_registry" => $doctor->national_sex_offender_registry,
+                "certificate_number" => $doctor->certificate_number,
+                "bacb_license_expiration" => $doctor->bacb_license_expiration ? Carbon::parse($doctor->bacb_license_expiration)->format("Y/m/d") : null,
+                "liability_insurance_annually" => $doctor->liability_insurance_annually,
+                "local_police_rec_every_5_years" => $doctor->local_police_rec_every_5_years,
+                "npi" => $doctor->npi,
+                "medicaid_provider" => $doctor->medicaid_provider,
 
-                        "ceu_hippa_annually" => $doctor->ceu_hippa_annually,
-                        "ceu_domestic_violence_no_expiration" => $doctor->ceu_domestic_violence_no_expiration,
-                        "ceu_security_awareness_annually" => $doctor->ceu_security_awareness_annually,
-                        "ceu_zero_tolerance_every_3_years" => $doctor->ceu_zero_tolerance_every_3_years,
-                        "ceu_hiv_bloodborne_pathogens_infection_control_no_expiration" => $doctor->ceu_hiv_bloodborne_pathogens_infection_control_no_expiration,
-                        "ceu_civil_rights_no_expiration" => $doctor->ceu_civil_rights_no_expiration,
+                "ceu_hippa_annually" => $doctor->ceu_hippa_annually,
+                "ceu_domestic_violence_no_expiration" => $doctor->ceu_domestic_violence_no_expiration,
+                "ceu_security_awareness_annually" => $doctor->ceu_security_awareness_annually,
+                "ceu_zero_tolerance_every_3_years" => $doctor->ceu_zero_tolerance_every_3_years,
+                "ceu_hiv_bloodborne_pathogens_infection_control_no_expiration" => $doctor->ceu_hiv_bloodborne_pathogens_infection_control_no_expiration,
+                "ceu_civil_rights_no_expiration" => $doctor->ceu_civil_rights_no_expiration,
 
-                        "school_badge" => $doctor->school_badge,
-                        "w_9_w_4_form" => $doctor->w_9_w_4_form,
-                        "contract" => $doctor->contract,
-                        "two_four_week_notice_agreement" => $doctor->two_four_week_notice_agreement,
-                        "credentialing_package_bcbas_only" => $doctor->credentialing_package_bcbas_only,
-                        "caqh_bcbas_only" => $doctor->caqh_bcbas_only,
-                        "contract_type" => $doctor->contract_type,
-                        "salary" => $doctor->salary,
+                "school_badge" => $doctor->school_badge,
+                "w_9_w_4_form" => $doctor->w_9_w_4_form,
+                "contract" => $doctor->contract,
+                "two_four_week_notice_agreement" => $doctor->two_four_week_notice_agreement,
+                "credentialing_package_bcbas_only" => $doctor->credentialing_package_bcbas_only,
+                "caqh_bcbas_only" => $doctor->caqh_bcbas_only,
+                "contract_type" => $doctor->contract_type,
+                "salary" => $doctor->salary,
 
-                    ],
+            ],
             // "full_name" =>$doctor->full_name,
             "bips" => BipCollection::make($bips),
             "bips" => $bips->map(function ($bip) {
-                return[
-                        "id" => $bip->id,
+                return [
+                    "id" => $bip->id,
                     "patient_id" => $bip->patient_id,
                     "doctor_id" => $bip->doctor_id,
                     "created_at" => $bip->created_at->format('Y-m-d H:i'),
@@ -184,7 +184,7 @@ class DoctorController extends Controller
             }),
             "notes_bcbas" => NoteBcbaCollection::make($notes_bcbas),
             "notes_bcbas" => $notes_bcbas->map(function ($notes_bcba) {
-                return[
+                return [
                     "patient_id" => $notes_bcba->patient_id,
                     "bip_id" => $notes_bcba->bip_id,
                     "location" => $notes_bcba->location,
@@ -197,26 +197,26 @@ class DoctorController extends Controller
                     "paybcba" => $notes_bcba->paybcba,
                     "meet_with_client_at" => $notes_bcba->meet_with_client_at,
                     "total_hours" => $notes_bcba->total_hours,
-                    'provider_name' => [
-                        'id' => $notes_bcba->provider_name,
-                        'name' => $notes_bcba->tecnico->name,
-                        'surname' => $notes_bcba->tecnico->surname,
-                        'npi' => $notes_bcba->tecnico->npi,
-                    ],
+                    // 'provider_name' => [
+                    //     'id' => $notes_bcba->provider_name,
+                    //     'name' => $notes_bcba->tecnico->name,
+                    //     'surname' => $notes_bcba->tecnico->surname,
+                    //     'npi' => $notes_bcba->tecnico->npi,
+                    // ],
 
                     "aba_supervisor" => $notes_bcba->aba_supervisor,
-                    'aba_supervisor' => [
-                        'id' => $notes_bcba->aba_supervisor,
-                        'name' => $notes_bcba->supervisor->name,
-                        'surname' => $notes_bcba->supervisor->surname,
-                        'npi' => $notes_bcba->supervisor->npi,
-                    ],
+                    // 'aba_supervisor' => [
+                    //     'id' => $notes_bcba->aba_supervisor,
+                    //     'name' => $notes_bcba->supervisor->name,
+                    //     'surname' => $notes_bcba->supervisor->surname,
+                    //     'npi' => $notes_bcba->supervisor->npi,
+                    // ],
                     "created_at" => $notes_bcba->created_at->format('Y-m-d H:i'),
                 ];
             }),
             "notes_rbts" => NoteRbtCollection::make($notes_rbts),
             "notes_rbts" => $notes_rbts->map(function ($notes_rbt) {
-                return[
+                return [
                     "patient_id" => $notes_rbt->patient_id,
                     "bip_id" => $notes_rbt->bip_id,
                     "provider_credential" => $notes_rbt->provider_credential,
@@ -245,7 +245,7 @@ class DoctorController extends Controller
             }),
             "patients" => PatientCollection::make($patients),
             "patients" => $patients->map(function ($patient) {
-                return[
+                return [
                     "id" => $patient->id,
                     "first_name" => $patient->first_name,
                     "patient_id" => $patient->patient_id,
@@ -285,9 +285,6 @@ class DoctorController extends Controller
             // ...
         ]);
 
-        if ($validator->fails()) {
-            return response()->json(['error' => $validator->messages()], 422);
-        }
 
         if ($request->hasFile('imagen')) {
             $path = Storage::putFile("staffs", $request->file('imagen'));
@@ -357,8 +354,8 @@ class DoctorController extends Controller
         //    }
         $user = User::findOrFail($id);
         $locations_user = DB::table('user_locations')
-        ->where('user_id', $id)
-        ->pluck('location_id');
+            ->where('user_id', $id)
+            ->pluck('location_id');
 
         return response()->json([
             "user" => UserResource::make($user),

@@ -119,6 +119,8 @@ Route::group(['middleware' => 'api'], function ($router) {
     // Claims
     require __DIR__ . '/api_routes/claims.php';
 
+    // Tests
+    require __DIR__ . '/api_routes/tests.php';
 
 
     //comandos desde la url del backend

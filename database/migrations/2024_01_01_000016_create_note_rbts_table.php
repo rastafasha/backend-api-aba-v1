@@ -11,8 +11,11 @@ class CreateNoteRbtsTable extends Migration
         Schema::create('note_rbts', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->foreignId('doctor_id')->nullable()->constrained('users')->nullOnDelete();
-            $table->string('patient_id')->nullable();
+            $table->foreignId('patient_id')->nullable()->constrained('users')->nullOnDelete();
+            $table->string('patient_identifier')->nullable();
             $table->foreignId('bip_id')->nullable()->constrained('bips')->nullOnDelete();
+            $table->foreignId('insurance_id')->nullable()->constrained('insurances')->nullOnDelete();
+            $table->string('insurance_identifier')->nullable();
             $table->string('pos')->nullable();
             $table->timestamp('session_date')->nullable();
             $table->time('time_in')->nullable();
@@ -40,10 +43,11 @@ class CreateNoteRbtsTable extends Migration
             $table->foreignId('supervisor_id')->nullable()->constrained('users')->nullOnDelete();
             $table->foreignId('supervisor_name')->nullable()->constrained('users')->nullOnDelete();
             $table->boolean('billed')->default(false);
-            $table->boolean('pay')->default(false);
-            // $table->string('md', 20)->nullable();
-            // $table->string('md2', 20)->nullable();
+            $table->boolean('paid')->default(false);
+            $table->string('md', 20)->nullable();
+            $table->string('md2', 20)->nullable();
             $table->enum('status', ['pending', 'ok', 'no', 'review'])->default('pending');
+            $table->text('summary_note')->nullable();
             $table->unsignedInteger('location_id')->nullable();
             $table->text('cpt_code')->nullable();
             $table->foreignId('pa_service_id')->nullable()->constrained('pa_services')->nullOnDelete();

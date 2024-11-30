@@ -36,7 +36,7 @@ class DeEscalationTechniqueController extends Controller
      */
     public function store(Request $request)
     {
-        $patient_is_valid = Patient::where("patient_id", $request->patient_id)->first();
+        $patient_is_valid = Patient::where("patient_identifier", $request->patient_identifier)->first();
 
         $request->request->add(["recomendation_lists" => json_encode($request->recomendation_lists)]);
 
@@ -64,7 +64,7 @@ class DeEscalationTechniqueController extends Controller
 
         return response()->json([
             "deEscalationTechnique" => $deEscalationTechnique,
-            "client_id" => $client_id,
+            // "client_id" => $client_id,
             "recomendation_lists" => json_decode($deEscalationTechnique-> recomendation_lists),
 
         ]);
@@ -79,9 +79,9 @@ class DeEscalationTechniqueController extends Controller
     }
 
 
-    public function showgbyPatientId($patient_id)
+    public function showgbyPatientId($patient_identifier)
     {
-        $deEscalationTechniquePatientIds = DeEscalationTechnique::where("patient_id", $patient_id)->orderBy("patient_id", "desc")->get();
+        $deEscalationTechniquePatientIds = DeEscalationTechnique::where("patient_identifier", $patient_identifier)->orderBy("patient_identifier", "desc")->get();
         return response()->json([
             "deEscalationTechniquePatientIds" => DeEscalationTechniqueCollection::make($deEscalationTechniquePatientIds)
 

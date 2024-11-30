@@ -9,6 +9,7 @@ use App\Models\Bip\ReductionGoal;
 use App\Models\Bip\FamilyEnvolment;
 use App\Models\Bip\SustitutionGoal;
 use App\Models\Bip\ConsentToTreatment;
+use App\Traits\CreatedAtFilterable;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Bip\MonitoringEvaluating;
 use App\Models\Bip\DeEscalationTechnique;
@@ -57,36 +58,37 @@ class Bip extends Model
 {
     use HasFactory;
     use SoftDeletes;
+    use CreatedAtFilterable;
 
     protected $fillable = [
         'type_of_assessment',
         'documents_reviewed',
         'client_id',
         'doctor_id',
-        'patient_id',
+        'patient_identifier',
         'background_information',
         'previus_treatment_and_result',
         'current_treatment_and_progress',
         'education_status',
         'phisical_and_medical_status',
-        'maladaptives',//json
+        'maladaptives', //json
         'assestment_conducted',
-        'assestment_conducted_options',//json
-        'prevalent_setting_event_and_atecedents',//json
-        'assestmentEvaluationSettings',//json
-        'interventions',//json
+        'assestment_conducted_options', //json
+        'prevalent_setting_event_and_atecedents', //json
+        'assestmentEvaluationSettings', //json
+        'interventions', //json
         'reduction_id',
         'strengths',
         'weakneses',
         'hypothesis_based_intervention',
 
         'phiysical_and_medical',
-        'phiysical_and_medical_status',//json
+        'phiysical_and_medical_status', //json
 
-        'tangibles',//json
-        'attention',//json
-        'escape',//json
-        'sensory',//json
+        'tangibles', //json
+        'attention', //json
+        'escape', //json
+        'sensory', //json
 
         //no borrar
         // 'behavior',
@@ -104,22 +106,22 @@ class Bip extends Model
     ];
 
     protected $casts = [
-        'documents_reviewed' => 'array',
-        'maladaptives' => 'array',
-        'assestment_conducted_options' => 'array',
-        'prevalent_setting_event_and_atecedents' => 'array',
-        'interventions' => 'array',
-        'tangibles' => 'array',
-        'attention' => 'array',
-        'escape' => 'array',
-        'sensory' => 'array',
-        'phiysical_and_medical_status' => 'array',
+        'documents_reviewed' => 'json',
+        'maladaptives' => 'json',
+        'assestment_conducted_options' => 'json',
+        'prevalent_setting_event_and_atecedents' => 'json',
+        'interventions' => 'json',
+        'tangibles' => 'json',
+        'attention' => 'json',
+        'escape' => 'json',
+        'sensory' => 'json',
+        'phiysical_and_medical_status' => 'json',
     ];
 
 
     public function patient()
     {
-        return $this->hasOne(Patient::class, 'patient_id');
+        return $this->hasOne(Patient::class, 'patient_identifier');
     }
 
     public function doctor()

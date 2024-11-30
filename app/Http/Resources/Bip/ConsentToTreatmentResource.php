@@ -17,7 +17,7 @@ class ConsentToTreatmentResource extends JsonResource
     {
         return [
             // "id"=>$this->resource->id,
-            "patient_id" => $this->resource->patient_id,
+            "patient_identifier" => $this->resource->patient_identifier,
             "client_id" => $this->resource->client_id,
             "bip_id" => $this->resource->bip_id,
             "analyst_signature" => $this->resource->analyst_signature ? env("APP_URL") . "storage/" . $this->resource->analyst_signature : null,

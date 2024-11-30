@@ -18,7 +18,7 @@ class PatientResource extends JsonResource
 
         return [
             "id" => $this->resource->id,
-            "patient_id" => $this->resource->patient_id,// en este caso el patient_id es ingresado manualmente ... // para la relacion con el id es client_id
+            "patient_identifier" => $this->resource->patient_identifier,// en este caso el patient_id es ingresado manualmente ... // para la relacion con el id es client_id
             "first_name" => $this->resource->first_name,
             "last_name" => $this->resource->last_name,
             "full_name" => $this->resource->first_name . ' ' . $this->resource->last_name,
@@ -46,21 +46,30 @@ class PatientResource extends JsonResource
             "summer_schedule" => $this->resource->summer_schedule,
             "diagnosis_code" => $this->resource->diagnosis_code,
             "special_note" => $this->resource->special_note,
+
             "patient_control" => $this->resource->patient_control,
 
+            "status" => $this->resource->status,
+
             //benefits
+            // "insuranceId" => $this->resource->insuranceId,
             "insurer_id" => $this->resource->insurer_id,
+            "insurance_identifier" => $this->resource->insurance_identifier,
+            // "insurer_secundary" => $this->resource->insurer_secundary,
+            "insurer_secondary_id" => $this->resource->insurer_secondary_id,
+            "insurance_secondary_identifier" => $this->resource->insurance_secondary_identifier,
+
 
 
             'insurances' => $this->resource->insurances,
                 'insurances' => [
                     // 'id'=> $this->resource->insurances->insurer_id,
-                    'insurer_name' => $this->resource->insurances->insurer_name,
+                    'name' => $this->resource->insurances->name,
                     'notes' => $this->resource->insurances-> notes ? : null,
                     'services' => $this->resource->insurances-> services ? : null,
                 ],
 
-                "location_id" => $this->resource->location_id,
+            "location_id" => $this->resource->location_id,
                     'locals' => [
                         // 'id'=> $this->resource->clinic->location_id,
                         'title' => $this->resource->locals->title,
@@ -76,10 +85,7 @@ class PatientResource extends JsonResource
 
 
 
-            "status" => $this->resource->status,
-            // "insuranceId"=>$this->resource->insuranceId,
-            // "insurer_secundary"=>$this->resource->insurer_secundary,
-            // "insuranceId_secundary"=>$this->resource->insuranceId_secundary,
+
             "elegibility_date" => $this->resource->elegibility_date ? Carbon::parse($this->resource->elegibility_date)->format("Y/m/d") : null,
 
             "pos_covered" => $this->resource->pos_covered ,
@@ -108,7 +114,7 @@ class PatientResource extends JsonResource
             "pay" => $this->resource->pay,
 
             //pas
-            "pa_assessments" => $this->resource->pa_assessments ? : null,
+            // "pa_assessments" => $this->resource->pa_assessments ? : null,
             // "pa_services"=>$this->resource->paServices,
 
             "rbt_home_id" => $this->resource->rbt_home_id,

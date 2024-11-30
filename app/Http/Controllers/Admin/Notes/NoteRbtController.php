@@ -31,10 +31,10 @@ class NoteRbtController extends Controller
         ]);
     }
 
-    public function showByPatientId($patient_id)
+    public function showByPatientId($patient_identifier)
     {
-        $note_rbts = NoteRbt::where("patient_id", $patient_id)->orderby('created_at', 'DESC')->get();
-        $patient = Patient::where("patient_id", $patient_id)->first();
+        $note_rbts = NoteRbt::where("patient_identifier", $patient_identifier)->orderby('created_at', 'DESC')->get();
+        $patient = Patient::where("patient_identifier", $patient_identifier)->first();
 
         return response()->json([
             // "note_rbts" => NoteRbtResource::make($note_rbts),
@@ -362,7 +362,7 @@ class NoteRbtController extends Controller
         $patient = null;
         $imagen = null;
         $imagenn = null;
-        $patient = Patient::where("patient_id", $request->patient_id)->first();
+        $patient = Patient::where("patient_identifier", $request->patient_identifier)->first();
         $doctor = User::where("id", $request->doctor_id)->first();
         $insurance = Insurance::get();
 
@@ -423,7 +423,7 @@ class NoteRbtController extends Controller
 
         if (
             $this->checkTimeConflict(
-                $request->patient_id,
+                $request->patient_identifier,
                 $request->session_date,
                 $request->time_in,
                 $request->time_out,
@@ -495,9 +495,18 @@ class NoteRbtController extends Controller
             "noteRbt" => NoteRbtResource::make($noteRbt),
 
 
-            "interventions" => json_decode($noteRbt-> interventions),
-            "maladaptives" => json_decode($noteRbt-> maladaptives),
-            "replacements" => json_decode($noteRbt-> replacements),
+            "interventions" =>
+            is_string($noteRbt->interventions)
+                ? json_decode($noteRbt->interventions)
+                : $noteRbt->interventions,
+            "maladaptives" =>
+            is_string($noteRbt->maladaptives)
+                ? json_decode($noteRbt->maladaptives)
+                : $noteRbt->maladaptives,
+            "replacements" =>
+            is_string($noteRbt->replacements)
+                ? json_decode($noteRbt->replacements)
+                : $noteRbt->replacements,
             // "provider_name"=>$noteRbt->provider_name,
             "provider_name" => $doctor->map(function ($provider_name) {
                 return[
@@ -523,9 +532,9 @@ class NoteRbtController extends Controller
         ]);
     }
 
-    public function showNoteRbtByPatient($patient_id)
+    public function showNoteRbtByPatient($patient_identifier)
     {
-        $noteRbt = NoteRbt::where("patient_id", $patient_id)->get();
+        $noteRbt = NoteRbt::where("patient_identifier", $patient_identifier)->get();
 
         return response()->json([
             // "noteRbt" => $noteRbt,
@@ -533,9 +542,9 @@ class NoteRbtController extends Controller
 
         ]);
     }
-    public function showReplacementsByPatient($patient_id)
+    public function showReplacementsByPatient($patient_identifier)
     {
-        $replacementGoals = SustitutionGoal::where("patient_id", $patient_id)->get();
+        $replacementGoals = SustitutionGoal::where("patient_identifier", $patient_identifier)->get();
 
         return response()->json([
             "replacementGoals" => $replacementGoals,
@@ -647,9 +656,18 @@ class NoteRbtController extends Controller
         return response()->json([
             "message" => 200,
             "noteRbt" => $noteRbt,
-            "interventions" => json_decode($noteRbt-> interventions),
-            "maladaptives" => json_decode($noteRbt-> maladaptives),
-            "replacements" => json_decode($noteRbt-> replacements),
+            "interventions" =>
+            is_string($noteRbt->interventions)
+                ? json_decode($noteRbt->interventions)
+                : $noteRbt->interventions,
+            "maladaptives" =>
+            is_string($noteRbt->maladaptives)
+                ? json_decode($noteRbt->maladaptives)
+                : $noteRbt->maladaptives,
+            "replacements" =>
+            is_string($noteRbt->replacements)
+                ? json_decode($noteRbt->replacements)
+                : $noteRbt->replacements,
         ]);
     }
 
@@ -682,20 +700,15 @@ class NoteRbtController extends Controller
     public function updateStatus(Request $request, $id)
     {
         $noteRbt = NoteRbt::findOrfail($id);
+        $noteRbt->billed = $request->billed;
+        $noteRbt->paid = $request->paid;
+        $noteRbt->md = $request->md;
+        $noteRbt->md2 = $request->md2;
         $noteRbt->status = $request->status;
         $noteRbt->update();
         return $noteRbt;
     }
-    public function updateModifier(Request $request, $id)
-    {
-        $noteRbt = NoteRbt::findOrfail($id);
-        $noteRbt->billed = $request->billed;
-        $noteRbt->pay = $request->pay;
-        $noteRbt->md = $request->md;
-        $noteRbt->md2 = $request->md2;
-        $noteRbt->update();
-        return $noteRbt;
-    }
+
 
     private function cleanDateString($dateString)
     {

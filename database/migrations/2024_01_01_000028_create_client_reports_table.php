@@ -12,7 +12,7 @@ class CreateClientReportsTable extends Migration
             $table->bigIncrements('id');
 
             // Patient and Provider Info
-            $table->string('patient_id', 155)->nullable();
+            $table->string('patient_identifier', 155)->nullable();
             $table->unsignedBigInteger('sponsor_id')->nullable();
             $table->foreignId('note_rbt_id')->nullable()->constrained('note_rbts')->nullOnDelete();
             $table->foreignId('note_bcba_id')->nullable()->constrained('note_bcbas')->nullOnDelete();

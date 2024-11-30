@@ -2,21 +2,9 @@
 
 namespace App\Models\Notes;
 
+use App\Models\Notes\Note;
 use Carbon\Carbon;
-use App\Models\User;
-use App\Models\Bip\Bip;
-use App\Models\Location;
-use App\Models\Notes\Traits\HasDoctor;
-use App\Models\Notes\Traits\HasProvider;
-use App\Models\Notes\Traits\HasSupervisor;
-use App\Models\Patient\Patient;
-use App\Models\PaService;
-use App\Utils\TimeCalculator;
-use App\Utils\UnitCalculator;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
  * @OA\Schema(
@@ -44,6 +32,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  *         @OA\Property(property="aggression", type="integer", example=1)
  *     ),
  *     @OA\Property(property="bip_id", type="integer", example=1),
+ *     @OA\Property(property="insurance_identifier", type="string", example="123456789"),
  *     @OA\Property(property="pos", type="string", example="12"),
  *     @OA\Property(property="environmental_changes", type="string", example="None noted"),
  *     @OA\Property(property="provider_credential", type="string", example="RBT"),
@@ -79,10 +68,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  *     ),
  *     @OA\Property(property="provider_name_g", type="string", nullable=true),
  *     @OA\Property(property="billed", type="integer", example=0),
- *     @OA\Property(property="pay", type="integer", example=0),
+ *     @OA\Property(property="paid", type="integer", example=0),
  *     @OA\Property(property="status", type="string", example="ok"),
- *     @OA\Property(property="md", type="string", nullable=true),
- *     @OA\Property(property="md2", type="string", nullable=true),
+ *     @OA\Property(property="summary_note", type="string", nullable=true),
  *     @OA\Property(property="cpt_code", type="string", example="97153"),
  *     @OA\Property(property="insuranceId", type="string", nullable=true),
  *     @OA\Property(
@@ -101,24 +89,28 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  *     @OA\Property(property="updated_at", type="string", format="date-time", example="2024-11-10 14:43:31")
  * )
  */
-class NoteRbt extends Model
+class NoteRbt extends Note
 {
-    use HasFactory;
-    use SoftDeletes;
-    use HasProvider;
-    use HasSupervisor;
-    use HasDoctor;
-
     protected $fillable = [
+        'insurance_id',
         'patient_id',
-        'doctor_id',
-        'bip_id',
-        'pos',
-        'session_date',
+        'patient_identifier',
         'time_in',
         'time_out',
         'time_in2',
         'time_out2',
+        'provider_id',
+        'location_id',
+        'session_date',
+        'cpt_code',
+        'status',
+        'billed',
+        'paid',
+        'doctor_id',
+        'bip_id',
+        'summary_note',
+        'pa_service_id',
+        'pos',
         'session_length_total',
         'environmental_changes',
         'maladaptives',
@@ -133,121 +125,22 @@ class NoteRbt extends Model
         'next_session_is_scheduled_for',
         // 'provider_name_g',
         // 'provider_name',
-        'provider_id',
         'provider_signature',
         'provider_credential',
         'supervisor_signature',
         'supervisor_name',
         'supervisor_id',
-        'billed',
-        'pay',
-        'md',
-        'md2',
-        'cpt_code',
-        'status',
-        'location_id',
-        'pa_service_id',
         'insuranceId',
-
-
     ];
 
     protected $casts = [
         'maladaptives' => 'json',
         'replacements' => 'json',
         'interventions' => 'json',
+        'billed' => 'boolean',
+        'paid' => 'boolean',
+        'session_date' => 'date:Y-m-d',
     ];
-
-    protected $appends = ['provider', 'supervisor', 'doctor'];
-
-    public function patient()
-    {
-        return $this->belongsTo(Patient::class, 'patient_id');
-    }
-
-    public function paService()
-    {
-        return $this->belongsTo(PaService::class, 'pa_service_id');
-    }
-
-    public function bips()
-    {
-        return $this->belongsTo(Bip::class, 'bip_id');
-    }
-
-    // public function maladaptive()
-    // {
-    //     return $this->hasMany(Maladaptive::class);
-    // }
-    // public function replacement()
-    // {
-    //     return $this->hasMany(Replacement::class);
-    // }
-
-    protected function getTotalMinutesAttribute()
-    {
-        $calculator = new TimeCalculator();
-        $totalMinutes = 0;
-
-        if ($this->time_in && $this->time_out) {
-            $totalMinutes = $calculator->timeDifference($this->time_in, $this->time_out, "minutes");
-        }
-
-        if ($this->time_in2 && $this->time_out2) {
-            $totalMinutes += $calculator->timeDifference($this->time_in2, $this->time_out2, "minutes");
-        }
-
-        return $totalMinutes;
-    }
-
-    protected function getTotalUnitsAttribute()
-    {
-        if ($this->total_minutes === null) {
-            return null;
-        }
-
-        $calculator = new UnitCalculator();
-        return $calculator->calculateUnits($this->total_minutes);
-    }
-
-    public function location()
-    {
-        return $this->belongsTo(Location::class, 'location_id');
-    }
-
-
-    // public function scopefilterAdvanceClientReport(
-    //     $query,
-    //     $provider_name_g,
-    //     $session_date,
-    //     $patient_id,
-    //     $doctor_id
-    //     ){
-
-
-    //     if($provider_name_g){
-    //         $query->whereHas("doctor", function($q)use($provider_name_g){
-    //             $q->where(DB::raw("CONCAT(users.name,' ',IFNULL(users.surname,''),' ',IFNULL(users.email,''))"),"like","%".$provider_name_g."%");
-
-    //         });
-    //     }
-
-    //     if($provider_name_g){
-    //         $query->where("provider_name_g", $provider_name_g);
-    //     }
-
-
-    //     if($patient_id){
-    //         $query->where("patient_id", $patient_id);
-    //     }
-
-    //     if($session_date ){
-    //         $query->where("noterbts", [
-    //             Carbon::parse($session_date)->format("Y-m-d"),
-    //         ]);
-    //     }
-    //     return $query;
-    // }
 
 
     public function scopefilterAdvanceClientReport(

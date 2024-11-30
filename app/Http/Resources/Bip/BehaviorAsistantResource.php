@@ -17,10 +17,14 @@ class BehaviorAsistantResource extends JsonResource
     {
         return [
             "id" => $this->resource->id,
-            "patient_id" => $this->resource->patient_id,
+            "patient_identifier" => $this->resource->patient_identifier,
             "client_id" => $this->resource->client_id,
             "bip_id" => $this->resource->bip_id,
-            "behavior_assistant_work_schedule" => json_decode($this->resource->behavior_assistant_work_schedule) ? : null,
+            // "behavior_assistant_work_schedule" => json_decode($this->resource->behavior_assistant_work_schedule) ? : null,
+            "behavior_assistant_work_schedule" =>
+            is_string($this->resource->behavior_assistant_work_schedule)
+                ? json_decode($this->resource->behavior_assistant_work_schedule) : $this->resource->family_envolment->caregivers_training_goals,
+
             "created_at" => $this->resource->created_at ? Carbon::parse($this->resource->created_at)->format("Y-m-d h:i A") : null,
 
         ];

@@ -38,7 +38,7 @@ class ConsentToTreatmentController extends Controller
      */
     public function store(Request $request)
     {
-        $patient_is_valid = Patient::where("patient_id", $request->patient_id)->first();
+        $patient_is_valid = Patient::where("patient_identifier", $request->patient_identifier)->first();
 
         if ($request->hasFile('imagen')) {
             $path = Storage::putFile("signatures", $request->file('imagen'));
@@ -83,16 +83,17 @@ class ConsentToTreatmentController extends Controller
     {
         $consentToTreatment = ConsentToTreatment::findOrFail($id);
 
+
         if ($request->hasFile('imagen')) {
-            if ($bip->analyst_signature) {
-                Storage::delete($bip->analyst_signature);
+            if ($consentToTreatment->analyst_signature) {
+                Storage::delete($consentToTreatment->analyst_signature);
             }
             $path = Storage::putFile("signatures", $request->file('imagen'));
             $request->request->add(["analyst_signature" => $path]);
         }
         if ($request->hasFile('imagenn')) {
-            if ($bip->parent_guardian_signature) {
-                Storage::delete($bip->parent_guardian_signature);
+            if ($consentToTreatment->parent_guardian_signature) {
+                Storage::delete($consentToTreatment->parent_guardian_signature);
             }
             $path = Storage::putFile("signatures", $request->file('imagenn'));
             $request->request->add(["parent_guardian_signature" => $path]);
@@ -135,9 +136,9 @@ class ConsentToTreatmentController extends Controller
     }
 
 
-    public function showgbyPatientId($patient_id)
+    public function showgbyPatientId($patient_identifier)
     {
-        $consentToTreatmentPatientIds = ConsentToTreatment::where("patient_id", $patient_id)->orderBy("patient_id", "desc")->get();
+        $consentToTreatmentPatientIds = ConsentToTreatment::where("patient_identifier", $patient_identifier)->orderBy("patient_identifier", "desc")->get();
         return response()->json([
             "consentToTreatmentPatientIds" => ConsentToTreatmentCollection::make($consentToTreatmentPatientIds)
 

@@ -17,12 +17,13 @@ class InsuranceResource extends JsonResource
     {
         return [
             "id" => $this->resource->id,
-            "insurer_name" => $this->resource->insurer_name,
+            "name" => $this->resource->name,
             'services' => $this->resource->services ?? null,
             'notes' => $this->resource->notes ?? null,
             // 'services'=> json_decode($this->resource-> services) ? : null,//trae el json convertido para manipular
             // 'notes'=> json_decode($this->resource-> notes) ? : null,//trae el json convertido para manipular
             "payer_id" => $this->resource->payer_id,
+            "is_self_subscriber" => $this->resource->is_self_subscriber,
             "street" => $this->resource->street,
             "street2" => $this->resource->street2,
             "city" => $this->resource->city,

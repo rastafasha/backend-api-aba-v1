@@ -11,7 +11,7 @@ class CreatePatientsTable extends Migration
         Schema::create('patients', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('location_id')->nullable();
-            $table->string('patient_id')->nullable();
+            $table->string('patient_identifier')->nullable();
             $table->string('first_name', 250);
             $table->string('last_name', 250);
             $table->string('email', 250)->nullable();
@@ -37,7 +37,10 @@ class CreatePatientsTable extends Migration
             $table->string('summer_schedule')->nullable();
             $table->text('special_note')->nullable();
             $table->foreignId('insurer_id')->nullable()->constrained('insurances')->nullOnDelete();
-            $table->string('insuranceId', 50)->nullable();
+            $table->foreignId('insurer_secondary_id')->nullable()->constrained('insurances')->nullOnDelete();
+            // $table->string('insuranceId', 50)->nullable();
+            $table->string('insurance_identifier')->nullable();
+            $table->string('insurance_secondary_identifier')->nullable();
             $table->string('eqhlid')->nullable();
             $table->timestamp('elegibility_date')->nullable();
             $table->json('pos_covered')->nullable();
@@ -53,9 +56,9 @@ class CreatePatientsTable extends Migration
                 'waitintOnServices', 'waitintOnStaff', 'waitintOnSchool'
             ])->default('inactive');
             $table->string('patient_control')->nullable();
-            $table->json('pa_assessments')->nullable();
-            $table->string('compayment_per_visit')->nullable();
-            $table->string('insurer_secundary', 50)->nullable();
+            // $table->json('pa_assessments')->nullable();
+            // $table->string('compayment_per_visit')->nullable();
+            // $table->string('insurer_secundary', 50)->nullable();
 
             // Status enums
             $table->enum('welcome', ['waiting', 'reviewing', 'psycho eval', 'requested', 'need new', 'yes', 'no', '2 insurance'])->default('waiting');
@@ -79,8 +82,10 @@ class CreatePatientsTable extends Migration
             $table->unsignedBigInteger('clin_director_id')->nullable();
 
             // Flags
-            $table->string('telehealth', 50)->default('false');
-            $table->string('pay', 50)->default('false');
+            // $table->string('telehealth', 50)->default('false');
+            $table->boolean('telehealth')->default(false);
+            // $table->string('pay', 50)->default('false');
+            $table->boolean('pay')->default(false);
 
             $table->timestamps();
             $table->softDeletes();

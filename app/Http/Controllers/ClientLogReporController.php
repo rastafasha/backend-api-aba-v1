@@ -54,7 +54,7 @@ class ClientLogReporController extends Controller
         ->get();
 
         // filtro buscador
-        $patient_id = $request->patient_id;
+        $patient_identifier = $request->patient_identifier;
         $name_patient = $request->search;
         $email_patient = $request->search;
         $status = $request->status;
@@ -66,7 +66,7 @@ class ClientLogReporController extends Controller
         // $date = $request->date;
 
         $patients = Patient::filterAdvanceClientlog(
-            $patient_id,
+            $patient_identifier,
             $name_patient,
             $email_patient,
             $status,
@@ -136,15 +136,9 @@ class ClientLogReporController extends Controller
             // "patients" => PatientCollection::make($patients),
             "patients" => $patients->map(function ($patient) {
                 return[
-                    // "cpt_code"=> $noteBcba->cpt_code,
-                    // 'tecnico'=>$noteBcba-> tecnico,
-                    // 'tecnico'=>[
-                    //     'name'=> $noteBcba->tecnico->name,
-                    //     'surname'=> $noteBcba->tecnico->surname,
-                    //     'npi'=> $noteBcba->tecnico->npi,
-                    // ],
+
                     "id" => $patient->id,
-                    "patient_id" => $patient->patient_id,
+                    "patient_identifier" => $patient->patient_identifier,
                     "first_name" => $patient->first_name,
                     "last_name" => $patient->last_name,
                     "full_name" => $patient->first_name . ' ' . $patient->last_name,
@@ -181,7 +175,7 @@ class ClientLogReporController extends Controller
                     'insurances' => $patient-> insurances,
                         'insurances' => [
                             // 'id'=> $patient->insurances->insurer_id,
-                            'insurer_name' => $patient->insurances->insurer_name,
+                            'name' => $patient->insurances->name,
                             'notes' => json_decode($patient->insurances-> notes) ? : null,
                             'services' => json_decode($patient->insurances-> services) ? : null,
                         ],
@@ -189,11 +183,9 @@ class ClientLogReporController extends Controller
 
                     "status" => $patient->status,
                     "insuranceId" => $patient->insuranceId,
-                    // "insurer_secundary"=>$patient->insurer_secundary,
-                    // "insuranceId_secundary"=>$patient->insuranceId_secundary,
                     "elegibility_date" => $patient->elegibility_date ? Carbon::parse($patient->elegibility_date)->format("Y/m/d") : null,
-                    // "pos_covered"=>$patient->pos_covered ,
-                    "pos_covered" => json_decode($patient->pos_covered) ? : null,
+                    "pos_covered" => $patient->pos_covered ,
+                    // "pos_covered" => json_decode($patient->pos_covered) ? : null,
                     "deductible_individual_I_F" => $patient->deductible_individual_I_F,
                     "balance" => $patient->balance,
                     "coinsurance" => $patient->coinsurance,
@@ -219,7 +211,7 @@ class ClientLogReporController extends Controller
 
                     //pas
                     // 'pa_assessments'=> json_decode(str_replace('{\\', '', $patient->pa_assessments)),
-                    'pa_assessments' => json_decode($patient->pa_assessments),
+                    // 'pa_assessments' => json_decode($patient->pa_assessments),
 
 
                     "location_id" => $patient->location_id,

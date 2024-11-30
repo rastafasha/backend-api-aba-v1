@@ -11,7 +11,7 @@ class CreateMonitoringEvaluatingsTable extends Migration
         Schema::create('monitoring_evaluatings', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->foreignId('bip_id')->nullable()->constrained('bips')->nullOnDelete();
-            $table->string('patient_id')->nullable();
+            $table->string('patient_identifier')->nullable();
             $table->foreignId('client_id')->nullable()->constrained('users')->nullOnDelete();
             $table->text('treatment_fidelity')->nullable();
             $table->json('rbt_training_goals')->nullable();

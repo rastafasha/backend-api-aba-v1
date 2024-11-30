@@ -14,7 +14,7 @@ class PatientSeeder extends Seeder
                 'last_name' => 'Doe',
                 'email' => 'john@example.com',
                 'phone' => '123-555-0123',
-                'patient_id' => 'PAT001',
+                'patient_identifier' => 'PAT001',
                 'birth_date' => '2015-01-01',
                 'gender' => 1,
                 'address' => '789 Patient St',
@@ -27,6 +27,7 @@ class PatientSeeder extends Seeder
                 'relationship' => 'Mother',
                 'location_id' => 1,
                 'insurer_id' => 1,
+                'insurance_identifier' => '123456789',
                 'rbt_home_id' => 5, // RBT1
                 'bcba_home_id' => 3, // BCBA1
                 'diagnosis_code' => 'F84.0',
@@ -50,7 +51,7 @@ class PatientSeeder extends Seeder
                 'last_name' => 'Smith',
                 'email' => 'jane@example.com',
                 'phone' => '123-555-0124',
-                'patient_id' => 'PAT002',
+                'patient_identifier' => 'PAT002',
                 'birth_date' => '2016-02-02',
                 'gender' => 2,
                 'address' => '987 Patient Ave',
@@ -63,11 +64,12 @@ class PatientSeeder extends Seeder
                 'relationship' => 'Father',
                 'location_id' => 2,
                 'insurer_id' => 2,
+                'insurance_identifier' => '987654321',
                 'rbt_home_id' => 6, // RBT2
                 'bcba_home_id' => 4, // BCBA2
                 'diagnosis_code' => 'F84.0',
                 'education' => '3rd Grade',
-                'pos_covered' => '["03", "12"]',
+                'pos_covered' => ["03", "12"],
                 'welcome' => 'yes',
                 'consent' => 'yes',
                 'insurance_card' => 'yes',

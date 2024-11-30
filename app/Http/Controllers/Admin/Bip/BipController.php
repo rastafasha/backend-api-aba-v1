@@ -23,13 +23,13 @@ class BipController extends Controller
         $this->unitCalculationService = $unitCalculationService;
     }
 
-    public function getAvailableUnits(Request $request, string $patientId, string $cptCode)
+    public function getAvailableUnits(Request $request, string $patient_identifier, string $cptCode)
     {
         $provider = $request->query('provider');
-        $availableUnits = $this->unitCalculationService->calculateAvailableUnits($patientId, $cptCode, $provider);
+        $availableUnits = $this->unitCalculationService->calculateAvailableUnits($patient_identifier, $cptCode, $provider);
 
         return response()->json([
-            'patient_id' => $patientId,
+            'patient_identifier' => $patient_identifier,
             'cpt_code' => $cptCode,
             'provider' => $provider,
             'available_units' => $availableUnits
@@ -92,7 +92,7 @@ class BipController extends Controller
     public function store(Request $request)
     {
         $patient = null;
-        $patient = Patient::where("patient_id", $request->patient_id)->first();
+        $patient = Patient::where("patient_identifier", $request->patient_identifier)->first();
         $doctor = User::where("id", $request->doctor_id)->first();
 
         $request->request->add(["documents_reviewed" => json_encode($request->documents_reviewed)]);
@@ -152,7 +152,7 @@ class BipController extends Controller
                 ? json_decode($bip->pos_covered)
                 : $bip->pos_covered,
             "client_id" => $bip->client_id,
-            "patient_id" => $bip->patient_id,
+            "patient_identifier" => $bip->patient_identifier,
             "doctor_id" => $bip->doctor_id,
             "doctor" => $bip->doctor_id ?
                 [
@@ -182,21 +182,21 @@ class BipController extends Controller
         ]);
     }
     //se obtiene el usuario
-    public function showProfile($patient_id)
+    public function showProfile($patient_identifier)
     {
-        $patient = Patient::where("patient_id", $patient_id)->first();
+        $patient = Patient::where("patient_identifier", $patient_identifier)->first();
         if (!$patient) {
             return response()->json([
                 'error' => 'Patient not found'
             ], 404);
         }
 
-        $paServices = $this->getFormattedPaServices($patient_id);
+        $paServices = $this->getFormattedPaServices($patient_identifier);
 
         return response()->json([
-            "patient" => $patient->patient_id ? [
+            "patient" => $patient->patient_identifier ? [
                 "id" => $patient->id,
-                "patient_id" => $patient->patient_id,
+                "patient_identifier" => $patient->patient_identifier,
                 "location_id" => $patient->location_id,
                 "first_name" => $patient->first_name,
                 "last_name" => $patient->last_name,
@@ -214,20 +214,21 @@ class BipController extends Controller
                 "pa_services" => $paServices,
                 "diagnosis_code" => $patient->diagnosis_code,
                 "insurer_id" => $patient->insurer_id, // el id interno del insuerer
-                "insuranceId" => $patient->insuranceId, // el id externo (o code) del insuerer
+                // "insuranceId" => $patient->insuranceId, // el id externo (o code) del insuerer
+                "insurance_identifier" => $patient->insurance_identifier,
             ] : null
         ]);
     }
 
     //se obtiene el bip del usuario
-    public function showbyUser($patient_id)
+    public function showbyUser($patient_identifier)
     {
-        $bip = Bip::where("patient_id", $patient_id)->first();
+        $bip = Bip::where("patient_identifier", $patient_identifier)->first();
         // $reduction_goal = ReductionGoal::where("patient_id", $patient_id)->first();
 
 
         return response()->json([
-            "patient_id" => $bip->patient_id,
+            "patient_identifier" => $bip->patient_identifier,
             // "bip" => $bip,
             "bip" => BipResource::make($bip),
             "type_of_assessment" => $bip->type_of_assessment,
@@ -280,12 +281,12 @@ class BipController extends Controller
 
         ]);
     }
-    public function showbyUserPatientId($patient_id)
+    public function showbyUserPatientId($patient_identifier)
     {
-        $bip = Bip::where("patient_id", $patient_id)->first();
+        $bip = Bip::where("patient_identifier", $patient_identifier)->first();
         $goalsmaladaptive = ReductionGoal::where("maladaptive", $bip->maladaptive)
             ->orderBy("id", "desc")->get();
-        $reduction_goal = ReductionGoal::where("patient_id", $patient_id)->first();
+        $reduction_goal = ReductionGoal::where("patient_identifier", $patient_identifier)->first();
 
 
         return response()->json([
@@ -341,18 +342,18 @@ class BipController extends Controller
         ]);
     }
 
-    public function showBipPatientIdProfile($patient_id)
+    public function showBipPatientIdProfile($patient_identifier)
     {
-        $bip = Bip::where("patient_id", $patient_id)->first();
-        $reduction_goal = ReductionGoal::where("patient_id", $patient_id)->first();
-        $patient = Patient::where("patient_id", $patient_id)->first();
+        $bip = Bip::where("patient_identifier", $patient_identifier)->first();
+        $reduction_goal = ReductionGoal::where("patient_identifier", $patient_identifier)->first();
+        $patient = Patient::where("patient_identifier", $patient_identifier)->first();
         if (!$patient) {
             return response()->json([
                 'error' => 'Patient not found'
             ], 404);
         }
 
-        $paServices = $this->getFormattedPaServices($patient_id);
+        $paServices = $this->getFormattedPaServices($patient_identifier);
 
         return response()->json([
             "id" => $bip->id,
@@ -372,34 +373,42 @@ class BipController extends Controller
             "doctor_id" => $bip->doctor_id,
             "patient" => $patient->id ? [
                 "id" => $patient->id,
-                "patient_id" => $patient->patient_id,
+                "patient_identifier" => $patient->patient_identifier,
                 "location_id" => $patient->location_id,
                 "first_name" => $patient->first_name,
                 "last_name" => $patient->last_name,
+                "birth_date" => $patient->birth_date,
                 "diagnosis_code" => $patient->diagnosis_code,
                 "pos_covered" =>
                 is_string($patient->pos_covered)
                     ? json_decode($patient->pos_covered)
                     : $patient->pos_covered,
-                "pa_services" => $paServices,
                 "pa_assessments" => json_encode($paServices),
+                "pa_services" => $paServices,
                 "insurer_id" => $patient->insurer_id,
-                "insuranceId" => $patient->insuranceId,
+                // "insuranceId" => $patient->insuranceId,
+                "insurance_identifier" => $patient->insurance_identifier,
             ] : null,
         ]);
     }
 
-    public function showBipPatientIdProfilePdf($patient_id)
+    public function showBipPatientIdProfilePdf($patient_identifier)
     {
-        $bip = Bip::where("patient_id", $patient_id)->first();
-        $reduction_goal = ReductionGoal::where("patient_id", $patient_id)->first();
-        $patient = Patient::where("patient_id", $patient_id)->first();
+        $bip = Bip::where("patient_identifier", $patient_identifier)->first();
+        $reduction_goal = ReductionGoal::where("patient_identifier", $patient_identifier)->first();
+        $patient = Patient::where("patient_identifier", $patient_identifier)->first();
 
         return response()->json([
             "bip" => BipResource::make($bip),
+            "maladaptives" =>
+            is_string($bip->maladaptives)
+                ? json_decode($bip->maladaptives)
+                : $bip->maladaptives,
+
+
             "patient" => $patient->id ? [
                 "id" => $patient->id,
-                "patient_id" => $patient->patient_id,
+                "patient_identifier" => $patient->patient_identifier,
                 "first_name" => $patient->first_name,
                 "last_name" => $patient->last_name,
                 "age" => $patient->age,
@@ -519,12 +528,12 @@ class BipController extends Controller
     /**
      * Get formatted PA services for a patient
      *
-     * @param string $patient_id
+     * @param string $patient_identifier
      * @return array
      */
-    private function getFormattedPaServices($patient_id)
+    private function getFormattedPaServices($patient_identifier)
     {
-        $patient = Patient::where("patient_id", $patient_id)->first();
+        $patient = Patient::where("patient_identifier", $patient_identifier)->first();
 
         if (!$patient) {
             return [];
@@ -532,16 +541,14 @@ class BipController extends Controller
 
         return $patient->paServices()
             ->get()
-            ->map(function ($service) use ($patient_id) {
+            ->map(function ($service) use ($patient_identifier) {
                 return [
                     'id' => $service->id,
                     'pa_services' => $service->pa_services,
                     'cpt' => $service->cpt,
                     'n_units' => $service->n_units,
-                    'available_units' => $this->unitCalculationService->calculateAvailableUnits(
-                        $patient_id,
-                        $service->id,
-                    ),
+                    'available_units' => $service->available_units,
+                    'spent_units' => $service->spent_units,
                     'start_date' => $service->start_date->format('Y-m-d'),
                     'end_date' => $service->end_date->format('Y-m-d'),
                 ];

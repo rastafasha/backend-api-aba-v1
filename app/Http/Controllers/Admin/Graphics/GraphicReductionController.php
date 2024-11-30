@@ -79,10 +79,10 @@ class GraphicReductionController extends Controller
     }
 
 
-    public function showbyPatientId(Request $request, $patient_id)
+    public function showbyPatientId(Request $request, $patient_identifier)
     {
 
-        $noteRbt = NoteRbt::where("patient_id", $request->patient_id)->get();
+        $noteRbt = NoteRbt::where("patient_identifier", $request->patient_identifier)->get();
 
 
         return response()->json([
@@ -98,9 +98,9 @@ class GraphicReductionController extends Controller
         ]);
     }
 
-    public function showPatientId($patient_id)
+    public function showPatientId($patient_identifier)
     {
-        $patient = Patient::where("patient_id", $patient_id)->first();
+        $patient = Patient::where("patient_identifier", $patient_identifier)->first();
 
 
         return response()->json([
@@ -112,24 +112,24 @@ class GraphicReductionController extends Controller
 
 
 
-    public function showGragphicbyMaladaptive(Request $request, string $maladaptives, $patient_id)
+    public function showGragphicbyMaladaptive(Request $request, string $maladaptives, $patient_identifier)
     {
         // Check if the patient exists
-        $patient_is_valid = NoteRbt::where("patient_id", $request->patient_id)->first();
-        // $patient = Patient::where("patient_id", $request->patient_id)->first();
-        $notebypatient = NoteRbt::where("patient_id", $request->patient_id)
+        $patient_is_valid = NoteRbt::where("patient_identifier", $request->patient_identifier)->first();
+        // $patient = Patient::where("patient_identifier", $request->patient_identifier)->first();
+        $notebypatient = NoteRbt::where("patient_identifier", $request->patient_identifier)
             ->get();
 
         // Retrieve all NoteRbt records that match the given maladaptive behavior type and patient ID
         $noteRbt = NoteRbt::where('maladaptives', 'LIKE', '%' . $maladaptives . '%')
-            ->where("patient_id", $patient_id)
+            ->where("patient_identifier", $patient_identifier)
             ->get();
 
 
         // Retrieve all unique session dates from the NoteRbt records
         // $sessions = NoteRbt::pluck('session_date'); // trae toda las fechas
 
-        $sessions = NoteRbt::where('patient_id', [$request->patient_id])->get();
+        $sessions = NoteRbt::where('patient_identifier', [$request->patient_identifier])->get();
 
         //trae la primera y ultima fecha de la semana
         $week_session = NoteRbt::whereNotNull('session_date')->get();
@@ -188,6 +188,37 @@ class GraphicReductionController extends Controller
                 $number_of_occurrences += $maladaptive->number_of_occurrences;
             }
             $maladaptivesCollection->push($number_of_occurrences);
+
+            $maladaptives = json_decode($item->maladaptives, false);
+
+            $mald = json_decode($maladaptives, true);
+            foreach ($mald as $m) {
+                foreach ($m as $k => $v) {
+                    // echo "$k - $v\n";
+                }
+            }
+            function getWeekNumber($session_date)
+            {
+                $d = new DateTime($session_date);
+                return $d->format("W");
+            }
+
+            // Define the value you want to filter by
+            $filter_value = $maladaptive_behavior;
+            // Log::debug("filter_value: " . $filter_value);
+
+            // Filter the maladaptives array
+            $filtered_maladaptives = array_filter($mald, function ($maladaptive) use ($filter_value) {
+                return $maladaptive['maladaptive_behavior'] == $filter_value;
+            });
+
+
+            $first_date = $sessions->first();
+
+            // $first_date = new DateTime('2024-03-07'); // create a DateTime object for the first date
+
+            $last_date->add(new DateInterval('P7D')); // add 7 days to the first date
+            // echo $last_date->format('Y-m-d'); // print the resulting date in the desired format
         }
 
         // Log::debug("JSON strings: " . json_encode($json_strings, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT));
@@ -196,41 +227,16 @@ class GraphicReductionController extends Controller
 
 
         // Convert maladaptives from string to JSON array
-        $maladaptives = json_decode($item->maladaptives, false);
+        // $maladaptives = json_decode($item->maladaptives, false);
         // Log::debug("maladaptives: " . $maladaptives);
 
 
+        $filtered_maladaptives = []; // Initialize as an empty array
 
-        $mald = json_decode($maladaptives, true);
-        foreach ($mald as $m) {
-            foreach ($m as $k => $v) {
-                // echo "$k - $v\n";
-            }
-        }
+
 
 
         //calcular la semana
-        function getWeekNumber($session_date)
-        {
-            $d = new DateTime($session_date);
-            return $d->format("W");
-        }
-
-        // Define the value you want to filter by
-        $filter_value = $maladaptive_behavior;
-        Log::debug("filter_value: " . $filter_value);
-
-        // Filter the maladaptives array
-        $filtered_maladaptives = array_filter($mald, function ($maladaptive) use ($filter_value) {
-            return $maladaptive['maladaptive_behavior'] == $filter_value;
-        });
-
-        $first_date = $sessions->first();
-
-        // $first_date = new DateTime('2024-03-07'); // create a DateTime object for the first date
-
-        $last_date->add(new DateInterval('P7D')); // add 7 days to the first date
-        // echo $last_date->format('Y-m-d'); // print the resulting date in the desired format
 
 
         return response()->json([
@@ -271,20 +277,20 @@ class GraphicReductionController extends Controller
 
 
 
-    public function showGragphicbyReplacement(Request $request, string $replacements, $patient_id)
+    public function showGragphicbyReplacement(Request $request, string $replacements, $patient_identifier)
     {
         // Check if the patient exists
-        $patient_is_valid = NoteRbt::where("patient_id", $request->patient_id)->first();
-        $notebypatient = NoteRbt::where("patient_id", $request->patient_id)
+        $patient_is_valid = NoteRbt::where("patient_identifier", $request->patient_identifier)->first();
+        $notebypatient = NoteRbt::where("patient_identifier", $request->patient_identifier)
             ->get();
         // Retrieve all NoteRbt records that match the given maladaptive behavior type and patient ID
         $noteRbtGoal = NoteRbt::where('replacements', 'LIKE', '%' . $replacements . '%')
-            ->where("patient_id", $patient_id)
+            ->where("patient_identifier", $patient_identifier)
             ->get();
 
         $searchTerm = 'sustitution_status_sto';
         $sustitutionStatus = SustitutionGoal::where('goalstos', 'LIKE', '%' . $searchTerm . '%')
-            ->where("patient_id", $patient_id)
+            ->where("patient_identifier", $patient_identifier)
             ->first();
 
         $sustitutionStatusStoValues = [];
@@ -315,7 +321,7 @@ class GraphicReductionController extends Controller
 
         // Retrieve all unique session dates from the NoteRbt records
         // $sessions = NoteRbt::pluck('session_date'); // trae toda las fechas
-        $sessions = NoteRbt::where('patient_id', [$request->patient_id])->get();
+        $sessions = NoteRbt::where('patient_identifier', [$request->patient_identifier])->get();
 
         //trae la primera y ultima fecha de la semana
         $week_session = NoteRbt::whereNotNull('session_date')->get();
@@ -374,43 +380,46 @@ class GraphicReductionController extends Controller
                 $total_trials += $replacement->total_trials;
             }
             $replacementsCollection->push($total_trials);
-        }
 
-        // Convert replacements from string to JSON array
-        $replacements = json_decode($item->replacements, false);
-        Log::debug("replacements: " . $replacements);
-
+            // Convert replacements from string to JSON array
+            $replacements = json_decode($item->replacements, false);
+            Log::debug("replacements: " . $replacements);
 
 
-        $goa = json_decode($replacements, true);
-        foreach ($goa as $g) {
-            foreach ($g as $k => $v) {
-                // echo "$k - $v\n";
+
+            $goa = json_decode($replacements, true);
+            foreach ($goa as $g) {
+                foreach ($g as $k => $v) {
+                    // echo "$k - $v\n";
+                }
             }
+            // Define the value you want to filter by
+            $filter_value1 = $goal;
+            // Log::debug("filter_value: " . $filter_value1);
+
+            // Filter the maladaptives array
+            $filtered_goals = array_filter($goa, function ($goal) use ($filter_value1) {
+                return $goal['goal'] == $filter_value1;
+            });
+
+            $first_date = $sessions->first();
+
+            // $first_date = new DateTime('2024-03-07'); // create a DateTime object for the first date
+
+            $last_date->add(new DateInterval('P7D')); // add 7 days to the first date
+            // echo $last_date->format('Y-m-d'); // print the resulting date in the desired format
         }
 
 
 
 
-        // Define the value you want to filter by
-        $filter_value1 = $goal;
-        Log::debug("filter_value: " . $filter_value1);
-
-        // Filter the maladaptives array
-        $filtered_goals = array_filter($goa, function ($goal) use ($filter_value1) {
-            return $goal['goal'] == $filter_value1;
-        });
-
-        $first_date = $sessions->first();
-
-        // $first_date = new DateTime('2024-03-07'); // create a DateTime object for the first date
-
-        $last_date->add(new DateInterval('P7D')); // add 7 days to the first date
-        // echo $last_date->format('Y-m-d'); // print the resulting date in the desired format
 
 
 
 
+        $filtered_data = [];
+        $filtered_goals = [];
+        $filtered_names = [];
 
         return response()->json([
 
