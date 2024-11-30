@@ -24,8 +24,13 @@ class PaServiceWorkflowTest extends TestCase
         $this->location = Location::factory()->create();
     }
 
+    
+
     public function test_can_create_patient_with_pa_services()
     {
+        $startDate = $this->faker->date();
+        $endDate = $this->faker->date('Y-m-d', '+1 week'); // Ensure end date is after start date
+
         $patientData = [
             'first_name' => $this->faker->firstName,
             'last_name' => $this->faker->lastName,
