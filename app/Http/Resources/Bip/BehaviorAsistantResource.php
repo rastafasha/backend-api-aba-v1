@@ -17,7 +17,7 @@ class BehaviorAsistantResource extends JsonResource
     {
         return [
             "id" => $this->resource->id,
-            "patient_id" => $this->resource->patient_id,
+            "patient_identifier" => $this->resource->patient_identifier,
             "client_id" => $this->resource->client_id,
             "bip_id" => $this->resource->bip_id,
             // "behavior_assistant_work_schedule" => json_decode($this->resource->behavior_assistant_work_schedule) ? : null,

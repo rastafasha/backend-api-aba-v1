@@ -20,6 +20,7 @@ class NoteRbtFactory extends Factory
 
         return [
             'patient_id' => \App\Models\Patient\Patient::factory(),
+            'patient_identifier' => \App\Models\Patient\Patient::factory(),
             'provider_id' => User::factory(),
             'supervisor_id' => User::factory(),
             'doctor_id' => User::factory(),

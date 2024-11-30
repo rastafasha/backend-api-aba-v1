@@ -11,7 +11,7 @@ class ReductionGoalsSeeder extends Seeder
     {
         ReductionGoal::create([
             'bip_id' => 1,
-            'patient_id' => 1,
+            'patient_identifier' => "PAT001",
             'client_id' => 1,
             'current_status' => 'test',
             'maladaptive' => 'test',

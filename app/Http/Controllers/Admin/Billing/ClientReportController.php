@@ -104,18 +104,18 @@ class ClientReportController extends Controller
         $size_pagination = 50;
         $name_doctor = $request->search;
         $session_date = $request->session_date;
-        $patient_id = $request->patient_id;
+        $patient_identifier = $request->patient_identifier;
         $id = $request->provider_id;
         $provider_id = $request->provider_id;
         $supervisor_name = $request->supervisor_name;
 
-        $patient = Patient::where("patient_id", $patient_id)->first();
+        $patient = Patient::where("patient_identifier", $patient_identifier)->first();
 
         $startDate = $request->date_start;
         $endDate = $request->date_end;
 
-        $noteBcba = NoteBcba::where("patient_id", $patient_id);
-        $noteRbt = NoteRbt::where("patient_id", $patient_id);
+        $noteBcba = NoteBcba::where("patient_id", $patient->id);
+        $noteRbt = NoteRbt::where("patient_id", $patient->id);
         if ($startDate && $endDate) {
             $noteBcba->whereBetween('session_date', [$startDate, $endDate]);
             $noteRbt->whereBetween('session_date', [$startDate, $endDate]);
@@ -147,7 +147,7 @@ class ClientReportController extends Controller
             $noteRbt = $noteRbt->orderBy('session_date', 'desc')->paginate($size_pagination);
         }
 
-        $tecnicoRbts = NoteRbt::where("patient_id", $patient_id)
+        $tecnicoRbts = NoteRbt::where("patient_id", $patient->id)
             ->with('doctor', 'desc')
             ->where('provider_id', $id)
             ->orderby('session_date', 'desc')
@@ -206,7 +206,7 @@ class ClientReportController extends Controller
             $notes[] = [
                 'id' => $note->id,
                 // 'Doctor id' => $note->doctor_id,
-                'Paciente' => $note->patient_id,
+                'patient_id' => $note->patient_id,
                 'bip_id' => $note->bip_id,
                 'supervisor' => $note->supervisor_name,
                 'supervisor' => $note->supervisor,
@@ -290,7 +290,7 @@ class ClientReportController extends Controller
             $notesBcbas[] = [
                 'id' => $notebcba->id,
                 // 'Doctor id' => $note->doctor_id,
-                'Paciente' => $notebcba->patient_id,
+                'patient_id' => $notebcba->patient_id,
                 'bip_id' => $notebcba->bip_id,
                 "cpt_code" => $notebcba->cpt_code,
                 "provider_name" => $notebcba->provider_name,
@@ -348,7 +348,7 @@ class ClientReportController extends Controller
             "noteRbts" => $notes,
             "patient" => $patient,
             "patient" => $patient->id ? [
-                "patient_id" => $patient->patient_id,
+                "patient_identifier" => $patient->patient_identifier,
                 "full_name" => $patient->first_name . ' ' . $patient->last_name,
                 "first_name" => $patient->first_name,
                 "last_name" => $patient->last_name,
@@ -490,14 +490,7 @@ class ClientReportController extends Controller
             $notes[] = [
                 'id' => $note->id,
                 'patient_id' => $note->patient_id,
-                // 'patient' => [
-                //     "patient_id" => $note->patient->patient_id,
-                //     "full_name" => $note->patient->first_name.' '.$note->patient->last_name,
-                //     "first_name" => $note->patient->first_name,
-                //     "last_name" => $note->patient->last_name,
-                //     "insurer_id" => $note->patient->insurer_id,
-                //     "insurer_name" => $note->patient->insurer_name,
-                // ],
+
 
                 'bip_id' => $note->bip_id,
                 // 'supervisor_id' => $note->supervisor_id,
@@ -653,7 +646,7 @@ class ClientReportController extends Controller
         $size_pagination = 7;
         $name_doctor = $request->search;
         $session_date = $request->session_date;
-        $patient_id = $request->patient_id;
+        $patient_identifier = $request->patient_identifier;
         $doctor_id = $request->doctor_id;
         $id = $request->provider_id;
         $provider_id = $request->provider_id;
@@ -663,7 +656,7 @@ class ClientReportController extends Controller
 
         $doctor = User::where("id", $doctor_id)->first();
 
-        $patient = Patient::where("patient_id", $patient_id)->first();
+        $patient = Patient::where("patient_identifier", $patient_identifier)->first();
 
 
         $noteBcba = NoteBcba::where("doctor_id", $doctor_id)
@@ -708,7 +701,7 @@ class ClientReportController extends Controller
             $noteRbt = $noteRbt->orderBy('session_date', 'desc')->paginate($size_pagination);
         }
 
-        $tecnicoRbts = NoteRbt::where("patient_id", $patient_id)
+        $tecnicoRbts = NoteRbt::where("patient_id", $patient->id)
             ->with('doctor', 'desc')
             ->where('provider_id', $doctor_id)
             ->orderby('session_date', 'desc')
@@ -922,9 +915,8 @@ class ClientReportController extends Controller
 
             "patient" => $patient,
             "patient" => $patient->id ? [
-                "patient_id" => $patient->patient_id,
+                "patient_identifier" => $patient->patient_identifier,
                 "full_name" => $patient->first_name . ' ' . $patient->last_name,
-                "patient_id" => $patient->patient_id,
                 "first_name" => $patient->first_name,
                 "last_name" => $patient->last_name,
                 "diagnosis_code" => $patient->diagnosis_code,
@@ -956,8 +948,7 @@ class ClientReportController extends Controller
     {
         $patient = null;
 
-        $patient = Patient::where("patient_id", $request->patient_id)->first();
-        $patient = Patient::where("patient_id", $request->patient_id)->first();
+        $patient = Patient::where("patient_identifier", $request->patient_identifier)->first();
         $doctor = User::where("id", $request->doctor_id)->first();
 
 
@@ -992,17 +983,17 @@ class ClientReportController extends Controller
 
 
     //traer el perfil con los datos del insurer aplicados en el registro
-    public function showProfile($patient_id)
+    public function showProfile($patient_identifier)
     {
-        $patient = Patient::where("patient_id", $patient_id)->first();
-        $noteRbt = NoteRbt::where("patient_id", $patient_id)->get();
+        $patient = Patient::where("patient_identifier", $patient_identifier)->first();
+        $noteRbt = NoteRbt::where("patient_id", $patient->id)->get();
 
 
         return response()->json([
             // "patient" => $patient,
             // "noteRbt" => $noteRbt,
             "full_name" => $patient->first_name . ' ' . $patient->last_name,
-            "patient_id" => $patient->patient_id,
+            "patient_identifier" => $patient->patient_identifier,
             "insurer_id" => $patient->insurer_id,
             "noteRbt" => NoteRbtCollection::make($noteRbt),
             "noteRbt" => $noteRbt->map(function ($noteRbt) {
@@ -1066,11 +1057,12 @@ class ClientReportController extends Controller
 
 
     //uniadades disponibles segun el cpt y el provider para el cliente
-    public function showCptUnits(Request $request, string $patient_id, string $cpt_code, string $provider)
+    public function showCptUnits(Request $request, string $patient_identifier, string $cpt_code, string $provider)
     {
+        $patient = Patient::where("patient_identifier", $patient_identifier)->first();
         //obtenemos de la nota
         $noteRbts = NoteRbt::where("cpt_code", $cpt_code)
-            ->where("patient_id", $patient_id)
+            ->where("patient_id", $patient->id)
             ->where("provider", $provider)
             ->get();
 
@@ -1078,7 +1070,6 @@ class ClientReportController extends Controller
         $cpt = $cpt_code;
         $provider = $provider;
 
-        $patient = Patient::where("patient_id", $patient_id)->first();
 
 
         $unitsCollection = collect();
@@ -1112,8 +1103,8 @@ class ClientReportController extends Controller
 
         return response()->json([
 
-            "patient_id" => $patient->patient_id,
-            "patient" => $patient_id ?
+            "patient_identifier" => $patient->patient_identifier,
+            "patient" => $patient_identifier ?
                 [
                     "id" => $patient->id,
                     "email" => $patient->email,

@@ -103,7 +103,7 @@ class NoteBcbaController extends Controller
     public function storebcba(Request $request)
     {
         $patient = null;
-        $patient = Patient::where("patient_id", $request->patient_id)->first();
+        $patient = Patient::where("patient_identifier", $request->patient_identifier)->first();
         $doctor = User::where("id", $request->doctor_id)->first();
 
         $request->request->add([
@@ -195,10 +195,10 @@ class NoteBcbaController extends Controller
     }
 
 
-    public function showByPatientId($patient_id)
+    public function showByPatientId($patient_identifier)
     {
-        $noteBcbas = NoteBcba::where("patient_id", $patient_id)->orderBy('id', 'desc')->get();
-        $patient = Patient::where("patient_id", $patient_id)->first();
+        $noteBcbas = NoteBcba::where("patient_identifier", $patient_identifier)->orderBy('id', 'desc')->get();
+        $patient = Patient::where("patient_identifier", $patient_identifier)->first();
 
         return response()->json([
             "noteBcbas" => NoteBcbaCollection::make($noteBcbas),
@@ -206,10 +206,10 @@ class NoteBcbaController extends Controller
     }
 
 
-    public function showNoteBcbaByPatient($patient_id)
+    public function showNoteBcbaByPatient($patient_identifier)
     {
-        $noteBcba = NoteBcba::where("patient_id", $patient_id)->get();
-        $patient = Patient::findOrFail($patient_id);
+        $noteBcba = NoteBcba::where("patient_identifier", $patient_identifier)->get();
+        $patient = Patient::findOrFail($patient_identifier);
 
         return response()->json([
             // "noteBcba" => $noteBcba,
@@ -217,11 +217,11 @@ class NoteBcbaController extends Controller
             "pa_assessments" => $patient->pa_assessments ? json_decode($patient->pa_assessments) : [],
         ]);
     }
-    public function showReplacementsByPatient($patient_id)
+    public function showReplacementsByPatient($patient_identifier)
     {
-        $patient = Patient::where("patient_id", $patient_id)->first();
-        $familiEnvolments = FamilyEnvolment::where("patient_id", $patient_id)->get();
-        $monitoringEvaluatingPatientIds = MonitoringEvaluating::where("patient_id", $patient_id)->orderBy("patient_id", "desc")->get();
+        $patient = Patient::where("patient_identifier", $patient_identifier)->first();
+        $familiEnvolments = FamilyEnvolment::where("patient_identifier", $patient_identifier)->get();
+        $monitoringEvaluatingPatientIds = MonitoringEvaluating::where("patient_identifier", $patient_identifier)->orderBy("patient_identifier", "desc")->get();
         return response()->json([
         "pa_assessments" => $patient->pa_assessments ? json_decode($patient->pa_assessments) : null,
             "familiEnvolments" => FamilyEnvolmentGoalsCollection::make($familiEnvolments) ,

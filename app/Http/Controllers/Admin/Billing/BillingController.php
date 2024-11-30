@@ -54,9 +54,9 @@ class BillingController extends Controller
         ]);
     }
     // mostrar data por el paciente
-    public function showByPatientId($patient_id)
+    public function showByPatientId($patient_identifier)
     {
-        $billings = Billing::where("patient_id", $patient_id)
+        $billings = Billing::where("patient_identifier", $patient_identifier)
         ->orderby('date', 'desc')
         // ->groupby('date')
         // ->selectRaw('sum(total_hours) as total, date')
@@ -69,22 +69,21 @@ class BillingController extends Controller
         ]);
     }
     //mostrar al paciente
-    public function showPatientId($patient_id)
+   /* public function showPatientId($patient_identifier)
     {
-        $patient_is_valid = Billing::where("patient_id", $request->patient_id)->first();
-        $patient = Patient::where("patient_id", $patient_id)->orderby('date', 'desc')
+        $billing = Billing::where("patient_identifier", $request->patient_identifier)->first();
+        $patient = Patient::where("patient_identifier", $patient_identifier)->orderby('date', 'desc')
         // ->groupby('date')
         // ->selectRaw('sum(total_hours) as total, date')
         ->get();
-        // $patient = Patient::where("patient_id", $patient_id)->first();
 
         return response()->json([
             // "note_rbts" => NoteRbtResource::make($note_rbts),
-            "billings" => BillingCollection::make($billings),
+            // "billings" => BillingCollection::make($billings),
             // "note_rbts" => $note_rbts,
-            // "patient" => $patient,
+            "patient" => $patient,
         ]);
-    }
+    }*/
 
 
 
@@ -102,43 +101,19 @@ class BillingController extends Controller
 
         return response()->json([
             "billing" => BillingResource::make($billing),
-            // "interventions"=>json_decode($noteRbt-> interventions),
-            // "maladaptives"=>json_decode($noteRbt-> maladaptives),
-            // "replacements"=>json_decode($noteRbt-> replacements),
-            // "patient"=>$billing->patient,
-            // "patient"=>$patient->map(function($patient){
-            //     return[
-            //         "id"=> $patient->id,
-            //         "full_name"=> $patient->first_name.' '.$patient->last_name,
-            //         "insurance_id"=> $patient->insurance_id,
-            //     ];
-            // }),
-            // "supervisor_name"=>$noteRbt->supervisor_name,
-            // "supervisor_name"=>$doctor->map(function($supervisor_name){
-            //     return[
-            //         "id"=> $supervisor_name->id,
-            //         "full_name"=> $supervisor_name->name.' '.$supervisor_name->surname,
-            //     ];
-            // }),
-            // "provider_name_g"=>$noteRbt->provider_name_g,
-            // "provider_name_g"=>$doctor->map(function($provider_name_g){
-            //     return[
-            //         "id"=> $provider_name_g->id,
-            //         "full_name"=> $provider_name_g->name.' '.$provider_name_g->surname,
-            //     ];
-            // }),
+
 
         ]);
     }
     //traer el perfil con los datos del insurer aplicados en el registro
-    public function showProfile($patient_id)
+    public function showProfile($patient_identifier)
     {
-        $patient = Patient::where("patient_id", $patient_id)->first();
+        $patient = Patient::where("patient_identifier", $patient_identifier)->first();
         return response()->json([
             "patient" => $patient,
             "patient" => $patient->id ? [
                 "id" => $patient->id,
-                "patient_id" => $patient->patient_id,
+                "patient_identifier" => $patient->patient_identifier,
                 "first_name" => $patient->first_name,
                 "last_name" => $patient->last_name,
                 "diagnosis_code" => $patient->diagnosis_code,

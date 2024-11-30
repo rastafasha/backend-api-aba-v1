@@ -18,7 +18,7 @@ class CreateParentsTable extends Migration
             $table->string('name');
             $table->string('surname', 150)->nullable();
             $table->string('email')->unique();
-            $table->string('patient_id', 50)->nullable();
+            $table->string('patient_identifier', 50)->nullable();
             $table->string('phone', 150)->nullable();
             $table->timestamp('birth_date')->nullable()->useCurrent();
             $table->tinyInteger('gender')->unsigned()->default(1);

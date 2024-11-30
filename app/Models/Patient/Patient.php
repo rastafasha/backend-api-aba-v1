@@ -89,7 +89,7 @@ class Patient extends Model
         'last_name',
         'email',
         'phone',
-        'patient_id', // en este caso el es ingresado manualmente ...
+        'patient_identifier', // en este caso el es ingresado manualmente ...
         'birth_date',
         'gender',
         'address',
@@ -398,12 +398,12 @@ class Patient extends Model
     }
     public function bip()
     {
-        return $this->hasOne(Bip::class, 'patient_id');
+        return $this->hasOne(Bip::class, 'patient_identifier');
     }
 
     public function reductiongoal()
     {
-        return $this->hasMany(ReductionGoal::class, 'patient_id');
+        return $this->hasMany(ReductionGoal::class, 'patient_identifier');
     }
 
 
@@ -414,14 +414,14 @@ class Patient extends Model
     //filtro buscador
     public function scopefilterAdvancePatient(
         $query,
-        $patient_id,
+        $patient_identifier,
         $name_patient,
         $email_patient,
         $status
     ) {
 
-        if ($patient_id) {
-            $query->where("patient_id", $patient_id);
+        if ($patient_identifier) {
+            $query->where("patient_identifier", $patient_identifier);
         }
 
         if ($name_patient) {
@@ -446,7 +446,7 @@ class Patient extends Model
     //filtro buscador
     public function scopefilterAdvanceClientLog(
         $query,
-        $patient_id,
+        $patient_identifier,
         $name_patient,
         $email_patient,
         $status
@@ -457,8 +457,8 @@ class Patient extends Model
         //         $clin_director,
     ) {
 
-        if ($patient_id) {
-            $query->where("patient_id", $patient_id);
+        if ($patient_identifier) {
+            $query->where("patient_identifier", $patient_identifier);
         }
 
         if ($name_patient) {
@@ -488,6 +488,6 @@ class Patient extends Model
 
     public function paServices()
     {
-        return $this->hasMany(PaService::class, 'patient_id');
+        return $this->hasMany(PaService::class);
     }
 }

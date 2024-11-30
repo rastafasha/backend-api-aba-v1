@@ -34,8 +34,8 @@ class BipV2Controller extends Controller
         $query = Bip::query();
 
         // Apply filters
-        if ($request->has('patient_id')) {
-            $query->where('patient_id', $request->patient_id);
+        if ($request->has('patient_identifier')) {
+            $query->where('patient_identifier', $request->patient_identifier);
         }
 
         if ($request->has('doctor_id')) {

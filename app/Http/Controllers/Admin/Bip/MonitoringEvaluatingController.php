@@ -36,7 +36,7 @@ class MonitoringEvaluatingController extends Controller
      */
     public function store(Request $request)
     {
-        $patient_is_valid = Patient::where("patient_id", $request->patient_id)->first();
+        $patient_is_valid = Patient::where("patient_identifier", $request->patient_identifier)->first();
 
         $request->request->add(["rbt_training_goals" => json_encode($request->rbt_training_goals)]);
 
@@ -62,7 +62,7 @@ class MonitoringEvaluatingController extends Controller
 
         return response()->json([
             "monitoringEvaluating" => $monitoringEvaluating,
-            "client_id" => $client_id,
+            // "client_id" => $client_id,
             "rbt_training_goals" => json_decode($monitoringEvaluating-> rbt_training_goals),
 
         ]);
@@ -77,9 +77,9 @@ class MonitoringEvaluatingController extends Controller
     }
 
 
-    public function showgbyPatientId($patient_id)
+    public function showgbyPatientId($patient_identifier)
     {
-        $monitoringEvaluatingPatientIds = MonitoringEvaluating::where("patient_id", $patient_id)->orderBy("patient_id", "desc")->get();
+        $monitoringEvaluatingPatientIds = MonitoringEvaluating::where("patient_identifier", $patient_identifier)->orderBy("patient_identifier", "desc")->get();
         return response()->json([
             "monitoringEvaluatingPatientIds" => MonitoringEvaluatingCollection::make($monitoringEvaluatingPatientIds)
 

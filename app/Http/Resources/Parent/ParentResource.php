@@ -17,8 +17,7 @@ class ParentResource extends JsonResource
     {
         return [
             "id" => $this->resource->id,
-             "patient_id" => $this->resource->patient_id,
-             "patient_id" => $this->resource->patient_id,
+             "patient_identifier" => $this->resource->patient_identifier,
             // 'patient'=>$this->resource-> patient,
             //     'patient'=>[
             //         'patient_id'=> $this->resource->patient->patient_id,

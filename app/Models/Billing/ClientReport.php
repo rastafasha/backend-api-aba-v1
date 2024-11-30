@@ -17,7 +17,7 @@ class ClientReport extends Model
     use HasFactory;
 
     protected $fillable = [
-        'patient_id',
+        'patient_identifier',
         'sponsor_id',
         'insurer_id',
         'note_rbt_id',
@@ -47,7 +47,7 @@ class ClientReport extends Model
 
     public function patient()
     {
-        return $this->belongsTo(Patient::class, 'patient_id');
+        return $this->belongsTo(Patient::class, 'patient_identifier');
     }
 
     public function sponsor()

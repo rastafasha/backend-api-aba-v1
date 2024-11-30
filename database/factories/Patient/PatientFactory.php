@@ -30,7 +30,7 @@ class PatientFactory extends Factory
             'state' => $this->faker->state,
             'zip' => $this->faker->postcode,
             'status' => 'active',
-            'patient_id' => $this->faker->unique()->uuid,
+            'patient_identifier' => $this->faker->unique()->uuid,
             'language' => $this->faker->languageCode,
             'parent_guardian_name' => $this->faker->name,
             'relationship' => $this->faker->randomElement(['Parent', 'Guardian', 'Other']),

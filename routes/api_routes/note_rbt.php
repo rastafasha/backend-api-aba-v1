@@ -7,14 +7,14 @@ use App\Http\Controllers\OpenAIController;
 Route::get('note_rbt', [NoteRbtController::class, 'index'])->name('index');
 Route::get('note_rbt/config', [NoteRbtController::class, 'config'])->name('config');
 Route::get('note_rbt/show/{id}', [NoteRbtController::class, 'show'])->name('show');
-Route::get('note_rbt/byprofile/{patient_id}', [NoteRbtController::class, 'showByPatientId'])->name('showByPatientId');
+Route::get('note_rbt/byprofile/{patient_identifier}', [NoteRbtController::class, 'showByPatientId'])->name('showByPatientId');
 Route::get('note_rbt/byclient/{client_id}', [NoteRbtController::class, 'showByClienttId'])->name('showByClienttId');
 
 
 Route::get('note_rbt/showReplacementBypatient/{id}', [NoteRbtController::class, 'showReplacementsByPatient'])->name('showReplacementsByPatient');
 Route::get('note_rbt/showNoteBypatient/{id}', [NoteRbtController::class, 'showNoteRbtByPatient'])->name('showNoteRbtByPatient');
 
-Route::get('note_rbt/showCptUnits/{patient_id}/{cpt_code}/{provider}/', [NoteRbtController::class, 'showCptUnits'])->name('showCptUnits');
+Route::get('note_rbt/showCptUnits/{patient_identifier}/{cpt_code}/{provider}/', [NoteRbtController::class, 'showCptUnits'])->name('showCptUnits');
 
 Route::post('note_rbt/store', [NoteRbtController::class, 'store'])->name('store');
 Route::post('note_rbt/update/{id}', [NoteRbtController::class, 'update'])->name('update');

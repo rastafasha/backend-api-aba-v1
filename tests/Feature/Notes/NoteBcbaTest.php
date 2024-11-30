@@ -31,6 +31,7 @@ class NoteBcbaTest extends TestCase
         $this->patient = Patient::factory()->create();
         $this->paService = PaService::factory()->create([
             'patient_id' => $this->patient->id,
+            'patient_identifier' => $this->patient->patient_identifier,
             'n_units' => 100,
             'spent_units' => 0,
         ]);
@@ -47,6 +48,7 @@ class NoteBcbaTest extends TestCase
     {
         $noteData = [
             'patient_id' => $this->patient->id,
+            'patient_identifier' => $this->patient->patient_identifier,
             'provider_id' => $this->provider->id,
             'supervisor_id' => $this->supervisor->id,
             'location_id' => $this->location->id,
@@ -76,6 +78,7 @@ class NoteBcbaTest extends TestCase
 
         $this->assertDatabaseHas('note_bcbas', [
             'patient_id' => $noteData['patient_id'],
+            'patient_identifier' => $noteData['patient_identifier'],
             'provider_id' => $noteData['provider_id'],
             'session_date' => $noteData['session_date']
         ]);
@@ -88,6 +91,7 @@ class NoteBcbaTest extends TestCase
     {
         $note = NoteBcba::factory()->create([
             'patient_id' => $this->patient->id,
+            'patient_identifier' => $this->patient->patient_identifier,
             'provider_id' => $this->provider->id,
             'location_id' => $this->location->id,
             'pa_service_id' => $this->paService->id,
@@ -95,6 +99,7 @@ class NoteBcbaTest extends TestCase
 
         $updatedData = [
             'patient_id' => $this->patient->id,
+            'patient_identifier' => $this->patient->patient_identifier,
             'session_date' => $this->faker->date(),
             'note_description' => 'Updated note description',
             'status' => 'ok',
@@ -156,6 +161,7 @@ class NoteBcbaTest extends TestCase
                 'data' => [
                     'id',
                     'patient_id',
+                    'patient_identifier',
                     'provider_id',
                     'supervisor_id',
                     'session_date',
@@ -178,6 +184,7 @@ class NoteBcbaTest extends TestCase
         $note = NoteBcba::factory()->create([
             'pa_service_id' => $this->paService->id,
             'patient_id' => $this->patient->id,
+            'patient_identifier' => $this->patient->patient_identifier,
             'cpt_code' => '97155',
             'session_date' => '2024-01-15',
             'time_in' => '09:00:00',
@@ -188,6 +195,7 @@ class NoteBcbaTest extends TestCase
         $note2 = NoteBcba::factory()->create([
             'pa_service_id' => $this->paService->id,
             'patient_id' => $this->patient->id,
+            'patient_identifier' => $this->patient->patient_identifier,
             'cpt_code' => '97155',
             'session_date' => '2024-01-15',
             'time_in' => '09:00:00',
@@ -267,6 +275,7 @@ class NoteBcbaTest extends TestCase
         // Create multiple notes with distinct data
         $note1 = NoteBcba::factory()->create([
             'patient_id' => $this->patient->id,
+            'patient_identifier' => $this->patient->patient_identifier,
             'provider_id' => $this->provider->id,
             'supervisor_id' => $this->supervisor->id,
             'location_id' => $this->location->id,
@@ -277,6 +286,7 @@ class NoteBcbaTest extends TestCase
 
         $note2 = NoteBcba::factory()->create([
             'patient_id' => $this->patient->id,
+            'patient_identifier' => $this->patient->patient_identifier,
             'provider_id' => $this->provider->id,
             'supervisor_id' => $this->supervisor->id,
             'location_id' => $this->location->id,
@@ -287,6 +297,7 @@ class NoteBcbaTest extends TestCase
 
         $note3 = NoteBcba::factory()->create([
             'patient_id' => $this->patient->id,
+            'patient_identifier' => $this->patient->patient_identifier,
             'provider_id' => $this->provider->id,
             'supervisor_id' => $this->supervisor->id,
             'location_id' => $this->location->id,

@@ -20,7 +20,7 @@ class ReductionGoalsResource extends JsonResource
         return [
             "id" => $this->resource->id,
             "maladaptive" => $this->resource->maladaptive,
-            "patient_id" => $this->resource->patient_id,
+            "patient_identifier" => $this->resource->patient_identifier,
             "client_id" => $this->resource->client_id,
             "bip_id" => $this->resource->bip_id,
             "current_status" => $this->resource->current_status,

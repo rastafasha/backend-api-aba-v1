@@ -65,7 +65,7 @@ class Bip extends Model
         'documents_reviewed',
         'client_id',
         'doctor_id',
-        'patient_id',
+        'patient_identifier',
         'background_information',
         'previus_treatment_and_result',
         'current_treatment_and_progress',
@@ -121,7 +121,7 @@ class Bip extends Model
 
     public function patient()
     {
-        return $this->hasOne(Patient::class, 'patient_id');
+        return $this->hasOne(Patient::class, 'patient_identifier');
     }
 
     public function doctor()

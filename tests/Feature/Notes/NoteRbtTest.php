@@ -46,6 +46,7 @@ class NoteRbtTest extends TestCase
     {
         $noteData = [
             'patient_id' => $this->patient->id,
+            'patient_identifier' => $this->patient->patient_identifier,
             'provider_id' => $this->provider->id,
             'supervisor_id' => $this->supervisor->id,
             'doctor_id' => $this->doctor->id,
@@ -96,6 +97,7 @@ class NoteRbtTest extends TestCase
     {
         $note = NoteRbt::factory()->create([
             'patient_id' => $this->patient->id,
+            'patient_identifier' => $this->patient->patient_identifier,
             'provider_id' => $this->provider->id,
             'location_id' => $this->location->id,
             'pa_service_id' => $this->paService->id,
@@ -103,6 +105,7 @@ class NoteRbtTest extends TestCase
 
         $updatedData = [
             'patient_id' => $this->patient->id,
+            'patient_identifier' => $this->patient->patient_identifier,
             'session_date' => $this->faker->date(),
             'doctor_id' => $this->doctor->id,
             'supervisor_id' => $this->supervisor->id,
@@ -162,6 +165,7 @@ class NoteRbtTest extends TestCase
                 'data' => [
                     'id',
                     'patient_id',
+                    'patient_identifier',
                     'provider_id',
                     'supervisor_id',
                     'doctor_id',
@@ -189,6 +193,7 @@ class NoteRbtTest extends TestCase
     {
         $note = NoteRbt::factory()->create([
             'patient_id' => $this->patient->id,
+            'patient_identifier' => $this->patient->patient_identifier,
             'cpt_code' => '97153',
             'session_date' => '2024-01-15',
             'time_in' => '09:00:00',
@@ -198,6 +203,7 @@ class NoteRbtTest extends TestCase
         ]);
         $note2 = NoteRbt::factory()->create([
             'patient_id' => $this->patient->id,
+            'patient_identifier' => $this->patient->patient_identifier,
             'cpt_code' => '97153',
             'session_date' => '2024-01-15',
             'time_in' => '09:00:00',
@@ -269,6 +275,7 @@ class NoteRbtTest extends TestCase
         // Create multiple notes with distinct data
         $note1 = NoteRbt::factory()->create([
             'patient_id' => $this->patient->id,
+            'patient_identifier' => $this->patient->patient_identifier,
             'provider_id' => $this->provider->id,
             'client_response_to_treatment_this_session' => 'Response One',
             'pa_service_id' => $this->paService->id,
@@ -276,6 +283,7 @@ class NoteRbtTest extends TestCase
 
         $note2 = NoteRbt::factory()->create([
             'patient_id' => $this->patient->id,
+            'patient_identifier' => $this->patient->patient_identifier,
             'provider_id' => $this->provider->id,
             'client_response_to_treatment_this_session' => 'Response Two',
             'pa_service_id' => $this->paService->id,
@@ -283,6 +291,7 @@ class NoteRbtTest extends TestCase
 
         $note3 = NoteRbt::factory()->create([
             'patient_id' => $this->patient->id,
+            'patient_identifier' => $this->patient->patient_identifier,
             'provider_id' => $this->provider->id,
             'client_response_to_treatment_this_session' => 'Response Three',
             'pa_service_id' => $this->paService->id,

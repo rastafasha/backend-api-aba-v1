@@ -26,6 +26,7 @@ abstract class Note extends Model
     protected $fillable = [
         'insurance_id',
         'patient_id',
+        'patient_identifier',
         'time_in',
         'time_out',
         'time_in2',
@@ -46,13 +47,13 @@ abstract class Note extends Model
         'insurance_identifier',
     ];
 
-    protected $appends = ['total_units', 'total_minutes', 'patient_identifier'];
+    protected $appends = ['total_units', 'total_minutes'];
 
     protected static $userFields = ['id', 'name', 'surname', 'npi', 'electronic_signature'];
 
     public function patient()
     {
-        return $this->belongsTo(Patient::class, 'patient_id');
+        return $this->belongsTo(Patient::class, 'patient_identifier');
     }
 
     public function bip()
@@ -87,7 +88,8 @@ abstract class Note extends Model
 
     public function getPatientIdentifierAttribute()
     {
-        return Patient::where('id', $this->patient_id)->value('patient_id');
+        // return Patient::where('id', $this->patient_id)->value('patient_id');
+        return Patient::where('id', $this->patient_id)->value('patient_identifier');
     }
 
     protected function getTotalMinutesAttribute()

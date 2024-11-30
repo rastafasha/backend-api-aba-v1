@@ -94,6 +94,7 @@ class NoteRbt extends Note
     protected $fillable = [
         'insurance_id',
         'patient_id',
+        'patient_identifier',
         'time_in',
         'time_out',
         'time_in2',

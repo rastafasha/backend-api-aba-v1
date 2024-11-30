@@ -13,7 +13,7 @@ class BipSeeder extends Seeder
             [
                 'id' => 1,
                 'client_id' => 1, // Make sure this user exists
-                'patient_id' => 'PAT001',
+                'patient_identifier' => 'PAT001',
                 'doctor_id' => 3, // BCBA1
                 'type_of_assessment' => 3,
                 'documents_reviewed' => ['Initial Assessment', 'Medical Records'],
@@ -51,7 +51,7 @@ class BipSeeder extends Seeder
             [
                 'id' => 2,
                 'client_id' => 2, // Make sure this user exists
-                'patient_id' => 'PAT002',
+                'patient_identifier' => 'PAT002',
                 'doctor_id' => 4, // BCBA2
                 'type_of_assessment' => 3,
                 'documents_reviewed' => ['Behavioral Assessment', 'School Records'],

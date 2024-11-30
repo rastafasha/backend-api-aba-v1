@@ -14,7 +14,7 @@ class Billing extends Model
     use HasFactory;
 
     protected $fillable = [
-        'patient_id',
+        'patient_identifier',
         'sponsor_id',
         'cpt_code',
         'insurer_id',
@@ -30,7 +30,7 @@ class Billing extends Model
 
     public function patient()
     {
-        return $this->belongsTo(Patient::class, 'patient_id');
+        return $this->belongsTo(Patient::class, 'patient_identifier');
     }
 
     public function sponsor()

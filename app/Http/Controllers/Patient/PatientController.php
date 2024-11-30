@@ -67,27 +67,7 @@ class PatientController extends Controller
         $patients = Patient::filterAdvancePatient($patient_id, $name_patient, $email_patient, $status, $location_id)->orderBy("id", "desc")
                             ->paginate(10);
         return response()->json([
-            // "total"=>$patients->total(),
-            // "patients"=> $patients,
-            // "bip"=> $bip,
             "patients" => PatientCollection::make($patients),
-            // "patients"=>$patients->map(function($patient){
-            //     return [
-            //         "id"=> $patient->id,
-            //         "full_name"=> $patient->full_name,
-            //         "name"=> $patient->name,
-            //         "surname"=> $patient->surname,
-            //         "avatar"=> $patient->avatar,
-            //         "location_id"=> $patient->location_id,
-            //         "patient_id"=> $patient->patient_id,
-            //         "phone"=> $patient->phone,
-            //         "email"=> $patient->email,
-            //         "status"=> $patient->status,
-            //         "city"=> $patient->city,
-            //         "created_at"=> $patient->created_at,
-
-            //     ];
-            // }),
 
 
         ]);
@@ -109,10 +89,7 @@ class PatientController extends Controller
                 ->get();
 
         return response()->json([
-            // "patients"=> $patients,
-            // "total"=>$patients->total(),
             "patients" => PatientCollection::make($patients)
-            // "pa_assessments"=>$patient->pa_assessments ? json_decode($patient->pa_assessments) : [],
         ]);
     }
 
@@ -135,21 +112,6 @@ class PatientController extends Controller
         $users = User::whereHas('locations', function ($query) use ($location_id) {
             $query->where('location_id', $location_id);
         })->get();
-
-
-        // $role_rbt= UserLocation::orderBy("id", "desc")
-        // ->whereHas("locals", function($q)
-        // {
-        //     $q->where("location_id",'=', $location_id);
-        //     })
-        //     ->whereHas("roles", function($q){
-        //         $q->where("name","like","%RBT%");
-        //         })
-        //         ->get(['id','name', 'surname', 'status']);
-
-
-
-
 
 
         return response()->json([
@@ -386,7 +348,7 @@ class PatientController extends Controller
             "patient" => $patient,
             "patient" => $patient ? [
                 "id" => $patient->id,
-                "title" => $patient->patient_id,
+                "title" => $patient->patient_identifier,
                 "full_name" => $patient->first_name . ' ' . $patient->last_name,
                 "email" => $patient->email,
                 "insurer_id" => $patient->insurer_id,

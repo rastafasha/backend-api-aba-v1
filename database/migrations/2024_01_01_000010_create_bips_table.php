@@ -11,7 +11,7 @@ class CreateBipsTable extends Migration
         Schema::create('bips', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->foreignId('client_id')->constrained('users');
-            $table->string('patient_id', 50)->nullable();
+            $table->string('patient_identifier', 50)->nullable();
             $table->foreignId('doctor_id')->nullable()->constrained('users')->nullOnDelete();
             $table->tinyInteger('type_of_assessment')->default(3);
             $table->json('documents_reviewed')->nullable();

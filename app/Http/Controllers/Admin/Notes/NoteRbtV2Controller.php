@@ -120,9 +120,10 @@ class NoteRbtV2Controller extends Controller
 
         // Filter by patient_identifier
         if ($request->has('patient_identifier')) {
-            $query->whereHas('patient', function ($q) use ($request) {
-                $q->where('patient_id', $request->patient_identifier);
-            });
+            $query->where('patient_identifier', $request->patient_identifier);
+            // $query->whereHas('patient', function ($q) use ($request) {
+            //     $q->where('patient_id', $request->patient_identifier);
+            // });
         }
 
         // Filter by doctor_id

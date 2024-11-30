@@ -16,7 +16,7 @@ class ConsentToTreatment extends Model
 
     protected $fillable = [
         'bip_id',
-        'patient_id',
+        'patient_identifier',
         'client_id',
         'analyst_signature',
         'analyst_signature_date',
@@ -32,7 +32,7 @@ class ConsentToTreatment extends Model
 
     public function patient()
     {
-        return $this->belongsTo(Patient::class, 'patient_id');
+        return $this->belongsTo(Patient::class, 'patient_identifier');
     }
 
     public function client()

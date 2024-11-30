@@ -44,7 +44,7 @@ class Parents extends Authenticatable implements JWTSubject
         'name',
         'surname',
         'email',
-        'patient_id',
+        'patient_identifier',
         'phone',
         'birth_date',
         'gender',
@@ -103,6 +103,6 @@ class Parents extends Authenticatable implements JWTSubject
 
     public function patient()
     {
-        return $this->belongsTo(Patient::class, 'patient_id');
+        return $this->belongsTo(Patient::class, 'patient_identifier');
     }
 }

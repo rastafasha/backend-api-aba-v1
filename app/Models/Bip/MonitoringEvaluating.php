@@ -15,7 +15,7 @@ class MonitoringEvaluating extends Model
 
     protected $fillable = [
         'bip_id',
-        'patient_id',
+        'patient_identifier',
         'client_id',
         'rbt_training_goals', //json
         'treatment_fidelity',
@@ -27,6 +27,6 @@ class MonitoringEvaluating extends Model
     }
     public function patient()
     {
-        return $this->hasMany(Patient::class, 'patient_id');
+        return $this->hasMany(Patient::class, 'patient_identifier');
     }
 }

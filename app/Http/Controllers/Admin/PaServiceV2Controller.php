@@ -157,9 +157,9 @@ class PaServiceV2Controller extends Controller
      *     )
      * )
      */
-    public function show($patient_id, $id)
+    public function show($patient_identfifier, $id)
     {
-        $patient = Patient::where('id', $patient_id)->first();
+        $patient = Patient::where('id', $patient_identfifier)->first();
 
         if (!$patient) {
             return response()->json([
@@ -185,7 +185,7 @@ class PaServiceV2Controller extends Controller
 
     /**
      * @OA\Put(
-     *     path="/api/v2/patients/{patient_id}/pa-services/{id}",
+     *     path="/api/v2/patients/{patient_identfifier}/pa-services/{id}",
      *     summary="Update a PA service",
      *     tags={"Admin/PA Services"},
      *     @OA\Parameter(
@@ -216,9 +216,9 @@ class PaServiceV2Controller extends Controller
      *     )
      * )
      */
-    public function update(PaServiceRequest $request, $patient_id, $id)
+    public function update(PaServiceRequest $request, $patient_identfifier, $id)
     {
-        $patient = Patient::where('id', $patient_id)->first();
+        $patient = Patient::where('id', $patient_identfifier)->first();
 
         if (!$patient) {
             return response()->json([
@@ -269,9 +269,9 @@ class PaServiceV2Controller extends Controller
      *     )
      * )
      */
-    public function destroy($patient_id, $id)
+    public function destroy($patient_identfifier, $id)
     {
-        $patient = Patient::where('id', $patient_id)->first();
+        $patient = Patient::where('id', $patient_identfifier)->first();
 
         if (!$patient) {
             return response()->json([

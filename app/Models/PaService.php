@@ -33,7 +33,6 @@ class PaService extends Model
     use SoftDeletes;
 
     protected $fillable = [
-        // 'patient_id',
         'patient_id',
         'pa_service',
         'cpt',
@@ -52,7 +51,7 @@ class PaService extends Model
 
     public function patient()
     {
-        return $this->belongsTo(Patient::class);
+        return $this->belongsTo(Patient::class );
     }
 
     public function rbtNotes()

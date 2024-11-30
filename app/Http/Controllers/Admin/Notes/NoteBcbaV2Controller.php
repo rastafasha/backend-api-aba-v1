@@ -112,9 +112,10 @@ class NoteBcbaV2Controller extends Controller
 
         // Filter by patient_identifier
         if ($request->has('patient_identifier')) {
-            $query->whereHas('patient', function ($q) use ($request) {
-                $q->where('patient_id', $request->patient_identifier);
-            });
+            $query->where('patient_identifier', $request->patient_identifier);
+            // $query->whereHas('patient', function ($q) use ($request) {
+            //     $q->where('patient_id', $request->patient_identifier);
+            // });
         }
 
         // Filter by bip_id
@@ -162,6 +163,7 @@ class NoteBcbaV2Controller extends Controller
      *             required={"patient_id", "session_date"},
      *             @OA\Property(property="insurance_id", type="integer"),
      *             @OA\Property(property="patient_id", type="integer"),
+     *             @OA\Property(property="patient_identifier", type="string", maxLength=50),
      *             @OA\Property(property="doctor_id", type="integer"),
      *             @OA\Property(property="bip_id", type="integer"),
      *             @OA\Property(property="diagnosis_code", type="string", maxLength=50),
