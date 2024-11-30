@@ -124,7 +124,7 @@ class PaServiceV2Controller extends Controller
 
         $validated = $request->validated();
         $paService = new PaService($validated);
-        $paService->id_patient = $patient->id;
+        $paService->patient_id = $patient->id;
         $paService->save();
 
         return response()->json([

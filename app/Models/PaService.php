@@ -33,8 +33,8 @@ class PaService extends Model
     use SoftDeletes;
 
     protected $fillable = [
-        // 'patient_id',
-        'id_patient',
+        'patient_id',
+        // 'id_patient',
         'pa_service',
         'cpt',
         'n_units',

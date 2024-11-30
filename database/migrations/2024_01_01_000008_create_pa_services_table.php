@@ -15,7 +15,7 @@ class CreatePaServicesTable extends Migration
     {
         Schema::create('pa_services', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('id_patient')->constrained('patients')->onDelete('cascade');
+            $table->foreignId('patient_id')->constrained('patients')->onDelete('cascade');
             $table->string('pa_service');
             $table->string('cpt');
             $table->integer('n_units')->default(0);

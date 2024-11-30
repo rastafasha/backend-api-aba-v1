@@ -18,7 +18,7 @@ class PaServiceFactory extends Factory
 
         return [
             'patient_id' => Patient::factory(),
-            'pa_services' => $this->faker->randomElement([
+            'pa_service' => $this->faker->randomElement([
                 'Behavioral Analysis',
                 'Therapy Session',
                 'Assessment',

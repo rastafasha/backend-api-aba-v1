@@ -488,6 +488,6 @@ class Patient extends Model
 
     public function paServices()
     {
-        return $this->hasMany(PaService::class, 'id_patient');
+        return $this->hasMany(PaService::class, 'patient_id');
     }
 }

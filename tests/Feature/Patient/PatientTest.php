@@ -87,14 +87,14 @@ class PatientTest extends TestCase
             'pay' => false,
             'pa_assessments' => [
                 [
-                    'pa_services' => 'Behavioral Analysis',
+                    'pa_service' => 'Behavioral Analysis',
                     'cpt' => '97151',
                     'n_units' => 2,
                     'start_date' => '2024-01-01',
                     'end_date' => '2024-02-01'
                 ],
                 [
-                    'pa_services' => 'BCBA Supervision',
+                    'pa_service' => 'BCBA Supervision',
                     'cpt' => '97155',
                     'n_units' => 1,
                     'start_date' => '2024-01-01',
@@ -117,7 +117,7 @@ class PatientTest extends TestCase
         ]);
 
         $this->assertDatabaseHas('pa_services', [
-            'pa_services' => 'Behavioral Analysis',
+            'pa_service' => 'Behavioral Analysis',
             'cpt' => '97151',
             'n_units' => 2,
             'start_date' => '2024-01-01',
@@ -125,7 +125,7 @@ class PatientTest extends TestCase
         ]);
 
         $this->assertDatabaseHas('pa_services', [
-            'pa_services' => 'BCBA Supervision',
+            'pa_service' => 'BCBA Supervision',
             'cpt' => '97155',
             'n_units' => 1,
             'start_date' => '2024-01-01',
