@@ -29,7 +29,7 @@ class ClaimsServiceTest extends TestCase
         $this->patient = Patient::factory()->create([
             'first_name' => 'John',
             'last_name' => 'Doe',
-            'patient_id' => '12345',
+            'patient_identifier' => '12345',
             'birth_date' => '1990-01-01',
             'gender' => 1,
             'address' => '123 Test St',

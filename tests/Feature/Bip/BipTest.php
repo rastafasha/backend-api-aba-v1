@@ -156,10 +156,10 @@ class BipTest extends TestCase
             ->assertJsonPath('data.data.0.doctor_id', $doctor->id);
 
         // Test with patient filter
-        $patientFilterResponse = $this->getJson("/api/v2/bips?patient_id={$patient_identifier}");
+        $patientFilterResponse = $this->getJson("/api/v2/bips?patient_identifier={$patient_identifier}");
         $patientFilterResponse->assertStatus(200)
             ->assertJsonCount(1, 'data.data')
-            ->assertJsonPath('data.data.0.patient_id', $patient_identifier);
+            ->assertJsonPath('data.data.0.patient_identifier', $patient_identifier);
 
         // Test with date range filter
         $dateFilterResponse = $this->getJson('/api/v2/bips?date_from=2024-01-01&date_to=2024-12-31');

@@ -31,7 +31,6 @@ class NoteBcbaTest extends TestCase
         $this->patient = Patient::factory()->create();
         $this->paService = PaService::factory()->create([
             'patient_id' => $this->patient->id,
-            'patient_identifier' => $this->patient->patient_identifier,
             'n_units' => 100,
             'spent_units' => 0,
         ]);
@@ -184,7 +183,6 @@ class NoteBcbaTest extends TestCase
         $note = NoteBcba::factory()->create([
             'pa_service_id' => $this->paService->id,
             'patient_id' => $this->patient->id,
-            'patient_identifier' => $this->patient->patient_identifier,
             'cpt_code' => '97155',
             'session_date' => '2024-01-15',
             'time_in' => '09:00:00',
@@ -195,7 +193,6 @@ class NoteBcbaTest extends TestCase
         $note2 = NoteBcba::factory()->create([
             'pa_service_id' => $this->paService->id,
             'patient_id' => $this->patient->id,
-            'patient_identifier' => $this->patient->patient_identifier,
             'cpt_code' => '97155',
             'session_date' => '2024-01-15',
             'time_in' => '09:00:00',
