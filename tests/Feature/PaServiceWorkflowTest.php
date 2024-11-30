@@ -70,8 +70,7 @@ class PaServiceWorkflowTest extends TestCase
 
         // Verify both PA services were created
         $this->assertDatabaseHas('pa_services', [
-            
-            'pa_service' => 'BCBA Analysis Test',
+            'pa_service' => 'BCBA Analysis',
             'cpt' => '97151',
             'n_units' => 8
         ]);
@@ -91,7 +90,7 @@ class PaServiceWorkflowTest extends TestCase
 
         // Add PA service to first patient
         $paService1Data = [
-            'pa_service' => 'BCBA Analysis Test',
+            'pa_service' => 'BCBA Analysis',
             'cpt' => '97151',
             'n_units' => 8,
             'start_date' => '2024-03-01',
@@ -132,7 +131,7 @@ class PaServiceWorkflowTest extends TestCase
         // Verify services were created for correct patients
         $this->assertDatabaseHas('pa_services', [
             'patient_id' => $patient1->id,
-            'pa_service' => 'BCBA Analysis Test',
+            'pa_service' => 'BCBA Analysis',
             'cpt' => '97151'
         ]);
 
