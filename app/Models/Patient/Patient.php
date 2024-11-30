@@ -489,5 +489,4 @@ class Patient extends Model
     public function paServices()
     {
         return $this->hasMany(PaService::class);
-
-}
+    }

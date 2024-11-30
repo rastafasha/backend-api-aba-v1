@@ -154,7 +154,6 @@ class PatientV2Controller extends Controller
 
         if ($patient->id && $request->has('pa_assessments') && is_array($request->pa_assessments)) {
             foreach ($request->pa_assessments as $pa) {
-
                 $validatedData = PaService::validate($pa);
                 $paService = new PaService($validatedData);
                 $paService->patient_id = $patient->id;
