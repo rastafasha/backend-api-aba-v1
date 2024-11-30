@@ -140,6 +140,7 @@ class PatientV2Controller extends Controller
 
         $patient = Patient::create($validated);
 
+
         // if ($patient->id && $request->has('pa_services') && is_array($request->pa_services)) {
         //     foreach ($request->pa_services as $pa) {
         //         $validatedData = PaService::validate($pa);
@@ -150,12 +151,15 @@ class PatientV2Controller extends Controller
         //     }
         // }
 
-        if ($patient->id) {
-            foreach ($request->pa_services as $pa) {
+
+        if ($patient->id && $request->has('pa_assessments') && is_array($request->pa_assessments)) {
+            foreach ($request->pa_assessments as $pa) {
+
                 $validatedData = PaService::validate($pa);
                 $paService = new PaService($validatedData);
                 $paService->patient_id = $patient->id;
                 $paService->save();
+                // $paService = PaService::create($request->all());
             }
         }
 

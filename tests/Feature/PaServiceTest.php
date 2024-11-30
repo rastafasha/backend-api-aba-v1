@@ -146,7 +146,7 @@ class PaServiceTest extends TestCase
 
         $this->assertDatabaseHas('pa_services', [
             'id' => $paService->id,
-            'pa_services' => 'Updated Service'
+            'pa_service' => 'Updated Service'
         ]);
     }
 

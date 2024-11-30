@@ -48,6 +48,7 @@ class PaServiceController extends Controller
         $paServices = $patient->paServices()
             ->orderBy('created_at', 'desc')
             ->where('patient_id', $patient->id)
+
             ->get();
 
         return response()->json([
@@ -92,7 +93,9 @@ class PaServiceController extends Controller
      */
     public function store(Request $request, $patient_id)
     {
-        $patient = Patient::where('id', $patient_id)->first();
+
+        $patient = Patient::where('patient_id', $patient_id)->first();
+
 
         if (!$patient) {
             return response()->json([

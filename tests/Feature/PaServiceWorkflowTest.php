@@ -44,14 +44,14 @@ class PaServiceWorkflowTest extends TestCase
             'pay' => false,
             'pa_assessments' => [
                 [
-                    'pa_services' => 'Behavioral Analysis',
+                    'pa_service' => 'Behavioral Analysis',
                     'cpt' => '97151',
                     'n_units' => 8,
                     'start_date' => '2024-03-01',
                     'end_date' => '2024-04-01'
                 ],
                 [
-                    'pa_services' => 'BCBA Supervision',
+                    'pa_service' => 'BCBA Supervision',
                     'cpt' => '97155',
                     'n_units' => 4,
                     'start_date' => '2024-03-01',
