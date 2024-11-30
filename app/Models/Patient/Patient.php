@@ -490,3 +490,4 @@ class Patient extends Model
     {
         return $this->hasMany(PaService::class);
     }
+}
