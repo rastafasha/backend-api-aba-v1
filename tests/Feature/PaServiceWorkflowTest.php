@@ -24,8 +24,13 @@ class PaServiceWorkflowTest extends TestCase
         $this->location = Location::factory()->create();
     }
 
+    
+
     public function test_can_create_patient_with_pa_services()
     {
+        $startDate = $this->faker->date();
+        $endDate = $this->faker->date('Y-m-d', '+1 week'); // Ensure end date is after start date
+
         $patientData = [
             'first_name' => $this->faker->firstName,
             'last_name' => $this->faker->lastName,
@@ -47,15 +52,15 @@ class PaServiceWorkflowTest extends TestCase
                     'pa_service' => 'BCBA Analysis Test',
                     'cpt' => '97151',
                     'n_units' => 8,
-                    'start_date' => $this->faker->date(),
-                    'end_date' => $this->faker->date('Y-m-d', '+1 week')
+                    'start_date' => '2022-11-11',
+                    'end_date' => '2022-12-12'
                 ],
                 [
                     'pa_service' => 'BCBA Supervision Test',
                     'cpt' => '97155',
                     'n_units' => 4,
-                    'start_date' => $this->faker->date(),
-                    'end_date' => $this->faker->date('Y-m-d', '+1 week')
+                    'start_date' => '2022-11-11',
+                    'end_date' => '2022-12-12'
                 ]
             ]
         ];
