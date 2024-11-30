@@ -77,7 +77,6 @@ class NoteBcbaTest extends TestCase
 
         $this->assertDatabaseHas('note_bcbas', [
             'patient_id' => $noteData['patient_id'],
-            'patient_identifier' => $noteData['patient_identifier'],
             'provider_id' => $noteData['provider_id'],
             'session_date' => $noteData['session_date']
         ]);

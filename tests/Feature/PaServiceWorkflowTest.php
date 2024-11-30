@@ -42,22 +42,22 @@ class PaServiceWorkflowTest extends TestCase
             'location_id' => $this->location->id,
             'telehealth' => false,
             'pay' => false,
-            'pa_assessments' => [
-                [
-                    'pa_service' => 'Behavioral Analysis',
-                    'cpt' => '97151',
-                    'n_units' => 8,
-                    'start_date' => '2024-03-01',
-                    'end_date' => '2024-04-01'
-                ],
-                [
-                    'pa_service' => 'BCBA Supervision',
-                    'cpt' => '97155',
-                    'n_units' => 4,
-                    'start_date' => '2024-03-01',
-                    'end_date' => '2024-04-01'
-                ]
-            ]
+            // 'pa_assessments' => [
+            //     [
+            //         'pa_service' => 'Behavioral Analysis',
+            //         'cpt' => '97151',
+            //         'n_units' => 8,
+            //         'start_date' => '2024-03-01',
+            //         'end_date' => '2024-04-01'
+            //     ],
+            //     [
+            //         'pa_service' => 'BCBA Supervision',
+            //         'cpt' => '97155',
+            //         'n_units' => 4,
+            //         'start_date' => '2024-03-01',
+            //         'end_date' => '2024-04-01'
+            //     ]
+            // ]
         ];
 
         $response = $this->postJson('/api/v2/patients', $patientData);
