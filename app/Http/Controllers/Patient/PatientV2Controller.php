@@ -76,8 +76,8 @@ class PatientV2Controller extends Controller
         }
 
         // Apply filters
-        if ($request->has('patient_id')) {
-            $query->where('patient_id', $request->patient_id);
+        if ($request->has('patient_identifier')) {
+            $query->where('patient_identifier', $request->patient_identifier);
         }
 
 
@@ -140,8 +140,20 @@ class PatientV2Controller extends Controller
 
         $patient = Patient::create($validated);
 
-        if ($patient->id && $request->has('pa_assessments') && is_array($request->pa_assessments)) {
-            foreach ($request->pa_assessments as $pa) {
+
+        // if ($patient->id && $request->has('pa_services') && is_array($request->pa_services)) {
+        //     foreach ($request->pa_services as $pa) {
+        //         $validatedData = PaService::validate($pa);
+        //         $paService = new PaService($validatedData);
+        //         $paService->patient_id = $patient->id;
+        //         // $paService->save();
+        //         $paService = PaService::create($request->all());
+        //     }
+        // }
+
+
+        if ($patient->id && $request->has('pa_services') && is_array($request->pa_services)) {
+            foreach ($request->pa_services as $pa) {
                 $validatedData = PaService::validate($pa);
                 $paService = new PaService($validatedData);
                 $paService->patient_id = $patient->id;
@@ -289,7 +301,8 @@ class PatientV2Controller extends Controller
             'last_name' => 'required|string|max:250',
             'email' => 'nullable|email|max:250',
             'phone' => 'nullable|string|max:25',
-            'patient_id' => $id ? 'nullable|string|unique:patients,patient_id,' . $id : 'nullable|string|unique:patients',
+            'patient_identifier' => $id ? 'nullable|string|unique:patients,patient_id,' . $id : 'nullable|string|unique:patients',
+            // 'patient_id' => $id ? 'nullable|number|unique:patients,patient_id,' . $id : 'nullable|number|unique:patients',
             'birth_date' => 'nullable|date:Y-m-d|before:today',
             'gender' => 'required|integer|in:1,2',
             // 'age' => 'nullable|string|max:50',

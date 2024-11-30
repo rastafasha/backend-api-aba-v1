@@ -16,7 +16,7 @@ class GeneralizationTraining extends Model
 
     protected $fillable = [
         'bip_id',
-        'patient_id',
+        'patient_identifier',
         'client_id',
         'discharge_plan',
         'transition_fading_plans',//json
@@ -34,7 +34,7 @@ class GeneralizationTraining extends Model
 
     public function patient()
     {
-        return $this->belongsTo(Patient::class, 'patient_id');
+        return $this->belongsTo(Patient::class, 'patient_identifier');
     }
 
     public function client()

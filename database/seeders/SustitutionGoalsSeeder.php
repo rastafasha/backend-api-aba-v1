@@ -11,7 +11,7 @@ class SustitutionGoalsSeeder extends Seeder
     {
         SustitutionGoal::create([
             'bip_id' => 1,
-            'patient_id' => "PAT001",
+            'patient_identifier' => "PAT001",
             'client_id' => 1,
             'current_status' => 'test',
             'goal' => 'test goal',
@@ -34,7 +34,7 @@ class SustitutionGoalsSeeder extends Seeder
 
         SustitutionGoal::create([
             'bip_id' => 2,
-            'patient_id' => "PAT002",
+            'patient_identifier' => "PAT002",
             'client_id' => 2,
             'current_status' => 'in progress',
             'goal' => 'communication improvement',

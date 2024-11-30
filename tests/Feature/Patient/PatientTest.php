@@ -85,7 +85,7 @@ class PatientTest extends TestCase
             'location_id' => $this->location->id,
             'telehealth' => false,
             'pay' => false,
-            'pa_assessments' => [
+            'pa_services' => [
                 [
                     'pa_service' => 'Behavioral Analysis',
                     'cpt' => '97151',

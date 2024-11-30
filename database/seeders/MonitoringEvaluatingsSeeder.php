@@ -12,7 +12,7 @@ class MonitoringEvaluatingsSeeder extends Seeder
         $monitoringEvaluatings = [
             [
                 'bip_id' => 1,
-                'patient_id' => "PAT001",
+                'patient_identifier' => "PAT001",
                 'client_id' => 1,
                 'rbt_training_goals' => '[{
                     "lto": "RBT will independently demonstrate appropriate data collection, near 100% of opportunities, across two consecutive observations.",
@@ -24,7 +24,7 @@ class MonitoringEvaluatingsSeeder extends Seeder
             ],
             [
                 'bip_id' => 2,
-                'patient_id' => "PAT002",
+                'patient_identifier' => "PAT002",
                 'client_id' => 2,
                 'rbt_training_goals' => '[{
                     "lto": "RBT will independently demonstrate appropriate data collection, near 100% of opportunities, across two consecutive observations.",

@@ -79,10 +79,10 @@ class GraphicReductionController extends Controller
     }
 
 
-    public function showbyPatientId(Request $request, $patient_id)
+    public function showbyPatientId(Request $request, $patient_identifier)
     {
 
-        $noteRbt = NoteRbt::where("patient_id", $request->patient_id)->get();
+        $noteRbt = NoteRbt::where("patient_identifier", $request->patient_identifier)->get();
 
 
         return response()->json([
@@ -98,9 +98,9 @@ class GraphicReductionController extends Controller
         ]);
     }
 
-    public function showPatientId($patient_id)
+    public function showPatientId($patient_identifier)
     {
-        $patient = Patient::where("patient_id", $patient_id)->first();
+        $patient = Patient::where("patient_identifier", $patient_identifier)->first();
 
 
         return response()->json([
@@ -112,24 +112,24 @@ class GraphicReductionController extends Controller
 
 
 
-    public function showGragphicbyMaladaptive(Request $request, string $maladaptives, $patient_id)
+    public function showGragphicbyMaladaptive(Request $request, string $maladaptives, $patient_identifier)
     {
         // Check if the patient exists
-        $patient_is_valid = NoteRbt::where("patient_id", $request->patient_id)->first();
-        // $patient = Patient::where("patient_id", $request->patient_id)->first();
-        $notebypatient = NoteRbt::where("patient_id", $request->patient_id)
+        $patient_is_valid = NoteRbt::where("patient_identifier", $request->patient_identifier)->first();
+        // $patient = Patient::where("patient_identifier", $request->patient_identifier)->first();
+        $notebypatient = NoteRbt::where("patient_identifier", $request->patient_identifier)
             ->get();
 
         // Retrieve all NoteRbt records that match the given maladaptive behavior type and patient ID
         $noteRbt = NoteRbt::where('maladaptives', 'LIKE', '%' . $maladaptives . '%')
-            ->where("patient_id", $patient_id)
+            ->where("patient_identifier", $patient_identifier)
             ->get();
 
 
         // Retrieve all unique session dates from the NoteRbt records
         // $sessions = NoteRbt::pluck('session_date'); // trae toda las fechas
 
-        $sessions = NoteRbt::where('patient_id', [$request->patient_id])->get();
+        $sessions = NoteRbt::where('patient_identifier', [$request->patient_identifier])->get();
 
         //trae la primera y ultima fecha de la semana
         $week_session = NoteRbt::whereNotNull('session_date')->get();
@@ -277,20 +277,20 @@ class GraphicReductionController extends Controller
 
 
 
-    public function showGragphicbyReplacement(Request $request, string $replacements, $patient_id)
+    public function showGragphicbyReplacement(Request $request, string $replacements, $patient_identifier)
     {
         // Check if the patient exists
-        $patient_is_valid = NoteRbt::where("patient_id", $request->patient_id)->first();
-        $notebypatient = NoteRbt::where("patient_id", $request->patient_id)
+        $patient_is_valid = NoteRbt::where("patient_identifier", $request->patient_identifier)->first();
+        $notebypatient = NoteRbt::where("patient_identifier", $request->patient_identifier)
             ->get();
         // Retrieve all NoteRbt records that match the given maladaptive behavior type and patient ID
         $noteRbtGoal = NoteRbt::where('replacements', 'LIKE', '%' . $replacements . '%')
-            ->where("patient_id", $patient_id)
+            ->where("patient_identifier", $patient_identifier)
             ->get();
 
         $searchTerm = 'sustitution_status_sto';
         $sustitutionStatus = SustitutionGoal::where('goalstos', 'LIKE', '%' . $searchTerm . '%')
-            ->where("patient_id", $patient_id)
+            ->where("patient_identifier", $patient_identifier)
             ->first();
 
         $sustitutionStatusStoValues = [];
@@ -321,7 +321,7 @@ class GraphicReductionController extends Controller
 
         // Retrieve all unique session dates from the NoteRbt records
         // $sessions = NoteRbt::pluck('session_date'); // trae toda las fechas
-        $sessions = NoteRbt::where('patient_id', [$request->patient_id])->get();
+        $sessions = NoteRbt::where('patient_identifier', [$request->patient_identifier])->get();
 
         //trae la primera y ultima fecha de la semana
         $week_session = NoteRbt::whereNotNull('session_date')->get();

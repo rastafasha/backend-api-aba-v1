@@ -10,7 +10,7 @@ class CreateBillingsTable extends Migration
     {
         Schema::create('billings', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('patient_id', 155)->nullable();
+            $table->string('patient_identifier', 155)->nullable();
             $table->unsignedBigInteger('sponsor_id')->nullable();
             $table->string('cpt_code', 155)->nullable();
             $table->unsignedBigInteger('insurer_id')->nullable();

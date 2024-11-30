@@ -11,7 +11,7 @@ class FamilyEnvolmentsSeeder extends Seeder
     {
         $familyEnvolments = [
             [
-                'patient_id' => "PAT001",
+                'patient_identifier' => "PAT001",
                 'client_id' => 1,
                 'bip_id' => 1,
                 'caregivers_training_goals' => '[{
@@ -26,7 +26,7 @@ class FamilyEnvolmentsSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'patient_id' => "PAT002",
+                'patient_identifier' => "PAT002",
                 'client_id' => 2,
                 'bip_id' => 2,
                 'caregivers_training_goals' => '[{

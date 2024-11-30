@@ -14,7 +14,7 @@ class BipFactory extends Factory
     {
         return [
             'client_id' => User::factory(),
-            'patient_id' => 'PAT' . $this->faker->unique()->numberBetween(1000, 9999),
+            'patient_identifier' => 'PAT' . $this->faker->unique()->numberBetween(1000, 9999),
             'doctor_id' => User::factory(),
             'type_of_assessment' => $this->faker->numberBetween(1, 5),
             'documents_reviewed' => $this->faker->words(3),
@@ -55,7 +55,7 @@ class BipFactory extends Factory
     {
         return $this->afterCreating(function (Bip $bip) {
             $bip->reduction_goals()->create([
-                'patient_id' => $bip->patient_id,
+                'patient_identifier' => $bip->patient_identifier,
                 'client_id' => $bip->client_id,
                 'current_status' => $this->faker->paragraph(),
                 'maladaptive' => $this->faker->word(),
@@ -69,7 +69,7 @@ class BipFactory extends Factory
     {
         return $this->afterCreating(function (Bip $bip) {
             $bip->sustitution_goals()->create([
-                'patient_id' => $bip->patient_id,
+                'patient_identifier' => $bip->patient_identifier,
                 'client_id' => $bip->client_id,
                 'current_status' => $this->faker->paragraph(),
                 'goal' => $this->faker->sentence(),
@@ -84,7 +84,7 @@ class BipFactory extends Factory
     {
         return $this->afterCreating(function (Bip $bip) {
             $bip->crisis_plans()->create([
-                'patient_id' => $bip->patient_id,
+                'patient_identifier' => $bip->patient_identifier,
                 'client_id' => $bip->client_id,
                 'crisis_description' => $this->faker->paragraph(),
                 'crisis_note' => $this->faker->paragraph(),

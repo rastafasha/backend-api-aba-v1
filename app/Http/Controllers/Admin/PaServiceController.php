@@ -47,7 +47,8 @@ class PaServiceController extends Controller
 
         $paServices = $patient->paServices()
             ->orderBy('created_at', 'desc')
-            ->where('patient_id', $patient_id)
+            ->where('patient_id', $patient->id)
+
             ->get();
 
         return response()->json([
@@ -92,7 +93,9 @@ class PaServiceController extends Controller
      */
     public function store(Request $request, $patient_id)
     {
+
         $patient = Patient::where('patient_id', $patient_id)->first();
+
 
         if (!$patient) {
             return response()->json([
@@ -156,7 +159,7 @@ class PaServiceController extends Controller
      */
     public function show($patient_id, $id)
     {
-        $patient = Patient::where('patient_id', $patient_id)->first();
+        $patient = Patient::where('id', $patient_id)->first();
 
         if (!$patient) {
             return response()->json([
@@ -218,9 +221,9 @@ class PaServiceController extends Controller
      *     @OA\Response(response=422, description="Validation failed")
      * )
      */
-    public function update(Request $request, $patient_id, $id)
+    public function update(Request $request, $patient_identfifier, $id)
     {
-        $patient = Patient::where('id', $id)->first();
+        $patient = Patient::where('id', $patient_identfifier)->first();
 
         if (!$patient) {
             return response()->json([
@@ -290,7 +293,7 @@ class PaServiceController extends Controller
      */
     public function destroy($patient_id, $id)
     {
-        $patient = Patient::where('patient_id', $patient_id)->first();
+        $patient = Patient::where('id', $patient_id)->first();
 
         if (!$patient) {
             return response()->json([

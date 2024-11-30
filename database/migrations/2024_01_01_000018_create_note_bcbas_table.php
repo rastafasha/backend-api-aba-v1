@@ -12,6 +12,7 @@ class CreateNoteBcbasTable extends Migration
             $table->bigIncrements('id');
             $table->foreignId('doctor_id')->nullable()->constrained('users')->nullOnDelete();
             $table->foreignId('patient_id')->nullable()->constrained('patients')->nullOnDelete();
+            $table->string('patient_identifier')->nullable();
             $table->foreignId('insurance_id')->nullable()->constrained('insurances')->nullOnDelete();
             $table->string('insurance_identifier')->nullable();
             $table->foreignId('bip_id')->nullable()->constrained('bips')->nullOnDelete();

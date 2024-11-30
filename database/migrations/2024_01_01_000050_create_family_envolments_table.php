@@ -11,7 +11,7 @@ class CreateFamilyEnvolmentsTable extends Migration
         Schema::create('family_envolments', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->foreignId('bip_id')->nullable()->constrained('bips')->nullOnDelete();
-            $table->string('patient_id')->nullable();
+            $table->string('patient_identifier')->nullable();
             $table->foreignId('client_id')->nullable()->constrained('users')->nullOnDelete();
             $table->json('caregivers_training_goals')->nullable();
             $table->timestamps();

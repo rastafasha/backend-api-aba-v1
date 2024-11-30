@@ -59,6 +59,7 @@ class NotesSeeder extends Seeder
             // Notes for Patient 1
             [
                 'patient_id' => 1,
+                'patient_identifier' => 'PAT001',
                 'insurance_id' => 1,
                 'doctor_id' => 3,
                 'pa_service_id' => 1,
@@ -103,6 +104,7 @@ class NotesSeeder extends Seeder
             ],
             [
                 'patient_id' => 1,
+                'patient_identifier' => 'PAT001',
                 'insurance_id' => 1,
                 'doctor_id' => 3,
                 'pa_service_id' => 1,
@@ -149,6 +151,7 @@ class NotesSeeder extends Seeder
             // Notes for Patient 2
             [
                 'patient_id' => 2,
+                'patient_identifier' => 'PAT002',
                 'insurance_id' => 1,
                 'doctor_id' => 4,
                 'pa_service_id' => 3,
@@ -193,6 +196,7 @@ class NotesSeeder extends Seeder
             ],
             [
                 'patient_id' => 2,
+                'patient_identifier' => 'PAT002',
                 'insurance_id' => 1,
                 'doctor_id' => 4,
                 'pa_service_id' => 3,

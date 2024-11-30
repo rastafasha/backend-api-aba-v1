@@ -36,7 +36,7 @@ class GeneralizationTrainingController extends Controller
      */
     public function store(Request $request)
     {
-        $patient_is_valid = Patient::where("patient_id", $request->patient_id)->first();
+        $patient_is_valid = Patient::where("patient_identifier", $request->patient_identifier)->first();
 
         $request->request->add(["transition_fading_plans" => json_encode($request->transition_fading_plans)]);
 
@@ -64,7 +64,7 @@ class GeneralizationTrainingController extends Controller
 
         return response()->json([
             "generalizationTraining" => $generalizationTraining,
-            "client_id" => $client_id,
+            // "client_id" => $client_id,
             "transition_fading_plans" => json_decode($generalizationTraining-> transition_fading_plans),
 
         ]);
@@ -79,9 +79,9 @@ class GeneralizationTrainingController extends Controller
     }
 
 
-    public function showgbyPatientId($patient_id)
+    public function showgbyPatientId($patient_identifier)
     {
-        $generalizationTrainingPatientIds = GeneralizationTraining::where("patient_id", $patient_id)->orderBy("patient_id", "desc")->get();
+        $generalizationTrainingPatientIds = GeneralizationTraining::where("patient_identifier", $patient_identifier)->orderBy("patient_identifier", "desc")->get();
         return response()->json([
             "generalizationTrainingPatientIds" => GeneralizationTrainingCollection::make($generalizationTrainingPatientIds)
 

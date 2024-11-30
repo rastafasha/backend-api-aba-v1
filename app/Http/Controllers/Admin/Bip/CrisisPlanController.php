@@ -36,7 +36,7 @@ class CrisisPlanController extends Controller
      */
     public function store(Request $request)
     {
-        $patient_is_valid = Patient::where("patient_id", $request->patient_id)->first();
+        $patient_is_valid = Patient::where("patient_identifier", $request->patient_identifier)->first();
 
         $request->request->add(["risk_factors" => json_encode($request->risk_factors)]);
         $request->request->add(["suicidalities" => json_encode($request->suicidalities)]);
@@ -86,9 +86,9 @@ class CrisisPlanController extends Controller
     }
 
 
-    public function showgbyPatientId($patient_id)
+    public function showgbyPatientId($patient_identifier)
     {
-        $crisiPlanPatientIds = CrisisPlan::where("patient_id", $patient_id)->orderBy("patient_id", "desc")->get();
+        $crisiPlanPatientIds = CrisisPlan::where("patient_identifier", $patient_identifier)->orderBy("patient_identifier", "desc")->get();
         return response()->json([
             "crisiPlanPatientIds" => CrisisPlanCollection::make($crisiPlanPatientIds)
 

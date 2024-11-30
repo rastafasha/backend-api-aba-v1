@@ -10,7 +10,7 @@ class CreatePatientFilesTable extends Migration
     {
         Schema::create('patient_files', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('patient_id')->nullable();
+            $table->string('patient_identifier')->nullable();
             $table->string('name_file', 250)->nullable();
             $table->string('size', 50)->nullable();
             $table->string('resolution', 20)->nullable();

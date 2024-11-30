@@ -68,7 +68,7 @@ class ReductionGoalController extends Controller
         return response()->json([
             // "patient" => $patient,
             "reduction_goal" => $reduction_goal,
-            "client_id" => $client_id,
+            // "client_id" => $client_id,
             "documents_reviewed" => json_decode($reduction_goal-> documents_reviewed),
             "maladaptives" => json_decode($reduction_goal-> maladaptives),
             "assestment_conducted_options" => json_decode($reduction_goal-> assestment_conducted_options),
@@ -129,17 +129,6 @@ class ReductionGoalController extends Controller
      */
     public function update(Request $request, $id)
     {
-        // $patient_is_valid = Patient::findOrFail("patient_id", $patient_id)->first();
-        // $patient_is_valid = Bip::where("patient_id", "<>", $patient_id)->first();
-        // $reduction_id = ReductionGoal::findOrFail("id", $request->id)->first();
-
-
-        // if($patient_is_valid){
-        //     return response()->json([
-        //         "message"=>403,
-        //         "message_text"=> 'el patient ya existe'
-        //     ]);
-        // }
 
         $reduction_goal = ReductionGoal::findOrFail($id);
 
@@ -160,8 +149,8 @@ class ReductionGoalController extends Controller
     {
 
         $goalstos = ReductionGoal::findOrfail($id);
-        $goalstos = $request->request->add(["goalstos" => json_encode($request->goalstos)]);
-        $goalstos->update();
+        $request->request->add(["goalstos" => json_encode($request->goalstos)]);
+        $goalstos->update($request->all());
         return $goalstos;
     }
 
@@ -198,16 +187,16 @@ class ReductionGoalController extends Controller
         return response()->json([
             // "goalreductions" => $goalreductions,
             "goalreductions" => ReductionGoalsResource::make($goalreductions),
-            "goalstos" => json_decode($goalReductionPatientIds->goalstos),
-            "goalltos" => json_decode($goalReductionPatientIds->goalltos),
+            "goalstos" => json_decode($goalreductions->goalstos),
+            "goalltos" => json_decode($goalreductions->goalltos),
         ]);
     }
     // , $patient_id
-    public function showGoalsbyMaladaptive(Request $request, string $maladaptive, string $patient_id,)
+    public function showGoalsbyMaladaptive(Request $request, string $maladaptive, string $patient_identifier)
     {
-        $patient_id = Patient::where("patient_id", $patient_id)->first();
-        $patient_is_valid = ReductionGoal::where("patient_id", $patient_id)->first();
-        $goalsmaladaptive = ReductionGoal::where("patient_id", $request->patient_id)
+        $patient_identifier = Patient::where("patient_identifier", $patient_identifier)->first();
+        $patient_is_valid = ReductionGoal::where("patient_identifier", $patient_identifier)->first();
+        $goalsmaladaptive = ReductionGoal::where("patient_identifier", $request->patient_identifier)
         ->where("maladaptive", $maladaptive)
         ->orderBy("id", "desc")
         ->get();
@@ -221,22 +210,22 @@ class ReductionGoalController extends Controller
         }
 
         // $goalsmaladaptive = ReductionGoal::where("maladaptive", $maladaptive)
-        // ->where("patient_id", $patient_id)
+        // ->where("patient_identifier", $patient_identifier)
         // ->orderBy("id", "desc")
         // ->get();
 
 
         return response()->json([
             // "goal"=>$goal,
-            // "patient_id"=>$patient_id,
+            // "patient_identifier"=>$patient_identifier,
             "goalsmaladaptive" => ReductionGoalsCollection::make($goalsmaladaptive) ,
 
 
         ]);
     }
-    public function showgbyPatientId($patient_id)
+    public function showgbyPatientId($patient_identifier)
     {
-        $goalReductionPatientIds = ReductionGoal::where("patient_id", $patient_id)->orderBy("patient_id", "desc")->get();
+        $goalReductionPatientIds = ReductionGoal::where("patient_identifier", $patient_identifier)->orderBy("patient_identifier", "desc")->get();
 
 
         return response()->json([

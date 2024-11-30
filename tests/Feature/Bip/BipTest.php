@@ -34,7 +34,7 @@ class BipTest extends TestCase
 
         $bipData = [
             'client_id' => $client->id,
-            'patient_id' => 'PAT' . $this->faker->unique()->numberBetween(1000, 9999),
+            'patient_identifier' => 'PAT' . $this->faker->unique()->numberBetween(1000, 9999),
             'doctor_id' => $doctor->id,
             'type_of_assessment' => $this->faker->numberBetween(1, 5),
             'background_information' => $this->faker->paragraph(),
@@ -60,7 +60,7 @@ class BipTest extends TestCase
 
         $this->assertDatabaseHas('bips', [
             'client_id' => $client->id,
-            'patient_id' => $bipData['patient_id'],
+            'patient_identifier' => $bipData['patient_identifier'],
             'doctor_id' => $doctor->id
         ]);
     }
@@ -140,13 +140,13 @@ class BipTest extends TestCase
     public function test_can_list_bips_with_filters()
     {
         $doctor = User::factory()->create();
-        $patient_id = 'PAT1234';
+        $patient_identifier = 'PAT1234';
 
         // Create test BIPs
         Bip::factory()->count(2)->create();
         Bip::factory()->create([
             'doctor_id' => $doctor->id,
-            'patient_id' => $patient_id
+            'patient_identifier' => $patient_identifier
         ]);
 
         // Test with doctor filter
@@ -156,10 +156,10 @@ class BipTest extends TestCase
             ->assertJsonPath('data.data.0.doctor_id', $doctor->id);
 
         // Test with patient filter
-        $patientFilterResponse = $this->getJson("/api/v2/bips?patient_id={$patient_id}");
+        $patientFilterResponse = $this->getJson("/api/v2/bips?patient_identifier={$patient_identifier}");
         $patientFilterResponse->assertStatus(200)
             ->assertJsonCount(1, 'data.data')
-            ->assertJsonPath('data.data.0.patient_id', $patient_id);
+            ->assertJsonPath('data.data.0.patient_identifier', $patient_identifier);
 
         // Test with date range filter
         $dateFilterResponse = $this->getJson('/api/v2/bips?date_from=2024-01-01&date_to=2024-12-31');

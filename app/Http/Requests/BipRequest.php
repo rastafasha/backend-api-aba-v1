@@ -16,7 +16,7 @@ class BipRequest extends FormRequest
         return [
             'type_of_assessment' => 'required|integer',
             'client_id' => 'required|exists:users,id',
-            'patient_id' => 'nullable|string|max:50',
+            'patient_identifier' => 'nullable|string|max:50',
             'doctor_id' => 'nullable|exists:users,id',
 
             // JSON fields

@@ -15,7 +15,7 @@ class ReductionGoal extends Model
 
     protected $fillable = [
         'bip_id',
-        'patient_id',
+        'patient_identifier',
         'client_id',
         'current_status',
         'maladaptive',
@@ -30,7 +30,7 @@ class ReductionGoal extends Model
     }
     public function patient()
     {
-        return $this->hasMany(Patient::class, 'patient_id');
+        return $this->hasMany(Patient::class, 'patient_identifier');
     }
     public function client()
     {

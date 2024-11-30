@@ -9,7 +9,7 @@ use App\Http\Controllers\OpenAIController;
 Route::get('note_bcba', [NoteBcbaController::class, 'index'])->name('index');
 Route::get('note_bcba/config', [NoteBcbaController::class, 'config'])->name('config');
 Route::get('note_bcba/show/{id}', [NoteBcbaController::class, 'show'])->name('show');
-Route::get('note_bcba/byprofile/{patient_id}', [NoteBcbaController::class, 'showByPatientId'])->name('showByPatientId');
+Route::get('note_bcba/byprofile/{patient_identifier}', [NoteBcbaController::class, 'showByPatientId'])->name('showByPatientId');
 Route::get('note_bcba/byclient/{client_id}', [NoteBcbaController::class, 'showByClienttId'])->name('showByClienttId');
 
 

@@ -171,7 +171,7 @@ class PaServiceTest extends TestCase
         ]);
     }
 
-    public function test_returns_404_for_invalid_patient()
+    public function test_returns_404_for_invalpatient_id()
     {
         $response = $this->getJson("/api/v2/patients/invalid-id/pa-services");
 

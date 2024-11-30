@@ -154,7 +154,7 @@ class Location extends Model
         $email_client,
         $doctor_id,
         $name_doctor,
-        $email_doctor,
+        $email_doctor
     ) {
 
         if ($client_id) {
