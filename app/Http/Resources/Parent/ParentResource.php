@@ -38,8 +38,8 @@ class ParentResource extends JsonResource
             "gender" => $this->resource->gender,
             "address" => $this->resource->address,
             "status" => $this->resource->status,
-            "avatar" => $this->resource->avatar ? env("APP_URL") . "storage/" . $this->resource->avatar : null,
-            // "avatar"=> $this->resource->avatar ? env("APP_URL").$this->resource->avatar : null,
+            // "avatar" => $this->resource->avatar ? env("APP_URL") . "storage/" . $this->resource->avatar : null,
+            "avatar" => $this->resource->avatar ? env("APP_URL") . $this->resource->avatar : null,
             "roles" => $this->resource->roles->first(),
 
             "documents_pending" => json_decode($this->resource->documents_pending),

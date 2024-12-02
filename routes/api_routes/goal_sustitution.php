@@ -15,10 +15,10 @@ Route::get('sustitutiongoal/show/goalsmaladaptives/{maladaptive}', [SustitutionG
 
 Route::get('sustitutiongoal/showbyGoal/{goal}', [SustitutionGoalController::class, 'showGoalsbyMaladaptive'])->name('showGoalsbyMaladaptive');
 Route::get('sustitutiongoal/showBipId/{bip_id}', [SustitutionGoalController::class, 'showGoalsbBipId'])->name('showGoalsbBipId');
-Route::get('sustitutiongoal/showgbyPatientId/{patient_id}', [SustitutionGoalController::class, 'showgbyPatientId'])->name('showgbyPatientId');
+Route::get('sustitutiongoal/showgbyPatientId/{patient_identifier}', [SustitutionGoalController::class, 'showgbyPatientId'])->name('showgbyPatientId');
 
 Route::get('sustitutiongoal/showStogbyGoal/{goal}', [SustitutionGoalController::class, 'showgbyPatientIdFilterGoal'])->name('showgbyPatientIdFilterGoal');
-Route::get('sustitutiongoal/showStogbyGoalPatient/{patient_id}', [
+Route::get('sustitutiongoal/showStogbyGoalPatient/{patient_identifier}', [
     SustitutionGoalController::class,
     'showgbyPatientIdFilterGoalStoInprogress'
 ])->name('showgbyPatientIdFilterGoalStoInprogress');

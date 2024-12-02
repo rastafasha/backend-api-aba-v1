@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use App\Models\PaService;
 use App\Http\Requests\PaServiceRequest;
+use Illuminate\Support\Facades\Storage;
 
 /**
  * @OA\Schema(
@@ -151,7 +152,6 @@ class PatientV2Controller extends Controller
         //     }
         // }
 
-
         if ($patient->id && $request->has('pa_services') && is_array($request->pa_services)) {
             foreach ($request->pa_services as $pa) {
                 $validatedData = PaService::validate($pa);
@@ -256,6 +256,16 @@ class PatientV2Controller extends Controller
                 // $paService = PaService::create($request->all());
             }
         }
+
+
+        if ($request->hasFile('imagen')) {
+            if ($patient->avatar) {
+                Storage::delete($patient->avatar);
+            }
+            $path = Storage::putFile("patients", $request->file('imagen'));
+            $request->request->add(["avatar" => $path]);
+        }
+
 
 
         // $patient->update($validated);
