@@ -140,25 +140,12 @@ class PatientV2Controller extends Controller
 
         $patient = Patient::create($validated);
 
-
-        // if ($patient->id && $request->has('pa_services') && is_array($request->pa_services)) {
-        //     foreach ($request->pa_services as $pa) {
-        //         $validatedData = PaService::validate($pa);
-        //         $paService = new PaService($validatedData);
-        //         $paService->patient_id = $patient->id;
-        //         // $paService->save();
-        //         $paService = PaService::create($request->all());
-        //     }
-        // }
-
-
         if ($patient->id && $request->has('pa_services') && is_array($request->pa_services)) {
             foreach ($request->pa_services as $pa) {
                 $validatedData = PaService::validate($pa);
                 $paService = new PaService($validatedData);
                 $paService->patient_id = $patient->id;
                 $paService->save();
-                // $paService = PaService::create($request->all());
             }
         }
 
@@ -237,30 +224,29 @@ class PatientV2Controller extends Controller
     {
         $patient = Patient::findOrFail($id);
 
-        // $validated = $request->validate($this->getValidationRules());
+        $validated = $request->validate($this->getValidationRules($id));
 
+        if ($request->has('pa_services') && is_array($request->pa_services)) {
+            $existingPaServices = $patient->paServices()->pluck('id')->toArray();
 
-        if (!$patient) {
-            return response()->json([
-                'status' => 'error',
-                'message' => 'Patient not found'
-            ], 404);
-        }
+            $newPaServiceIds = [];
 
-        if ($patient->id && $request->has('pa_services') && is_array($request->pa_services)) {
             foreach ($request->pa_services as $pa) {
                 $validatedData = PaService::validate($pa);
                 $paService = new PaService($validatedData);
                 $paService->patient_id = $patient->id;
-                $paService->update();
-                // $paService = PaService::create($request->all());
+                $paService->save();
+                $newPaServiceIds[] = $paService->id;
+            }
+
+            $paServicesToDelete = array_diff($existingPaServices, $newPaServiceIds);
+
+            if (!empty($paServicesToDelete)) {
+                PaService::destroy($paServicesToDelete);
             }
         }
 
-
-        // $patient->update($validated);
-        $patient->update($request->all());
-
+        $patient->update($validated);
 
         return response()->json([
             'status' => 'success',
@@ -317,6 +303,7 @@ class PatientV2Controller extends Controller
             'phone' => 'nullable|string|max:25',
             'patient_identifier' => $id ? 'nullable|string|unique:patients,patient_identifier,' . $id : 'nullable|string|unique:patients',
             // 'patient_id' => $id ? 'nullable|number|unique:patients,patient_id,' . $id : 'nullable|number|unique:patients',
+            'pa_services' => 'nullable|array',
             'birth_date' => 'nullable|date:Y-m-d|before:today',
             'gender' => 'required|integer|in:1,2',
             // 'age' => 'nullable|string|max:50',
