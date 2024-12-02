@@ -235,7 +235,10 @@ class PatientV2Controller extends Controller
      */
     public function update(Request $request, $id)
     {
-        $patient = Patient::find($id);
+        $patient = Patient::findOrFail($id);
+
+        // $validated = $request->validate($this->getValidationRules());
+
 
         if (!$patient) {
             return response()->json([
@@ -244,9 +247,20 @@ class PatientV2Controller extends Controller
             ], 404);
         }
 
-        $validated = $request->validate($this->getValidationRules($id));
+        if ($patient->id && $request->has('pa_services') && is_array($request->pa_services)) {
+            foreach ($request->pa_services as $pa) {
+                $validatedData = PaService::validate($pa);
+                $paService = new PaService($validatedData);
+                $paService->patient_id = $patient->id;
+                $paService->update();
+                // $paService = PaService::create($request->all());
+            }
+        }
 
-        $patient->update($validated);
+
+        // $patient->update($validated);
+        $patient->update($request->all());
+
 
         return response()->json([
             'status' => 'success',
@@ -301,7 +315,7 @@ class PatientV2Controller extends Controller
             'last_name' => 'required|string|max:250',
             'email' => 'nullable|email|max:250',
             'phone' => 'nullable|string|max:25',
-            'patient_identifier' => $id ? 'nullable|string|unique:patients,patient_id,' . $id : 'nullable|string|unique:patients',
+            'patient_identifier' => $id ? 'nullable|string|unique:patients,patient_identifier,' . $id : 'nullable|string|unique:patients',
             // 'patient_id' => $id ? 'nullable|number|unique:patients,patient_id,' . $id : 'nullable|number|unique:patients',
             'birth_date' => 'nullable|date:Y-m-d|before:today',
             'gender' => 'required|integer|in:1,2',
