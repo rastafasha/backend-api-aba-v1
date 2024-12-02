@@ -104,8 +104,6 @@ Route::group(['middleware' => 'api'], function ($router) {
     // client_report
     require __DIR__ . '/api_routes/client_report.php';
 
-    // clientlogreport
-    require __DIR__ . '/api_routes/clientlogreport.php';
 
     // dashboard
     require __DIR__ . '/api_routes/dashboard.php';
