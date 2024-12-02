@@ -248,7 +248,7 @@ class DoctorController extends Controller
                 return [
                     "id" => $patient->id,
                     "first_name" => $patient->first_name,
-                    "patient_id" => $patient->patient_id,
+                    "patient_identifier" => $patient->patient_identifier,
                     "status" => $patient->status,
                 ];
             }),
