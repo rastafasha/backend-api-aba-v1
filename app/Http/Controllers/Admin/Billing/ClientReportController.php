@@ -640,17 +640,12 @@ class ClientReportController extends Controller
 
     // mostrar data del paciente por doctor
 
-    public function showByPatientByDoctorId(Request $request)
+    public function showByPatientByDoctorId(Request $request, $doctor_id, $patient_identfifier)
     {
 
         $size_pagination = 7;
-        $name_doctor = $request->search;
-        $session_date = $request->session_date;
         $patient_identifier = $request->patient_identifier;
         $doctor_id = $request->doctor_id;
-        $id = $request->provider_id;
-        $provider_id = $request->provider_id;
-        $supervisor_id = $request->supervisor_id;
         $startDate = $request->date_start;
         $endDate = $request->date_end;
 
@@ -660,11 +655,11 @@ class ClientReportController extends Controller
 
 
         $noteBcba = NoteBcba::where("doctor_id", $doctor_id)
-            ->where("patient_id", $patient->id);
+            ->where("patient_identifier", $patient_identifier);
 
         $noteRbt = NoteRbt::where("provider_id", $doctor_id)
 
-            ->where("patient_id", $patient->id);
+            ->where("patient_identifier", $patient_identifier);
 
 
 
@@ -701,28 +696,8 @@ class ClientReportController extends Controller
             $noteRbt = $noteRbt->orderBy('session_date', 'desc')->paginate($size_pagination);
         }
 
-        $tecnicoRbts = NoteRbt::where("patient_id", $patient->id)
-            ->with('doctor', 'desc')
-            ->where('provider_id', $doctor_id)
-            ->orderby('session_date', 'desc')
-            ->get();
 
-        $doctors = Patient::join('users', 'patients.id', '=', 'users.id')
-            ->select(
-                'patients.id as id',
-                'users.name',
-            )
-            ->get();
-
-
-        // $doctor = NoteRbt::where("provider_id", $provider_id)->get();
-        $tecnicoRbts = NoteRbt::where("provider_id", $provider_id)->get();
-        $supervisor = NoteRbt::where("supervisor_id", $supervisor_id)->get();
-
-        // if ($request->{'xe'}) {
-        //     $request->request->add($xe);
-        // }
-            $paService = $patient->paServices()->find($id);
+            $paService = $patient->paServices()->find($patient->id);
 
         $notes = [];
 
@@ -906,15 +881,8 @@ class ClientReportController extends Controller
 
             ] : null,
 
-            'noteBcbas' => $notesBcbas,
-
-            // date("H:i", strtotime($noteBcba->time_out) - strtotime($noteBcba->time_in) + strtotime($noteBcba->time_out2) - strtotime($noteBcba->time_in2)),
-
-
-            "noteRbts" => $notes,
-
-            "patient" => $patient,
-            "patient" => $patient->id ? [
+            "patient_identifier" => $patient_identifier,
+            "patient" => $patient->patient_identifier ? [
                 "patient_identifier" => $patient->patient_identifier,
                 "full_name" => $patient->first_name . ' ' . $patient->last_name,
                 "first_name" => $patient->first_name,
@@ -922,11 +890,11 @@ class ClientReportController extends Controller
                 "diagnosis_code" => $patient->diagnosis_code,
                 "pa_services" => $paService,
 
-
                 "pos_covered" => is_string($patient->pos_covered)
                             ? json_decode($patient->pos_covered)
                             : $patient->pos_covered,
 
+                "insurance_identifier" => $patient->insurance_identifier,
                 "insurer_id" => $patient->insurer_id,
                 "rbt_home_id" => $patient->rbt_home_id,
                 "rbt2_school_id" => $patient->rbt2_school_id,
@@ -935,9 +903,12 @@ class ClientReportController extends Controller
             ] : null,
 
 
+            'noteBcbas' => $notesBcbas,
+
+            // date("H:i", strtotime($noteBcba->time_out) - strtotime($noteBcba->time_in) + strtotime($noteBcba->time_out2) - strtotime($noteBcba->time_in2)),
 
 
-
+            "noteRbts" => $notes,
             "totalPages" => $pages,
             "arrayPages" => $arrayPages
         ]);
