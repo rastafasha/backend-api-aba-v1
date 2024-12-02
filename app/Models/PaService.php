@@ -82,6 +82,12 @@ class PaService extends Model
 
     public static function validate($data)
     {
+        if (isset($data['start_date'])) {
+            $data['start_date'] = \Carbon\Carbon::parse($data['start_date'])->format('Y-m-d');
+        }
+        if (isset($data['end_date'])) {
+            $data['end_date'] = \Carbon\Carbon::parse($data['end_date'])->format('Y-m-d');
+        }
         return Validator::make($data, [
             'pa_service' => 'required|string|max:255',
             'cpt' => 'required|string|max:255',

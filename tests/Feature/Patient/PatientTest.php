@@ -148,6 +148,7 @@ class PatientTest extends TestCase
             'first_name' => 'Updated Name',
             'last_name' => 'Updated Last Name',
             'email' => 'updated@example.com',
+            'patient_identifier' => 'updated_patient_identifier',
             'phone' => $this->faker->phoneNumber,
             'gender' => 1,
             'birth_date' => $this->faker->date(),
@@ -174,7 +175,8 @@ class PatientTest extends TestCase
             'id' => $patient->id,
             'first_name' => 'Updated Name',
             'last_name' => 'Updated Last Name',
-            'email' => 'updated@example.com'
+            'email' => 'updated@example.com',
+            'patient_identifier' => 'updated_patient_identifier'
         ]);
     }
 
