@@ -377,7 +377,7 @@ class GraphicReductionController extends Controller
             'goal' => $goal, // trae el nombre  del comportamiento que se busco
             'filtered_goals' => $filtered_goals, // lo filtra pero trae el ultimo
             'total_count_this_in_notes_rbt' => count($replacementsCollection), //cuenta el total de este maladative en la nota
-            
+
             'sustitutionStatusStoValues' => $sustitutionStatusStoValues,
             'sustitutionStatusStoNameValues' => $sustitutionStatusStoNameValues,
             'datosFiltrados' => $filtered_data,
