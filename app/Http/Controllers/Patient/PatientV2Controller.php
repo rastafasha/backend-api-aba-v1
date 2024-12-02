@@ -226,26 +226,6 @@ class PatientV2Controller extends Controller
 
         $validated = $request->validate($this->getValidationRules($id));
 
-        if ($request->has('pa_services') && is_array($request->pa_services)) {
-            $existingPaServices = $patient->paServices()->pluck('id')->toArray();
-
-            $newPaServiceIds = [];
-
-            foreach ($request->pa_services as $pa) {
-                $validatedData = PaService::validate($pa);
-                $paService = new PaService($validatedData);
-                $paService->patient_id = $patient->id;
-                $paService->save();
-                $newPaServiceIds[] = $paService->id;
-            }
-
-            $paServicesToDelete = array_diff($existingPaServices, $newPaServiceIds);
-
-            if (!empty($paServicesToDelete)) {
-                PaService::destroy($paServicesToDelete);
-            }
-        }
-
         $patient->update($validated);
 
         return response()->json([
