@@ -20,8 +20,8 @@ class PatientFileResource extends JsonResource
             'name_file' => $this->resource->name_file,
                     'size' => $this->resource->size,
                     'resolution' => $this->resource->resolution,
-                    'file' => env("APP_URL") . "storage/" . $this->resource->file,
-                    // 'file'=> env("APP_URL").$this->resource->file,
+                    // 'file' => env("APP_URL") . "storage/" . $this->resource->file,
+                    'file' => env("APP_URL") . $this->resource->file,
                     'type' => $this->resource->type,
             // 'files'=>$this->resource->files->map(function($file){
             //     return [

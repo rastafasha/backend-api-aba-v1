@@ -24,7 +24,8 @@ class BipResource extends JsonResource
 
                     "id" => $this->resource->doctor->id,
                     "full_name" => $this->resource->doctor->name . ' ' . $this->resource->doctor->surname,
-                    "avatar" => $this->resource->doctor->avatar ? env("APP_URL") . "storage/" . $this->resource->doctor->avatar : null,
+                    // "avatar" => $this->resource->doctor->avatar ? env("APP_URL") . "storage/" . $this->resource->doctor->avatar : null,
+                    "avatar" => $this->resource->doctor->avatar ? env("APP_URL") .  $this->resource->doctor->avatar : null,
                 ] : null,
             "patient_identifier" => $this->resource->patient_identifier,
             "background_information" => $this->resource->background_information,
