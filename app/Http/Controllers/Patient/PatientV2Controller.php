@@ -301,7 +301,7 @@ class PatientV2Controller extends Controller
             'last_name' => 'required|string|max:250',
             'email' => 'nullable|email|max:250',
             'phone' => 'nullable|string|max:25',
-            'patient_identifier' => $id ? 'nullable|string|unique:patients,patient_id,' . $id : 'nullable|string|unique:patients',
+            'patient_identifier' => $id ? 'nullable|string|unique:patients,patient_identifier,' . $id : 'nullable|string|unique:patients',
             // 'patient_id' => $id ? 'nullable|number|unique:patients,patient_id,' . $id : 'nullable|number|unique:patients',
             'birth_date' => 'nullable|date:Y-m-d|before:today',
             'gender' => 'required|integer|in:1,2',
