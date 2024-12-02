@@ -640,7 +640,7 @@ class ClientReportController extends Controller
 
     // mostrar data del paciente por doctor
 
-    public function showByPatientByDoctorId(Request $request, $doctor_id, $patient_identfifier )
+    public function showByPatientByDoctorId(Request $request, $doctor_id, $patient_identfifier)
     {
 
         $size_pagination = 7;
@@ -696,7 +696,7 @@ class ClientReportController extends Controller
             $noteRbt = $noteRbt->orderBy('session_date', 'desc')->paginate($size_pagination);
         }
 
-       
+
             $paService = $patient->paServices()->find($patient->id);
 
         $notes = [];
