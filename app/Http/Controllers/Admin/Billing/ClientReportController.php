@@ -697,7 +697,7 @@ class ClientReportController extends Controller
         }
 
 
-            $paService = $patient->paServices()->find($patient->id);
+            $paService = $patient->paServices()->find(id: $patient->id);
 
         $notes = [];
 
