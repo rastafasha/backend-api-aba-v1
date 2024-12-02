@@ -532,7 +532,7 @@ class PatientController extends Controller
                 $request->request->add(["elegibility_date" => Carbon::parse($date_clean5)->format('Y-m-d h:i:s')]);
             }
             $patient->update($request->all());
-            
+
 
             DB::commit();
             return response()->json([

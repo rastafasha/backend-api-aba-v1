@@ -236,7 +236,7 @@ class PatientV2Controller extends Controller
     public function update(Request $request, $id)
     {
         $patient = Patient::findOrFail($id);
-        
+
         // $validated = $request->validate($this->getValidationRules());
 
 
@@ -260,7 +260,7 @@ class PatientV2Controller extends Controller
 
         // $patient->update($validated);
         $patient->update($request->all());
-        
+
 
         return response()->json([
             'status' => 'success',
