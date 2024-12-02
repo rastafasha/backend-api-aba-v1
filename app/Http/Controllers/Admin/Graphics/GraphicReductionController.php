@@ -26,11 +26,7 @@ class GraphicReductionController extends Controller
      */
     public function config()
     {
-        $users = User::orderBy("id", "desc")
-            // ->whereHas("roles", function($q){
-            //     $q->where("name","like","%DOCTOR%");
-            // })
-            ->get();
+        $users = User::orderBy("id", "desc")->get();
 
         return response()->json([
             "doctors" => $users->map(function ($user) {
@@ -64,16 +60,10 @@ class GraphicReductionController extends Controller
         $doctor = User::where("status", 'active')->get();
 
         return response()->json([
-            // "noteRbt" => NoteRbtResource::make($noteRbt),
             "session_date" => $noteRbt->session_date,
             "interventions" => json_decode($noteRbt->interventions),
             "maladaptives" => json_decode($noteRbt->maladaptives),
-            "replacements" => json_decode($noteRbt->replacements),
-
-
-            // "maladaptives"=>json_decode($noteRbt-> maladaptives),
-
-
+            "replacements" => json_decode($noteRbt->replacements)
 
         ]);
     }
@@ -86,13 +76,7 @@ class GraphicReductionController extends Controller
 
 
         return response()->json([
-            // "id"=>$noteRbt->id,
-            // "noteRbt" => $noteRbt,
-            "noteRbt" => NoteRbtCollection::make($noteRbt),
-            // "bip" => BipResource::make($bip),
-            // "session_date" =>$noteRbt->session_date,
-            // "maladaptives"=>json_decode($noteRbt-> maladaptives),
-            // "replacements"=>json_decode($noteRbt-> replacements),
+            "noteRbt" => NoteRbtCollection::make($noteRbt)
 
 
         ]);
@@ -116,7 +100,6 @@ class GraphicReductionController extends Controller
     {
         // Check if the patient exists
         $patient_is_valid = NoteRbt::where("patient_identifier", $request->patient_identifier)->first();
-        // $patient = Patient::where("patient_identifier", $request->patient_identifier)->first();
         $notebypatient = NoteRbt::where("patient_identifier", $request->patient_identifier)
             ->get();
 
