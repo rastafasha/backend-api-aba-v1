@@ -26,11 +26,7 @@ class GraphicReductionController extends Controller
      */
     public function config()
     {
-        $users = User::orderBy("id", "desc")
-            // ->whereHas("roles", function($q){
-            //     $q->where("name","like","%DOCTOR%");
-            // })
-            ->get();
+        $users = User::orderBy("id", "desc")->get();
 
         return response()->json([
             "doctors" => $users->map(function ($user) {
@@ -64,16 +60,10 @@ class GraphicReductionController extends Controller
         $doctor = User::where("status", 'active')->get();
 
         return response()->json([
-            // "noteRbt" => NoteRbtResource::make($noteRbt),
             "session_date" => $noteRbt->session_date,
             "interventions" => json_decode($noteRbt->interventions),
             "maladaptives" => json_decode($noteRbt->maladaptives),
-            "replacements" => json_decode($noteRbt->replacements),
-
-
-            // "maladaptives"=>json_decode($noteRbt-> maladaptives),
-
-
+            "replacements" => json_decode($noteRbt->replacements)
 
         ]);
     }
@@ -86,13 +76,7 @@ class GraphicReductionController extends Controller
 
 
         return response()->json([
-            // "id"=>$noteRbt->id,
-            // "noteRbt" => $noteRbt,
-            "noteRbt" => NoteRbtCollection::make($noteRbt),
-            // "bip" => BipResource::make($bip),
-            // "session_date" =>$noteRbt->session_date,
-            // "maladaptives"=>json_decode($noteRbt-> maladaptives),
-            // "replacements"=>json_decode($noteRbt-> replacements),
+            "noteRbt" => NoteRbtCollection::make($noteRbt)
 
 
         ]);
@@ -116,7 +100,6 @@ class GraphicReductionController extends Controller
     {
         // Check if the patient exists
         $patient_is_valid = NoteRbt::where("patient_identifier", $request->patient_identifier)->first();
-        // $patient = Patient::where("patient_identifier", $request->patient_identifier)->first();
         $notebypatient = NoteRbt::where("patient_identifier", $request->patient_identifier)
             ->get();
 
@@ -164,7 +147,7 @@ class GraphicReductionController extends Controller
             $maladaptivesCollection->push($item->maladaptives);
             Log::debug("maladaptivesCollection: " . $maladaptivesCollection);
 
-            $json_string = str_replace(['[{\"\\\"[', '\\\\\\"',  ']\\\"\"],'], ['[', '\"',  '"]'], $maladaptives);
+            $json_string = str_replace(['[{\"\\\"[', '\\\\\\"', ']\\\"\"],'], ['[', '\"', '"]'], $maladaptives);
             // Log::debug("Cleaned JSON string: ". $json_string);
 
             // Validate JSON string
@@ -223,37 +206,16 @@ class GraphicReductionController extends Controller
 
         // Log::debug("JSON strings: " . json_encode($json_strings, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT));
 
-
-
-
-        // Convert maladaptives from string to JSON array
-        // $maladaptives = json_decode($item->maladaptives, false);
-        // Log::debug("maladaptives: " . $maladaptives);
-
-
         $filtered_maladaptives = []; // Initialize as an empty array
-
-
-
-
-        //calcular la semana
-
 
         return response()->json([
 
-            // 'decoded' => $mald,
             'maladaptive_behavior' => $maladaptive_behavior, // trae el nombre  del comportamiento que se busco
-
-            // 'maladaptives' => $maladaptives,
             'filtered_maladaptives' => $filtered_maladaptives, // lo filtra pero trae el ultimo
-            // 'total_number_of_occurrences' => array_sum(array_column($filtered_maladaptives, 'number_of_occurrences')),
             'total_count_this_in_notes_rbt' => count($maladaptivesCollection), //cuenta el total de este maladative en la nota
-            // 'sessions_dates' => $sessions,
             'sessions_dates' => $sessions->map(function ($session) {
                 return [
                     'session_date' => $session->session_date,
-                    // 'session_date'=> explode(',', $session->session_date)
-                    // 'session_date'=> $session=explode(",",$session->session_date)
                 ];
             }),
 
@@ -273,7 +235,6 @@ class GraphicReductionController extends Controller
     }
 
 
-    //calcular la semana
 
 
 
@@ -305,11 +266,6 @@ class GraphicReductionController extends Controller
             // Filter the values after the loop
             $filtered_data = array_filter($sustitutionStatusStoValues, function ($row) {
                 return strpos($row, 'inprogress') !== false;
-                // return strpos($row, 'initiated') !== false;
-                // return strpos($row, 'mastered') !== false;
-                // return strpos($row, 'on hold') !== false;
-                // return strpos($row, 'discontinued') !== false;
-                // return strpos($row, 'maintenance') !== false;
             });
 
             // Get the indices of the filtered values
@@ -356,7 +312,7 @@ class GraphicReductionController extends Controller
             $replacementsCollection->push($item->replacements);
             Log::debug("replacementsCollection: " . $replacementsCollection);
 
-            $json_string = str_replace(['[{\"\\\"[', '\\\\\\"',  ']\\\"\"],'], ['[', '\"',  '"]'], $replacements);
+            $json_string = str_replace(['[{\"\\\"[', '\\\\\\"', ']\\\"\"],'], ['[', '\"', '"]'], $replacements);
             // Log::debug("Cleaned JSON string: ". $json_string);
 
             // Validate JSON string
@@ -411,12 +367,6 @@ class GraphicReductionController extends Controller
         }
 
 
-
-
-
-
-
-
         $filtered_data = [];
         $filtered_goals = [];
         $filtered_names = [];
@@ -425,14 +375,15 @@ class GraphicReductionController extends Controller
 
             // 'decoded' => $mald,
             'goal' => $goal, // trae el nombre  del comportamiento que se busco
+            'filtered_goals' => $filtered_goals, // lo filtra pero trae el ultimo
+            'total_count_this_in_notes_rbt' => count($replacementsCollection), //cuenta el total de este maladative en la nota
+
             'sustitutionStatusStoValues' => $sustitutionStatusStoValues,
             'sustitutionStatusStoNameValues' => $sustitutionStatusStoNameValues,
             'datosFiltrados' => $filtered_data,
             'nameSto' => $filtered_names,
 
 
-            'filtered_goals' => $filtered_goals, // lo filtra pero trae el ultimo
-            'total_count_this_in_notes_rbt' => count($replacementsCollection), //cuenta el total de este maladative en la nota
             // 'sessions_dates' => $sessions,
             "sessions_dates" => $sessions->map(function ($session) {
                 return [
@@ -441,54 +392,20 @@ class GraphicReductionController extends Controller
             }),
 
             'replacementsCol' => $replacementsCollection,
-            // 'replacementsCol' => json_decode($replacementsCollection),
 
 
         ], 201);
 
 
 
-        if ($maladaptivesCollection->isEmpty()) {
+        if ($replacementsCollection->isEmpty()) {
             // Return a 404 Not Found response if the $maladaptivesCollection is empty
-            return response()->json(['error' => 'No data found for maladaptive behavior: ' . $maladaptives], 404);
+            return response()->json(['error' => 'No data found for maladaptive behavior: ' . $replacements], 404);
         }
 
         // return response()->json($response, 201);
     }
 
-
-    // public function showGragphicbyReplacement(Request $request, string $replacements ,$patient_id)
-    // {
-    //     $patient_is_valid = NoteRbt::where("patient_id", $request->patient_id)->first();
-
-    //     $noteRbt = NoteRbt::where('replacements', 'LIKE', '%'.$replacements.'%')
-    //     ->where("patient_id", $request->patient_id)->get();
-
-    //     $replacementsCollection = new Collection();
-
-    //     foreach ($noteRbt as $item) {
-    //         $replacementsCollection->push($item->replacements);
-    //     }
-
-    //     return response()->json([
-    //         // "noteRbt" => $noteRbt,
-
-    //         "noteRbt" => NoteRbtCollection::make($noteRbt) ,
-    //         // "session_date" =>$noteRbt->session_date,
-    //         "replacements" => $replacementsCollection->map(function ($replacem) {
-    //             // return $maladaptive;
-    //             return json_decode($replacem);
-    //             foreach ($replacem as $replac){
-    //                 DB::table('note_rbts')->where('replacements','=', $request->replac->goal)->get();
-    //             }
-    //         })->groupBy("session_date")->toArray()
-
-    //     ],201);
-
-
-
-
-    // }
 
 
     public function graphic_patient_month(Request $request)

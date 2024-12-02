@@ -152,8 +152,8 @@ class ParentController extends Controller
 
                 "status" => $patient->status,
                 "gender" => $patient->gender,
-                "avatar" => $patient->avatar ? env("APP_URL") . "storage/" . $patient->avatar : null,
-                // "avatar"=> $patient->avatar ? env("APP_URL").$patient->avatar : null,
+                // "avatar" => $patient->avatar ? env("APP_URL") . "storage/" . $patient->avatar : null,
+                "avatar" => $patient->avatar ? env("APP_URL") . $patient->avatar : null,
             ] : null,
             "bip" => $bip,
             // "bip"=> $bip ?[
@@ -226,8 +226,8 @@ class ParentController extends Controller
 
                 "status" => $patient->status,
                 "gender" => $patient->gender,
-                "avatar" => $patient->avatar ? env("APP_URL") . "storage/" . $patient->avatar : null,
-                // "avatar"=> $patient->avatar ? env("APP_URL").$patient->avatar : null,
+                // "avatar" => $patient->avatar ? env("APP_URL") . "storage/" . $patient->avatar : null,
+                "avatar" => $patient->avatar ? env("APP_URL") . $patient->avatar : null,
             ] : null,
 
 
