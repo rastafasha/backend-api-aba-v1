@@ -9,6 +9,12 @@ Route::get('graphic_reduction/show/{id}', [GraphicReductionController::class, 's
 Route::get('graphic_reduction/config', [GraphicReductionController::class, 'config'])->name('config');
 Route::get('graphic_reduction/showpatient/{patient_identifier}', [GraphicReductionController::class, 'showPatientId'])->name('showPatientId');
 Route::get('graphic_reduction/showbyPatient/{patient_identifier}', [GraphicReductionController::class, 'showbyPatientId'])->name('showbyPatientId');
-Route::get('graphic_reduction/showbyMaladaptive/{maladaptive}/{patient_identifier}', [GraphicReductionController::class, 'showGragphicbyMaladaptive'])->name('showGragphicbyMaladaptive');
-Route::get('graphic_reduction/showbyReplacement/{replacement}/{patient_identifier}', [GraphicReductionController::class, 'showGragphicbyReplacement'])->name('showGragphicbyReplacement');
+Route::get(
+    'graphic_reduction/showbyMaladaptive/{maladaptive}/{patient_identifier}',
+    [GraphicReductionController::class, 'showGragphicbyMaladaptive']
+)->name('showGragphicbyMaladaptive');
+Route::get(
+    'graphic_reduction/showbyReplacement/{replacement}/{patient_identifier}',
+    [GraphicReductionController::class, 'showGragphicbyReplacement']
+)->name('showGragphicbyReplacement');
 Route::post('graphic_reduction/patient-month', [GraphicReductionController::class, 'graphic_patient_month'])->name('graphic_patient_month');
