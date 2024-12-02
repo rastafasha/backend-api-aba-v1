@@ -236,7 +236,7 @@ class PatientController extends Controller
      */
     public function store(Request $request)
     {
-        $patient_is_valid = Patient::where("patient_id", $request->patient_id)->first();
+        $patient_is_valid = Patient::where("id", $request->id)->first();
 
         // $request->request->add(["pa_assessments" => json_encode($request->pa_assessments)]);
         // $request->request->add(["pos_covered" => json_encode($request->pos_covered)]);
@@ -330,9 +330,11 @@ class PatientController extends Controller
         ]);
     }
 
-    public function showPatientId($patient_id)
+    public function showPatientId($id)
     {
 
+        $patient_id = Patient::where('id', $id)->first();
+        $patient = Patient::where('id', $id)->first();
         $doctors = Patient::join('users', 'patients.id', '=', 'users.id')
         ->select(
             'patients.id as id',
@@ -341,7 +343,6 @@ class PatientController extends Controller
         ->get();
 
 
-        $patient = Patient::where('patient_id', $patient_id)->first();
 
         return response()->json([
 
@@ -445,29 +446,29 @@ class PatientController extends Controller
             $request->request->add(["birth_date" => Carbon::parse($date_clean)->format('Y-m-d h:i:s')]);
         }
 
-        if ($request->pa_assessment_start_date) {
-            $date_clean1 = preg_replace('/\(.*\)|[A-Z]{3}-\d{4}/', '', $request->pa_assessment_start_date);
-            $request->request->add(["pa_assessment_start_date" => Carbon::parse($date_clean1)->format('Y-m-d h:i:s')]);
-        }
+        // if ($request->pa_assessment_start_date) {
+        //     $date_clean1 = preg_replace('/\(.*\)|[A-Z]{3}-\d{4}/', '', $request->pa_assessment_start_date);
+        //     $request->request->add(["pa_assessment_start_date" => Carbon::parse($date_clean1)->format('Y-m-d h:i:s')]);
+        // }
 
-        if ($request->pa_assessment_end_date) {
-            $date_clean2 = preg_replace('/\(.*\)|[A-Z]{3}-\d{4}/', '', $request->pa_assessment_end_date);
-            $request->request->add(["pa_assessment_end_date" => Carbon::parse($date_clean2)->format('Y-m-d h:i:s')]);
-        }
+        // if ($request->pa_assessment_end_date) {
+        //     $date_clean2 = preg_replace('/\(.*\)|[A-Z]{3}-\d{4}/', '', $request->pa_assessment_end_date);
+        //     $request->request->add(["pa_assessment_end_date" => Carbon::parse($date_clean2)->format('Y-m-d h:i:s')]);
+        // }
 
-        if ($request->pa_services_start_date) {
-            $date_clean3 = preg_replace('/\(.*\)|[A-Z]{3}-\d{4}/', '', $request->pa_services_start_date);
-            $request->request->add(["pa_services_start_date" => Carbon::parse($date_clean3)->format('Y-m-d h:i:s')]);
-        }
+        // if ($request->pa_services_start_date) {
+        //     $date_clean3 = preg_replace('/\(.*\)|[A-Z]{3}-\d{4}/', '', $request->pa_services_start_date);
+        //     $request->request->add(["pa_services_start_date" => Carbon::parse($date_clean3)->format('Y-m-d h:i:s')]);
+        // }
 
-        if ($request->pa_services_end_date) {
-            $date_clean4 = preg_replace('/\(.*\)|[A-Z]{3}-\d{4}/', '', $request->pa_services_end_date);
-            $request->request->add(["pa_services_end_date" => Carbon::parse($date_clean4)->format('Y-m-d h:i:s')]);
-        }
-        if ($request->elegibility_date) {
-            $date_clean5 = preg_replace('/\(.*\)|[A-Z]{3}-\d{4}/', '', $request->elegibility_date);
-            $request->request->add(["elegibility_date" => Carbon::parse($date_clean5)->format('Y-m-d h:i:s')]);
-        }
+        // if ($request->pa_services_end_date) {
+        //     $date_clean4 = preg_replace('/\(.*\)|[A-Z]{3}-\d{4}/', '', $request->pa_services_end_date);
+        //     $request->request->add(["pa_services_end_date" => Carbon::parse($date_clean4)->format('Y-m-d h:i:s')]);
+        // }
+        // if ($request->elegibility_date) {
+        //     $date_clean5 = preg_replace('/\(.*\)|[A-Z]{3}-\d{4}/', '', $request->elegibility_date);
+        //     $request->request->add(["elegibility_date" => Carbon::parse($date_clean5)->format('Y-m-d h:i:s')]);
+        // }
 
         $patient->update($request->all());
 
@@ -479,8 +480,6 @@ class PatientController extends Controller
         return response()->json([
             "message" => 200,
             "patient" => $patient,
-            "pa_assessments" => $patient->pa_assessments ? json_decode($patient->pa_assessments) : [],
-            "pa_assessments" => $patient->pos_covered ? json_decode($patient->pos_covered) : [],
         ]);
     }
 
@@ -494,7 +493,7 @@ class PatientController extends Controller
 
             $input = $this->userInput($patient);
             $request->request->add(["pa_services" => json_encode($request->services)]);
-            $request->request->add(["pa_assessments" => json_encode($request->pa_assessments)]);
+            // $request->request->add(["pa_assessments" => json_encode($request->pa_assessments)]);
             $request->request->add(["pos_covered" => json_encode($request->pos_covered)]);
             if ($request->hasFile('imagen')) {
                 if ($patient->avatar) {
@@ -533,7 +532,7 @@ class PatientController extends Controller
                 $request->request->add(["elegibility_date" => Carbon::parse($date_clean5)->format('Y-m-d h:i:s')]);
             }
             $patient->update($request->all());
-            ;
+            
 
             DB::commit();
             return response()->json([
