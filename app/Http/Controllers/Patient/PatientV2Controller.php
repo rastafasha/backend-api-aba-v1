@@ -148,7 +148,6 @@ class PatientV2Controller extends Controller
                 $paService = new PaService($validatedData);
                 $paService->patient_id = $patient->id;
                 $paService->save();
-                // $paService = PaService::create($request->all());
             }
         }
 
@@ -259,8 +258,11 @@ class PatientV2Controller extends Controller
 
 
         // $patient->update($validated);
-        $patient->update($request->all());
+//         $patient->update($request->all());
+        $validated = $request->validate($this->getValidationRules($id));
 
+
+        $patient->update($validated);
 
         return response()->json([
             'status' => 'success',
@@ -315,8 +317,9 @@ class PatientV2Controller extends Controller
             'last_name' => 'required|string|max:250',
             'email' => 'nullable|email|max:250',
             'phone' => 'nullable|string|max:25',
-            'patient_identifier' => $id ? 'nullable|string|unique:patients,patient_id,' . $id : 'nullable|string|unique:patients',
+            'patient_identifier' => $id ? 'nullable|string|unique:patients,patient_identifier,' . $id : 'nullable|string|unique:patients',
             // 'patient_id' => $id ? 'nullable|number|unique:patients,patient_id,' . $id : 'nullable|number|unique:patients',
+            'pa_services' => 'nullable|array',
             'birth_date' => 'nullable|date:Y-m-d|before:today',
             'gender' => 'required|integer|in:1,2',
             // 'age' => 'nullable|string|max:50',

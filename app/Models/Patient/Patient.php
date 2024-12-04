@@ -50,8 +50,8 @@ use Illuminate\Support\Facades\DB;
  *     @OA\Property(property="insurer_secondary_id", type="integer", format="int64", nullable=true, description="Insurance secondary ID"),
  *     @OA\Property(property="insurance_identifier", type="string", nullable=true),
  *     @OA\Property(property="insurance_secondary_identifier", type="string", nullable=true),
- *     @OA\Property(property="telehealth", type="string", maxLength=50, default="false", description="Telehealth status"),
- *     @OA\Property(property="pay", type="string", maxLength=50, default="false", description="Payment status"),
+ *     @OA\Property(property="telehealth", type="boolean", default=false, description="Telehealth status"),
+ *     @OA\Property(property="pay", type="boolean", default=false, description="Payment status"),
  *     @OA\Property(property="created_at", type="string", format="date-time", nullable=true),
  *     @OA\Property(property="updated_at", type="string", format="date-time", nullable=true),
  *     @OA\Property(property="deleted_at", type="string", format="date-time", nullable=true)

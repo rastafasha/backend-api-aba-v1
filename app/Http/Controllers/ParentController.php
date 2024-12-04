@@ -58,7 +58,7 @@ class ParentController extends Controller
 
         $validator = Validator::make($request->all(), [
             'email' => 'required|email|unique:parents',
-            'patient_id' => 'required|string',
+            'patient_identifier' => 'required|string',
             // ...
         ]);
 
