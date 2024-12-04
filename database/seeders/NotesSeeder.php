@@ -75,19 +75,46 @@ class NotesSeeder extends Seeder
                 'session_length_total' => 2.0,
                 'environmental_changes' => 'None noted',
                 'maladaptives' => [
-                    'tantrums' => 3,
-                    'aggression' => 1
+                    [
+                        'index' => 1,
+                        'maladaptive_behavior' => 'Bad Words',
+                        'topografical_definition' => 'Said bad word every day',
+                        'baseline_level' => 43,
+                        'baseline_date' => '2024-11-23T04:00:00.000Z',
+                        'initial_interesting' => 30,
+                        'current_intensity' => 58,
+                        'number_of_occurrences' => 12,
+                    ],
+                    [
+                        'index' => 2,
+                        'maladaptive_behavior' => 'Drawin walls',
+                        'topografical_definition' => 'draw wall til sleep',
+                        'baseline_level' => 30,
+                        'baseline_date' => '2024-11-24T04:00:00.000Z',
+                        'initial_interesting' => 30,
+                        'current_intensity' => 70,
+                        'number_of_occurrences' => 15,
+                    ],
                 ],
+                
                 'replacements' => [
-                    'verbal_requests' => 5,
-                    'waiting_quietly' => 4
+                    'id'=> 1,
+                    'goal' => 'test goal',
+                    'current_status' => 'test',
+                    'description' => 'description',
+                    'patient_identifier' => 'PAT001',
+                    'client_id' => 1,
+                    'bip_id' => 1,
+                    'total_trials' => 6,
+                    'number_of_correct_response' => 5
                 ],
+                
+                
                 'interventions' => [
-                    'positive_reinforcement' => true,
-                    'prompting' => true,
-                    'redirection' => true
+                    'pairing' => true,
+                    'errorless_teaching' => true,
                 ],
-                'meet_with_client_at' => 'Home',
+                'meet_with_client_at' => '03',
                 'client_appeared' => 'Alert and engaged',
                 'as_evidenced_by' => 'Active participation in activities',
                 'rbt_modeled_and_demonstrated_to_caregiver' => 'Positive reinforcement techniques',
@@ -120,19 +147,47 @@ class NotesSeeder extends Seeder
                 'session_length_total' => 2.0,
                 'environmental_changes' => 'Minimal distractions',
                 'maladaptives' => [
-                    'tantrums' => 2,
-                    'aggression' => 0
+                    [
+                        'index' => 1,
+                        'maladaptive_behavior' => 'Bad Words',
+                        'topografical_definition' => 'Said bad word every day',
+                        'baseline_level' => 43,
+                        'baseline_date' => '2024-11-23T04:00:00.000Z',
+                        'initial_interesting' => 30,
+                        'current_intensity' => 58,
+                        'number_of_occurrences' => 12,
+                    ],
+                    [
+                        'index' => 2,
+                        'maladaptive_behavior' => 'Drawin walls',
+                        'topografical_definition' => 'draw wall til sleep',
+                        'baseline_level' => 30,
+                        'baseline_date' => '2024-11-24T04:00:00.000Z',
+                        'initial_interesting' => 30,
+                        'current_intensity' => 70,
+                        'number_of_occurrences' => 15,
+                    ],
                 ],
+                
                 'replacements' => [
-                    'verbal_requests' => 6,
-                    'waiting_quietly' => 5
+                    'id'=> 1,
+                    'goal' => 'test goal',
+                    'current_status' => 'test',
+                    'description' => 'description',
+                    'patient_identifier' => 'PAT001',
+                    'client_id' => 1,
+                    'bip_id' => 1,
+                    'total_trials' => 6,
+                    'number_of_correct_response' => 5
                 ],
+                
+                
                 'interventions' => [
-                    'positive_reinforcement' => true,
-                    'prompting' => true,
-                    'modeling' => true
+                    'pairing' => true,
+                    'errorless_teaching' => true,
                 ],
-                'meet_with_client_at' => 'Home',
+
+                'meet_with_client_at' => '03',
                 'client_appeared' => 'Calm and cooperative',
                 'as_evidenced_by' => 'Following instructions consistently',
                 'rbt_modeled_and_demonstrated_to_caregiver' => 'Behavior management strategies',
@@ -167,19 +222,45 @@ class NotesSeeder extends Seeder
                 'session_length_total' => 2.0,
                 'environmental_changes' => 'Structured environment',
                 'maladaptives' => [
-                    'self_stimming' => 4,
-                    'avoidance' => 2
+                    [
+                        'index' => 1,
+                        'maladaptive_behavior' => 'Bad Words',
+                        'topografical_definition' => 'Said bad word every day',
+                        'baseline_level' => 43,
+                        'baseline_date' => '2024-11-23T04:00:00.000Z',
+                        'initial_interesting' => 30,
+                        'current_intensity' => 58,
+                        'number_of_occurrences' => 12,
+                    ],
+                    [
+                        'index' => 2,
+                        'maladaptive_behavior' => 'Drawin walls',
+                        'topografical_definition' => 'draw wall til sleep',
+                        'baseline_level' => 30,
+                        'baseline_date' => '2024-11-24T04:00:00.000Z',
+                        'initial_interesting' => 30,
+                        'current_intensity' => 70,
+                        'number_of_occurrences' => 15,
+                    ],
                 ],
+                
                 'replacements' => [
-                    'task_completion' => 5,
-                    'social_interaction' => 3
+                    'id'=> 1,
+                    'goal' => 'test goal',
+                    'current_status' => 'test',
+                    'description' => 'description',
+                    'patient_identifier' => 'PAT002',
+                    'client_id' => 2,
+                    'bip_id' => 1,
+                    'total_trials' => 6,
+                    'number_of_correct_response' => 5
                 ],
+                
                 'interventions' => [
-                    'positive_reinforcement' => true,
-                    'token_economy' => true,
-                    'visual_schedules' => true
+                    'pairing' => true,
+                    'errorless_teaching' => true,
                 ],
-                'meet_with_client_at' => 'Home',
+                'meet_with_client_at' => '03',
                 'client_appeared' => 'Energetic but focused',
                 'as_evidenced_by' => 'Completed multiple learning activities',
                 'rbt_modeled_and_demonstrated_to_caregiver' => 'Token economy system',
@@ -212,19 +293,40 @@ class NotesSeeder extends Seeder
                 'session_length_total' => 2.0,
                 'environmental_changes' => 'Quiet study area',
                 'maladaptives' => [
-                    'self_stimming' => 3,
-                    'avoidance' => 1
+                    [
+                        
+                    ],
+                    
+                    [
+                        'index' => 2,
+                        'maladaptive_behavior' => 'Drawin walls',
+                        'topografical_definition' => 'draw wall til sleep',
+                        'baseline_level' => 30,
+                        'baseline_date' => '2024-11-24T04:00:00.000Z',
+                        'initial_interesting' => 30,
+                        'current_intensity' => 70,
+                        'number_of_occurrences' => 15,
+                    ],
                 ],
+                
                 'replacements' => [
-                    'task_completion' => 6,
-                    'social_interaction' => 4
+                    'id'=> 1,
+                    'goal' => 'test goal',
+                    'current_status' => 'test',
+                    'description' => 'description',
+                    'patient_identifier' => 'PAT002',
+                    'client_id' => 2,
+                    'bip_id' => 1,
+                    'total_trials' => 6,
+                    'number_of_correct_response' => 5
                 ],
+                
+                
                 'interventions' => [
-                    'positive_reinforcement' => true,
-                    'token_economy' => true,
-                    'social_stories' => true
+                    'pairing' => true,
+                    'errorless_teaching' => true,
                 ],
-                'meet_with_client_at' => 'Home',
+                'meet_with_client_at' => '03',
                 'client_appeared' => 'Well-regulated',
                 'as_evidenced_by' => 'Maintained attention throughout session',
                 'rbt_modeled_and_demonstrated_to_caregiver' => 'Social story implementation',
@@ -245,6 +347,7 @@ class NotesSeeder extends Seeder
             // BCBA Note for Patient 1
             [
                 'patient_id' => 1,
+                'patient_identifier' => 'PAT001',
                 'insurance_id' => 2,
                 'doctor_id' => 3,
                 'pa_service_id' => 2,
@@ -260,23 +363,26 @@ class NotesSeeder extends Seeder
                 'note_description' => 'Patient showing consistent progress in communication skills. RBT implementation of behavior protocols is effective.',
                 'caregiver_goals' => [
                     [
+                        'index' => 1,
+                        'caregiver_goal' => 'test',
+                        'outcome_measure' => 'test',
                         'criteria' => 'test',
                         'initiation' => '2024-07-12T04:00:00.000Z',
-                        'caregiver_goal' => 'test',
                         'current_status' => 'new',
-                        'outcome_measure' => 'test',
                         'porcent_of_correct_response' => 12
                     ]
                 ],
+
                 'rbt_training_goals' => [
                     [
+                        'index' => 2,
                         'lto' => 'RBT will independently demonstrate appropriate data collection, near 100% of opportunities, across two consecutive observations.',
                         'date' => '2024-07-12T04:00:00.000Z',
                         'status' => 'inprogress',
                         'porcent_of_correct_response' => 32
                     ]
                 ],
-                'meet_with_client_at' => 'Home',
+                'meet_with_client_at' => '03',
                 'provider_signature' => 'Sarah BCBA',
                 'supervisor_signature' => 'Sarah BCBA',
                 'status' => 'ok',
@@ -287,6 +393,7 @@ class NotesSeeder extends Seeder
             // BCBA Note for Patient 2
             [
                 'patient_id' => 2,
+                'patient_identifier' => 'PAT002',
                 'insurance_id' => 2,
                 'doctor_id' => 4,
                 'pa_service_id' => 4,
@@ -302,23 +409,28 @@ class NotesSeeder extends Seeder
                 'note_description' => 'Patient demonstrated improved task engagement. Token economy system is proving effective.',
                 'caregiver_goals' => [
                     [
+                        'index' => 1,
+                        'caregiver_goal' => 'test',
+                        'outcome_measure' => 'test',
                         'criteria' => 'test',
                         'initiation' => '2024-07-12T04:00:00.000Z',
-                        'caregiver_goal' => 'test',
                         'current_status' => 'new',
-                        'outcome_measure' => 'test',
                         'porcent_of_correct_response' => 12
                     ]
                 ],
+
                 'rbt_training_goals' => [
                     [
+                        'index' => 2,
                         'lto' => 'RBT will independently demonstrate appropriate data collection, near 100% of opportunities, across two consecutive observations.',
                         'date' => '2024-07-12T04:00:00.000Z',
                         'status' => 'inprogress',
                         'porcent_of_correct_response' => 32
                     ]
                 ],
-                'meet_with_client_at' => 'Home',
+
+
+                'meet_with_client_at' => '03',
                 'provider_signature' => 'Mike BCBA',
                 'supervisor_signature' => 'Mike BCBA',
                 'status' => 'ok',

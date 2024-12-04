@@ -14,21 +14,24 @@ class ReductionGoalsSeeder extends Seeder
             'patient_identifier' => "PAT001",
             'client_id' => 1,
             'current_status' => 'test',
-            'maladaptive' => 'test',
+            'maladaptive' => 'Bad Words',
             'goalstos' => '[{
-                "sto": "test",
-                "date_sto": "2024-07-12T04:00:00.000Z", 
-                "status_sto": "inprogress",
-                "maladaptive": "test",
-                "decription_sto": "test",
-                "status_sto_edit": "inprogress"
-            }]',
+                    "sto": "1",
+                    "index": 1,
+                    "status_sto": "inprogress",
+                    "maladaptive": "Bad Words",
+                    "end_date_sto": "2024-12-28T04:00:00.000Z",
+                    "status_sto_edit": "inprogress",
+                    "initial_date_sto": "2024-12-04T04:00:00.000Z"
+                }]',
+
             'goalltos' => '[{
-                "lto": "test",
-                "date_lto": "2024-07-12T04:00:00.000Z",
-                "status_lto": "initiated", 
-                "decription_lto": "test"
-            }]',
+                    "lto": "1",
+                    "index": 1,
+                    "status_lto": "inprogress",
+                    "end_date_lto": "2024-12-28T04:00:00.000Z",
+                    "initial_date_lto": "2024-12-04T04:00:00.000Z"
+                }]',
         ]);
     }
 }

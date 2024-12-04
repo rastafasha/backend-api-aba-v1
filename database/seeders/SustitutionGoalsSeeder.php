@@ -22,14 +22,23 @@ class SustitutionGoalsSeeder extends Seeder
                 "sustitution_status_sto": "inprogress",
                 "sustitution_sto": "test",
                 "decription_sto": "test",
-                "sustitution_status_sto_edit": "inprogress"
+                "sustitution_date_sto": "2024-12-04T04:00:00.000Z",
+                "end_sustitution_date_sto": "2024-12-28T04:00:00.000Z",
+                "target": "35-45"
             }]',
             'goalltos' => '[{
-                "lto": "test",
-                "date_lto": "2024-07-12T04:00:00.000Z",
-                "status_lto": "initiated",
+                "sustitution_lto": "1",
+                "sustitution_date_lto": "2024-12-04T04:00:00.000Z",
+                "end_sustitution_date_lto": "2024-12-28T04:00:00.000Z",
+                "sustitution_status_lto": "initiated",
                 "decription_lto": "test"
+                
             }]',
+
+
+            
+
+            
         ]);
 
         SustitutionGoal::create([
@@ -40,18 +49,22 @@ class SustitutionGoalsSeeder extends Seeder
             'goal' => 'communication improvement',
             'description' => 'improve verbal communication skills',
             'goalstos' => '[{
-                "sto": "use complete sentences",
-                "date_sto": "2024-07-15T04:00:00.000Z",
+                "sto": "test",
+                "date_sto": "2024-07-12T04:00:00.000Z",
                 "sustitution_status_sto": "inprogress",
-                "sustitution_sto": "verbal communication",
-                "decription_sto": "practice forming complete sentences",
-                "sustitution_status_sto_edit": "inprogress"
+                "sustitution_sto": "test",
+                "decription_sto": "test",
+                "sustitution_date_sto": "2024-12-04T04:00:00.000Z",
+                "end_sustitution_date_sto": "2024-12-28T04:00:00.000Z",
+                "target": "35-45"
             }]',
             'goalltos' => '[{
-                "lto": "maintain conversations",
-                "date_lto": "2024-07-15T04:00:00.000Z",
-                "status_lto": "initiated",
-                "decription_lto": "ability to maintain basic conversations"
+                "sustitution_lto": "1",
+                "sustitution_date_lto": "2024-12-04T04:00:00.000Z",
+                "end_sustitution_date_lto": "2024-12-28T04:00:00.000Z",
+                "sustitution_status_lto": "initiated",
+                "decription_lto": "test"
+                
             }]',
         ]);
     }
