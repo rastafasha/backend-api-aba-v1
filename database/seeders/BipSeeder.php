@@ -16,7 +16,16 @@ class BipSeeder extends Seeder
                 'patient_identifier' => 'PAT001',
                 'doctor_id' => 3, // BCBA1
                 'type_of_assessment' => 3,
-                'documents_reviewed' => ['Initial Assessment', 'Medical Records'],
+                'documents_reviewed' => [
+                    [
+                        'index' =>1,
+                        'title' => 'School Records'
+                    ],
+                    [
+                        'index' =>2,
+                        'title' => 'Behavioral Assessment'
+                    ]
+                ],
                 'background_information' => 'Patient background information for PAT001',
                 'previus_treatment_and_result' => 'Previous ABA therapy with positive outcomes',
                 'current_treatment_and_progress' => 'Currently receiving regular ABA therapy',
@@ -54,7 +63,17 @@ class BipSeeder extends Seeder
                 'patient_identifier' => 'PAT002',
                 'doctor_id' => 4, // BCBA2
                 'type_of_assessment' => 3,
-                'documents_reviewed' => ['Behavioral Assessment', 'School Records'],
+                'documents_reviewed' => [
+
+                    [
+                        'index' =>1,
+                        'title' => 'School Records'
+                    ],
+                    [
+                        'index' =>2,
+                        'title' => 'Behavioral Assessment'
+                    ]
+                ],
                 'background_information' => 'Patient background information for PAT002',
                 'previus_treatment_and_result' => 'First time in ABA therapy',
                 'current_treatment_and_progress' => 'New to ABA treatment program',
