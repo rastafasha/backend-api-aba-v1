@@ -327,6 +327,7 @@ class NoteBcbaController extends Controller
         $noteBcba->paid = $request->paid;
         $noteBcba->md = $request->md;
         $noteBcba->md2 = $request->md2;
+        $noteBcba->md3 = $request->md3;
         $noteBcba->status = $request->status;
         $noteBcba->update();
         return $noteBcba;
