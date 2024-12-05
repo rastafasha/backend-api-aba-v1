@@ -704,6 +704,7 @@ class NoteRbtController extends Controller
         $noteRbt->paid = $request->paid;
         $noteRbt->md = $request->md;
         $noteRbt->md2 = $request->md2;
+        $noteRbt->md3 = $request->md3;
         $noteRbt->status = $request->status;
         $noteRbt->update();
         return $noteRbt;
