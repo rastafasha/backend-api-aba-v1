@@ -74,7 +74,7 @@ class NoteRbtResource extends JsonResource
             "progress_noted_this_session_compared_to_previous_session" => $this->resource->progress_noted_this_session_compared_to_previous_session,
 
             "provider_signature" => $this->resource->provider_signature ? $this->resource->provider_signature : null,
-            
+
             // "provider_signature" => $this->resource->provider_signature ? env("APP_URL") . $this->resource->provider_signature : null,
             // "provider_signature" => $this->resource->provider_signature,
             "provider_name" => $this->resource->provider_name,
