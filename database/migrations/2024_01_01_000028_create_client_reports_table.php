@@ -28,6 +28,7 @@ class CreateClientReportsTable extends Migration
             // Modifiers
             $table->string('md', 50)->nullable();
             $table->string('md2', 50)->nullable();
+            $table->string('md3', 50)->nullable();
             $table->string('mdbcba', 50)->nullable();
             $table->string('md2bcba', 50)->nullable();
 

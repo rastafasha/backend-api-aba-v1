@@ -27,6 +27,7 @@ class ClientReportResource extends JsonResource
             'insurer_id' => $this->resource->insurer_id,
             'md' => $this->resource->md,
             'md2' => $this->resource->md2,
+            'md3' => $this->resource->md3,
             'mdbcba' => $this->resource->mdbcba,
             'md2bcba' => $this->resource->md2bcba,
             'billed' => $this->resource->billed,
