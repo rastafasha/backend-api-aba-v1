@@ -41,6 +41,7 @@ class CreateNoteBcbasTable extends Migration
             $table->boolean('paid')->default(false);
             $table->string('md', 20)->nullable();
             $table->string('md2', 20)->nullable();
+            $table->string('md3', 20)->nullable();
             $table->unsignedInteger('location_id')->nullable();
             $table->foreignId('pa_service_id')->nullable()->constrained('pa_services')->nullOnDelete();
             $table->timestamps();
