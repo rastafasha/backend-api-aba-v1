@@ -73,15 +73,19 @@ class NoteRbtResource extends JsonResource
             "client_response_to_treatment_this_session" => $this->resource->client_response_to_treatment_this_session,
             "progress_noted_this_session_compared_to_previous_session" => $this->resource->progress_noted_this_session_compared_to_previous_session,
 
+
             "provider_signature" => $this->resource->provider_signature ? $this->resource->provider_signature : null,
 
             // "provider_signature" => $this->resource->provider_signature ? env("APP_URL") . $this->resource->provider_signature : null,
+
             // "provider_signature" => $this->resource->provider_signature,
             "provider_name" => $this->resource->provider_name,
 
             "pa_service_id" => $this->resource->pa_service_id,
+
             // "supervisor_signature" => $this->resource->supervisor_signature ? env("APP_URL") . $this->resource->supervisor_signature : null,
             "supervisor_signature" => $this->resource->supervisor_signature ? $this->resource->supervisor_signature : null,
+
             "supervisor_name" => $this->resource->supervisor_name,
             'supervisor' => $this->when($this->resource->supervisor, function () {
                 return [
