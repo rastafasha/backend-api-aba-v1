@@ -835,7 +835,7 @@ class ClientReportController extends Controller
                 // 'time_out2' => $noteBcba->time_out2,
                 "total_hours" =>
                 date("H:i", strtotime($notebcba->time_out) - strtotime($notebcba->time_in) + strtotime($notebcba->time_out2) - strtotime($notebcba->time_in2)),
-                
+
                 "supervisor_name" => $notebcba->supervisor_id,
                 'supervisor' => $notebcba->supervisor_id,
                 'supervisor' => [
