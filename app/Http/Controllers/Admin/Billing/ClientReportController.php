@@ -824,17 +824,18 @@ class ClientReportController extends Controller
                 "provider_name" => $notebcba->provider_name,
                 "session_date" => $notebcba->session_date,
                 'tecnico' => $notebcba->provider_id,
+                // 'tecnico' => [
+                //     'name' => $notebcba->tecnico->name,
+                //     'surname' => $notebcba->tecnico->surname,
+                //     'npi' => $notebcba->tecnico->npi,
+                // ],
                 // 'time_in' => $noteBcba->time_in,
                 // 'time_out' => $noteBcba->time_out,
                 // 'time_in2' => $noteBcba->time_in2,
                 // 'time_out2' => $noteBcba->time_out2,
                 "total_hours" =>
                 date("H:i", strtotime($notebcba->time_out) - strtotime($notebcba->time_in) + strtotime($notebcba->time_out2) - strtotime($notebcba->time_in2)),
-                // 'tecnico' => [
-                //     'name' => $notebcba->tecnico->name,
-                //     'surname' => $notebcba->tecnico->surname,
-                //     'npi' => $notebcba->tecnico->npi,
-                // ],
+                
                 "supervisor_name" => $notebcba->supervisor_id,
                 'supervisor' => $notebcba->supervisor_id,
                 'supervisor' => [
@@ -850,8 +851,9 @@ class ClientReportController extends Controller
                 //     'npi' => $notebcba->abasupervisor->npi,
                 // ],
                 'cpt_code' => $notebcba->cpt_code,
-                'mdbcba' => $notebcba->mdbcba,
-                'md2bcba' => $notebcba->md2bcba,
+                'mdbcba' => $notebcba->md,
+                'md2bcba' => $notebcba->md2,
+                'md3bcba' => $notebcba->md3,
                 'billedbcba' => $notebcba->billedbcba,
                 'paybcba' => $notebcba->paybcba,
                 'meet_with_client_at' => $notebcba->meet_with_client_at,
