@@ -258,10 +258,10 @@ class OpenAIController extends Controller
             'endTime2' => ['sometimes', 'nullable', new TimeFormat()],
             'pos' => 'string',
             'cpt' => 'string',
-            'caregiverGoals' => 'required|array',
+            'caregiverGoals' => 'sometimes|array',
             'caregiverGoals.*.goal' => 'required|string',
             'caregiverGoals.*.percentCorrect' => 'required|numeric',
-            'rbtTrainingGoals' => 'required|array',
+            'rbtTrainingGoals' => 'sometimes|array',
             'rbtTrainingGoals.*.goal' => 'required|string',
             'rbtTrainingGoals.*.percentCorrect' => 'required|numeric',
             // 'noteDescription' => 'required|string',
@@ -301,13 +301,15 @@ class OpenAIController extends Controller
 
     private function constructBcbaPrompt(Request $request): string
     {
-        $caregiverGoals = collect($request->caregiverGoals)->map(function ($item) {
-            return "{$item['goal']}: {$item['percentCorrect']}% correct";
-        })->implode(', ');
+        $caregiverGoals = isset($request->caregiverGoals) ? 
+            collect($request->caregiverGoals)->map(function ($item) {
+                return "{$item['goal']}: {$item['percentCorrect']}% correct";
+            })->implode(', ') : '';
 
-        $rbtTrainingGoals = collect($request->rbtTrainingGoals)->map(function ($item) {
-            return "{$item['goal']}: {$item['percentCorrect']}% correct";
-        })->implode(', ');
+        $rbtTrainingGoals = isset($request->rbtTrainingGoals) ? 
+            collect($request->rbtTrainingGoals)->map(function ($item) {
+                return "{$item['goal']}: {$item['percentCorrect']}% correct";
+            })->implode(', ') : '';
 
         $prompt = "Create a summary note as Board Certified Behavior Analyst (BCBA) for the treatment of a child with {$request->diagnosis} ";
 
@@ -331,9 +333,15 @@ class OpenAIController extends Controller
             $prompt .= "Afternoon session: {$request->startTime2} to {$request->endTime2}\n";
         }
 
-        $prompt .= "\nCaregiver Training Goals: {$caregiverGoals}\n" .
-            "RBT Training Goals: {$rbtTrainingGoals}\n" .
-            "Session Description: {$request->noteDescription}";
+        if ($caregiverGoals) {
+            $prompt .= "\nCaregiver Training Goals: {$caregiverGoals}\n";
+        }
+        if ($rbtTrainingGoals) {
+            $prompt .= "RBT Training Goals: {$rbtTrainingGoals}\n";
+        }
+        if (isset($request->noteDescription)) {
+            $prompt .= "Session Description: {$request->noteDescription}";
+        }
 
         return $prompt;
     }
