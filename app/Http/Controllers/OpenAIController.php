@@ -301,12 +301,12 @@ class OpenAIController extends Controller
 
     private function constructBcbaPrompt(Request $request): string
     {
-        $caregiverGoals = isset($request->caregiverGoals) ? 
+        $caregiverGoals = isset($request->caregiverGoals) ?
             collect($request->caregiverGoals)->map(function ($item) {
                 return "{$item['goal']}: {$item['percentCorrect']}% correct";
             })->implode(', ') : '';
 
-        $rbtTrainingGoals = isset($request->rbtTrainingGoals) ? 
+        $rbtTrainingGoals = isset($request->rbtTrainingGoals) ?
             collect($request->rbtTrainingGoals)->map(function ($item) {
                 return "{$item['goal']}: {$item['percentCorrect']}% correct";
             })->implode(', ') : '';
