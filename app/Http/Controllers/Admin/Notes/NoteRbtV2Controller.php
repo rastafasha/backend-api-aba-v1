@@ -404,6 +404,114 @@ class NoteRbtV2Controller extends Controller
     }
 
     /**
+     * @OA\Patch(
+     *     path="/api/v2/notes/rbt/{id}",
+     *     summary="Partially update an RBT note",
+     *     description="Updates specific fields of an existing RBT note",
+     *     tags={"Admin/Notes"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         description="ID of the RBT note",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             @OA\Property(property="session_date", type="string", format="date-time", example="2023-12-01T00:00:00Z"),
+     *             @OA\Property(property="patient_id", type="integer"),
+     *             @OA\Property(property="doctor_id", type="integer"),
+     *             @OA\Property(property="bip_id", type="integer"),
+     *             @OA\Property(property="pos", type="string"),
+     *             @OA\Property(property="time_in", type="string", format="time", example="09:00:00"),
+     *             @OA\Property(property="time_out", type="string", format="time", example="10:00:00"),
+     *             @OA\Property(property="time_in2", type="string", format="time", example="14:00:00"),
+     *             @OA\Property(property="time_out2", type="string", format="time", example="15:00:00"),
+     *             @OA\Property(property="environmental_changes", type="string"),
+     *             @OA\Property(property="maladaptives", type="object"),
+     *             @OA\Property(property="replacements", type="object"),
+     *             @OA\Property(property="interventions", type="object"),
+     *             @OA\Property(property="meet_with_client_at", type="string"),
+     *             @OA\Property(property="client_appeared", type="string"),
+     *             @OA\Property(property="as_evidenced_by", type="string"),
+     *             @OA\Property(property="rbt_modeled_and_demonstrated_to_caregiver", type="string"),
+     *             @OA\Property(property="client_response_to_treatment_this_session", type="string"),
+     *             @OA\Property(property="progress_noted_this_session_compared_to_previous_session", type="string"),
+     *             @OA\Property(property="next_session_is_scheduled_for", type="string", format="date-time"),
+     *             @OA\Property(property="provider_id", type="integer"),
+     *             @OA\Property(property="provider_signature", type="string"),
+     *             @OA\Property(property="provider_credential", type="string"),
+     *             @OA\Property(property="supervisor_signature", type="string"),
+     *             @OA\Property(property="supervisor_name", type="integer"),
+     *             @OA\Property(property="billed", type="boolean"),
+     *             @OA\Property(property="paid", type="boolean"),
+     *             @OA\Property(property="cpt_code", type="string"),
+     *             @OA\Property(property="status", type="string", enum={"pending", "ok", "no", "review"}),
+     *             @OA\Property(property="summary_note", type="string"),
+     *             @OA\Property(property="location_id", type="integer"),
+     *             @OA\Property(property="pa_service_id", type="integer"),
+     *             @OA\Property(property="insuranceId", type="string")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Successful operation",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="status", type="string", example="success"),
+     *             @OA\Property(property="message", type="string", example="Note updated successfully"),
+     *             @OA\Property(property="data", ref="#/components/schemas/NoteRbt")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Note not found",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="status", type="string", example="error"),
+     *             @OA\Property(property="message", type="string", example="Note not found")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Validation error",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="status", type="string", example="error"),
+     *             @OA\Property(property="message", type="string", example="Validation failed"),
+     *             @OA\Property(property="errors", type="object")
+     *         )
+     *     )
+     * )
+     */
+    public function patch(Request $request, $id)
+    {
+        $note = NoteRbt::findOrFail($id);
+
+        $validator = validator($request->all(), array_intersect_key(
+            (new NoteRbtRequest())->rules(),
+            $request->all()
+        ));
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Validation failed',
+                'errors' => $validator->errors()
+            ], 422);
+        }
+
+        $note->update($validator->validated());
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Note updated successfully',
+            'data' => $note,
+        ]);
+    }
+
+    /**
      * @OA\Delete(
      *     path="/api/v2/notes/rbt/{id}",
      *     summary="Delete an RBT note",

@@ -37,5 +37,6 @@ Route::prefix('v2/notes')->group(function () {
     Route::post('/rbt', [App\Http\Controllers\Admin\Notes\NoteRbtV2Controller::class, 'store']);
     Route::put('/rbt/{id}', [App\Http\Controllers\Admin\Notes\NoteRbtV2Controller::class, 'update']);
     Route::put('/rbt/update-status/{id}', [NoteRbtController::class, 'updateStatus']);
+    Route::patch('/rbt/{id}', [App\Http\Controllers\Admin\Notes\NoteRbtV2Controller::class, 'patch']);
     Route::delete('/rbt/{id}', [App\Http\Controllers\Admin\Notes\NoteRbtV2Controller::class, 'destroy']);
 });

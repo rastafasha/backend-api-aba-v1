@@ -21,7 +21,7 @@ class DatabaseSeeder extends Seeder
             PatientSeeder::class,
             PaServicesSeeder::class,
             BipSeeder::class,
-            // NotesSeeder::class,
+            NotesSeeder::class,
             FamilyEnvolmentsSeeder::class,
             // ReductionGoalsSeeder::class,
             // SustitutionGoalsSeeder::class,

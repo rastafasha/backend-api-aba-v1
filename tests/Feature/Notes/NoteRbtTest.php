@@ -133,6 +133,52 @@ class NoteRbtTest extends TestCase
         ]);
     }
 
+    // ... existing code ...
+
+    /**
+     * Test that patch endpoint can partially update note
+     */
+    public function test_can_patch_note_rbt()
+    {
+        $note = NoteRbt::factory()->create([
+            'patient_id' => $this->patient->id,
+            'patient_identifier' => $this->patient->patient_identifier,
+            'provider_id' => $this->provider->id,
+            'client_response_to_treatment_this_session' => 'Original response',
+            'status' => 'pending',
+            'pa_service_id' => $this->paService->id,
+        ]);
+
+        $patchData = [
+            'client_response_to_treatment_this_session' => 'Updated response',
+            'status' => 'ok'
+        ];
+
+        $response = $this->patchJson("/api/v2/notes/rbt/{$note->id}", $patchData);
+
+        $response->assertStatus(200)
+            ->assertJson([
+                'status' => 'success',
+                'message' => 'Note updated successfully',
+                'data' => [
+                    'id' => $note->id,
+                    'client_response_to_treatment_this_session' => 'Updated response',
+                    'status' => 'ok',
+                    'patient_id' => $this->patient->id,
+                    'provider_id' => $this->provider->id,
+                ]
+            ]);
+
+        // Verify only specified fields were updated
+        $this->assertDatabaseHas('note_rbts', [
+            'id' => $note->id,
+            'client_response_to_treatment_this_session' => 'Updated response',
+            'status' => 'ok',
+            'patient_id' => $this->patient->id,
+            'provider_id' => $this->provider->id,
+        ]);
+    }
+
     public function test_can_delete_note_rbt()
     {
         $note = NoteRbt::factory()->create();

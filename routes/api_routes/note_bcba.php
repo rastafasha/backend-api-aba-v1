@@ -34,6 +34,7 @@ Route::prefix('v2/notes')->group(function () {
     Route::get('/bcba/{id}', [NoteBcbaV2Controller::class, 'show']);
     Route::post('/bcba', [NoteBcbaV2Controller::class, 'store']);
     Route::put('/bcba/{id}', [NoteBcbaV2Controller::class, 'update']);
+    Route::patch('/bcba/{id}', [NoteBcbaV2Controller::class, 'patch']);
     Route::put('/bcba/update-status/{id}', [NoteBcbaController::class, 'updateStatus']);
     Route::delete('/bcba/{id}', [NoteBcbaV2Controller::class, 'destroy']);
 });
