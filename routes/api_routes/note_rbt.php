@@ -27,7 +27,7 @@ Route::post('note_rbt/storeReplacemts', [NoteRbtController::class, 'storeReplace
 //     ->name('note_rbt.updateStatus');
 
 
-Route::post("note_rbt/generate-summary", [OpenAIController::class, "generateSummary"])
+Route::post("note_rbt/generate-summary", [OpenAIController::class, "generateRbtSummary"])
     ->name("note_rbt.generateSummary");
 
 // V2 routes
@@ -37,5 +37,6 @@ Route::prefix('v2/notes')->group(function () {
     Route::post('/rbt', [App\Http\Controllers\Admin\Notes\NoteRbtV2Controller::class, 'store']);
     Route::put('/rbt/{id}', [App\Http\Controllers\Admin\Notes\NoteRbtV2Controller::class, 'update']);
     Route::put('/rbt/update-status/{id}', [NoteRbtController::class, 'updateStatus']);
+    Route::patch('/rbt/{id}', [App\Http\Controllers\Admin\Notes\NoteRbtV2Controller::class, 'patch']);
     Route::delete('/rbt/{id}', [App\Http\Controllers\Admin\Notes\NoteRbtV2Controller::class, 'destroy']);
 });

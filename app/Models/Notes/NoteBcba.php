@@ -60,6 +60,7 @@ class NoteBcba extends Note
         'paid',
         'md',
         'md2',
+        'md3',
         'doctor_id',
         'bip_id',
         'summary_note',

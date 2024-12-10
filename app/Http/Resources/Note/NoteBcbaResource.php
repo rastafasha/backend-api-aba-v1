@@ -49,8 +49,10 @@ class NoteBcbaResource extends JsonResource
             //     'npi' => $this->resource->rendering->npi,
             // ],
             // "provider_signature"=> $this->resource->provider_signature ? env("APP_URL")."storage/".$this->resource->provider_signature : null,
-            // "provider_signature"=> $this->resource->provider_signature ? env("APP_URL").$this->resource->provider_signature : null,
+
+            // "provider_signature" => $this->resource->provider_signature ? env("APP_URL") . $this->resource->provider_signature : null,
             "provider_signature" => $this->resource->provider_signature ? $this->resource->provider_signature : null,
+
             "provider_name" => $this->resource->provider_name,
             "provider_id" => $this->resource->provider_id,
             "supervisor_id" => $this->resource->supervisor_id,
@@ -78,6 +80,7 @@ class NoteBcbaResource extends JsonResource
             "paid" => $this->resource->paid,
             "md" => $this->resource->md,
             "md2" => $this->resource->md2,
+            "md3" => $this->resource->md3,
             "meet_with_client_at" => $this->resource->meet_with_client_at,
             "provider" => $this->resource->provider,
             "insuranceId" => $this->resource->insuranceId,

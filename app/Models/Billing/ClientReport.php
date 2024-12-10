@@ -29,9 +29,11 @@ class ClientReport extends Model
         'cpt_code',
 
         'md',
-        'mdbcba',
         'md2',
+        'md3',
+        'mdbcba',
         'md2bcba',
+        'md3bcba',
 
         'n_units',
         'pa_number',

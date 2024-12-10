@@ -46,6 +46,7 @@ class CreateNoteRbtsTable extends Migration
             $table->boolean('paid')->default(false);
             $table->string('md', 20)->nullable();
             $table->string('md2', 20)->nullable();
+            $table->string('md3', 20)->nullable();
             $table->enum('status', ['pending', 'ok', 'no', 'review'])->default('pending');
             $table->text('summary_note')->nullable();
             $table->unsignedInteger('location_id')->nullable();

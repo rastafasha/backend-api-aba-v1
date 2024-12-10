@@ -329,6 +329,108 @@ class NoteBcbaV2Controller extends Controller
     }
 
     /**
+     * @OA\Patch(
+     *     path="/api/v2/notes/bcba/{id}",
+     *     summary="Partially update a BCBA note",
+     *     description="Updates specific fields of an existing BCBA note",
+     *     tags={"Admin/Notes"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         description="ID of the BCBA note",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             @OA\Property(property="session_date", type="string", format="date"),
+     *             @OA\Property(property="patient_id", type="integer"),
+     *             @OA\Property(property="bip_id", type="integer"),
+     *             @OA\Property(property="diagnosis_code", type="string", maxLength=50),
+     *             @OA\Property(property="location", type="string", maxLength=50),
+     *             @OA\Property(property="summary_note", type="string"),
+     *             @OA\Property(property="note_description", type="string"),
+     *             @OA\Property(property="time_in", type="string", format="H:i:s"),
+     *             @OA\Property(property="time_out", type="string", format="H:i:s"),
+     *             @OA\Property(property="time_in2", type="string", format="H:i:s"),
+     *             @OA\Property(property="time_out2", type="string", format="H:i:s"),
+     *             @OA\Property(property="session_length_total", type="number", format="double"),
+     *             @OA\Property(property="supervisor_id", type="integer"),
+     *             @OA\Property(property="caregiver_goals", type="object"),
+     *             @OA\Property(property="rbt_training_goals", type="object"),
+     *             @OA\Property(property="provider_signature", type="string"),
+     *             @OA\Property(property="provider_id", type="integer"),
+     *             @OA\Property(property="supervisor_signature", type="string"),
+     *             @OA\Property(property="meet_with_client_at", type="string"),
+     *             @OA\Property(property="billed", type="boolean"),
+     *             @OA\Property(property="paid", type="boolean"),
+     *             @OA\Property(property="cpt_code", type="string"),
+     *             @OA\Property(property="status", type="string", enum={"pending", "ok", "no", "review"}),
+     *             @OA\Property(property="location_id", type="integer"),
+     *             @OA\Property(property="pa_service_id", type="integer"),
+     *             @OA\Property(property="insuranceId", type="string")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Successful operation",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="status", type="string", example="success"),
+     *             @OA\Property(property="message", type="string", example="Note updated successfully"),
+     *             @OA\Property(property="data", ref="#/components/schemas/NoteBcba")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Note not found",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="status", type="string", example="error"),
+     *             @OA\Property(property="message", type="string", example="Note not found")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Validation error",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="status", type="string", example="error"),
+     *             @OA\Property(property="message", type="string", example="Validation failed"),
+     *             @OA\Property(property="errors", type="object")
+     *         )
+     *     )
+     * )
+     */
+    public function patch(Request $request, $id)
+    {
+        $note = NoteBcba::findOrFail($id);
+
+        // Validate only the provided fields
+        $validator = validator($request->all(), array_intersect_key(
+            (new NoteBcbaRequest())->rules(),
+            $request->all()
+        ));
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Validation failed',
+                'errors' => $validator->errors()
+            ], 422);
+        }
+
+        $note->update($validator->validated());
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Note updated successfully',
+            'data' => $note,
+        ]);
+    }
+
+    /**
      * @OA\Delete(
      *     path="/api/v2/notes/bcba/{id}",
      *     summary="Delete a BCBA note",

@@ -122,6 +122,49 @@ class NoteBcbaTest extends TestCase
     }
 
     /**
+     * Test that patch endpoint can partially update note
+     */
+    public function test_can_patch_note_bcba()
+    {
+        $note = NoteBcba::factory()->create([
+            'patient_id' => $this->patient->id,
+            'patient_identifier' => $this->patient->patient_identifier,
+            'provider_id' => $this->provider->id,
+            'summary_note' => 'Original summary',
+            'status' => 'pending',
+            'pa_service_id' => $this->paService->id,
+        ]);
+
+        $patchData = [
+            'summary_note' => 'Updated summary',
+            'status' => 'ok'
+        ];
+
+        $response = $this->patchJson("/api/v2/notes/bcba/{$note->id}", $patchData);
+
+        $response->assertStatus(200)
+            ->assertJson([
+                'status' => 'success',
+                'message' => 'Note updated successfully',
+                'data' => [
+                    'id' => $note->id,
+                    'summary_note' => 'Updated summary',
+                    'status' => 'ok',
+                    'patient_id' => $this->patient->id,
+                    'provider_id' => $this->provider->id,
+                ]
+            ]);
+
+        $this->assertDatabaseHas('note_bcbas', [
+            'id' => $note->id,
+            'summary_note' => 'Updated summary',
+            'status' => 'ok',
+            'patient_id' => $this->patient->id,
+            'provider_id' => $this->provider->id,
+        ]);
+    }
+
+    /**
      * Test deleting a BCBA note
      */
     public function test_can_delete_note_bcba()
