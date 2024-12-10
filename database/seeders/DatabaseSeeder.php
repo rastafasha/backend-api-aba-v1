@@ -23,8 +23,8 @@ class DatabaseSeeder extends Seeder
             BipSeeder::class,
             NotesSeeder::class,
             FamilyEnvolmentsSeeder::class,
-            // ReductionGoalsSeeder::class,
-            // SustitutionGoalsSeeder::class,
+            ReductionGoalsSeeder::class,
+            SustitutionGoalsSeeder::class,
             UserLocationsSeeder::class,
             MonitoringEvaluatingsSeeder::class,
         ]);

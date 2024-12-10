@@ -27,7 +27,7 @@ Route::post('note_rbt/storeReplacemts', [NoteRbtController::class, 'storeReplace
 //     ->name('note_rbt.updateStatus');
 
 
-Route::post("note_rbt/generate-summary", [OpenAIController::class, "generateSummary"])
+Route::post("note_rbt/generate-summary", [OpenAIController::class, "generateRbtSummary"])
     ->name("note_rbt.generateSummary");
 
 // V2 routes

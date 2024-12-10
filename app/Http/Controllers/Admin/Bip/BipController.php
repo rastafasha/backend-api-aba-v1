@@ -365,11 +365,11 @@ class BipController extends Controller
             is_string($bip->interventions)
                 ? json_decode($bip->interventions)
                 : $bip->interventions,
-            "reduction_goal" =>
-            is_string($bip->reduction_goal)
-                ? json_decode($bip->reduction_goal)
-                : $bip->reduction_goal,
-            "sustitution_goal" => $bip->sustitution_goal,
+            "reduction_goals" =>
+            is_string($bip->reduction_goals)
+                ? json_decode($bip->reduction_goals)
+                : $bip->reduction_goals,
+            "sustitution_goal" => $bip->sustitution_goals,
             "doctor_id" => $bip->doctor_id,
             "patient" => $patient->id ? [
                 "id" => $patient->id,
