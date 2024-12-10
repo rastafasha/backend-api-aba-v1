@@ -16,12 +16,12 @@ class FamilyEnvolmentsSeeder extends Seeder
                 'bip_id' => 1,
                 'caregivers_training_goals' => '[{
                     "index": 1,
-                    "caregiver_goal": "test",
+                    "caregiver_goal": "Parents/teachers will identify and utilize at least 3 antecedent strategies for attention, sensory, and access-maintained behavior",
                     "criteria": "90%",
                     "current_status": "inprogress",
                     "initiation": "2024-07-12T04:00:00.000Z",
                     "nombre": "test",
-                    "outcome_measure": "Monthly fidelity checks in which the percentage of times (across 4 data points) the parent demonstrated concept.",
+                    "outcome_measure": "Monthly fidelity checks in which the percentage of times (across 4 data points) the parent demonstrated concept."
                 }]',
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -37,7 +37,7 @@ class FamilyEnvolmentsSeeder extends Seeder
                     "current_status": "inprogress",
                     "initiation": "2024-07-12T04:00:00.000Z",
                     "nombre": "test",
-                    "outcome_measure": "Monthly fidelity checks in which the percentage of times (across 4 data points) the parent demonstrated concept.",
+                    "outcome_measure": "Monthly fidelity checks in which the percentage of times (across 4 data points) the parent demonstrated concept."
                 }]',
                 'created_at' => now(),
                 'updated_at' => now(),
