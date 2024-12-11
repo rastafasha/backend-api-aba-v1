@@ -18,6 +18,7 @@ class CreatePatientsTable extends Migration
             $table->string('phone', 25)->nullable();
             $table->string('language', 150)->nullable();
             $table->string('parent_guardian_name', 150)->nullable();
+            
             $table->string('relationship', 150)->nullable();
             $table->string('home_phone', 150)->nullable();
             $table->string('work_phone', 150)->nullable();

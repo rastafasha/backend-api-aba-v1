@@ -149,6 +149,11 @@ class Patient extends Model
         //pas
         // 'pa_assessments',
         'status',
+        'parent_birth_date',
+        'emmployment',
+        'auto_accident',
+        'other_accident',
+        'is_self_subscriber',
 
         //??
         // 'current_auth_expires',
@@ -170,8 +175,13 @@ class Patient extends Model
     protected $casts = [
         'pos_covered' => 'array',
         'birth_date' => 'date:Y-m-d',
+        'parent_birth_date' => 'date:Y-m-d',
         'pay' => 'boolean',
         'telehealth' => 'boolean',
+        'emmployment' => 'boolean',
+        'auto_accident' => 'boolean',
+        'other_accident' => 'boolean',
+        'is_self_subscriber' => 'boolean',
     ];
 
     protected $appends = ['age'];
