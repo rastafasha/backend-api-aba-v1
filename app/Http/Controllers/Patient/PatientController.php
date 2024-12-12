@@ -236,18 +236,16 @@ class PatientController extends Controller
      */
     public function store(Request $request)
     {
-        $patient_is_valid = Patient::where("id", $request->id)->first();
+        $patient_is_valid = Patient::where("email", $request->email)->first();
 
-        // $request->request->add(["pa_assessments" => json_encode($request->pa_assessments)]);
-        // $request->request->add(["pos_covered" => json_encode($request->pos_covered)]);
-        // // $request->request->add(["pa_services"=>json_encode($request->services)]);
+       
 
-        // if($patient_is_valid){
-        //     return response()->json([
-        //         "message"=>403,
-        //         "message_text"=> 'the user with this email already exist'
-        //     ]);
-        // }
+        if($patient_is_valid){
+            return response()->json([
+                "message"=>403,
+                "message_text"=> 'the user with this email already exist'
+            ]);
+        }
 
         $validator = Validator::make($request->all(), [
             'email' => 'required|email|unique:patients',
@@ -266,26 +264,12 @@ class PatientController extends Controller
             $date_clean = preg_replace('/\(.*\)|[A-Z]{3}-\d{4}/', '', $request->birth_date);
             $request->request->add(["birth_date" => Carbon::parse($date_clean)->format('Y-m-d h:i:s')]);
         }
-
-        if ($request->pa_assessment_start_date) {
-            $date_clean1 = preg_replace('/\(.*\)|[A-Z]{3}-\d{4}/', '', $request->pa_assessment_start_date);
-            $request->request->add(["pa_assessment_start_date" => Carbon::parse($date_clean1)->format('Y-m-d h:i:s')]);
+        if ($request->parent_birth_date) {
+            $date_clean_p = preg_replace('/\(.*\)|[A-Z]{3}-\d{4}/', '', $request->parent_birth_date);
+            $request->request->add(["parent_birth_date" => Carbon::parse($date_clean_p)->format('Y-m-d h:i:s')]);
         }
 
-        if ($request->pa_assessment_end_date) {
-            $date_clean2 = preg_replace('/\(.*\)|[A-Z]{3}-\d{4}/', '', $request->pa_assessment_end_date);
-            $request->request->add(["pa_assessment_end_date" => Carbon::parse($date_clean2)->format('Y-m-d h:i:s')]);
-        }
-
-        if ($request->pa_services_start_date) {
-            $date_clean3 = preg_replace('/\(.*\)|[A-Z]{3}-\d{4}/', '', $request->pa_services_start_date);
-            $request->request->add(["pa_services_start_date" => Carbon::parse($date_clean3)->format('Y-m-d h:i:s')]);
-        }
-
-        if ($request->pa_services_end_date) {
-            $date_clean4 = preg_replace('/\(.*\)|[A-Z]{3}-\d{4}/', '', $request->pa_services_end_date);
-            $request->request->add(["pa_services_end_date" => Carbon::parse($date_clean4)->format('Y-m-d h:i:s')]);
-        }
+       
         if ($request->elegibility_date) {
             $date_clean5 = preg_replace('/\(.*\)|[A-Z]{3}-\d{4}/', '', $request->elegibility_date);
             $request->request->add(["elegibility_date" => Carbon::parse($date_clean5)->format('Y-m-d h:i:s')]);
@@ -293,18 +277,6 @@ class PatientController extends Controller
 
         $patient = Patient::create($request->all());
 
-
-        // $billing = Billing::create([
-        //     "patient_id" => $request->patient_id,
-        //     "sponsor_id" => $request->doctor_id,
-        //     "insurer_id" => $request->insurer_id,
-
-        // ]);
-
-
-        // $request->request->add([
-        //     "client_id" =>$patient->id
-        // ]);
 
         return response()->json([
             "message" => 200,
@@ -444,6 +416,11 @@ class PatientController extends Controller
         if ($request->birth_date) {
             $date_clean = preg_replace('/\(.*\)|[A-Z]{3}-\d{4}/', '', $request->birth_date);
             $request->request->add(["birth_date" => Carbon::parse($date_clean)->format('Y-m-d h:i:s')]);
+        }
+
+        if ($request->parent_birth_date) {
+            $date_clean_p = preg_replace('/\(.*\)|[A-Z]{3}-\d{4}/', '', $request->parent_birth_date);
+            $request->request->add(["parent_birth_date" => Carbon::parse($date_clean_p)->format('Y-m-d h:i:s')]);
         }
 
         // if ($request->pa_assessment_start_date) {

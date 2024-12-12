@@ -418,6 +418,11 @@ class Patient extends Model
     }
 
 
+    public function paServices()
+    {
+        return $this->hasMany(PaService::class);
+    }
+
 
 
 
@@ -497,8 +502,4 @@ class Patient extends Model
         return $query;
     }
 
-    public function paServices()
-    {
-        return $this->hasMany(PaService::class);
-    }
 }
