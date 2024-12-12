@@ -36,7 +36,9 @@ class PatientTest extends TestCase
             'email' => $this->faker->unique()->safeEmail,
             'phone' => $this->faker->phoneNumber,
             'gender' => 1,
+            'parent_gender' => 1,
             'birth_date' => $this->faker->date(),
+            'parent_birth_date' => $this->faker->date(),
             'address' => $this->faker->address,
             'city' => $this->faker->city,
             'state' => $this->faker->state,
@@ -45,7 +47,11 @@ class PatientTest extends TestCase
             'insurer_id' => $this->insurance->id,
             'location_id' => $this->location->id,
             'telehealth' => false,
-            'pay' => false
+            'pay' => false,
+            'emmployment' => false,
+            'auto_accident' => false,
+            'other_accident' => false,
+            'is_self_subscriber' => false,
         ];
 
 
@@ -74,7 +80,9 @@ class PatientTest extends TestCase
             'email' => $this->faker->unique()->safeEmail,
             'phone' => $this->faker->phoneNumber,
             'gender' => 1,
+            'parent_gender' => 1,
             'birth_date' => $this->faker->date(),
+            'parent_birth_date' => $this->faker->date(),
             'address' => $this->faker->address,
             'city' => $this->faker->city,
             'state' => $this->faker->state,
@@ -86,6 +94,10 @@ class PatientTest extends TestCase
             'parent_guardian_name' => $this->faker->name,
             'telehealth' => false,
             'pay' => false,
+            'emmployment' => false,
+            'auto_accident' => false,
+            'other_accident' => false,
+            'is_self_subscriber' => false,
             'pa_services' => [
                 [
                     'pa_service' => 'Behavioral Analysis',
@@ -153,7 +165,9 @@ class PatientTest extends TestCase
             'patient_identifier' => 'updated_patient_identifier',
             'phone' => $this->faker->phoneNumber,
             'gender' => 1,
+            'parent_gender' => 1,
             'birth_date' => $this->faker->date(),
+            'parent_birth_date' => $this->faker->date(),
             'address' => $this->faker->address,
             'city' => $this->faker->city,
             'state' => $this->faker->state,
@@ -162,7 +176,11 @@ class PatientTest extends TestCase
             'insurer_id' => $this->insurance->id,
             'location_id' => $this->location->id,
             'telehealth' => false,
-            'pay' => false
+            'pay' => false,
+            'emmployment' => false,
+            'auto_accident' => false,
+            'other_accident' => false,
+            'is_self_subscriber' => false
         ];
 
         $response = $this->putJson("/api/v2/patients/{$patient->id}", $updatedData);
