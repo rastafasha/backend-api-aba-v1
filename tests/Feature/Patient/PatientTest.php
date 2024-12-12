@@ -36,7 +36,9 @@ class PatientTest extends TestCase
             'email' => $this->faker->unique()->safeEmail,
             'phone' => $this->faker->phoneNumber,
             'gender' => 1,
+            'parent_gender' => 1,
             'birth_date' => $this->faker->date(),
+            'parent_birth_date' => $this->faker->date(),
             'address' => $this->faker->address,
             'city' => $this->faker->city,
             'state' => $this->faker->state,
@@ -45,7 +47,11 @@ class PatientTest extends TestCase
             'insurer_id' => $this->insurance->id,
             'location_id' => $this->location->id,
             'telehealth' => false,
-            'pay' => false
+            'pay' => false,
+            'emmployment' => false,
+            'auto_accident' => false,
+            'other_accident' => false,
+            'is_self_subscriber' => false,
         ];
 
 
