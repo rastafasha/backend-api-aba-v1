@@ -238,12 +238,12 @@ class PatientController extends Controller
     {
         $patient_is_valid = Patient::where("email", $request->email)->first();
 
-       
 
-        if($patient_is_valid){
+
+        if ($patient_is_valid) {
             return response()->json([
-                "message"=>403,
-                "message_text"=> 'the user with this email already exist'
+                "message" => 403,
+                "message_text" => 'the user with this email already exist'
             ]);
         }
 
@@ -269,7 +269,7 @@ class PatientController extends Controller
             $request->request->add(["parent_birth_date" => Carbon::parse($date_clean_p)->format('Y-m-d h:i:s')]);
         }
 
-       
+
         if ($request->elegibility_date) {
             $date_clean5 = preg_replace('/\(.*\)|[A-Z]{3}-\d{4}/', '', $request->elegibility_date);
             $request->request->add(["elegibility_date" => Carbon::parse($date_clean5)->format('Y-m-d h:i:s')]);

@@ -501,5 +501,4 @@ class Patient extends Model
         // }
         return $query;
     }
-
 }
