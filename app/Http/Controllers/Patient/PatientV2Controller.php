@@ -321,7 +321,9 @@ class PatientV2Controller extends Controller
             // 'patient_id' => $id ? 'nullable|number|unique:patients,patient_id,' . $id : 'nullable|number|unique:patients',
             'pa_services' => 'nullable|array',
             'birth_date' => 'nullable|date:Y-m-d|before:today',
+            'parent_birth_date' => 'nullable|date:Y-m-d|before:today',
             'gender' => 'required|integer|in:1,2',
+            'parent_gender' => 'required|integer|in:1,2',
             // 'age' => 'nullable|string|max:50',
             'avatar' => 'nullable|string',
 
@@ -436,6 +438,10 @@ class PatientV2Controller extends Controller
             // 'pay' => ['nullable', 'string', 'max:50', Rule::in(['true', 'false'])],
             'telehealth' => 'nullable|boolean',
             'pay' => 'nullable|boolean',
+            'emmployment' => 'nullable|boolean',
+            'auto_accident' => 'nullable|boolean',
+            'other_accident' => 'nullable|boolean',
+            'is_self_subscriber' => 'nullable|boolean',
         ];
     }
 }

@@ -42,6 +42,14 @@ class PatientResource extends JsonResource
             "school_number" => $this->resource->school_number,
             "age" => $this->resource->age,
             "parent_guardian_name" => $this->resource->parent_guardian_name,
+
+            "parent_birth_date" => $this->resource->parent_birth_date ? Carbon::parse($this->resource->parent_birth_date)->format("Y/m/d") : null,
+            "parent_gender" => $this->resource->parent_gender,
+            "emmployment" => $this->resource->emmployment,
+            "auto_accident" => $this->resource->auto_accident,
+            "other_accident" => $this->resource->other_accident,
+            "is_self_subscriber" => $this->resource->is_self_subscriber,
+
             "schedule" => $this->resource->schedule,
             "summer_schedule" => $this->resource->summer_schedule,
             "diagnosis_code" => $this->resource->diagnosis_code,

@@ -18,6 +18,7 @@ class CreatePatientsTable extends Migration
             $table->string('phone', 25)->nullable();
             $table->string('language', 150)->nullable();
             $table->string('parent_guardian_name', 150)->nullable();
+
             $table->string('relationship', 150)->nullable();
             $table->string('home_phone', 150)->nullable();
             $table->string('work_phone', 150)->nullable();
@@ -27,7 +28,9 @@ class CreatePatientsTable extends Migration
             $table->string('state', 150)->nullable();
             $table->text('address')->nullable();
             $table->tinyInteger('gender')->default(1);
+            $table->tinyInteger('parent_gender')->default(1);
             $table->timestamp('birth_date')->nullable();
+            $table->timestamp('parent_birth_date')->nullable();
             // $table->string('age', 50)->nullable();
             $table->string('avatar')->nullable();
             $table->string('city')->nullable();
@@ -86,6 +89,10 @@ class CreatePatientsTable extends Migration
             $table->boolean('telehealth')->default(false);
             // $table->string('pay', 50)->default('false');
             $table->boolean('pay')->default(false);
+            $table->boolean('emmployment')->default(false);
+            $table->boolean('auto_accident')->default(false);
+            $table->boolean('other_accident')->default(false);
+            $table->boolean('is_self_subscriber')->default(false);
 
             $table->timestamps();
             $table->softDeletes();
