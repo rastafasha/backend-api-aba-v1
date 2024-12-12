@@ -83,6 +83,7 @@ class PatientTest extends TestCase
             'language' => $this->faker->randomElement(['English', 'Spanish', 'French']),
             'insurer_id' => $this->insurance->id,
             'location_id' => $this->location->id,
+            'parent_guardian_name' => $this->faker->name,
             'telehealth' => false,
             'pay' => false,
             'pa_services' => [
@@ -113,7 +114,8 @@ class PatientTest extends TestCase
 
         $this->assertDatabaseHas('patients', [
             'first_name' => $patientData['first_name'],
-            'email' => $patientData['email']
+            'email' => $patientData['email'],
+            'parent_guardian_name' => $patientData['parent_guardian_name']
         ]);
 
         $this->assertDatabaseHas('pa_services', [

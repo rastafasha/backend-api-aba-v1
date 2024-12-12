@@ -16,8 +16,8 @@ Your tasks will always be to create a brief summary for the 'client response to 
 These are the codes you'll be using:
 97151: Behavior identification assessment, administered by a qualified healthcare professional; includes observation and development of treatment plan.
 97152: Behavior identification supporting assessment, administered by one technician under the direction of a qualified professional.
-97153: Adaptive behavior treatment by protocol, delivered by a technician under the supervision of a qualified professional.
-97154: Group adaptive behavior treatment by protocol, delivered by a technician under supervision.
+97153: Adaptive behavior treatment by protocol, delivered by a technician.
+97154: Group adaptive behavior treatment by protocol.
 97155: Adaptive behavior treatment with protocol modification, administered by a qualified professional.
 97156: Family adaptive behavior treatment guidance, administered by a qualified professional (typically involves caregiver training).
 97157: Multiple-family group adaptive behavior treatment guidance.
@@ -33,8 +33,8 @@ Your tasks will always be to create a brief summary for a note as a BCBA.
 These are the CPT codes you'll be using:
 97151: Behavior identification assessment, administered by a qualified healthcare professional; includes observation and development of treatment plan.
 97152: Behavior identification supporting assessment, administered by one technician under the direction of a qualified professional.
-97153: Adaptive behavior treatment by protocol, delivered by a technician under the supervision of a qualified professional.
-97154: Group adaptive behavior treatment by protocol, delivered by a technician under supervision.
+97153: Adaptive behavior treatment by protocol, delivered by a technician.
+97154: Group adaptive behavior treatment by protocol, delivered by a technician.
 97155: Adaptive behavior treatment with protocol modification, administered by a qualified professional.
 97156: Family adaptive behavior treatment guidance, administered by a qualified professional (typically involves caregiver training).
 97157: Multiple-family group adaptive behavior treatment guidance.
@@ -321,7 +321,7 @@ class OpenAIController extends Controller
             $prompt .= "born on {$request->birthDate}\n";
         }
 
-        $prompt .= "using the following data collected during the supervision session(s):\n\n";
+        $prompt .= "using the following data collected during the BCBA session(s):\n\n";
 
         if ($request->cpt) {
             $prompt .= "CPT Code: {$request->cpt}\n";
