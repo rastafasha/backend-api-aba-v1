@@ -32,6 +32,8 @@ class NoteBcbaResource extends JsonResource
 
             "location" => $this->resource->location,
 
+            "pa_service_id" => $this->resource->pa_service_id,
+
             "summary_note" => $this->resource->summary_note,
 
             // "birth_date" => $this->resource->birth_date,
