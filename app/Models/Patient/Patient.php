@@ -156,6 +156,7 @@ class Patient extends Model
         'is_self_subscriber',
         'parent_gender',
         'referring_provider',
+        'referring_code',
         'npi',
 
         //??
