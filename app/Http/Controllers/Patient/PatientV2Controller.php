@@ -346,6 +346,9 @@ class PatientV2Controller extends Controller
             'education' => 'nullable|string|max:150',
             'profession' => 'nullable|string|max:150',
 
+            'referring_provider' => 'nullable|string|max:150',
+            'npi' => 'nullable|string|max:150',
+
             // Schedule Information
             'schedule' => 'nullable|string',
             'summer_schedule' => 'nullable|string',
