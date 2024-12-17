@@ -132,6 +132,12 @@ class Location extends Model
         'email',
         'avatar',
         'telfax',
+        'address2',
+        'taxid',
+        'npi',
+        'taxonomy',
+        'providerId',
+        'additional_notes',
     ];
 
     //relations
