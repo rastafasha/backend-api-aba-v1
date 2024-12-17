@@ -30,7 +30,7 @@ class LocationResource extends JsonResource
             "zip" => $this->resource->zip,
             "telfax" => $this->resource->telfax,
             "telfax" => $this->resource->telfax,
-            
+
             "taxid" => $this->resource->taxid,
             "npi" => $this->resource->npi,
             "taxonomy" => $this->resource->taxonomy,
