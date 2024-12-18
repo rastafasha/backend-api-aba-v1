@@ -18,7 +18,6 @@ class CreateNoteBcbasTable extends Migration
             $table->foreignId('bip_id')->nullable()->constrained('bips')->nullOnDelete();
             $table->string('diagnosis_code', 50)->nullable();
             $table->string('cpt_code')->nullable();
-            $table->string('location', 50)->nullable();
             $table->string('meet_with_client_at')->nullable();
             $table->timestamp('session_date')->nullable();
             $table->time('time_in')->nullable();

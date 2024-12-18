@@ -15,9 +15,11 @@ class MonitoringEvaluatingsSeeder extends Seeder
                 'patient_identifier' => "PAT001",
                 'client_id' => 1,
                 'rbt_training_goals' => '[{
+                    "index": 1,
                     "lto": "RBT will independently demonstrate appropriate data collection, near 100% of opportunities, across two consecutive observations.",
                     "date": "2024-07-12T04:00:00.000Z",
-                    "status": "inprogress"
+                    "status": "inprogress",
+                    "porcent_of_correct_response": "80"
                 }]',
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -27,9 +29,11 @@ class MonitoringEvaluatingsSeeder extends Seeder
                 'patient_identifier' => "PAT002",
                 'client_id' => 2,
                 'rbt_training_goals' => '[{
+                    "index": 1,
                     "lto": "RBT will independently demonstrate appropriate data collection, near 100% of opportunities, across two consecutive observations.",
                     "date": "2024-07-15T04:00:00.000Z",
-                    "status": "initiated"
+                    "status": "inprogress",
+                    "porcent_of_correct_response": "80"
                 }]',
                 'created_at' => now(),
                 'updated_at' => now(),

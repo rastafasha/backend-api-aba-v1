@@ -407,6 +407,12 @@ class Patient extends Model
     {
         return $this->belongsTo(Insurance::class, 'insurer_id');
     }
+
+    public function insurance_secondary()
+    {
+        return $this->belongsTo(Insurance::class, 'insurer_secondary_id');
+    }
+
     public function bip()
     {
         return $this->hasOne(Bip::class, 'patient_identifier');

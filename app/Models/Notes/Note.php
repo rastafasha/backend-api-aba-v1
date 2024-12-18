@@ -13,7 +13,7 @@ use App\Utils\UnitCalculator;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-
+use App\Models\Insurance\Insurance;
 abstract class Note extends Model
 {
     use HasFactory;
@@ -54,7 +54,7 @@ abstract class Note extends Model
 
     public function patient()
     {
-        return $this->belongsTo(Patient::class, 'patient_identifier');
+        return $this->belongsTo(Patient::class, 'patient_identifier', 'patient_identifier');
     }
 
     public function bip()
@@ -82,9 +82,30 @@ abstract class Note extends Model
         return $this->belongsTo(User::class, 'supervisor_id')->select(self::$userFields);
     }
 
+    public function insurance()
+    {
+        return $this->belongsTo(Insurance::class, 'insurance_id');
+    }
+
     public function doctor()
     {
         return $this->belongsTo(User::class, 'doctor_id')->select(self::$userFields);
+    }
+
+    public function getPosStringAttribute()
+    {
+        switch ($this->meet_with_client_at) {
+            case '03':
+                return 'School';
+            case '12':
+                return 'Home';
+            case '02':
+                return 'Telehealth';
+            case '99':
+                return 'Other';
+            default:
+                return 'Unknown';
+        }
     }
 
     public function getPatientIdentifierAttribute()

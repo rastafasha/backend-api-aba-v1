@@ -68,7 +68,7 @@ class NotesSeeder extends Seeder
                 'provider_id' => 5,
                 'supervisor_name' => 3,
                 'supervisor_id' => 3,
-                'pos' => '12',
+                'pos' => '03',
                 'session_date' => Carbon::now()->subDays(5),
                 'time_in' => '09:00:00',
                 'time_out' => '11:00:00',
@@ -96,7 +96,7 @@ class NotesSeeder extends Seeder
                         'number_of_occurrences' => 15,
                     ],
                 ],
-                
+
                 'replacements' => [
                     'id'=> 1,
                     'goal' => 'test goal',
@@ -108,8 +108,8 @@ class NotesSeeder extends Seeder
                     'total_trials' => 6,
                     'number_of_correct_response' => 5
                 ],
-                
-                
+
+
                 'interventions' => [
                     'pairing' => true,
                     'errorless_teaching' => true,
@@ -168,7 +168,7 @@ class NotesSeeder extends Seeder
                         'number_of_occurrences' => 15,
                     ],
                 ],
-                
+
                 'replacements' => [
                     'id'=> 1,
                     'goal' => 'test goal',
@@ -180,8 +180,8 @@ class NotesSeeder extends Seeder
                     'total_trials' => 6,
                     'number_of_correct_response' => 5
                 ],
-                
-                
+
+
                 'interventions' => [
                     'pairing' => true,
                     'errorless_teaching' => true,
@@ -243,7 +243,7 @@ class NotesSeeder extends Seeder
                         'number_of_occurrences' => 15,
                     ],
                 ],
-                
+
                 'replacements' => [
                     'id'=> 1,
                     'goal' => 'test goal',
@@ -255,12 +255,12 @@ class NotesSeeder extends Seeder
                     'total_trials' => 6,
                     'number_of_correct_response' => 5
                 ],
-                
+
                 'interventions' => [
                     'pairing' => true,
                     'errorless_teaching' => true,
                 ],
-                'meet_with_client_at' => '03',
+                'meet_with_client_at' => '12',
                 'client_appeared' => 'Energetic but focused',
                 'as_evidenced_by' => 'Completed multiple learning activities',
                 'rbt_modeled_and_demonstrated_to_caregiver' => 'Token economy system',
@@ -286,7 +286,7 @@ class NotesSeeder extends Seeder
                 'provider_id' => 6,
                 'supervisor_name' => 4,
                 'supervisor_id' => 4,
-                'pos' => '12',
+                'pos' => '03',
                 'session_date' => Carbon::now()->subDays(2),
                 'time_in' => '13:00:00',
                 'time_out' => '15:00:00',
@@ -294,9 +294,9 @@ class NotesSeeder extends Seeder
                 'environmental_changes' => 'Quiet study area',
                 'maladaptives' => [
                     [
-                        
+
                     ],
-                    
+
                     [
                         'index' => 2,
                         'maladaptive_behavior' => 'Drawin walls',
@@ -308,7 +308,7 @@ class NotesSeeder extends Seeder
                         'number_of_occurrences' => 15,
                     ],
                 ],
-                
+
                 'replacements' => [
                     'id'=> 1,
                     'goal' => 'test goal',
@@ -320,8 +320,8 @@ class NotesSeeder extends Seeder
                     'total_trials' => 6,
                     'number_of_correct_response' => 5
                 ],
-                
-                
+
+
                 'interventions' => [
                     'pairing' => true,
                     'errorless_teaching' => true,

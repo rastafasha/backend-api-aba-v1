@@ -3,6 +3,7 @@
 use App\Models\User;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Gate;
+use App\Http\Controllers\PDFController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,3 +19,4 @@ use Illuminate\Support\Facades\Gate;
 Route::get('/', function (User $user) {
     return view('welcome');
 });
+
