@@ -56,6 +56,9 @@ class PatientResource extends JsonResource
             "special_note" => $this->resource->special_note,
 
             "patient_control" => $this->resource->patient_control,
+            "referring_provider" => $this->resource->referring_provider,
+            "referring_code" => $this->resource->referring_code,
+            "npi" => $this->resource->npi,
 
             "status" => $this->resource->status,
 

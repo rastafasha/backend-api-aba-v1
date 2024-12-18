@@ -16,10 +16,16 @@ class CreateLocationsTable extends Migration
             $table->string('state', 150);
             $table->string('zip', 150)->nullable();
             $table->text('address')->nullable();
+            $table->text('address2')->nullable();
             $table->string('email', 150)->nullable();
             $table->string('phone1', 50)->nullable();
             $table->string('phone2', 50)->nullable();
             $table->string('telfax')->nullable(); // From fillable array
+            $table->string('taxid')->nullable(); // From fillable array
+            $table->string('npi')->nullable(); // From fillable array
+            $table->string('taxonomy')->nullable(); // From fillable array
+            $table->string('providerId')->nullable(); // From fillable array
+            $table->text('additional_notes')->nullable(); // From fillable array
             $table->timestamps();
             $table->softDeletes();
         });

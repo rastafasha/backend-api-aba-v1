@@ -155,6 +155,9 @@ class Patient extends Model
         'other_accident',
         'is_self_subscriber',
         'parent_gender',
+        'referring_provider',
+        'referring_code',
+        'npi',
 
         //??
         // 'current_auth_expires',
