@@ -340,6 +340,11 @@ class PatientV2Controller extends Controller
             'home_phone' => 'nullable|string|max:150',
             'work_phone' => 'nullable|string|max:150',
 
+            'parent_address' => 'nullable|string|max:150',
+            'parent_city' => 'nullable|string|max:150',
+            'parent_state' => 'nullable|string|max:150',
+            'parent_zip' => 'nullable|string|max:150',
+
             // School Information
             'school_name' => 'nullable|string|max:150',
             'school_number' => 'nullable|string|max:150',

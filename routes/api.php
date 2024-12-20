@@ -120,6 +120,9 @@ Route::group(['middleware' => 'api'], function ($router) {
     // Tests
     require __DIR__ . '/api_routes/tests.php';
 
+    // PDF
+    require __DIR__ . '/api_routes/pdf.php';
+
 
     //comandos desde la url del backend
 

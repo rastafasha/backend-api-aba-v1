@@ -29,6 +29,12 @@ use Illuminate\Support\Facades\DB;
  *     @OA\Property(property="phone", type="string", maxLength=25, nullable=true, description="Patient's phone number"),
  *     @OA\Property(property="language", type="string", maxLength=150, nullable=true, description="Patient's preferred language"),
  *     @OA\Property(property="parent_guardian_name", type="string", maxLength=150, nullable=true, description="Name of parent or guardian"),
+ *     @OA\Property(property="parent_gender", type="integer", enum={1,2}, nullable=true, description="Parent or guardian's gender"),
+ *     @OA\Property(property="parent_birth_date", type="string", format="m-d-Y", nullable=true, description="Parent or guardian's birth date"),
+ *     @OA\Property(property="parent_address", type="string", maxLength=150, nullable=true, description="Parent or guardian's address"),
+ *     @OA\Property(property="parent_city", type="string", maxLength=150, nullable=true, description="Parent or guardian's city"),
+ *     @OA\Property(property="parent_state", type="string", maxLength=150, nullable=true, description="Parent or guardian's state"),
+ *     @OA\Property(property="parent_zip", type="string", maxLength=150, nullable=true, description="Parent or guardian's zip code"),
  *     @OA\Property(property="relationship", type="string", maxLength=150, nullable=true, description="Relationship to patient"),
  *     @OA\Property(property="home_phone", type="string", maxLength=150, nullable=true, description="Home phone number"),
  *     @OA\Property(property="work_phone", type="string", maxLength=150, nullable=true, description="Work phone number"),
@@ -95,7 +101,6 @@ class Patient extends Model
         'address',
         'language',
         'relationship',
-        'parent_guardian_name',
         'home_phone',
         'home_phone',
         'work_phone',
@@ -132,6 +137,15 @@ class Patient extends Model
         'telehealth',
         'pay',
 
+        // Parent / Guardian
+        'parent_guardian_name',
+        'parent_gender',
+        'parent_birth_date',
+        'parent_address',
+        'parent_city',
+        'parent_state',
+        'parent_zip',
+
         //intake
         'welcome',
         'consent',
@@ -149,12 +163,10 @@ class Patient extends Model
         //pas
         // 'pa_assessments',
         'status',
-        'parent_birth_date',
         'emmployment',
         'auto_accident',
         'other_accident',
         'is_self_subscriber',
-        'parent_gender',
         'referring_provider',
         'referring_code',
         'npi',
@@ -410,6 +422,17 @@ class Patient extends Model
     {
         return $this->belongsTo(Insurance::class, 'insurer_id');
     }
+
+    public function insurer()
+    {
+        return $this->belongsTo(Insurance::class, 'insurer_id');
+    }
+
+    public function insurance_secondary()
+    {
+        return $this->belongsTo(Insurance::class, 'insurer_secondary_id');
+    }
+
     public function bip()
     {
         return $this->hasOne(Bip::class, 'patient_identifier');

@@ -26,7 +26,6 @@ class NoteBcbaFactory extends Factory
             'doctor_id' => User::factory(),
             'bip_id' => Bip::factory(),
             'diagnosis_code' => $this->faker->regexify('[A-Z]{1}[0-9]{2}.[0-9]{1}'),
-            'location' => $this->faker->city,
             'meet_with_client_at' => $this->faker->word,
             'session_date' => $this->faker->dateTimeBetween('-1 year', 'now'),
             'time_in' => $isMorningSession ? $timeIn = $this->faker->dateTimeBetween('00:00:00', '12:00:00')->format('H:i:s') : null,

@@ -12,7 +12,6 @@ namespace App\Models\Notes;
  *     @OA\Property(property="bip_id", type="integer", nullable=true),
  *     @OA\Property(property="insurance_identifier", type="string", nullable=true),
  *     @OA\Property(property="diagnosis_code", type="string", maxLength=50, nullable=true),
- *     @OA\Property(property="location", type="string", maxLength=50, nullable=true),
  *     @OA\Property(property="meet_with_client_at", type="string", nullable=true),
  *     @OA\Property(property="session_date", type="string", format="date-time", nullable=true),
  *     @OA\Property(property="time_in", type="string", format="H:i:s", nullable=true),
