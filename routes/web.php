@@ -19,4 +19,3 @@ use App\Http\Controllers\PDFController;
 Route::get('/', function (User $user) {
     return view('welcome');
 });
-
