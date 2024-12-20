@@ -183,8 +183,7 @@ class Patient extends Model
         // 'pt',
         // 'school_bcba',
         // 'analyst_bcba',
-        // 'data_report_and_rbt_correction',
-
+        // 'data_report_and_rbt_correction'
 
     ];
 
