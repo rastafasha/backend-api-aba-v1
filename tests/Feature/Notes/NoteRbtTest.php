@@ -93,6 +93,34 @@ class NoteRbtTest extends TestCase
         ]);
     }
 
+    // Cannot create note with time_in after now
+    public function test_cannot_create_note_rbt_with_time_in_after_now()
+    {
+        $noteData = [
+            'patient_id' => $this->patient->id,
+            'patient_identifier' => $this->patient->patient_identifier,
+            'provider_id' => $this->provider->id,
+            'supervisor_id' => $this->supervisor->id,
+            'doctor_id' => $this->doctor->id,
+            'location_id' => $this->location->id,
+            'insurance_id' => $this->insurance->id,
+            'session_date' => now()->addDay()->format('Y-m-d'),
+            'pa_service_id' => $this->paService->id,
+            'cpt_code' => '97153',
+            'next_session_is_scheduled_for' => now()->addDays(7)->format('Y-m-d H:i:s')
+        ];
+
+        $response = $this->postJson('/api/v2/notes/rbt', $noteData);
+
+        $response->assertStatus(422)
+            ->assertJsonValidationErrors(['session_date'])
+            ->assertJson([
+                'errors' => [
+                    'session_date' => ['The session date must be a date before tomorrow.']
+                ]
+            ]);
+    }
+
     public function test_can_update_note_rbt()
     {
         $note = NoteRbt::factory()->create([

@@ -15,12 +15,12 @@ class NoteRbtRequest extends FormRequest
     {
         return [
             'insurance_id' => 'nullable|exists:insurances,id',
-            'session_date' => 'required|date',
             'patient_id' => 'required|exists:patients,id',
             'doctor_id' => 'required|exists:users,id',
             'pa_service_id' => 'required|exists:pa_services,id',
             'bip_id' => 'nullable|exists:bips,id',
             'pos' => 'nullable|string',
+            'session_date' => 'required|date|before:tomorrow',
             'time_in' => 'nullable|date_format:H:i:s',
             'time_out' => 'nullable|date_format:H:i:s|after:time_in',
             'time_in2' => 'nullable|date_format:H:i:s',
