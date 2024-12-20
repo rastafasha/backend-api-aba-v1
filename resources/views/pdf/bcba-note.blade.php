@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="utf-8">
     <title>BCBA Supervision Note</title>
@@ -10,48 +11,77 @@
             margin: 40px;
             font-size: 11px;
         }
+
         .header {
             margin-bottom: 15px;
             text-align: center;
         }
-        .header img, .logo {
+
+        .header img,
+        .logo {
             max-width: 80px;
             height: auto;
         }
+
         .header p {
             margin: 0;
             text-align: left;
             font-size: 10px;
             line-height: 1.2;
         }
+
+        .logo {
+            margin-bottom: 0;
+        }
+
         .title {
             font-size: 18px;
             font-weight: bold;
             text-align: center;
             margin: 20px 0;
         }
+
         table {
             width: 100%;
             border-collapse: collapse;
             margin-bottom: 20px;
         }
-        table, th, td {
+
+        table,
+        th,
+        td {
             border: 1px solid #000;
         }
+
         td {
             padding: 5px;
+            padding-top: 0px;
             text-align: left;
         }
-        .signature-table {
-            border: none;
-            margin-top: 30px;
+
+        .session-info td {
+            width: 20%;
         }
-        .signature-table td {
+
+        #signature-table {
             border: none;
-            text-align: center;
+            border-top: none;
+        }
+
+        #signature-table td {
+            border: none;
+        }
+
+        .patient-info td.half-width {
+            width: 50%;
+        }
+
+        .patient-info td.quarter-width {
+            width: 25%;
         }
     </style>
 </head>
+
 <body>
     <div class="header">
         <table style="width: 100%; border: none;">
@@ -76,58 +106,108 @@
         BCBA SUPERVISION NOTE
     </div>
 
-    <table>
+    <table class="patient-info">
         <tr>
-            <td style="width: 50%">
+            <td colspan="2" class="half-width">
                 <strong>Client:</strong><br>
                 {{ $note->patient->first_name }} {{ $note->patient->last_name }}
             </td>
-            <td style="width: 25%">
+            <td colspan="1" class="quarter-width">
                 <strong>Date of Birth:</strong><br>
-                {{ $note->patient->birth_date->format('m/d/Y') }}
+                {{ $note->patient->birth_date->format('m/d/Y') }} ({{ $note->patient->age }} years old)
             </td>
-            <td style="width: 25%">
+            <td colspan="1" class="quarter-width">
                 <strong>Insurance #:</strong><br>
                 {{ $note->patient->insurance_identifier }}
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" class="half-width">
+                <strong>Provider:</strong><br>
+                {{ $note->provider->name }} {{ $note->provider->surname }}
+            </td>
+            <td colspan="2" class="half-width">
+                <strong>Authorized ABA Supervisor:</strong><br>
+                {{ $note->supervisor->name }} {{ $note->supervisor->surname }}
             </td>
         </tr>
     </table>
 
     <table>
         <tr>
-            <td style="width: 33%">
-                <strong>Session Date:</strong><br>
+            <td colspan="2">
+                <strong>Participants:</strong><br><br>
+            </td>
+            {{-- <td>
+                <strong>Environmental Changes:</strong><br>
+                {{ $note->environmental_changes }}
+            </td> --}}
+        </tr>
+        <tr>
+            <td colspan="2">
+                <strong>Session Summary:</strong><br>
+                {{ $note->summary_note }}
+            </td>
+        </tr>
+    </table>
+
+    <table class="session-info">
+        <tr>
+            <td>
+                <strong>Date of Service:</strong><br>
                 {{ $note->session_date->format('m/d/Y') }}
             </td>
-            <td style="width: 33%">
-                <strong>Time:</strong><br>
-                {{ Carbon\Carbon::parse($note->time_in)->format('h:i A') }} - {{ Carbon\Carbon::parse($note->time_out)->format('h:i A') }}
-                @if($note->time_in2)
-                <br>
-                {{ Carbon\Carbon::parse($note->time_in2)->format('h:i A') }} - {{ Carbon\Carbon::parse($note->time_out2)->format('h:i A') }}
+            <td>
+                <strong>Place of Service:</strong><br>
+                {{ $note->posString }} ({{ $note->meet_with_client_at }})
+            </td>
+            <td>
+                <strong>Time In/Out:</strong><br>
+                {{ Carbon\Carbon::parse($note->time_in)->format('h:i A') }} -
+                {{ Carbon\Carbon::parse($note->time_out)->format('h:i A') }}
+                @if ($note->time_in2)
+                    <br>
+                    {{ Carbon\Carbon::parse($note->time_in2)->format('h:i A') }} -
+                    {{ Carbon\Carbon::parse($note->time_out2)->format('h:i A') }}
                 @endif
             </td>
-            <td style="width: 33%">
-                <strong>CPT Code:</strong><br>
+            <td>
+                <strong>Hours:</strong><br>
+                @if ($note->total_minutes % 60 == 0)
+                    {{ $note->total_minutes / 60 }} hours
+                @else
+                    {{ intdiv($note->total_minutes, 60) }} hours {{ $note->total_minutes % 60 }} minutes
+                @endif
+            </td>
+            <td>
+                <strong>Billing Codes:</strong><br>
                 {{ $note->cpt_code }}
             </td>
         </tr>
     </table>
 
+    <br><br><br><br>
 
-    <table class="signature-table">
+    <table id="signature-table">
         <tr>
-            <td style="width: 50%">
-                ___________________________<br>
-                <strong>BCBA Signature</strong><br>
-                {{ $note->provider_signature }}
+            <td>
+                <br>
             </td>
-            <td style="width: 50%">
-                ___________________________<br>
-                <strong>Date</strong><br>
-                {{ $note->session_date->format('m/d/Y') }}
+            <td style="text-align: center;">
+                {{ Carbon\Carbon::parse($note->session_date)->format('m/d/Y') }}
+            </td>
+        </tr>
+        <tr>
+            <td style="text-align: center;">
+                ___________________________<br><br>
+                <strong>PROVIDER SIGNATURE</strong>
+            </td>
+            <td style="text-align: center;">
+                ___________________________<br><br>
+                <strong>SIGNATURE DATE</strong>
             </td>
         </tr>
     </table>
 </body>
+
 </html>

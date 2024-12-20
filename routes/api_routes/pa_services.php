@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\PaServiceController;
 use App\Http\Controllers\Admin\PaServiceV2Controller;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\NoteCalculatorController;
 
 Route::group(['middleware' => ['auth:sanctum'], 'prefix' => 'admin'], function () {
     // PA Services routes
@@ -24,3 +25,6 @@ Route::prefix('v2/patients/{patient_identfifier}/pa-services')->group(function (
     Route::put('/{id}', [PaServiceV2Controller::class, 'update']);
     Route::delete('/{id}', [PaServiceV2Controller::class, 'destroy']);
 });
+
+
+Route::get('v2/pa-service-calculator/{pa_service_id}', [NoteCalculatorController::class, 'calculateUnits']);

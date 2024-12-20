@@ -18,15 +18,8 @@ Never include the CPT code in the summary.
 The notes should usually start with 'Met with client at...'
 Many people's jobs depend on this, I know you can do this!
 
-These are the codes you'll be using:
-97151: Behavior identification assessment, administered by a qualified healthcare professional; includes observation and development of treatment plan.
-97152: Behavior identification supporting assessment, administered by one technician under the direction of a qualified professional.
+This is the code you'll be using:
 97153: Adaptive behavior treatment by protocol, delivered by a technician.
-97154: Group adaptive behavior treatment by protocol.
-97155: Adaptive behavior treatment with protocol modification, administered by a qualified professional.
-97156: Family adaptive behavior treatment guidance.
-97157: Multiple-family group adaptive behavior treatment guidance.
-97158: Group adaptive behavior treatment with protocol modification.
 ";
 const BCBA_SYSTEM_PROMPT =
 "You are an experienced expert in Applied Behavior Analysis (ABA), specializing in treating children with various developmental disorders.
@@ -41,7 +34,6 @@ Many people's jobs depend on this, I know you can do this!
 These are the CPT codes you'll be using:
 97151: Behavior identification assessment, administered by a qualified healthcare professional; includes observation and development of treatment plan.
 97152: Behavior identification supporting assessment, administered by one technician under the direction of a qualified professional.
-97153: Adaptive behavior treatment by protocol, delivered by a technician.
 97154: Group adaptive behavior treatment by protocol, delivered by a technician.
 97155: Adaptive behavior treatment with protocol modification, administered by a qualified professional.
 97156: Family adaptive behavior treatment guidance.

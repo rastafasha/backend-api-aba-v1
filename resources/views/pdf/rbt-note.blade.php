@@ -46,9 +46,6 @@
             padding-top: 0px;
             text-align: left;
         }
-        .patient-info td {
-            /* width: 33.33%; */
-        }
         .session-info td {
             width: 20%;
         }

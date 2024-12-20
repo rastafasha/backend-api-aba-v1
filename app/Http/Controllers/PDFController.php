@@ -61,17 +61,6 @@ class PDFController extends Controller
             'insurance'
         ])->findOrFail($id);
 
-        // More detailed debugging
-        Log::info('BCBA Note Debug:', [
-            'note_id' => $note->id,
-            'location_id' => $note->location_id,
-            'location_relationship' => $note->location,
-            'has_location_attribute' => isset($note->attributes['location']),
-            'has_location_relation' => $note->relationLoaded('location'),
-            'attributes' => $note->getAttributes(),
-            'relations' => $note->getRelations()
-        ]);
-
         $data = [
             'note' => $note,
             'title' => 'BCBA SUPERVISION NOTE',
@@ -97,7 +86,12 @@ class PDFController extends Controller
                 'paServices',
                 'locals',
                 'insurances',
-                'insurance_secondary'
+                'insurance_secondary',
+                'rbt_home:id,name,surname',
+                'rbt2_school:id,name,surname',
+                'bcba_home:id,name,surname',
+                'bcba2_school:id,name,surname',
+                'clin_director:id,name,surname'
             ])->findOrFail($patientId);
 
             // Add computed properties
@@ -146,12 +140,15 @@ class PDFController extends Controller
             $patient = Patient::with([
                 'pa_services',
                 'locals',
-                'insurance',
-                'insurance_secondary'
+                'insurer:id,name',
+                'insurance_secondary:id,name',
+                'rbt_home:id,name,surname',
+                'rbt2_school:id,name,surname',
+                'bcba_home:id,name,surname',
+                'bcba2_school:id,name,surname',
+                'clin_director:id,name,surname'
             ])->findOrFail($patientId);
 
-            $patient->insurer_name = $patient->insurance->name ?? 'N/A';
-            $patient->insurer_name_secondary = $patient->insurance_secondary->name ?? 'N/A';
 
             $pdf = PDF::loadView('pdf.patient-profile', [
                 'patient' => $patient

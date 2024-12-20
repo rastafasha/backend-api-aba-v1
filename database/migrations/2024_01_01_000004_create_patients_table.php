@@ -31,6 +31,10 @@ class CreatePatientsTable extends Migration
             $table->tinyInteger('parent_gender')->default(1);
             $table->timestamp('birth_date')->nullable();
             $table->timestamp('parent_birth_date')->nullable();
+            $table->string('parent_address')->nullable();
+            $table->string('parent_city')->nullable();
+            $table->string('parent_state')->nullable();
+            $table->string('parent_zip')->nullable();
             // $table->string('age', 50)->nullable();
             $table->string('avatar')->nullable();
             $table->string('city')->nullable();
