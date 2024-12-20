@@ -80,6 +80,14 @@ class PaService extends Model
         return $this->n_units - $this->spent_units;
     }
 
+    public function getAverageWeeklyUnitsAttribute()
+    {
+        $startDate = \Carbon\Carbon::parse($this->start_date);
+        $endDate = \Carbon\Carbon::parse($this->end_date);
+        $days = $startDate->diffInDays($endDate);
+        return round($this->n_units / floor($days / 7), 0, PHP_ROUND_HALF_UP);
+    }
+
     public static function validate($data)
     {
         if (isset($data['start_date'])) {

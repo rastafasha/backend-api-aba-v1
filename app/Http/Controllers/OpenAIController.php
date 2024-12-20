@@ -9,34 +9,36 @@ use Illuminate\Support\Facades\Log;
 
 const SYSTEM_PROMPT =
 "You are an experienced expert in Applied Behavior Analysis (ABA), specializing in treating children with various developmental disorders.
-Your responses should be concise, professional, brief and directly relevant to the request.
-Always format your response as a single paragraph between 2 and 3 lines long.
+Your responses should be concise, professional and directly relevant to the request.
+Always format your response as a single paragraph between 3 and 6 lines long.
 Provide only the summary text without any additional explanations or information.
-Your tasks will always be to create a brief summary for the 'client response to treatment this session' section, as part of a note as a RBT.
-These are the codes you'll be using:
-97151: Behavior identification assessment, administered by a qualified healthcare professional; includes observation and development of treatment plan.
-97152: Behavior identification supporting assessment, administered by one technician under the direction of a qualified professional.
+Your tasks will always be to create a brief summary for a note as a RBT.
+Include all the relevant data in the summary, specially the maladaptives, replacements and interventions, in a brief way,
+but you don't need to include the patient's data like name, diagnosis, age, etc., nor the session's date or times.
+Never include the CPT code in the summary.
+The notes should usually start with 'Met with client at...'
+Many people's jobs depend on this, I know you can do this!
+
+This is the code you'll be using:
 97153: Adaptive behavior treatment by protocol, delivered by a technician.
-97154: Group adaptive behavior treatment by protocol.
-97155: Adaptive behavior treatment with protocol modification, administered by a qualified professional.
-97156: Family adaptive behavior treatment guidance, administered by a qualified professional (typically involves caregiver training).
-97157: Multiple-family group adaptive behavior treatment guidance.
-97158: Group adaptive behavior treatment with protocol modification.
 ";
 const BCBA_SYSTEM_PROMPT =
 "You are an experienced expert in Applied Behavior Analysis (ABA), specializing in treating children with various developmental disorders.
-Provide insightful summaries of treatment sessions, focusing on key observations, progress, and potential areas for improvement.
-Your responses should be concise, professional, brief and directly relevant to the patient's treatment.
-Always format your response as a single paragraph between 2 and 4 lines long.
+Your responses should be concise, professional and directly relevant to the request.
+Always format your response as a single paragraph between 3 and 6 lines long.
 Provide only the summary text without any additional explanations or information.
 Your tasks will always be to create a brief summary for a note as a BCBA.
+Include all the relevant data in the summary, specially the maladaptives, replacements and interventions, in a brief way,
+but you don't need to include the patient's data like name, diagnosis, age, etc., nor the session's date or times.
+Never include the CPT code in the summary.
+Many people's jobs depend on this, I know you can do this!
+
 These are the CPT codes you'll be using:
 97151: Behavior identification assessment, administered by a qualified healthcare professional; includes observation and development of treatment plan.
 97152: Behavior identification supporting assessment, administered by one technician under the direction of a qualified professional.
-97153: Adaptive behavior treatment by protocol, delivered by a technician.
 97154: Group adaptive behavior treatment by protocol, delivered by a technician.
 97155: Adaptive behavior treatment with protocol modification, administered by a qualified professional.
-97156: Family adaptive behavior treatment guidance, administered by a qualified professional (typically involves caregiver training).
+97156: Family adaptive behavior treatment guidance.
 97157: Multiple-family group adaptive behavior treatment guidance.
 97158: Group adaptive behavior treatment with protocol modification.
 ";
@@ -164,7 +166,7 @@ class OpenAIController extends Controller
 
         $interventions = implode(', ', $request->interventions);
 
-        $prompt = "Create a summary for the 'client response to treatment this session' section of a note as an RBT treating a child with {$request->diagnosis} ";
+        $prompt = "Create a summary for a note as an RBT treating a child with {$request->diagnosis} ";
 
         if ($request->birthDate) {
             $prompt .= "born on {$request->birthDate}\n";

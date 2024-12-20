@@ -168,6 +168,7 @@ return [
          */
         Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
         Spatie\Permission\PermissionServiceProvider::class,
+        \Barryvdh\DomPDF\ServiceProvider::class,
 
         /*
          * Application Service Providers...
