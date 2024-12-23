@@ -97,12 +97,12 @@ class ParentController extends Controller
         ]);
     }
 
-    public function showWithPatient($id, $patient_id)
+    public function showWithPatient($id, $patient_identifier)
     {
         $parent = Parents::findOrFail($id);
 
 
-        $patient = Patient::where('patient_id', $patient_id)->first();
+        $patient = Patient::where('patient_identifier', $patient_identifier)->first();
 
         return response()->json([
 
@@ -113,7 +113,7 @@ class ParentController extends Controller
                 "name" => $parent->name,
                 "surname" => $parent->surname,
                 "status" => $parent->status,
-                "patient_id" => $patient->patient_id,
+                "patient_identifier" => $patient->patient_identifier,
                 "full_name" => $parent->name . ' ' . $parent->surname,
                 "email" => $parent->email,
             ] : null,
@@ -122,20 +122,20 @@ class ParentController extends Controller
         ]);
     }
 
-    public function showWithPatientBip($id, $patient_id)
+    public function showWithPatientBip($id, $patient_identifier)
     {
         $parent = Parents::findOrFail($id);
 
-        $bip = Bip::where("patient_id", $patient_id)->first();
+        $bip = Bip::where("patient_identifier", $patient_identifier)->first();
 
-        $patient = Patient::where('patient_id', $patient_id)->first();
+        $patient = Patient::where('patient_identifier', $patient_identifier)->first();
 
         return response()->json([
 
             "patient" => $patient,
             "patient" => $patient ? [
                 "id" => $patient->id,
-                "title" => $patient->patient_id,
+                "title" => $patient->patient_identifier,
                 "full_name" => $patient->first_name . ' ' . $patient->last_name,
                 "email" => $patient->email,
                 "insurer_id" => $patient->insurer_id,
@@ -178,7 +178,7 @@ class ParentController extends Controller
                 "name" => $parent->name,
                 "surname" => $parent->surname,
                 "status" => $parent->status,
-                "patient_id" => $patient->patient_id,
+                "patient_identifier" => $patient->patient_identifier,
                 "full_name" => $parent->name . ' ' . $parent->surname,
                 "email" => $parent->email,
             ] : null,
@@ -187,13 +187,13 @@ class ParentController extends Controller
         ]);
     }
 
-    public function showWithPatientRBTNotes($id, $patient_id)
+    public function showWithPatientRBTNotes($id, $patient_identifier)
     {
         $parent = Parents::findOrFail($id);
 
-        $notesRbt = NoteRbt::where("patient_id", $patient_id)->first();
+        $notesRbt = NoteRbt::where("patient_identifier", $patient_identifier)->first();
 
-        $patient = Patient::where('patient_id', $patient_id)->first();
+        $patient = Patient::where('patient_identifier', $patient_identifier)->first();
 
         return response()->json([
             "parent" => $parent,
@@ -202,7 +202,7 @@ class ParentController extends Controller
                 "name" => $parent->name,
                 "surname" => $parent->surname,
                 "status" => $parent->status,
-                "patient_id" => $patient->patient_id,
+                "patient_identifier" => $patient->patient_identifier,
                 "full_name" => $parent->name . ' ' . $parent->surname,
                 "email" => $parent->email,
             ] : null,
@@ -237,15 +237,15 @@ class ParentController extends Controller
         ]);
     }
 
-    public function showWithPatientRBTNotesRecents($id, $patient_id)
+    public function showWithPatientRBTNotesRecents($id, $patient_identifier)
     {
         $parent = Parents::findOrFail($id);
 
-        $notesRbt = NoteRbt::where("patient_id", $patient_id)
+        $notesRbt = NoteRbt::where("patient_identifier", $patient_identifier)
         ->orderBy('created_at', 'DESC')
         ->first();
 
-        $patient = Patient::where('patient_id', $patient_id)->first();
+        $patient = Patient::where('patient_identifier', $patient_identifier)->first();
 
         return response()->json([
 
@@ -261,13 +261,13 @@ class ParentController extends Controller
         ]);
     }
 
-    public function showWithPatientBCBANotes($id, $patient_id)
+    public function showWithPatientBCBANotes($id, $patient_identifier)
     {
         $parent = Parents::findOrFail($id);
 
-        $notesBcba = NoteBcba::where("patient_id", $patient_id)->first();
+        $notesBcba = NoteBcba::where("patient_identifier", $patient_identifier)->first();
 
-        $patient = Patient::where('patient_id', $patient_id)->first();
+        $patient = Patient::where('patient_identifier', $patient_identifier)->first();
 
         return response()->json([
             "parent" => $parent,
@@ -276,14 +276,14 @@ class ParentController extends Controller
                 "name" => $parent->name,
                 "surname" => $parent->surname,
                 "status" => $parent->status,
-                "patient_id" => $patient->patient_id,
+                "patient_identifier" => $patient->patient_identifier,
                 "full_name" => $parent->name . ' ' . $parent->surname,
                 "email" => $parent->email,
             ] : null,
             "patient" => $patient,
             "patient" => $patient ? [
                 "id" => $patient->id,
-                "title" => $patient->patient_id,
+                "patient_identifier" => $patient->patient_identifier,
                 "full_name" => $patient->first_name . ' ' . $patient->last_name,
                 "email" => $patient->email,
                 "insurer_id" => $patient->insurer_id,
@@ -311,15 +311,15 @@ class ParentController extends Controller
         ]);
     }
 
-    public function showWithPatientBCBANotesRecent($id, $patient_id)
+    public function showWithPatientBCBANotesRecent($id, $patient_identifier)
     {
         $parent = Parents::findOrFail($id);
 
-        $notesBcba = NoteBcba::where("patient_id", $patient_id)
+        $notesBcba = NoteBcba::where("patient_identifier", $patient_identifier)
         ->orderBy('created_at', 'DESC')
         ->first();
 
-        $patient = Patient::where('patient_id', $patient_id)->first();
+        $patient = Patient::where('patient_identifier', $patient_identifier)->first();
 
         return response()->json([
             "notesBcba" => $notesBcba,
