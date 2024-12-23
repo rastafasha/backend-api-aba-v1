@@ -15,22 +15,22 @@ Route::get('/parents-locations', [ParentController::class, 'locationsParents'])
 Route::get('/parent/show/{parent}', [ParentController::class, 'show'])
     ->name('parents.show');
 
-Route::get('/parent/show-withpatient/{parent}/{patient_id}', [ParentController::class, 'showWithPatient'])
+Route::get('/parent/show-withpatient/{parent}/{patient_identifier}', [ParentController::class, 'showWithPatient'])
     ->name('parents.showWithPatient');
 
-Route::get('/parent/show-withpatientbip/{parent}/{patient_id}', [ParentController::class, 'showWithPatientBip'])
+Route::get('/parent/show-withpatientbip/{parent}/{patient_identifier}', [ParentController::class, 'showWithPatientBip'])
     ->name('parents.showWithPatientBip');
 
-Route::get('/parent/show-withpatient-rbtnote/{parent}/{patient_id}', [ParentController::class, 'showWithPatientRBTNotes'])
+Route::get('/parent/show-withpatient-rbtnote/{parent}/{patient_identifier}', [ParentController::class, 'showWithPatientRBTNotes'])
     ->name('parents.showWithPatientRBTNotes');
 
-Route::get('/parent/show-withpatient-rbtnote-recent/{parent}/{patient_id}', [ParentController::class, 'showWithPatientRBTNotesRecents'])
+Route::get('/parent/show-withpatient-rbtnote-recent/{parent}/{patient_identifier}', [ParentController::class, 'showWithPatientRBTNotesRecents'])
     ->name('parents.showWithPatientRBTNotesRecents');
 
-Route::get('/parent/show-withpatient-bcbanote/{parent}/{patient_id}', [ParentController::class, 'showWithPatientBCBANotes'])
+Route::get('/parent/show-withpatient-bcbanote/{parent}/{patient_identifier}', [ParentController::class, 'showWithPatientBCBANotes'])
     ->name('parents.showWithPatientBCBANotes');
 
-Route::get('/parent/show-withpatient-bcbanote-recent/{parent}/{patient_id}', [ParentController::class, 'showWithPatientBCBANotesRecent'])
+Route::get('/parent/show-withpatient-bcbanote-recent/{parent}/{patient_identifier}', [ParentController::class, 'showWithPatientBCBANotesRecent'])
     ->name('parents.showWithPatientBCBANotesRecent');
 
 
