@@ -25,19 +25,24 @@ class EdiX12837Service
 
     public function generate($res)
     {
+        // Add validation to ensure $res is an array
+        if (!is_array($res)) {
+            throw new \InvalidArgumentException('Input must be an array');
+        }
+
         $file_data = "";
         $loopcounter = 0;
 
+        // Since we're processing a batch of claims, we only need one set of ISA/GS headers
+        // Add these before the loop
+        $first_row = reset($res);
+        $file_data .= $this->createISA($first_row) . PHP_EOL;
+        $file_data .= $this->createGS($first_row) . PHP_EOL;
+
         foreach ($res as $row) {
-            // ISA - Interchange Control Header
-            $file_data .= $this->createISA($row) . PHP_EOL;
-
-            // GS - Functional Group Header
-            $file_data .= $this->createGS($row) . PHP_EOL;
-
             // ST - Transaction Set Header
             $file_data .= $this->createST($row) . PHP_EOL;
-            ++$loopcounter;
+            $loopcounter = 0; // Reset counter for each claim
 
             // BHT - Beginning of Hierarchical Transaction
             $file_data .= $this->createBHT($row) . PHP_EOL;
@@ -151,15 +156,12 @@ class EdiX12837Service
             }
 
             // Transaction Set Trailer
-            ++$loopcounter;
             $file_data .= $this->createSE($row, $loopcounter) . PHP_EOL;
-
-            // Functional Group Trailer
-            $file_data .= $this->createGE($row) . PHP_EOL;
-
-            // Interchange Control Trailer
-            $file_data .= $this->createIEA($row) . PHP_EOL;
         }
+
+        // Add single set of GE/IEA trailers after the loop
+        $file_data .= $this->createGE($first_row) . PHP_EOL;
+        $file_data .= $this->createIEA($first_row) . PHP_EOL;
 
         return $file_data;
     }
@@ -345,13 +347,13 @@ class EdiX12837Service
         } elseif ($nm1Cast == 82) {
             $NM1[1] = "82";
             $NM1[2] = "1";
-            $NM1[3] = $row['rendering_provider_lname'];
-            $NM1[4] = $row['rendering_provider_fname'];
-            $NM1[5] = $row['rendering_provider_mname'];
+            $NM1[3] = $row['rendering_provider_lname'] ?? '';
+            $NM1[4] = $row['rendering_provider_fname'] ?? '';
+            $NM1[5] = $row['rendering_provider_mname'] ?? '';
             $NM1[6] = "";
             $NM1[7] = "";
             $NM1[8] = "XX";
-            $NM1[9] = $row['rendering_provider_npi'];
+            $NM1[9] = $row['rendering_provider_npi'] ?? '';
         } elseif ($nm1Cast == 77) {
             $NM1[1] = "82";
             $NM1[2] = "2";
@@ -753,10 +755,32 @@ class EdiX12837Service
         switch ($relationship) {
             case "spouse":
                 return "01";
-            case "child":
-                return "19";
+            case "grandparent":
+                return "02";
+            case "grandson":
+                return "05";
+            case "granddaughter":
+                return "05";
+            case "nephew":
+                return "07";
+            case "niece":
+                return "07";
+            case "foster child":
+                return "10";
             case "self":
                 return "18";
+            case "child":
+                return "19";
+            case "employee":
+                return "20";
+            case "employer":
+                return "21";
+            case "significant other":
+                return "29";
+            case "mother":
+                return "32";
+            case "father":
+                return "33";
             default:
                 return "G8";
         }

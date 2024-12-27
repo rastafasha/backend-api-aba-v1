@@ -8,6 +8,7 @@ use App\Models\Notes\NoteRbt;
 use App\Models\Patient\Patient;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Log;
 
 class ClaimsService
 {
@@ -20,16 +21,14 @@ class ClaimsService
 
     public function generateFromNotes(array $notesRbtIds, array $notesBcbaIds)
     {
-        // Ensure there's an array of either RBT or BCBA note ids.
         $notesRbtIds = !empty($notesRbtIds) ? $notesRbtIds : [];
         $notesBcbaIds = !empty($notesBcbaIds) ? $notesBcbaIds : [];
 
-        // Get all the notes for the given ids.
-        $notesRbt = !empty($notesRbtIds) ? NoteRbt::with('provider')->whereIn('id', $notesRbtIds)->get() : collect();
-        $notesBcba = !empty($notesBcbaIds) ? NoteBcba::whereIn('id', $notesBcbaIds)->get() : collect();
+        // Get all the notes with their relationships
+        $notesRbt = !empty($notesRbtIds) ? NoteRbt::with(['provider', 'supervisor', 'paService', 'location'])->whereIn('id', $notesRbtIds)->get() : collect();
+        $notesBcba = !empty($notesBcbaIds) ? NoteBcba::with(['provider', 'supervisor', 'paService', 'location'])->whereIn('id', $notesBcbaIds)->get() : collect();
 
-
-        // Group notes by patient
+        // Group notes by patient first
         $rbtNotesByPatient = $notesRbt->groupBy('patient_id');
         $bcbaNotesByPatient = $notesBcba->groupBy('patient_id');
 
@@ -37,50 +36,108 @@ class ClaimsService
         $claimsData = [];
 
         // Process RBT notes
-        foreach ($rbtNotesByPatient as $patientId => $notes) {
-            $patient = Patient::where('id', $patientId)->first();
-            if (!$patient) {
-                continue;
+        foreach ($rbtNotesByPatient as $patientId => $patientNotes) {
+            $patient = Patient::find($patientId);
+            if (!$patient) continue;
+
+            // Further group notes by PA service code and provider
+            $notesByPaServiceAndProvider = $patientNotes->groupBy(function ($note) {
+                return $note->paService->pa_service . '_' . ($note->provider_id ?? 'null');
+            });
+
+            foreach ($notesByPaServiceAndProvider as $groupKey => $notes) {
+                if (strpos($groupKey, '_null') !== false) continue; // Skip notes without provider
+
+                $firstNote = $notes->first();
+                if (!$firstNote->paService) continue; // Skip notes without PA service
+
+                $patientData = $this->getPatientData($patient);
+                $insuranceData = $this->getInsuranceData($patient);
+                $claimData = $this->getClaimData($patient, $notes, collect(), $insuranceData['services']);
+
+                // Add PA service code to claim data
+                $claimData['prior_auth_code'] = $firstNote->paService->pa_service;
+
+                // Add rendering provider information
+                $provider = $firstNote->provider;
+                if ($provider) {
+                    $claimData['rendering_provider_fname'] = $provider->name;
+                    $claimData['rendering_provider_lname'] = $provider->surname;
+                    $claimData['rendering_provider_npi'] = $provider->npi;
+                }
+
+                // Add supervising provider information
+                $supervisor = $firstNote->supervisor;
+                if ($supervisor) {
+                    $claimData['supervising_provider_fname'] = $supervisor->name;
+                    $claimData['supervising_provider_lname'] = $supervisor->surname;
+                    $claimData['supervising_provider_npi'] = $supervisor->npi;
+                }
+
+                $batchData = [
+                    'batch_number' => str_pad(mt_rand(1, 999999999), 9, '0', STR_PAD_LEFT),
+                    'group_number' => str_pad(mt_rand(1, 999999999), 9, '0', STR_PAD_LEFT),
+                ];
+
+                $claimsData[] = array_merge($patientData, $insuranceData, $claimData, $batchData);
             }
-
-            $patientData = $this->getPatientData($patient);
-            $insuranceData = $this->getInsuranceData($patient);
-            $claimData = $this->getClaimData($patient, $notes, collect(), $insuranceData['services']);
-
-            $batchData = [
-                'batch_number' => str_pad(mt_rand(1, 999999999), 9, '0', STR_PAD_LEFT),
-                'group_number' => str_pad(mt_rand(1, 999999999), 9, '0', STR_PAD_LEFT),
-            ];
-
-            $claimsData[] = array_merge($patientData, $insuranceData, $claimData, $batchData);
         }
 
         // Process BCBA notes
-        foreach ($bcbaNotesByPatient as $patientId => $notes) {
-            $patient = Patient::where('id', $patientId)->first();
-            if (!$patient) {
-                continue;
+        foreach ($bcbaNotesByPatient as $patientId => $patientNotes) {
+            $patient = Patient::find($patientId);
+            if (!$patient) continue;
+
+            // Further group notes by PA service code and provider
+            $notesByPaServiceAndProvider = $patientNotes->groupBy(function ($note) {
+                return $note->paService->pa_service . '_' . ($note->provider_id ?? 'null');
+            });
+
+            foreach ($notesByPaServiceAndProvider as $groupKey => $notes) {
+                if (strpos($groupKey, '_null') !== false) continue; // Skip notes without provider
+
+                $firstNote = $notes->first();
+                if (!$firstNote->paService) continue; // Skip notes without PA service
+
+                $patientData = $this->getPatientData($patient);
+                $insuranceData = $this->getInsuranceData($patient);
+                $claimData = $this->getClaimData($patient, collect(), $notes, $insuranceData['services']);
+
+                // Add PA service code to claim data
+                $claimData['prior_auth_code'] = $firstNote->paService->pa_service;
+
+                // Add rendering provider information
+                $provider = $firstNote->provider;
+                if ($provider) {
+                    $claimData['rendering_provider_fname'] = $provider->name;
+                    $claimData['rendering_provider_lname'] = $provider->surname;
+                    $claimData['rendering_provider_npi'] = $provider->npi;
+                }
+
+                // Add supervising provider information
+                $supervisor = $firstNote->supervisor;
+                if ($supervisor) {
+                    $claimData['supervising_provider_fname'] = $supervisor->name;
+                    $claimData['supervising_provider_lname'] = $supervisor->surname;
+                    $claimData['supervising_provider_npi'] = $supervisor->npi;
+                }
+
+                $batchData = [
+                    'batch_number' => str_pad(mt_rand(1, 999999999), 9, '0', STR_PAD_LEFT),
+                    'group_number' => str_pad(mt_rand(1, 999999999), 9, '0', STR_PAD_LEFT),
+                ];
+
+                $claimsData[] = array_merge($patientData, $insuranceData, $claimData, $batchData);
             }
-
-            $patientData = $this->getPatientData($patient);
-            $insuranceData = $this->getInsuranceData($patient);
-            $claimData = $this->getClaimData($patient, collect(), $notes, $insuranceData['services']);
-
-            $batchData = [
-                'batch_number' => str_pad(mt_rand(1, 999999999), 9, '0', STR_PAD_LEFT),
-                'group_number' => str_pad(mt_rand(1, 999999999), 9, '0', STR_PAD_LEFT),
-            ];
-
-            $claimsData[] = array_merge($patientData, $insuranceData, $claimData, $batchData);
         }
+
+        Log::info($claimsData);
 
         if (empty($claimsData)) {
             return '';
         }
 
-        $fileContent = $this->ediService->generate($claimsData);
-
-        return $fileContent;
+        return $this->ediService->generate($claimsData);
     }
 
     private function getInsuranceData(Patient $patient)
@@ -109,20 +166,30 @@ class ClaimsService
 
     private function getPatientData(Patient $patient)
     {
+        // Determine subscriber info based on is_self_subscriber flag
+        $subscriberFirstName = $patient->is_self_subscriber ? $patient->first_name : $patient->parent_guardian_name;
+        $subscriberLastName = $patient->is_self_subscriber ? $patient->last_name : explode(' ', $patient->parent_guardian_name)[0];
+        $subscriberAddress = $patient->is_self_subscriber ? $patient->address : $patient->parent_address;
+        $subscriberCity = $patient->is_self_subscriber ? $patient->city : $patient->parent_city;
+        $subscriberState = $patient->is_self_subscriber ? $patient->state : $patient->parent_state;
+        $subscriberZip = $patient->is_self_subscriber ? $patient->zip : $patient->parent_zip;
+        $subscriberGender = $patient->is_self_subscriber ? $patient->gender : $patient->parent_gender;
+        $subscriberDob = $patient->is_self_subscriber ? $patient->birth_date : $patient->parent_birth_date;
+
         return [
-            "patient_id" => $patient->patient_id,
-            "subscriber_fname" => $patient->first_name,
+            "patient_id" => $patient->patient_identifier,
+            "subscriber_fname" => $subscriberFirstName,
             "subscriber_mname" => '',
-            'subscriber_policy_number' => $patient->patient_id ?? '',
-            "subscriber_lname" => $patient->last_name,
-            "subscriber_relationship" => $patient->relationship,
-            "subscriber_gender" => $patient->gender === 1 ? 'M' : 'F',
-            "subscriber_address" => $patient->address,
+            'subscriber_policy_number' => '123456789', // TODO: Get from insurance
+            "subscriber_lname" => $subscriberLastName,
+            "subscriber_relationship" => $patient->is_self_subscriber ? 'self' : $patient->relationship,
+            "subscriber_gender" => $subscriberGender === 1 ? 'M' : 'F',
+            "subscriber_address" => $subscriberAddress,
             "subscriber_address2" => '',
-            "subscriber_dob" => $patient->birth_date ? Carbon::parse($patient->birth_date)->format('m-d-Y') : '',
-            "subscriber_city" => $patient->city ?? '',
-            "subscriber_state" => $patient->state,
-            "subscriber_zip" => $patient->zip,
+            "subscriber_dob" => $subscriberDob ? Carbon::parse($subscriberDob)->format('Ymd') : '',
+            "subscriber_city" => $subscriberCity ?? '',
+            "subscriber_state" => $subscriberState,
+            "subscriber_zip" => $subscriberZip,
             'primary_problem_type_code' => 'ICD10',
             'primary_problem_code' => $patient->diagnosis_code,
             'patient_encounter_date' => '',  // First session date
@@ -138,37 +205,49 @@ class ClaimsService
             'claim_notes' => '',  // Notes
             'other_diag_list' => [],
             'procedure_codes' => [],
-            'ref_physician_lname' => '',  // Referring physician
-            'ref_physician_fname' => '',
+            'ref_physician_lname' => $patient->referring_provider_last_name,  // Referring physician
+            'ref_physician_fname' => $patient->referring_provider_first_name,
             'ref_physician_mname' => '',
-            'ref_physician_npi' => '',
+            'ref_physician_npi' => $patient->referring_provider_npi,
             'referral_number' => '',
         ];
     }
 
     private function getClaimData(Patient $patient, Collection $notesRbt, Collection $notesBcba, array $services)
     {
+        // Get location from the first note (either RBT or BCBA)
+        $location = null;
+        if ($notesRbt->isNotEmpty()) {
+            $location = $notesRbt->first()->location;
+        } elseif ($notesBcba->isNotEmpty()) {
+            $location = $notesBcba->first()->location;
+        }
+
+        if (!$location) {
+            throw new \Exception('No location found for the notes');
+        }
+
         $baseClaimData = [
-            // Sender/Submitter Information
-            'x12_sender_id' => '19188',
+            // Sender/Submitter Information from Location
+            'x12_sender_id' => $location->providerId ?? 'M12V4',
             'x12_reciever_id' => 'CLAIMMD',
             'x12_version' => '005010X222A1',
-            'submitter_org_name' => 'ABA OF SOUTHWEST FLORIDA CORP',
-            'submitter_name' => 'ABA OF SOUTHWEST FLORIDA CORP',
-            'submitter_telephone' => '8007054849',
-            'submitter_email' => 'OFFICE@ABAOFSWF.COM',
-            'submitter_tax_id' => '830711082',
+            'submitter_org_name' => $location->title,
+            'submitter_name' => $location->title,
+            'submitter_telephone' => $location->phone1,
+            'submitter_email' => $location->email,
+            'submitter_tax_id' => $location->taxid,
 
-            // Billing Provider Information
-            'billing_provider_lastname' => 'ABA OF SOUTHWEST FLORIDA CORP',
-            'billing_provider_npi' => '1679065429',
-            'billing_provider_street' => '6660 ESTERO BLVD',
-            'billing_provider_street2' => 'B404',
-            'billing_provider_city' => 'FORT MYERS BEACH',
-            'billing_provider_state' => 'FL',
-            'billing_provider_zip' => '339314524',
-            'billing_provider_federal_taxid' => '830711082',
-            'biller_tax_code' => '103K00000X',
+            // Billing Provider Information from Location
+            'billing_provider_lastname' => $location->title,
+            'billing_provider_npi' => $location->npi ?? '123456789',
+            'billing_provider_street' => $location->address,
+            'billing_provider_street2' => $location->address2,
+            'billing_provider_city' => $location->city,
+            'billing_provider_state' => $location->state,
+            'billing_provider_zip' => $location->zip,
+            'billing_provider_federal_taxid' => $location->taxid ?? '123456789',
+            'biller_tax_code' => $location->taxonomy ?? '103K00000X', // in example notes it was '103K00000X',
 
             // Default claim settings
             'claim_type' => '1',
@@ -237,13 +316,7 @@ class ClaimsService
         return [
             'cpt_codes' => $note->cpt_code,
             'quantity' => $note->total_units,
-            'dos' => Carbon::parse($note->session_date)->format('m-d-Y'),
-
-            // Rendering Provider Information
-            'rendering_provider_lname' => 'placeholder',
-            'rendering_provider_fname' => 'Sarah',
-            'rendering_provider_mname' => '',
-            'rendering_provider_npi' => '4567890123',
+            'dos' => Carbon::parse($note->session_date)->format('Ymd'),
         ];
     }
 
@@ -252,7 +325,7 @@ class ClaimsService
         return [
             'cpt_codes' => $note->cpt_code,
             'quantity' => $note->total_units,
-            'dos' => Carbon::parse($note->session_date)->format('m-d-Y'),
+            'dos' => Carbon::parse($note->session_date)->format('Ymd'),
         ];
     }
 }
