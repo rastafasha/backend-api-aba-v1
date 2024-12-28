@@ -3,6 +3,9 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\Bip\ReductionGoalController;
+use App\Http\Controllers\Admin\Bip\LongTermObjectiveV2Controller;
+use App\Http\Controllers\Admin\Bip\ShortTermObjectiveV2Controller;
+use App\Http\Controllers\Admin\Bip\ReductionGoalV2Controller;
 
 Route::get('goal', [ReductionGoalController::class, 'index'])->name('index');
 Route::get('goal/profile/{id}', [ReductionGoalController::class, 'showbyProfile'])->name('showbyProfile');
@@ -26,3 +29,10 @@ Route::put('/goal/update/eligibility/{bip:id}', [ReductionGoalController::class,
     ->name('goal.updateEligibility');
 Route::put('/goal/update/sto/{goal:id}', [ReductionGoalController::class, 'updateSto'])
     ->name('goal.updateSto');
+
+Route::prefix('v2')->group(function () {
+    Route::apiResource('reduction-goals', ReductionGoalV2Controller::class);
+    Route::apiResource('long-term-objectives', LongTermObjectiveV2Controller::class);
+    Route::apiResource('short-term-objectives', ShortTermObjectiveV2Controller::class);
+    Route::post('short-term-objectives/reorder', [ShortTermObjectiveV2Controller::class, 'reorder']);
+});
