@@ -31,7 +31,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  */
 class ShortTermObjective extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory;
+    use SoftDeletes;
 
     protected $fillable = [
         'reduction_goal_id',
