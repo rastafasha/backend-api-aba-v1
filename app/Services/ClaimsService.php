@@ -28,122 +28,104 @@ class ClaimsService
         $notesRbt = !empty($notesRbtIds) ? NoteRbt::with(['provider', 'supervisor', 'paService', 'location'])->whereIn('id', $notesRbtIds)->get() : collect();
         $notesBcba = !empty($notesBcbaIds) ? NoteBcba::with(['provider', 'supervisor', 'paService', 'location'])->whereIn('id', $notesBcbaIds)->get() : collect();
 
-        // Group notes by patient first
-        $rbtNotesByPatient = $notesRbt->groupBy('patient_id');
-        $bcbaNotesByPatient = $notesBcba->groupBy('patient_id');
+        // Group notes by patient, location, and provider
+        $rbtNotesByGroup = $notesRbt->groupBy(function ($note) {
+            return $note->patient_id . '_' . ($note->location_id ?? 'null') . '_' . ($note->provider_id ?? 'null');
+        });
+        $bcbaNotesByGroup = $notesBcba->groupBy(function ($note) {
+            return $note->patient_id . '_' . ($note->location_id ?? 'null') . '_' . ($note->provider_id ?? 'null');
+        });
 
         // Prepare claims data
         $claimsData = [];
 
         // Process RBT notes
-        foreach ($rbtNotesByPatient as $patientId => $patientNotes) {
+        foreach ($rbtNotesByGroup as $groupKey => $groupNotes) {
+            $patientId = explode('_', $groupKey)[0];
             $patient = Patient::find($patientId);
             if (!$patient) {
                 continue;
             }
 
-            // Further group notes by PA service code and provider
-            $notesByPaServiceAndProvider = $patientNotes->groupBy(function ($note) {
-                return $note->paService->pa_service . '_' . ($note->provider_id ?? 'null');
-            });
-
-            foreach ($notesByPaServiceAndProvider as $groupKey => $notes) {
-                if (strpos($groupKey, '_null') !== false) {
-                    continue; // Skip notes without provider
-                }
-
-                $firstNote = $notes->first();
-                if (!$firstNote->paService) {
-                    continue; // Skip notes without PA service
-                }
-
-                $patientData = $this->getPatientData($patient);
-                $insuranceData = $this->getInsuranceData($patient);
-                $claimData = $this->getClaimData($patient, $notes, collect(), $insuranceData['services']);
-
-                // Add PA service code to claim data
-                $claimData['prior_auth_code'] = $firstNote->paService->pa_service;
-
-                // Add rendering provider information
-                $provider = $firstNote->provider;
-                if ($provider) {
-                    $claimData['rendering_provider_fname'] = $provider->name;
-                    $claimData['rendering_provider_lname'] = $provider->surname;
-                    $claimData['rendering_provider_npi'] = $provider->npi;
-                }
-
-                // Add supervising provider information
-                $supervisor = $firstNote->supervisor;
-                if ($supervisor) {
-                    $claimData['supervising_provider_fname'] = $supervisor->name;
-                    $claimData['supervising_provider_lname'] = $supervisor->surname;
-                    $claimData['supervising_provider_npi'] = $supervisor->npi;
-                }
-
-                $batchData = [
-                    'batch_number' => str_pad(mt_rand(1, 999999999), 9, '0', STR_PAD_LEFT),
-                    'group_number' => str_pad(mt_rand(1, 999999999), 9, '0', STR_PAD_LEFT),
-                ];
-
-                $claimsData[] = array_merge($patientData, $insuranceData, $claimData, $batchData);
+            $firstNote = $groupNotes->first();
+            if (!$firstNote->paService) {
+                continue; // Skip notes without PA service
             }
+
+            $patientData = $this->getPatientData($patient);
+            $insuranceData = $this->getInsuranceData($patient);
+            $claimData = $this->getClaimData($patient, $groupNotes, collect(), $insuranceData['services']);
+
+            // Add PA service code to claim data
+            $claimData['prior_auth_code'] = $firstNote->paService->pa_service;
+
+            // Add rendering provider information
+            $provider = $firstNote->provider;
+            if ($provider) {
+                $claimData['rendering_provider_fname'] = $provider->name;
+                $claimData['rendering_provider_lname'] = $provider->surname;
+                $claimData['rendering_provider_npi'] = $provider->npi;
+            }
+
+            // Add supervising provider information
+            $supervisor = $firstNote->supervisor;
+            if ($supervisor) {
+                $claimData['supervising_provider_fname'] = $supervisor->name;
+                $claimData['supervising_provider_lname'] = $supervisor->surname;
+                $claimData['supervising_provider_npi'] = $supervisor->npi;
+            }
+
+            $batchData = [
+                'batch_number' => str_pad(mt_rand(1, 999999999), 9, '0', STR_PAD_LEFT),
+                'group_number' => str_pad(mt_rand(1, 999999999), 9, '0', STR_PAD_LEFT),
+            ];
+
+            $claimsData[] = array_merge($patientData, $insuranceData, $claimData, $batchData);
         }
 
         // Process BCBA notes
-        foreach ($bcbaNotesByPatient as $patientId => $patientNotes) {
+        foreach ($bcbaNotesByGroup as $groupKey => $groupNotes) {
+            $patientId = explode('_', $groupKey)[0];
             $patient = Patient::find($patientId);
             if (!$patient) {
                 continue;
             }
 
-            // Further group notes by PA service code and provider
-            $notesByPaServiceAndProvider = $patientNotes->groupBy(function ($note) {
-                return $note->paService->pa_service . '_' . ($note->provider_id ?? 'null');
-            });
-
-            foreach ($notesByPaServiceAndProvider as $groupKey => $notes) {
-                if (strpos($groupKey, '_null') !== false) {
-                    continue; // Skip notes without provider
-                }
-
-                $firstNote = $notes->first();
-                if (!$firstNote->paService) {
-                    continue; // Skip notes without PA service
-                }
-
-                $patientData = $this->getPatientData($patient);
-                $insuranceData = $this->getInsuranceData($patient);
-                $claimData = $this->getClaimData($patient, collect(), $notes, $insuranceData['services']);
-
-                // Add PA service code to claim data
-                $claimData['prior_auth_code'] = $firstNote->paService->pa_service;
-
-                // Add rendering provider information
-                $provider = $firstNote->provider;
-                if ($provider) {
-                    $claimData['rendering_provider_fname'] = $provider->name;
-                    $claimData['rendering_provider_lname'] = $provider->surname;
-                    $claimData['rendering_provider_npi'] = $provider->npi;
-                }
-
-                // Add supervising provider information
-                $supervisor = $firstNote->supervisor;
-                if ($supervisor) {
-                    $claimData['supervising_provider_fname'] = $supervisor->name;
-                    $claimData['supervising_provider_lname'] = $supervisor->surname;
-                    $claimData['supervising_provider_npi'] = $supervisor->npi;
-                }
-
-                $batchData = [
-                    'batch_number' => str_pad(mt_rand(1, 999999999), 9, '0', STR_PAD_LEFT),
-                    'group_number' => str_pad(mt_rand(1, 999999999), 9, '0', STR_PAD_LEFT),
-                ];
-
-                $claimsData[] = array_merge($patientData, $insuranceData, $claimData, $batchData);
+            $firstNote = $groupNotes->first();
+            if (!$firstNote->paService) {
+                continue; // Skip notes without PA service
             }
-        }
 
-        Log::info($claimsData);
+            $patientData = $this->getPatientData($patient);
+            $insuranceData = $this->getInsuranceData($patient);
+            $claimData = $this->getClaimData($patient, collect(), $groupNotes, $insuranceData['services']);
+
+            // Add PA service code to claim data
+            $claimData['prior_auth_code'] = $firstNote->paService->pa_service;
+
+            // Add rendering provider information
+            $provider = $firstNote->provider;
+            if ($provider) {
+                $claimData['rendering_provider_fname'] = $provider->name;
+                $claimData['rendering_provider_lname'] = $provider->surname;
+                $claimData['rendering_provider_npi'] = $provider->npi;
+            }
+
+            // Add supervising provider information
+            $supervisor = $firstNote->supervisor;
+            if ($supervisor) {
+                $claimData['supervising_provider_fname'] = $supervisor->name;
+                $claimData['supervising_provider_lname'] = $supervisor->surname;
+                $claimData['supervising_provider_npi'] = $supervisor->npi;
+            }
+
+            $batchData = [
+                'batch_number' => str_pad(mt_rand(1, 999999999), 9, '0', STR_PAD_LEFT),
+                'group_number' => str_pad(mt_rand(1, 999999999), 9, '0', STR_PAD_LEFT),
+            ];
+
+            $claimsData[] = array_merge($patientData, $insuranceData, $claimData, $batchData);
+        }
 
         if (empty($claimsData)) {
             return '';
@@ -227,16 +209,10 @@ class ClaimsService
 
     private function getClaimData(Patient $patient, Collection $notesRbt, Collection $notesBcba, array $services)
     {
-        // Get location from the first note (either RBT or BCBA)
-        $location = null;
-        if ($notesRbt->isNotEmpty()) {
-            $location = $notesRbt->first()->location;
-        } elseif ($notesBcba->isNotEmpty()) {
-            $location = $notesBcba->first()->location;
-        }
-
+        // Get location from first note (all notes should have same location since we group by it)
+        $location = $notesRbt->first()?->location ?? $notesBcba->first()?->location;
         if (!$location) {
-            throw new \Exception('No location found for the notes');
+            return [];
         }
 
         $baseClaimData = [
@@ -264,47 +240,47 @@ class ClaimsService
         $procedureCodes = [];
         $totalAmount = 0;
 
-        // Process RBT notes
-        foreach ($notesRbt as $note) {
-            $noteData = $this->getClaimDataFromRbtNote($note);
-            $service = collect($services)->firstWhere('code', $noteData['cpt_codes']);
-
+        // Group RBT notes by CPT code
+        $rbtNotesByCpt = $notesRbt->groupBy('cpt_code');
+        foreach ($rbtNotesByCpt as $cptCode => $notes) {
+            $service = collect($services)->firstWhere('code', $cptCode);
             if (!$service) {
                 continue;
             }
 
-            $noteTotalAmount = $noteData['quantity'] * $service['unit_prize'];
+            $totalUnits = $notes->sum('total_units');
+            $noteTotalAmount = $totalUnits * $service['unit_prize'];
             $totalAmount += $noteTotalAmount;
 
             $procedureCodes[] = [
-                'cpt_codes' => $noteData['cpt_codes'],
+                'cpt_codes' => $cptCode,
                 'cpt_charge' => number_format($noteTotalAmount, 2, '.', ''),
                 'code_pointer' => '1',
-                'dos' => $noteData['dos'],
-                'quantity' => $noteData['quantity'],
+                'dos' => Carbon::parse($notes->first()->session_date)->format('Ymd'),
+                'quantity' => $totalUnits,
                 'total_amount' => number_format($noteTotalAmount, 2, '.', ''),
                 'facility_code' => '11'
             ];
         }
 
-        // Process BCBA notes
-        foreach ($notesBcba as $note) {
-            $noteData = $this->getClaimDataFromBcbaNote($note);
-            $service = collect($services)->firstWhere('code', $noteData['cpt_codes']);
-
+        // Group BCBA notes by CPT code
+        $bcbaNotesByCpt = $notesBcba->groupBy('cpt_code');
+        foreach ($bcbaNotesByCpt as $cptCode => $notes) {
+            $service = collect($services)->firstWhere('code', $cptCode);
             if (!$service) {
                 continue;
             }
 
-            $noteTotalAmount = $noteData['quantity'] * $service['unit_prize'];
+            $totalUnits = $notes->sum('total_units');
+            $noteTotalAmount = $totalUnits * $service['unit_prize'];
             $totalAmount += $noteTotalAmount;
 
             $procedureCodes[] = [
-                'cpt_codes' => $noteData['cpt_codes'],
+                'cpt_codes' => $cptCode,
                 'cpt_charge' => number_format($noteTotalAmount, 2, '.', ''),
                 'code_pointer' => '1',
-                'dos' => $noteData['dos'],
-                'quantity' => $noteData['quantity'],
+                'dos' => Carbon::parse($notes->first()->session_date)->format('Ymd'),
+                'quantity' => $totalUnits,
                 'total_amount' => number_format($noteTotalAmount, 2, '.', ''),
                 'facility_code' => '11'
             ];
@@ -314,23 +290,5 @@ class ClaimsService
             'procedure_codes' => $procedureCodes,
             'total_amount' => number_format($totalAmount, 2, '.', '')
         ]);
-    }
-
-    private function getClaimDataFromBcbaNote(NoteBcba $note)
-    {
-        return [
-            'cpt_codes' => $note->cpt_code,
-            'quantity' => $note->total_units,
-            'dos' => Carbon::parse($note->session_date)->format('Ymd'),
-        ];
-    }
-
-    private function getClaimDataFromRbtNote(NoteRbt $note)
-    {
-        return [
-            'cpt_codes' => $note->cpt_code,
-            'quantity' => $note->total_units,
-            'dos' => Carbon::parse($note->session_date)->format('Ymd'),
-        ];
     }
 }
