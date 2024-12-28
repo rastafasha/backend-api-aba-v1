@@ -132,6 +132,7 @@ class ClaimsServiceTest extends TestCase
             'time_out' => '11:00:00',
             'time_in2' => null,
             'time_out2' => null,
+            'provider_id' => 1,
         ]); // 8 units * $50 = $400
 
         // Create RBT note 2 (1 hour = 4 units)
@@ -143,6 +144,7 @@ class ClaimsServiceTest extends TestCase
             'time_out' => '14:00:00',
             'time_in2' => null,
             'time_out2' => null,
+            'provider_id' => 1,
         ]); // 4 units * $50 = $200
 
         // Generate claim content

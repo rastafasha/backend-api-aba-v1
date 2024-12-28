@@ -38,7 +38,9 @@ class ClaimsService
         // Process RBT notes
         foreach ($rbtNotesByPatient as $patientId => $patientNotes) {
             $patient = Patient::find($patientId);
-            if (!$patient) continue;
+            if (!$patient) {
+                continue;
+            }
 
             // Further group notes by PA service code and provider
             $notesByPaServiceAndProvider = $patientNotes->groupBy(function ($note) {
@@ -46,10 +48,14 @@ class ClaimsService
             });
 
             foreach ($notesByPaServiceAndProvider as $groupKey => $notes) {
-                if (strpos($groupKey, '_null') !== false) continue; // Skip notes without provider
+                if (strpos($groupKey, '_null') !== false) {
+                    continue; // Skip notes without provider
+                }
 
                 $firstNote = $notes->first();
-                if (!$firstNote->paService) continue; // Skip notes without PA service
+                if (!$firstNote->paService) {
+                    continue; // Skip notes without PA service
+                }
 
                 $patientData = $this->getPatientData($patient);
                 $insuranceData = $this->getInsuranceData($patient);
@@ -86,7 +92,9 @@ class ClaimsService
         // Process BCBA notes
         foreach ($bcbaNotesByPatient as $patientId => $patientNotes) {
             $patient = Patient::find($patientId);
-            if (!$patient) continue;
+            if (!$patient) {
+                continue;
+            }
 
             // Further group notes by PA service code and provider
             $notesByPaServiceAndProvider = $patientNotes->groupBy(function ($note) {
@@ -94,10 +102,14 @@ class ClaimsService
             });
 
             foreach ($notesByPaServiceAndProvider as $groupKey => $notes) {
-                if (strpos($groupKey, '_null') !== false) continue; // Skip notes without provider
+                if (strpos($groupKey, '_null') !== false) {
+                    continue; // Skip notes without provider
+                }
 
                 $firstNote = $notes->first();
-                if (!$firstNote->paService) continue; // Skip notes without PA service
+                if (!$firstNote->paService) {
+                    continue; // Skip notes without PA service
+                }
 
                 $patientData = $this->getPatientData($patient);
                 $insuranceData = $this->getInsuranceData($patient);
@@ -228,7 +240,6 @@ class ClaimsService
         }
 
         $baseClaimData = [
-            // Sender/Submitter Information from Location
             'x12_sender_id' => $location->providerId ?? 'M12V4',
             'x12_reciever_id' => 'CLAIMMD',
             'x12_version' => '005010X222A1',
@@ -237,8 +248,6 @@ class ClaimsService
             'submitter_telephone' => $location->phone1,
             'submitter_email' => $location->email,
             'submitter_tax_id' => $location->taxid,
-
-            // Billing Provider Information from Location
             'billing_provider_lastname' => $location->title,
             'billing_provider_npi' => $location->npi ?? '123456789',
             'billing_provider_street' => $location->address,
@@ -247,9 +256,7 @@ class ClaimsService
             'billing_provider_state' => $location->state,
             'billing_provider_zip' => $location->zip,
             'billing_provider_federal_taxid' => $location->taxid ?? '123456789',
-            'biller_tax_code' => $location->taxonomy ?? '103K00000X', // in example notes it was '103K00000X',
-
-            // Default claim settings
+            'biller_tax_code' => $location->taxonomy ?? '103K00000X',
             'claim_type' => '1',
             'transcode' => '837P',
         ];
@@ -257,52 +264,50 @@ class ClaimsService
         $procedureCodes = [];
         $totalAmount = 0;
 
-        // Get the claim data from the RBT notes
+        // Process RBT notes
         foreach ($notesRbt as $note) {
             $noteData = $this->getClaimDataFromRbtNote($note);
-            $service = array_values(array_filter($services, function ($service) use ($noteData) {
-                return $service['code'] == $noteData['cpt_codes'];
-            }));
+            $service = collect($services)->firstWhere('code', $noteData['cpt_codes']);
+
             if (!$service) {
                 continue;
             }
 
-            $noteTotalAmount = number_format($note->total_units * $service[0]['unit_prize'], 2, '.', '');
+            $noteTotalAmount = $noteData['quantity'] * $service['unit_prize'];
+            $totalAmount += $noteTotalAmount;
 
             $procedureCodes[] = [
                 'cpt_codes' => $noteData['cpt_codes'],
-                'cpt_charge' => $noteTotalAmount,
+                'cpt_charge' => number_format($noteTotalAmount, 2, '.', ''),
                 'code_pointer' => '1',
                 'dos' => $noteData['dos'],
                 'quantity' => $noteData['quantity'],
-                'total_amount' => $noteTotalAmount,
-                'facility_code' => '11'  // Office setting
+                'total_amount' => number_format($noteTotalAmount, 2, '.', ''),
+                'facility_code' => '11'
             ];
-            $totalAmount += floatval($noteTotalAmount);
         }
 
-        // Get the claim data from the BCBA notes
+        // Process BCBA notes
         foreach ($notesBcba as $note) {
             $noteData = $this->getClaimDataFromBcbaNote($note);
-            $service = array_values(array_filter($services, function ($service) use ($noteData) {
-                return $service['code'] == $noteData['cpt_codes'];
-            }));
+            $service = collect($services)->firstWhere('code', $noteData['cpt_codes']);
+
             if (!$service) {
                 continue;
             }
 
-            $noteTotalAmount = number_format($note->total_units * $service[0]['unit_prize'], 2, '.', '');
+            $noteTotalAmount = $noteData['quantity'] * $service['unit_prize'];
+            $totalAmount += $noteTotalAmount;
 
             $procedureCodes[] = [
                 'cpt_codes' => $noteData['cpt_codes'],
-                'cpt_charge' => $noteTotalAmount,
+                'cpt_charge' => number_format($noteTotalAmount, 2, '.', ''),
                 'code_pointer' => '1',
                 'dos' => $noteData['dos'],
                 'quantity' => $noteData['quantity'],
-                'total_amount' => $noteTotalAmount,
-                'facility_code' => '11'  // Office setting
+                'total_amount' => number_format($noteTotalAmount, 2, '.', ''),
+                'facility_code' => '11'
             ];
-            $totalAmount += floatval($noteTotalAmount);
         }
 
         return array_merge($baseClaimData, [

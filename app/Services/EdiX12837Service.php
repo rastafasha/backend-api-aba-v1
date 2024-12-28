@@ -80,11 +80,9 @@ class EdiX12837Service
             $file_data .= $this->createN4($row, 'BP') . PHP_EOL;
             ++$loopcounter;
 
-            // Billing Provider Tax ID
-            if (!empty($row['billing_provider_federal_taxid'])) {
-                $file_data .= $this->createREF($row, 'EI') . PHP_EOL;
-                ++$loopcounter;
-            }
+            // Billing Provider Tax ID - Must be present
+            $file_data .= $this->createREF($row, 'EI') . PHP_EOL;
+            ++$loopcounter;
 
             // Subscriber Hierarchical Level - 2000B
             $file_data .= $this->createHL($row, 2) . PHP_EOL;
@@ -120,13 +118,13 @@ class EdiX12837Service
             $file_data .= $this->createHI($row, 1) . PHP_EOL;
             ++$loopcounter;
 
-            // Referring Provider
+            // Referring Provider - Must be grouped with claim
             if (!empty($row['ref_physician_npi'])) {
                 $file_data .= $this->createNM1($row, 'DN') . PHP_EOL;
                 ++$loopcounter;
             }
 
-            // Rendering Provider
+            // Rendering Provider - Must be grouped with claim
             if (!empty($row['rendering_provider_npi'])) {
                 $file_data .= $this->createNM1($row, 82) . PHP_EOL;
                 ++$loopcounter;
@@ -135,7 +133,7 @@ class EdiX12837Service
             }
 
             // Service Lines - 2400
-            if (sizeof($row['procedure_codes'])) {
+            if (!empty($row['procedure_codes'])) {
                 $loopindex = 1;
                 foreach ($row['procedure_codes'] as $proc_items) {
                     $file_data .= $this->createLX($row, $loopindex) . PHP_EOL;
@@ -144,13 +142,6 @@ class EdiX12837Service
                     ++$loopcounter;
                     $file_data .= $this->createDTP($row, 472, '', '', $proc_items['dos']) . PHP_EOL;
                     ++$loopcounter;
-
-                    // Add Line Item Control Number if needed
-                    if (!empty($proc_items['line_item_control_number'])) {
-                        $file_data .= $this->createREF($row, '6R') . PHP_EOL;
-                        ++$loopcounter;
-                    }
-
                     $loopindex++;
                 }
             }
@@ -303,7 +294,7 @@ class EdiX12837Service
             $NM1[6] = "";
             $NM1[7] = "";
             $NM1[8] = "XX";
-            $NM1[9] = $row['billing_provider_npi'];
+            $NM1[9] = $row['billing_provider_npi'] ?? '';
         } elseif ($nm1Cast == 'SUBMITTER') {
             $NM1[1] = "41";
             $NM1[2] = "2";
@@ -314,16 +305,6 @@ class EdiX12837Service
             $NM1[7] = "";
             $NM1[8] = "46";
             $NM1[9] = $row['submitter_tax_id'];
-        } elseif ($nm1Cast == 'SB') {
-            $NM1[1] = "41";
-            $NM1[2] = "1";
-            $NM1[3] = $row['subscriber_lname'];
-            $NM1[4] = $row['subscriber_fname'];
-            $NM1[5] = $row['subscriber_mname'];
-            $NM1[6] = "";
-            $NM1[7] = "";
-            $NM1[8] = "46";
-            $NM1[9] = $row['subscriber_policy_number'];
         } elseif ($nm1Cast == 'IL') {
             $NM1[1] = "IL";
             $NM1[2] = "1";
@@ -334,6 +315,16 @@ class EdiX12837Service
             $NM1[7] = "";
             $NM1[8] = "MI";
             $NM1[9] = $row['subscriber_policy_number'];
+        } elseif ($nm1Cast == 'PR') {
+            $NM1[1] = "PR";
+            $NM1[2] = "2";
+            $NM1[3] = $row["payer_name"];
+            $NM1[4] = "";
+            $NM1[5] = "";
+            $NM1[6] = "";
+            $NM1[7] = "";
+            $NM1[8] = "PI";
+            $NM1[9] = $row["payer_code"];
         } elseif ($nm1Cast == 'DN') {
             $NM1[1] = "DN";
             $NM1[2] = "1";
@@ -354,36 +345,11 @@ class EdiX12837Service
             $NM1[7] = "";
             $NM1[8] = "XX";
             $NM1[9] = $row['rendering_provider_npi'] ?? '';
-        } elseif ($nm1Cast == 77) {
-            $NM1[1] = "82";
-            $NM1[2] = "2";
-            $NM1[3] = $row["facility_name"];
-            $NM1[4] = "";
-            $NM1[5] = "";
-            $NM1[6] = "";
-            $NM1[7] = "";
-            $NM1[8] = "XX";
-            $NM1[9] = $row['facility_npi'];
-        } elseif ($nm1Cast == 'PR') {
-            $NM1[1] = "PR";
-            $NM1[2] = "2";
-            $NM1[3] = $row["payer_name"];
-            $NM1[4] = "";
-            $NM1[5] = "";
-            $NM1[6] = "";
-            $NM1[7] = "";
-            $NM1[8] = "PI";
-            $NM1[9] = $row["payer_code"];
-        } elseif ($nm1Cast == 'PR2') {
-            $NM1[1] = "PR";
-            $NM1[2] = "2";
-            $NM1[3] = $row["secondary_payer_name"];
-            $NM1[4] = "";
-            $NM1[5] = "";
-            $NM1[6] = "";
-            $NM1[7] = "";
-            $NM1[8] = "PI";
-            $NM1[9] = $row["secondary_payer_code"];
+        }
+
+        // Remove empty elements from the end of the array
+        while (end($NM1) === "" && key($NM1) !== 0) {
+            array_pop($NM1);
         }
 
         $NM1['Created'] = implode('*', $NM1);
@@ -428,7 +394,7 @@ class EdiX12837Service
             $HL[1] = "2";
             $HL[2] = "1";
             $HL[3] = "22";
-            $HL[4] = "0";
+            $HL[4] = "1";
         }
 
         $HL['Created'] = implode('*', $HL);
@@ -441,7 +407,7 @@ class EdiX12837Service
     {
         $PRV = array();
         $PRV[0] = "PRV";
-        $PRV[1] = "BI";
+        $PRV[1] = "PE";
         $PRV[2] = "PXC";
         $PRV[3] = $row['biller_tax_code'];
 
@@ -605,21 +571,20 @@ class EdiX12837Service
 
     private function createCLM($row)
     {
-        $CLM = array();
+        $CLM = [];
         $CLM[0] = "CLM";
-        $CLM[1] = $row['patient_id'];
+        $CLM[1] = $row['patient_id'] ?? '';
         $CLM[2] = $row['total_amount'];
         $CLM[3] = "";
         $CLM[4] = "";
-        $CLM[5] = "11:" . "B" . ":" . $row['claim_type'];
+        $CLM[5] = "11:B:" . ($row['claim_type'] ?? '');
         $CLM[6] = "Y";
         $CLM[7] = "A";
         $CLM[8] = "Y";
         $CLM[9] = "Y";
         $CLM[10] = "P";
 
-        $CLM['Created'] = implode('*', $CLM);
-        $CLM['Created'] = $CLM['Created'] . $this->segTer;
+        $CLM['Created'] = implode('*', $CLM) . $this->segTer;
 
         return trim($CLM['Created']);
     }
