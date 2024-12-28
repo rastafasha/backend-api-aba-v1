@@ -60,6 +60,8 @@ class CreatePatientsTable extends Migration
             $table->string('referring_provider_first_name')->nullable();
             $table->string('referring_provider_last_name')->nullable();
             $table->string('referring_provider_npi')->nullable();
+            // $table->string('referring_code')->nullable();
+            $table->string('npi')->nullable();
             $table->enum('status', [
                 'incoming', 'active', 'inactive', 'onHold', 'onDischarge',
                 'waitintOnPa', 'waitintOnPaIa', 'waitintOnIa',

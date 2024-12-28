@@ -12,6 +12,7 @@ class InsuranceSeeder extends Seeder
         $insurances = [
             [
                 'name' => 'Fl Blue',
+                'payer_id' => 'FBM01',
                 'services' => [
                     [
                         'code' => '97151',
@@ -73,6 +74,7 @@ class InsuranceSeeder extends Seeder
             ],
             [
                 'name' => 'United',
+                'payer_id' => '87726',
                 'services' => [
                     [
                         'code' => '97153',
@@ -158,6 +160,7 @@ class InsuranceSeeder extends Seeder
             ],
             [
                 'name' => 'CIGNA',
+                'payer_id' => '62308',
                 'services' => [
                     [
                         'code' => '97151',
@@ -198,6 +201,7 @@ class InsuranceSeeder extends Seeder
             ],
             [
                 'name' => 'TRICARE',
+                'payer_id' => '99726',
                 'services' => [
                     [
                         'code' => '97151',
@@ -282,6 +286,7 @@ class InsuranceSeeder extends Seeder
             ],
             [
                 'name' => 'AETNA',
+                'payer_id' => '60054',
                 'services' => [
                     [
                         'code' => '97151',
@@ -371,6 +376,7 @@ class InsuranceSeeder extends Seeder
             ],
             [
                 'name' => 'Medicaid',
+                'payer_id' => '77027',
                 'services' => [
                     [
                         'code' => '97153',
@@ -445,87 +451,87 @@ class InsuranceSeeder extends Seeder
                     ['note' => 'For sunshine cases w/ member ID starts with a 7, the PA needs to be under the BCBA name that is on the case.']
                 ]
             ],
-            [
-                'name' => 'NOW KBA',
-                'services' => [
-                    [
-                        'code' => '97151',
-                        'provider' => 'BCBA',
-                        'description' => 'Assessment',
-                        'unit_prize' => '34.06',
-                        'hourly_fee' => '136.24',
-                        'max_allowed' => '32 units for initial/32 for reassessment, units per authorization (2 hrs/day)'
-                    ],
-                    [
-                        'code' => '97153',
-                        'provider' => 'RBT',
-                        'description' => 'Therapy',
-                        'unit_prize' => '18.75',
-                        'hourly_fee' => '75',
-                        'max_allowed' => '32 units per day/ (8 hrs/day)'
-                    ],
-                    [
-                        'code' => '97153',
-                        'provider' => 'BCBA',
-                        'description' => 'Therapy',
-                        'unit_prize' => '31.25',
-                        'hourly_fee' => '125',
-                        'max_allowed' => null
-                    ],
-                    [
-                        'code' => '97155',
-                        'provider' => 'BCBA',
-                        'description' => 'BIP modification only',
-                        'unit_prize' => '31.25',
-                        'hourly_fee' => '125',
-                        'max_allowed' => '8 units per day/ (2 hr/day)'
-                    ],
-                    [
-                        'code' => '97156',
-                        'provider' => 'BCBA',
-                        'description' => 'Caregiver Training',
-                        'unit_prize' => '31.25',
-                        'hourly_fee' => '125',
-                        'max_allowed' => '8 units per day/ (2 hr/day)'
-                    ],
-                    [
-                        'code' => 'T1023',
-                        'provider' => 'BCBA',
-                        'description' => 'PDDBI',
-                        'unit_prize' => null,
-                        'hourly_fee' => '68.13',
-                        'max_allowed' => null
-                    ],
-                    [
-                        'code' => '97153',
-                        'provider' => 'BCaBA',
-                        'description' => 'Therapy',
-                        'unit_prize' => '18.75',
-                        'hourly_fee' => '75',
-                        'max_allowed' => '32 units per day/ (8 hrs/day)'
-                    ],
-                    [
-                        'code' => '97155',
-                        'provider' => 'BCaBA',
-                        'description' => 'BIP modification only',
-                        'unit_prize' => '20.79',
-                        'hourly_fee' => '83.16',
-                        'max_allowed' => null
-                    ],
-                    [
-                        'code' => '97156',
-                        'provider' => 'BCaBA',
-                        'description' => 'Caregiver Training',
-                        'unit_prize' => '31.25',
-                        'hourly_fee' => '125',
-                        'max_allowed' => '8 units per day/ (2 hr/day)'
-                    ]
-                ],
-                'notes' => [
-                    ['note' => 'Modifier XE for 2 sessions, same day different POS'],
-                    ['note' => 'ALLOWS OVERLAP BILLING']
-                ]
-            ]
+            // [
+            //     'name' => 'NOW KBA',
+            //     'services' => [
+            //         [
+            //             'code' => '97151',
+            //             'provider' => 'BCBA',
+            //             'description' => 'Assessment',
+            //             'unit_prize' => '34.06',
+            //             'hourly_fee' => '136.24',
+            //             'max_allowed' => '32 units for initial/32 for reassessment, units per authorization (2 hrs/day)'
+            //         ],
+            //         [
+            //             'code' => '97153',
+            //             'provider' => 'RBT',
+            //             'description' => 'Therapy',
+            //             'unit_prize' => '18.75',
+            //             'hourly_fee' => '75',
+            //             'max_allowed' => '32 units per day/ (8 hrs/day)'
+            //         ],
+            //         [
+            //             'code' => '97153',
+            //             'provider' => 'BCBA',
+            //             'description' => 'Therapy',
+            //             'unit_prize' => '31.25',
+            //             'hourly_fee' => '125',
+            //             'max_allowed' => null
+            //         ],
+            //         [
+            //             'code' => '97155',
+            //             'provider' => 'BCBA',
+            //             'description' => 'BIP modification only',
+            //             'unit_prize' => '31.25',
+            //             'hourly_fee' => '125',
+            //             'max_allowed' => '8 units per day/ (2 hr/day)'
+            //         ],
+            //         [
+            //             'code' => '97156',
+            //             'provider' => 'BCBA',
+            //             'description' => 'Caregiver Training',
+            //             'unit_prize' => '31.25',
+            //             'hourly_fee' => '125',
+            //             'max_allowed' => '8 units per day/ (2 hr/day)'
+            //         ],
+            //         [
+            //             'code' => 'T1023',
+            //             'provider' => 'BCBA',
+            //             'description' => 'PDDBI',
+            //             'unit_prize' => null,
+            //             'hourly_fee' => '68.13',
+            //             'max_allowed' => null
+            //         ],
+            //         [
+            //             'code' => '97153',
+            //             'provider' => 'BCaBA',
+            //             'description' => 'Therapy',
+            //             'unit_prize' => '18.75',
+            //             'hourly_fee' => '75',
+            //             'max_allowed' => '32 units per day/ (8 hrs/day)'
+            //         ],
+            //         [
+            //             'code' => '97155',
+            //             'provider' => 'BCaBA',
+            //             'description' => 'BIP modification only',
+            //             'unit_prize' => '20.79',
+            //             'hourly_fee' => '83.16',
+            //             'max_allowed' => null
+            //         ],
+            //         [
+            //             'code' => '97156',
+            //             'provider' => 'BCaBA',
+            //             'description' => 'Caregiver Training',
+            //             'unit_prize' => '31.25',
+            //             'hourly_fee' => '125',
+            //             'max_allowed' => '8 units per day/ (2 hr/day)'
+            //         ]
+            //     ],
+            //     'notes' => [
+            //         ['note' => 'Modifier XE for 2 sessions, same day different POS'],
+            //         ['note' => 'ALLOWS OVERLAP BILLING']
+            //     ]
+            // ]
         ];
 
         foreach ($insurances as $insurance) {

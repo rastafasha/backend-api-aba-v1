@@ -9,7 +9,7 @@ use App\Models\Patient\Patient;
 use App\Services\ClaimsService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
-
+use App\Models\Location;
 class ClaimsServiceTest extends TestCase
 {
     use RefreshDatabase;
@@ -123,26 +123,32 @@ class ClaimsServiceTest extends TestCase
     /** @test */
     public function it_calculates_correct_total_amounts()
     {
+        $location = Location::factory()->create();
+
         // Create RBT note (2 hours = 8 units)
         $rbtNote = NoteRbt::factory()->create([
             'patient_id' => $this->patient->id,
+            'location_id' => $location->id,
             'cpt_code' => '97153',
             'session_date' => '2024-01-15',
             'time_in' => '09:00:00',
             'time_out' => '11:00:00',
             'time_in2' => null,
             'time_out2' => null,
+            'provider_id' => 1,
         ]); // 8 units * $50 = $400
 
         // Create RBT note 2 (1 hour = 4 units)
         $rbtNote2 = NoteRbt::factory()->create([
             'patient_id' => $this->patient->id,
+            'location_id' => $location->id,
             'cpt_code' => '97153',
             'session_date' => '2024-01-15',
             'time_in' => '13:00:00',
             'time_out' => '14:00:00',
             'time_in2' => null,
             'time_out2' => null,
+            'provider_id' => 1,
         ]); // 4 units * $50 = $200
 
         // Generate claim content

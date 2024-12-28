@@ -170,6 +170,7 @@ class Patient extends Model
         'referring_provider_first_name',
         'referring_provider_last_name',
         'referring_provider_npi',
+        'npi',
 
         //??
         // 'current_auth_expires',
