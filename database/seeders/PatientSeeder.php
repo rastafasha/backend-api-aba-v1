@@ -30,7 +30,7 @@ class PatientSeeder extends Seeder
                 'parent_city' => 'Miami',
                 'parent_state' => 'FL',
                 'parent_zip' => '33101',
-                'relationship' => 'Mother',
+                'relationship' => 'child',
                 'location_id' => 1,
                 'insurer_id' => 1,
                 'insurance_identifier' => '123456789',
@@ -54,6 +54,9 @@ class PatientSeeder extends Seeder
                 'submitted' => 'yes',
                 'eligibility' => 'yes',
                 'interview' => 'receive',
+                'referring_provider_first_name' => 'Jeremy',
+                'referring_provider_last_name' => 'Smith',
+                'referring_provider_npi' => '1234567890',
             ],
             [
                 'first_name' => 'Jane',
@@ -76,7 +79,7 @@ class PatientSeeder extends Seeder
                 'parent_city' => 'Miami',
                 'parent_state' => 'FL',
                 'parent_zip' => '33101',
-                'relationship' => 'Father',
+                'relationship' => 'child',
                 'location_id' => 2,
                 'insurer_id' => 2,
                 'insurance_identifier' => '987654321',
@@ -100,6 +103,9 @@ class PatientSeeder extends Seeder
                 'submitted' => 'yes',
                 'eligibility' => 'yes',
                 'interview' => 'pending',
+                'referring_provider_first_name' => 'Jeremy',
+                'referring_provider_last_name' => 'Smith',
+                'referring_provider_npi' => '1234567890',
             ],
         ];
 

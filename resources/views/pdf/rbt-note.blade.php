@@ -135,7 +135,7 @@
                 @endif
             </td>
             <td>
-                <strong>Hours:</strong><br>
+                <strong>Total Hours:</strong><br>
                 @if ($note->total_minutes % 60 == 0)
                     {{ $note->total_minutes / 60 }} hours
                 @else
@@ -180,11 +180,12 @@
         </tr>
         <tr>
             <td style="text-align: center;">
-                ___________________________<br><br>
+                ___________________________<br>
                 <strong>PROVIDER SIGNATURE</strong>
             </td>
             <td style="text-align: center;">
-                ___________________________<br><br>
+                <br>
+                ___________________________<br>
                 <strong>SIGNATURE DATE</strong>
             </td>
         </tr>

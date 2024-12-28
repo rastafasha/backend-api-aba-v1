@@ -172,7 +172,7 @@
                 @endif
             </td>
             <td>
-                <strong>Hours:</strong><br>
+                <strong>Total Hours:</strong><br>
                 @if ($note->total_minutes % 60 == 0)
                     {{ $note->total_minutes / 60 }} hours
                 @else
@@ -190,20 +190,32 @@
 
     <table id="signature-table">
         <tr>
-            <td>
-                <br>
+            <td style="text-align: center;">
+                ___________________________<br>
+                <strong>PROVIDER SIGNATURE</strong>
             </td>
             <td style="text-align: center;">
+                ___________________________<br>
+                <strong>SUPERVISOR SIGNATURE</strong>
+            </td>
+        </tr>
+        <tr>
+            <td style="text-align: center;">
+                <br>
+                {{ Carbon\Carbon::parse($note->session_date)->format('m/d/Y') }}
+            </td>
+            <td style="text-align: center;">
+                <br>
                 {{ Carbon\Carbon::parse($note->session_date)->format('m/d/Y') }}
             </td>
         </tr>
         <tr>
             <td style="text-align: center;">
-                ___________________________<br><br>
-                <strong>PROVIDER SIGNATURE</strong>
+                ___________________________<br>
+                <strong>SIGNATURE DATE</strong>
             </td>
             <td style="text-align: center;">
-                ___________________________<br><br>
+                ___________________________<br>
                 <strong>SIGNATURE DATE</strong>
             </td>
         </tr>
