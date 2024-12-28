@@ -167,8 +167,9 @@ class Patient extends Model
         'auto_accident',
         'other_accident',
         'is_self_subscriber',
-        'referring_provider',
-        'referring_code',
+        'referring_provider_first_name',
+        'referring_provider_last_name',
+        'referring_provider_npi',
         'npi',
 
         //??
