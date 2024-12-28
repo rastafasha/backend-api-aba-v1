@@ -427,11 +427,11 @@
             <tr>
                 <td colspan="2">
                     <strong>Referring Provider:</strong><br>
-                    {{ $patient->referring_provider ?? 'N/A' }}
+                    {{ $patient->referring_provider_first_name }} {{ $patient->referring_provider_last_name }}
                 </td>
                 <td>
-                    <strong>Referring Code:</strong><br>
-                    {{ $patient->referring_code ?? 'N/A' }}
+                    <strong>Referring NPI:</strong><br>
+                    {{ $patient->referring_provider_npi ?? 'N/A' }}
                 </td>
             </tr>
             <tr>

@@ -40,6 +40,10 @@ class PatientFactory extends Factory
             'school_number' => $this->faker->phoneNumber,
             'special_note' => $this->faker->text(100),
             'telehealth' => $this->faker->randomElement(['true', 'false']),
+            'referring_provider_first_name' => $this->faker->firstName,
+            'referring_provider_last_name' => $this->faker->lastName,
+            'referring_provider_npi' => $this->faker->randomNumber(9, true),
+            'npi' => $this->faker->randomNumber(9, true),
         ];
     }
 }
