@@ -2,10 +2,13 @@
 
 namespace App\Http\Requests\Notes;
 
+use App\Http\Requests\Notes\Traits\ValidatesTimeOverlap;
 use Illuminate\Foundation\Http\FormRequest;
 
 class NoteRbtRequest extends FormRequest
 {
+    use ValidatesTimeOverlap;
+
     public function authorize()
     {
         return true;
@@ -21,10 +24,10 @@ class NoteRbtRequest extends FormRequest
             'bip_id' => 'nullable|exists:bips,id',
             'pos' => 'nullable|string',
             'session_date' => 'required|date|before:tomorrow',
-            'time_in' => 'nullable|date_format:H:i:s',
-            'time_out' => 'nullable|date_format:H:i:s|after:time_in',
-            'time_in2' => 'nullable|date_format:H:i:s',
-            'time_out2' => 'nullable|date_format:H:i:s|after:time_in2',
+            'time_in' => 'nullable|date_format:H:i',
+            'time_out' => 'nullable|date_format:H:i|after:time_in',
+            'time_in2' => 'nullable|date_format:H:i',
+            'time_out2' => 'nullable|date_format:H:i|after:time_in2',
             'environmental_changes' => 'nullable|string',
             'maladaptives' => 'nullable|array',
             'replacements' => 'nullable|array',
@@ -51,5 +54,19 @@ class NoteRbtRequest extends FormRequest
             'supervisor_id' => 'nullable|exists:users,id',
             'summary_note' => 'nullable|string',
         ];
+    }
+
+    protected function prepareForValidation()
+    {
+        if ($this->has('session_date')) {
+            $this->merge([
+                'session_date' => date('Y-m-d', strtotime($this->session_date))
+            ]);
+        }
+    }
+
+    public function withValidator($validator)
+    {
+        $this->validateTimeOverlap($validator);
     }
 }
