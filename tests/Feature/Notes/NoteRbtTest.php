@@ -53,10 +53,10 @@ class NoteRbtTest extends TestCase
             'location_id' => $this->location->id,
             'insurance_id' => $this->insurance->id,
             'session_date' => $this->faker->date(),
-            'time_in' => '09:00:00',
-            'time_out' => '10:00:00',
-            'time_in2' => '14:00:00',
-            'time_out2' => '15:00:00',
+            'time_in' => '09:00',
+            'time_out' => '10:00',
+            'time_in2' => '14:00',
+            'time_out2' => '15:00',
             'session_length_total' => 120,
             'environmental_changes' => $this->faker->sentence,
             'maladaptives' => ['tantrums' => 3, 'aggression' => 1],
@@ -140,8 +140,8 @@ class NoteRbtTest extends TestCase
             'provider_id' => $this->provider->id,
             'client_response_to_treatment_this_session' => 'Updated response',
             'status' => 'ok',
-            'time_in' => '09:00:00',
-            'time_out' => '10:00:00',
+            'time_in' => '09:00',
+            'time_out' => '10:00',
             'session_length_total' => 60,
             'pa_service_id' => $this->paService->id,
         ];
@@ -267,21 +267,23 @@ class NoteRbtTest extends TestCase
     {
         $note = NoteRbt::factory()->create([
             'patient_id' => $this->patient->id,
+            'provider_id' => $this->provider->id,
             'patient_identifier' => $this->patient->patient_identifier,
             'cpt_code' => '97153',
             'session_date' => '2024-01-15',
-            'time_in' => '09:00:00',
-            'time_out' => '11:00:00',
+            'time_in' => '09:00',
+            'time_out' => '11:00',
             'time_in2' => null,
             'time_out2' => null,
         ]);
         $note2 = NoteRbt::factory()->create([
             'patient_id' => $this->patient->id,
             'patient_identifier' => $this->patient->patient_identifier,
+            'provider_id' => $this->provider->id,
             'cpt_code' => '97153',
             'session_date' => '2024-01-15',
-            'time_in' => '09:00:00',
-            'time_out' => '11:08:00',
+            'time_in' => '09:00',
+            'time_out' => '11:15',
             'time_in2' => null,
             'time_out2' => null,
         ]);
@@ -295,7 +297,7 @@ class NoteRbtTest extends TestCase
         $response = $this->postJson('/api/v2/notes/rbt', []);
 
         $response->assertStatus(422)
-            ->assertJsonValidationErrors(['patient_id', 'session_date', 'doctor_id']);
+            ->assertJsonValidationErrors(['patient_id', 'session_date', 'pa_service_id']);
     }
 
     public function test_can_list_notes_rbt_with_filters()

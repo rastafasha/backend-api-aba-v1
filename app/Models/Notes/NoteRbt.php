@@ -113,7 +113,6 @@ class NoteRbt extends Note
         'bip_id',
         'summary_note',
         'pa_service_id',
-        'pos',
         'session_length_total',
         'environmental_changes',
         'maladaptives',

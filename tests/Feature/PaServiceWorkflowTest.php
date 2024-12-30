@@ -24,7 +24,7 @@ class PaServiceWorkflowTest extends TestCase
         $this->location = Location::factory()->create();
     }
 
-    
+
 
     public function test_can_create_patient_with_pa_services()
     {
@@ -38,8 +38,8 @@ class PaServiceWorkflowTest extends TestCase
             'phone' => $this->faker->phoneNumber,
             'gender' => 1,
             'parent_gender' => 1,
-            'birth_date' => $this->faker->date(),
-            'parent_birth_date' => $this->faker->date(),
+            'birth_date' => $this->faker->date('Y-m-d', '-6 years'),
+            'parent_birth_date' => $this->faker->date('Y-m-d', '-40 years'),
             'address' => $this->faker->address,
             'city' => $this->faker->city,
             'state' => $this->faker->state,
@@ -81,7 +81,7 @@ class PaServiceWorkflowTest extends TestCase
 
         // Verify both PA services were created
         $this->assertDatabaseHas('pa_services', [
-            
+
             'pa_service' => 'BCBA Analysis Test',
             'cpt' => '97151',
             'n_units' => 8

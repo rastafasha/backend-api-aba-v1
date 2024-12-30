@@ -54,8 +54,9 @@ class NoteBcbaTest extends TestCase
             'insurance_id' => $this->insurance->id,
             'pa_service_id' => $this->paService->id,
             'session_date' => $this->faker->date(),
-            'time_in' => '09:00:00',
-            'time_out' => '10:00:00',
+            'doctor_id' => $this->provider->id,
+            'time_in' => '09:00',
+            'time_out' => '10:00',
             'session_length_total' => 60,
             'note_description' => $this->faker->paragraph,
             'status' => 'pending',
@@ -101,8 +102,8 @@ class NoteBcbaTest extends TestCase
             'session_date' => $this->faker->date(),
             'note_description' => 'Updated note description',
             'status' => 'ok',
-            'time_in' => '09:00:00',
-            'time_out' => '10:00:00',
+            'time_in' => '09:00',
+            'time_out' => '10:00',
             'session_length_total' => 60
         ];
 
@@ -227,8 +228,8 @@ class NoteBcbaTest extends TestCase
             'patient_id' => $this->patient->id,
             'cpt_code' => '97155',
             'session_date' => '2024-01-15',
-            'time_in' => '09:00:00',
-            'time_out' => '11:00:00',
+            'time_in' => '09:00',
+            'time_out' => '11:00',
             'time_in2' => null,
             'time_out2' => null,
         ]);
@@ -237,8 +238,8 @@ class NoteBcbaTest extends TestCase
             'patient_id' => $this->patient->id,
             'cpt_code' => '97155',
             'session_date' => '2024-01-15',
-            'time_in' => '09:00:00',
-            'time_out' => '11:08:00',
+            'time_in' => '09:00',
+            'time_out' => '11:15',
             'time_in2' => null,
             'time_out2' => null,
         ]);

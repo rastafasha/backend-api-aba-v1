@@ -2608,22 +2608,22 @@
                                     "time_in": {
                                         "type": "string",
                                         "format": "time",
-                                        "example": "09:00:00"
+                                        "example": "09:00"
                                     },
                                     "time_out": {
                                         "type": "string",
                                         "format": "time",
-                                        "example": "10:00:00"
+                                        "example": "10:00"
                                     },
                                     "time_in2": {
                                         "type": "string",
                                         "format": "time",
-                                        "example": "14:00:00"
+                                        "example": "14:00"
                                     },
                                     "time_out2": {
                                         "type": "string",
                                         "format": "time",
-                                        "example": "15:00:00"
+                                        "example": "15:00"
                                     },
                                     "environmental_changes": {
                                         "type": "string"
@@ -2847,22 +2847,22 @@
                                     "time_in": {
                                         "type": "string",
                                         "format": "time",
-                                        "example": "09:00:00"
+                                        "example": "09:00"
                                     },
                                     "time_out": {
                                         "type": "string",
                                         "format": "time",
-                                        "example": "10:00:00"
+                                        "example": "10:00"
                                     },
                                     "time_in2": {
                                         "type": "string",
                                         "format": "time",
-                                        "example": "14:00:00"
+                                        "example": "14:00"
                                     },
                                     "time_out2": {
                                         "type": "string",
                                         "format": "time",
-                                        "example": "15:00:00"
+                                        "example": "15:00"
                                     },
                                     "environmental_changes": {
                                         "type": "string"

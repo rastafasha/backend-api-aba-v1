@@ -21,13 +21,19 @@ trait ValidatesTimeOverlap
             // Check morning session overlap if exists
             if ($timeIn && $timeOut) {
                 $query->where(function ($q) use ($timeIn, $timeOut) {
+                    // Check overlap with other morning sessions
                     $q->where(function ($q) use ($timeIn, $timeOut) {
                         $q->whereNotNull('time_in')
                             ->whereNotNull('time_out')
-                            ->where(function ($q) use ($timeIn, $timeOut) {
-                                $q->where('time_in', '<', $timeOut)
-                                    ->where('time_out', '>', $timeIn);
-                            });
+                            ->where('time_in', '<', $timeOut)
+                            ->where('time_out', '>', $timeIn);
+                    })
+                    // Check overlap with other afternoon sessions
+                    ->orWhere(function ($q) use ($timeIn, $timeOut) {
+                        $q->whereNotNull('time_in2')
+                            ->whereNotNull('time_out2')
+                            ->where('time_in2', '<', $timeOut)
+                            ->where('time_out2', '>', $timeIn);
                     });
                 });
             }
@@ -35,28 +41,19 @@ trait ValidatesTimeOverlap
             // Check afternoon session overlap if exists
             if ($timeIn2 && $timeOut2) {
                 $query->orWhere(function ($q) use ($timeIn2, $timeOut2) {
-                    $q->whereNotNull('time_in2')
-                        ->whereNotNull('time_out2')
-                        ->where(function ($q) use ($timeIn2, $timeOut2) {
-                            $q->where('time_in2', '<', $timeOut2)
-                                ->where('time_out2', '>', $timeIn2);
-                        });
-                });
-            }
-
-            // Check cross-session overlaps (morning to afternoon and vice versa)
-            if ($timeIn && $timeOut && $timeIn2 && $timeOut2) {
-                $query->orWhere(function ($q) use ($timeIn, $timeOut, $timeIn2, $timeOut2) {
-                    $q->where(function ($q) use ($timeIn, $timeOut, $timeIn2) {
-                        $q->whereNotNull('time_in2')
-                            ->whereNotNull('time_out2')
-                            ->where('time_in2', '<', $timeOut)
-                            ->where('time_out2', '>', $timeIn);
-                    })->orWhere(function ($q) use ($timeIn2, $timeOut2) {
+                    // Check overlap with other morning sessions
+                    $q->where(function ($q) use ($timeIn2, $timeOut2) {
                         $q->whereNotNull('time_in')
                             ->whereNotNull('time_out')
                             ->where('time_in', '<', $timeOut2)
                             ->where('time_out', '>', $timeIn2);
+                    })
+                    // Check overlap with other afternoon sessions
+                    ->orWhere(function ($q) use ($timeIn2, $timeOut2) {
+                        $q->whereNotNull('time_in2')
+                            ->whereNotNull('time_out2')
+                            ->where('time_in2', '<', $timeOut2)
+                            ->where('time_out2', '>', $timeIn2);
                     });
                 });
             }
