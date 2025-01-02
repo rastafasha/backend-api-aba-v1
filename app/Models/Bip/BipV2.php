@@ -19,6 +19,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Carbon;
 use App\Models\Bip\Maladaptive;
 use App\Models\Bip\Replacement;
+
 /**
  * @OA\Schema(
  *     schema="BipV2",
