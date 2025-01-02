@@ -9,13 +9,13 @@ use App\Models\Bip\LongTermObjective;
 
 /**
  * @OA\Schema(
- *     schema="Maladaptive",
- *     title="Maladaptive",
- *     description="Maladaptive behavior model",
+ *     schema="Replacement",
+ *     title="Replacement",
+ *     description="Replacement behavior model",
  *     @OA\Property(property="id", type="integer", format="int64", example=1),
  *     @OA\Property(property="bip_id", type="integer", format="int64", example=1),
- *     @OA\Property(property="name", type="string", example="Aggressive Behavior"),
- *     @OA\Property(property="description", type="string", example="Displays aggressive behavior towards others"),
+ *     @OA\Property(property="name", type="string", example="Communication Skills"),
+ *     @OA\Property(property="description", type="string", example="Uses appropriate communication methods"),
  *     @OA\Property(property="baseline_level", type="integer", format="int32", example=5),
  *     @OA\Property(property="baseline_date", type="string", format="date-time"),
  *     @OA\Property(property="initial_intensity", type="integer", format="int32", example=7),
@@ -25,7 +25,7 @@ use App\Models\Bip\LongTermObjective;
  *     @OA\Property(property="updated_at", type="string", format="date-time")
  * )
  */
-class Maladaptive extends Model
+class Replacement extends Model
 {
     use HasFactory;
 
@@ -58,7 +58,7 @@ class Maladaptive extends Model
     ];
 
     /**
-     * Get the BIP that owns the maladaptive behavior.
+     * Get the BIP that owns the replacement behavior.
      */
     public function bip()
     {

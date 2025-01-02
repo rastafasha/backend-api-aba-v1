@@ -10,9 +10,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @OA\Schema(
  *     schema="LongTermObjective",
  *     title="Long Term Objective",
- *     description="A long-term objective for a reduction goal",
+ *     description="A long-term objective for a maladaptive",
  *     @OA\Property(property="id", type="integer", format="int64", example=1),
- *     @OA\Property(property="reduction_goal_id", type="integer", format="int64", example=1),
+ *     @OA\Property(property="maladaptive_id", type="integer", format="int64", example=1),
  *     @OA\Property(
  *         property="status",
  *         type="string",
@@ -34,7 +34,8 @@ class LongTermObjective extends Model
     use SoftDeletes;
 
     protected $fillable = [
-        'reduction_goal_id',
+        'maladaptive_id',
+        'replacement_id',
         'status',
         'initial_date',
         'end_date',
@@ -48,8 +49,13 @@ class LongTermObjective extends Model
         'target' => 'decimal:2'
     ];
 
-    public function reductionGoal()
+    public function maladaptive()
     {
-        return $this->belongsTo(ReductionGoal::class);
+        return $this->belongsTo(Maladaptive::class);
+    }
+
+    public function replacement()
+    {
+        return $this->belongsTo(Replacement::class);
     }
 }

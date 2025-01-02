@@ -15,7 +15,7 @@ class ShortTermObjectiveV2Controller extends Controller
      *     path="/api/v2/short-term-objectives",
      *     summary="Get all Short Term Objectives with filters",
      *     tags={"Short Term Objectives"},
-     *     @OA\Parameter(name="reduction_goal_id", in="query", required=false, @OA\Schema(type="integer")),
+     *     @OA\Parameter(name="maladaptive_id", in="query", required=false, @OA\Schema(type="integer")),
      *     @OA\Parameter(name="status", in="query", required=false, @OA\Schema(type="string")),
      *     @OA\Parameter(name="per_page", in="query", required=false, @OA\Schema(type="integer", default=15)),
      *     @OA\Response(response=200, description="Successful operation")
@@ -25,8 +25,8 @@ class ShortTermObjectiveV2Controller extends Controller
     {
         $query = ShortTermObjective::query();
 
-        if ($request->has('reduction_goal_id')) {
-            $query->where('reduction_goal_id', $request->reduction_goal_id);
+        if ($request->has('maladaptive_id')) {
+            $query->where('maladaptive_id', $request->maladaptive_id);
         }
 
         if ($request->has('status')) {
@@ -34,7 +34,7 @@ class ShortTermObjectiveV2Controller extends Controller
         }
 
         $perPage = $request->input('per_page', 15);
-        $objectives = $query->orderBy('order')->orderBy('created_at', 'desc')->paginate($perPage);
+        $objectives = $query->orderBy('order')->paginate($perPage);
 
         return response()->json([
             'status' => 'success',
@@ -53,7 +53,7 @@ class ShortTermObjectiveV2Controller extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'reduction_goal_id' => 'required|exists:reduction_goals,id',
+            'maladaptive_id' => 'required|exists:maladaptives,id',
             'status' => 'required|in:in progress,mastered,not started,discontinued,maintenance',
             'initial_date' => 'required|date',
             'end_date' => 'required|date|after:initial_date',
@@ -63,8 +63,8 @@ class ShortTermObjectiveV2Controller extends Controller
         ]);
 
         return DB::transaction(function () use ($validated) {
-            // Get all existing objectives for this reduction goal
-            $existingObjectives = ShortTermObjective::where('reduction_goal_id', $validated['reduction_goal_id'])
+            // Get all existing objectives for this maladaptive behavior
+            $existingObjectives = ShortTermObjective::where('maladaptive_id', $validated['maladaptive_id'])
                 ->whereNull('deleted_at')
                 ->orderBy('order')
                 ->get();
@@ -102,7 +102,7 @@ class ShortTermObjectiveV2Controller extends Controller
      */
     public function show($id)
     {
-        $objective = ShortTermObjective::with('reductionGoal')->find($id);
+        $objective = ShortTermObjective::with('maladaptive')->find($id);
 
         if (!$objective) {
             return response()->json([
@@ -146,13 +146,13 @@ class ShortTermObjectiveV2Controller extends Controller
 
             if ($newOrder > $oldOrder) {
                 // Moving down: decrement orders in between
-                ShortTermObjective::where('reduction_goal_id', $objective->reduction_goal_id)
+                ShortTermObjective::where('maladaptive_id', $objective->maladaptive_id)
                     ->where('order', '>', $oldOrder)
                     ->where('order', '<=', $newOrder)
                     ->decrement('order');
             } else {
                 // Moving up: increment orders in between
-                ShortTermObjective::where('reduction_goal_id', $objective->reduction_goal_id)
+                ShortTermObjective::where('maladaptive_id', $objective->maladaptive_id)
                     ->where('order', '<', $oldOrder)
                     ->where('order', '>=', $newOrder)
                     ->increment('order');
@@ -183,10 +183,10 @@ class ShortTermObjectiveV2Controller extends Controller
 
         return DB::transaction(function () use ($objective) {
             $currentOrder = $objective->order;
-            $reductionGoalId = $objective->reduction_goal_id;
+            $maladaptiveId = $objective->maladaptive_id;
 
             // Get all objectives that need reordering
-            $objectivesToReorder = ShortTermObjective::where('reduction_goal_id', $reductionGoalId)
+            $objectivesToReorder = ShortTermObjective::where('maladaptive_id', $maladaptiveId)
                 ->whereNull('deleted_at')
                 ->where('order', '>', $currentOrder)
                 ->orderBy('order')
@@ -212,7 +212,7 @@ class ShortTermObjectiveV2Controller extends Controller
      * @OA\Post(
      *     path="/api/v2/short-term-objectives/reorder",
      *     summary="Reorder Short Term Objectives",
-     *     description="Update the order of multiple short term objectives at once. All objectives must belong to the same reduction goal.",
+     *     description="Update the order of multiple short term objectives at once. All objectives must belong to the same maladaptive behavior.",
      *     tags={"Short Term Objectives"},
      *     @OA\RequestBody(
      *         required=true,
@@ -222,7 +222,7 @@ class ShortTermObjectiveV2Controller extends Controller
      *             @OA\Property(
      *                 property="objectives",
      *                 type="array",
-     *                 description="List of objectives to reorder. All objectives should belong to the same reduction goal.",
+     *                 description="List of objectives to reorder. All objectives should belong to the same maladaptive behavior.",
      *                 example={
      *                     {"id": 1, "order": 3},
      *                     {"id": 2, "order": 1},
@@ -252,22 +252,6 @@ class ShortTermObjectiveV2Controller extends Controller
      *             @OA\Property(property="status", type="string", example="success"),
      *             @OA\Property(property="message", type="string", example="Short term objectives reordered successfully")
      *         )
-     *     ),
-     *     @OA\Response(
-     *         response=422,
-     *         description="Validation error",
-     *         @OA\JsonContent(
-     *             @OA\Property(property="message", type="string", example="The given data was invalid."),
-     *             @OA\Property(
-     *                 property="errors",
-     *                 type="object",
-     *                 example={
-     *                     "objectives": {"The objectives field is required."},
-     *                     "objectives.0.id": {"The objectives.0.id field is required."},
-     *                     "objectives.0.order": {"The objectives.0.order must be at least 1."}
-     *                 }
-     *             )
-     *         )
      *     )
      * )
      */
@@ -279,13 +263,27 @@ class ShortTermObjectiveV2Controller extends Controller
             'objectives.*.order' => 'required|integer|min:1'
         ]);
 
-        foreach ($validated['objectives'] as $item) {
-            ShortTermObjective::where('id', $item['id'])->update(['order' => $item['order']]);
-        }
+        return DB::transaction(function () use ($validated) {
+            $objectives = ShortTermObjective::whereIn('id', array_column($validated['objectives'], 'id'))->get();
 
-        return response()->json([
-            'status' => 'success',
-            'message' => 'Short term objectives reordered successfully'
-        ]);
+            // Verify all objectives belong to the same maladaptive behavior
+            $maladaptiveId = $objectives->first()->maladaptive_id;
+            if ($objectives->pluck('maladaptive_id')->unique()->count() > 1) {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'All objectives must belong to the same maladaptive behavior'
+                ], 422);
+            }
+
+            // Update orders
+            foreach ($validated['objectives'] as $update) {
+                ShortTermObjective::where('id', $update['id'])->update(['order' => $update['order']]);
+            }
+
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Short term objectives reordered successfully'
+            ]);
+        });
     }
 }

@@ -10,7 +10,8 @@ return new class extends Migration
     {
         Schema::create('long_term_objectives', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('reduction_goal_id')->constrained('reduction_goals')->onDelete('cascade');
+            $table->foreignId('maladaptive_id')->nullable()->constrained('maladaptives')->onDelete('cascade');
+            $table->foreignId('replacement_id')->nullable()->constrained('replacements')->onDelete('cascade');
             $table->enum('status', ['in progress', 'mastered', 'not started', 'discontinued', 'maintenance'])->default('not started');
             $table->date('initial_date')->nullable();
             $table->date('end_date')->nullable();

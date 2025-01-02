@@ -15,7 +15,6 @@ class CreateMaladaptivesTable extends Migration
     {
         Schema::create('maladaptives', function (Blueprint $table) {
             $table->id();
-            $table->integer('order');
             $table->foreignId('bip_id')->constrained('bips');
             $table->string('name');
             $table->string('description');
