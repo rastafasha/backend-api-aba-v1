@@ -43,6 +43,13 @@ class ReductionGoalV2Controller extends Controller
      *         @OA\Schema(type="integer")
      *     ),
      *     @OA\Parameter(
+     *         name="baseline",
+     *         in="query",
+     *         description="Filter by baseline value",
+     *         required=false,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Parameter(
      *         name="per_page",
      *         in="query",
      *         description="Number of items per page",
@@ -72,7 +79,7 @@ class ReductionGoalV2Controller extends Controller
      */
     public function index(Request $request)
     {
-        $query = ReductionGoal::with(['longTermObjective', 'shortTermObjectives', 'bip']);
+        $query = ReductionGoal::with(['longTermObjective', 'shortTermObjectives']);
 
         if ($request->has('bip_id')) {
             $query->where('bip_id', $request->bip_id);
@@ -84,6 +91,10 @@ class ReductionGoalV2Controller extends Controller
 
         if ($request->has('client_id')) {
             $query->where('client_id', $request->client_id);
+        }
+
+        if ($request->has('baseline')) {
+            $query->where('baseline', $request->baseline);
         }
 
         $perPage = $request->input('per_page', 15);
@@ -259,8 +270,8 @@ class ReductionGoalV2Controller extends Controller
      *             @OA\Property(
      *                 property="current_status",
      *                 type="string",
-     *                 enum={"active", "completed", "on hold", "discontinued"},
-     *                 example="active"
+     *                 enum={"not started", "in progress", "mastered", "discontinued"},
+     *                 example="not started"
      *             ),
      *             @OA\Property(property="maladaptive", type="string", example="Inappropriate Language")
      *         )

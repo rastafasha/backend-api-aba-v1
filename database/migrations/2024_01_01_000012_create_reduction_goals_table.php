@@ -12,6 +12,7 @@ class CreateReductionGoalsTable extends Migration
             $table->bigIncrements('id');
             $table->foreignId('bip_id')->constrained('bips')->onDelete('cascade');
             $table->string('maladaptive')->nullable();
+            $table->integer('baseline')->nullable();
             $table->string('current_status', 155)->nullable();
             $table->string('patient_identifier', 150)->nullable();
             $table->foreignId('client_id')->nullable()->constrained('users')->nullOnDelete();

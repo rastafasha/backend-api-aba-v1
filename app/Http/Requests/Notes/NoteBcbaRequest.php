@@ -24,10 +24,10 @@ class NoteBcbaRequest extends FormRequest
             'diagnosis_code' => 'nullable|string|max:50',
             'meet_with_client_at' => 'nullable|string',
             'session_date' => 'required|date|before:tomorrow',
-            'time_in' => 'nullable|date_format:H:i',
-            'time_out' => 'nullable|date_format:H:i|after:time_in',
-            'time_in2' => 'nullable|date_format:H:i',
-            'time_out2' => 'nullable|date_format:H:i|after:time_in2',
+            'time_in' => 'nullable|date_format:H:i,H:i:s',
+            'time_out' => 'nullable|date_format:H:i,H:i:s|after:time_in',
+            'time_in2' => 'nullable|date_format:H:i,H:i:s',
+            'time_out2' => 'nullable|date_format:H:i,H:i:s|after:time_in2',
             'session_length_total' => 'nullable|numeric',
             'note_description' => 'nullable|string',
             'rendering_provider' => 'nullable|exists:users,id',
@@ -55,6 +55,15 @@ class NoteBcbaRequest extends FormRequest
             $this->merge([
                 'session_date' => date('Y-m-d', strtotime($this->session_date))
             ]);
+        }
+
+        // Convert HH:MM:SS to HH:MM for all time fields
+        foreach (['time_in', 'time_out', 'time_in2', 'time_out2'] as $timeField) {
+            if ($this->has($timeField) && strlen($this->$timeField) > 5) {
+                $this->merge([
+                    $timeField => date('H:i', strtotime($this->$timeField))
+                ]);
+            }
         }
     }
 

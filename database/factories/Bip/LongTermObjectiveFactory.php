@@ -14,7 +14,7 @@ class LongTermObjectiveFactory extends Factory
     {
         return [
             'reduction_goal_id' => ReductionGoal::factory(),
-            'status' => $this->faker->randomElement(['in progress', 'mastered', 'initiated', 'on hold', 'discontinued', 'maintenance']),
+            'status' => $this->faker->randomElement(['not started', 'in progress', 'mastered', 'discontinued', 'maintenance']),
             'initial_date' => $this->faker->dateTimeBetween('-6 months', 'now')->format('Y-m-d'),
             'end_date' => $this->faker->dateTimeBetween('now', '+6 months')->format('Y-m-d'),
             'description' => $this->faker->sentence(6),

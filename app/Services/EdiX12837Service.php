@@ -132,6 +132,12 @@ class EdiX12837Service
                 ++$loopcounter;
             }
 
+            // Supervising Provider
+            if (!empty($row['supervising_provider_npi'])) {
+                $file_data .= $this->createNM1($row, 'DQ') . PHP_EOL;
+                ++$loopcounter;
+            }
+
             // Service Lines - 2400
             if (!empty($row['procedure_codes'])) {
                 $loopindex = 1;
@@ -335,6 +341,16 @@ class EdiX12837Service
             $NM1[7] = "";
             $NM1[8] = "XX";
             $NM1[9] = $row['ref_physician_npi'];
+        } elseif ($nm1Cast == 'DQ') {
+            $NM1[1] = "DQ";
+            $NM1[2] = "1";
+            $NM1[3] = $row['supervising_provider_lname'];
+            $NM1[4] = $row['supervising_provider_fname'];
+            $NM1[5] = "";
+            $NM1[6] = "";
+            $NM1[7] = "";
+            $NM1[8] = "XX";
+            $NM1[9] = $row['supervising_provider_npi'];
         } elseif ($nm1Cast == 82) {
             $NM1[1] = "82";
             $NM1[2] = "1";
@@ -688,7 +704,20 @@ class EdiX12837Service
     {
         $SV1 = array();
         $SV1[0] = "SV1";
-        $SV1[1] = "HC:" . $items['cpt_codes'];
+
+        // Build the procedure code with modifiers
+        $procedure_code = $items['cpt_codes'];
+        if (!empty($items['md'])) {
+            $procedure_code .= $this->compEleSep . $items['md'];
+            if (!empty($items['md2'])) {
+                $procedure_code .= $this->compEleSep . $items['md2'];
+                if (!empty($items['md3'])) {
+                    $procedure_code .= $this->compEleSep . $items['md3'];
+                }
+            }
+        }
+        $SV1[1] = "HC:" . $procedure_code;
+
         $SV1[2] = $items['cpt_charge'];
         $SV1[3] = "UN";
         $SV1[4] = $items['quantity'];

@@ -393,4 +393,54 @@ class NoteRbtTest extends TestCase
             ]
         ]);
     }
+
+    public function test_time_formats_are_accepted()
+    {
+        // Test with HH:MM format
+        $noteDataHHMM = [
+            'patient_id' => $this->patient->id,
+            'provider_id' => $this->provider->id,
+            'supervisor_id' => $this->supervisor->id,
+            'location_id' => $this->location->id,
+            'pa_service_id' => $this->paService->id,
+            'session_date' => now()->subDays(1)->format('Y-m-d'),
+            'time_in' => '09:30',
+            'time_out' => '10:45',
+            'time_in2' => '13:15',
+            'time_out2' => '14:30'
+        ];
+
+        $response = $this->postJson('/api/v2/notes/rbt', $noteDataHHMM);
+        $response->assertStatus(201);
+        $this->assertDatabaseHas('note_rbts', [
+            'time_in' => '09:30',
+            'time_out' => '10:45',
+            'time_in2' => '13:15',
+            'time_out2' => '14:30'
+        ]);
+
+        // Test with HH:MM:SS format
+        $noteDataHHMMSS = [
+            'patient_id' => $this->patient->id,
+            'provider_id' => $this->provider->id,
+            'supervisor_id' => $this->supervisor->id,
+            'location_id' => $this->location->id,
+            'pa_service_id' => $this->paService->id,
+            'session_date' => now()->subDays(2)->format('Y-m-d'),
+            'time_in' => '09:30:00',
+            'time_out' => '10:45:00',
+            'time_in2' => '13:15:00',
+            'time_out2' => '14:30:00'
+        ];
+
+        $response = $this->postJson('/api/v2/notes/rbt', $noteDataHHMMSS);
+        $response->assertStatus(201);
+        // Verify that HH:MM:SS was converted to HH:MM in the database
+        $this->assertDatabaseHas('note_rbts', [
+            'time_in' => '09:30',
+            'time_out' => '10:45',
+            'time_in2' => '13:15',
+            'time_out2' => '14:30'
+        ]);
+    }
 }

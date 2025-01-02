@@ -516,12 +516,12 @@
                                     "current_status": {
                                         "type": "string",
                                         "enum": [
-                                            "active",
-                                            "completed",
-                                            "on hold",
+                                            "not started",
+                                            "in progress",
+                                            "mastered",
                                             "discontinued"
                                         ],
-                                        "example": "active"
+                                        "example": "not started"
                                     },
                                     "maladaptive": {
                                         "type": "string",
@@ -692,12 +692,12 @@
                                     "current_status": {
                                         "type": "string",
                                         "enum": [
-                                            "active",
-                                            "completed",
-                                            "on hold",
+                                            "not started",
+                                            "in progress",
+                                            "mastered",
                                             "discontinued"
                                         ],
-                                        "example": "active"
+                                        "example": "not started"
                                     },
                                     "maladaptive": {
                                         "type": "string",
@@ -5537,8 +5537,7 @@
                         "enum": [
                             "in progress",
                             "mastered",
-                            "initiated",
-                            "on hold",
+                            "not started",
                             "discontinued",
                             "maintenance"
                         ],
@@ -5607,12 +5606,12 @@
                     "current_status": {
                         "type": "string",
                         "enum": [
-                            "active",
-                            "completed",
-                            "on hold",
+                            "not started",
+                            "in progress",
+                            "mastered",
                             "discontinued"
                         ],
-                        "example": "active"
+                        "example": "not started"
                     },
                     "maladaptive": {
                         "type": "string",
@@ -5669,8 +5668,7 @@
                         "enum": [
                             "in progress",
                             "mastered",
-                            "initiated",
-                            "on hold",
+                            "not started",
                             "discontinued",
                             "maintenance"
                         ],

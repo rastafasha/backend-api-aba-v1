@@ -16,7 +16,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  *     @OA\Property(
  *         property="status",
  *         type="string",
- *         enum={"in progress", "mastered", "initiated", "on hold", "discontinued", "maintenance"},
+ *         enum={"in progress", "mastered", "not started", "discontinued", "maintenance"},
  *         example="in progress"
  *     ),
  *     @OA\Property(property="initial_date", type="string", format="date", example="2024-01-01"),

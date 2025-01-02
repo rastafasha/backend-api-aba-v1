@@ -121,7 +121,7 @@ class Bip extends Model
 
     public function patient()
     {
-        return $this->hasOne(Patient::class, 'patient_identifier');
+        return $this->hasOne(Patient::class, 'patient_identifier', 'patient_identifier');
     }
 
     public function doctor()

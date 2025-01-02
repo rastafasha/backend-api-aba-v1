@@ -53,7 +53,7 @@ class LongTermObjectiveV2Controller extends Controller
     {
         $validated = $request->validate([
             'reduction_goal_id' => 'required|exists:reduction_goals,id',
-            'status' => 'required|in:in progress,mastered,initiated,on hold,discontinued,maintenance',
+            'status' => 'required|in:in progress,mastered,not started,discontinued,maintenance',
             'initial_date' => 'required|date',
             'end_date' => 'required|date|after:initial_date',
             'description' => 'required|string',
@@ -118,7 +118,7 @@ class LongTermObjectiveV2Controller extends Controller
         $objective = LongTermObjective::findOrFail($id);
 
         $validated = $request->validate([
-            'status' => 'sometimes|required|in:in progress,mastered,initiated,on hold,discontinued,maintenance',
+            'status' => 'sometimes|required|in:in progress,mastered,not started,discontinued,maintenance',
             'initial_date' => 'sometimes|required|date',
             'end_date' => 'sometimes|required|date|after:initial_date',
             'description' => 'sometimes|required|string',
