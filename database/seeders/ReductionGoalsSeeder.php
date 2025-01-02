@@ -25,24 +25,54 @@ class ReductionGoalsSeeder extends Seeder
             Bip::factory()->make()->toArray()
         );
 
-        // Create some reduction goals with complete objectives
+        // Create some reduction goals with objectives following progression logic
         ReductionGoal::factory()
             ->count(5)
             ->forBip($testBip)
             ->forClient($testClient)
             ->create()
             ->each(function ($goal) {
-                // Create one LTO for each goal
-                LongTermObjective::factory()
-                    ->forReductionGoal($goal)
-                    ->create();
+                // Create LTO for each goal (not started, no dates)
+                LongTermObjective::create([
+                    'reduction_goal_id' => $goal->id,
+                    'status' => 'not started',
+                    'description' => 'Long term reduction of frequency of ' . $goal->maladaptive . ' to 0 per week across all settings',
+                    'target' => 0
+                ]);
 
-                // Create 3-5 STOs for each goal
-                $numSTOs = rand(3, 5);
-                for ($i = 1; $i <= $numSTOs; $i++) {
-                    ShortTermObjective::factory()
-                        ->forReductionGoal($goal, $i)
-                        ->create();
+                // Create 4 STOs with progressive status
+                $baseDate = now()->subMonths(2);
+
+                // First STO - Mastered with completed dates
+                ShortTermObjective::create([
+                    'reduction_goal_id' => $goal->id,
+                    'status' => 'mastered',
+                    'initial_date' => $baseDate->format('Y-m-d'),
+                    'end_date' => $baseDate->addMonths(1)->format('Y-m-d'),
+                    'description' => 'First phase reduction of ' . $goal->maladaptive,
+                    'target' => 40,
+                    'order' => 1
+                ]);
+
+                // Second STO - In Progress with only initial date
+                ShortTermObjective::create([
+                    'reduction_goal_id' => $goal->id,
+                    'status' => 'in progress',
+                    'initial_date' => $baseDate->format('Y-m-d'),
+                    'description' => 'Second phase reduction of ' . $goal->maladaptive,
+                    'target' => 30,
+                    'order' => 2
+                ]);
+
+                // Third and Fourth STOs - Not Started, no dates
+                for ($i = 3; $i <= 4; $i++) {
+                    ShortTermObjective::create([
+                        'reduction_goal_id' => $goal->id,
+                        'status' => 'not started',
+                        'description' => 'Phase ' . $i . ' reduction of ' . $goal->maladaptive,
+                        'target' => 40 - ($i * 10),
+                        'order' => $i
+                    ]);
                 }
             });
 
@@ -55,38 +85,55 @@ class ReductionGoalsSeeder extends Seeder
             'maladaptive' => 'Inappropriate Language'
         ]);
 
-        // Add its LTO
+        // Add its LTO (not started)
         LongTermObjective::create([
             'reduction_goal_id' => $testGoal->id,
-            'status' => 'in progress',
-            'initial_date' => now()->format('Y-m-d'),
-            'end_date' => now()->addMonths(6)->format('Y-m-d'),
-            'description' => 'Reduce inappropriate language usage by 80% in all settings',
-            'target' => 80
+            'status' => 'not started',
+            'description' => 'Reduce inappropriate language usage to 0 per week in all settings',
+            'target' => 0
         ]);
 
-        // Add its STOs
+        // Base date for the progression
+        $baseDate = now()->subMonths(1);
+
+        // Add its STOs with progression
         $stos = [
             [
-                'description' => 'Use appropriate language in classroom settings',
-                'target' => 60
+                'description' => 'Reduce frequency of inappropriate language to 40 per week in all settings',
+                'target' => 30,
+                'status' => 'mastered',
+                'initial_date' => $baseDate->format('Y-m-d'),
+                'end_date' => $baseDate->addMonths(1)->format('Y-m-d')
             ],
             [
-                'description' => 'Use appropriate language during therapy sessions',
-                'target' => 70
+                'description' => 'Reduce frequency of inappropriate language to 30 per week in all settings',
+                'target' => 20,
+                'status' => 'in progress',
+                'initial_date' => $baseDate->format('Y-m-d'),
+                'end_date' => null
             ],
             [
-                'description' => 'Use appropriate language in social situations',
-                'target' => 80
+                'description' => 'Reduce frequency of inappropriate language to 20 per week in all settings',
+                'target' => 10,
+                'status' => 'not started',
+                'initial_date' => null,
+                'end_date' => null
+            ],
+            [
+                'description' => 'Reduce frequency of inappropriate language to 10 per week in all settings',
+                'target' => 0,
+                'status' => 'not started',
+                'initial_date' => null,
+                'end_date' => null
             ]
         ];
 
         foreach ($stos as $index => $sto) {
             ShortTermObjective::create([
                 'reduction_goal_id' => $testGoal->id,
-                'status' => 'in progress',
-                'initial_date' => now()->format('Y-m-d'),
-                'end_date' => now()->addMonths(3)->format('Y-m-d'),
+                'status' => $sto['status'],
+                'initial_date' => $sto['initial_date'],
+                'end_date' => $sto['end_date'],
                 'description' => $sto['description'],
                 'target' => $sto['target'],
                 'order' => $index + 1

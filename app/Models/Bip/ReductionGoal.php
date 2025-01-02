@@ -20,6 +20,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  *     @OA\Property(property="client_id", type="integer", format="int64", example=1),
  *     @OA\Property(property="current_status", type="string", enum={"active", "completed", "on hold", "discontinued"}, example="active"),
  *     @OA\Property(property="maladaptive", type="string", example="Inappropriate Language"),
+ *     @OA\Property(property="baseline", type="integer", example=5),
  *     @OA\Property(property="created_at", type="string", format="datetime", example="2024-01-01 00:00:00"),
  *     @OA\Property(property="updated_at", type="string", format="datetime", example="2024-01-01 00:00:00"),
  *     @OA\Property(property="deleted_at", type="string", format="datetime", nullable=true),
@@ -46,6 +47,7 @@ class ReductionGoal extends Model
         'client_id',
         'current_status',
         'maladaptive',
+        'baseline',
         'goalstos', //json
         'goalltos', //json
     ];

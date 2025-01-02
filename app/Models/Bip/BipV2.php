@@ -17,12 +17,14 @@ use App\Models\Bip\GeneralizationTraining;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Carbon;
+use App\Models\Bip\Maladaptive;
+use App\Models\Bip\Replacement;
 
 /**
  * @OA\Schema(
- *     schema="Bip",
- *     title="Bip",
- *     description="Behavior Intervention Plan model",
+ *     schema="BipV2",
+ *     title="BipV2",
+ *     description="Behavior Intervention Plan model V2",
  *     @OA\Property(property="id", type="integer", format="int64", example=1),
  *     @OA\Property(property="client_id", type="integer", format="int64", example=1),
  *     @OA\Property(property="patient_id", type="string", maxLength=50, nullable=true, example="PAT123"),
@@ -38,7 +40,7 @@ use Illuminate\Support\Carbon;
  *     @OA\Property(property="weakneses", type="string", nullable=true),
  *     @OA\Property(property="phiysical_and_medical", type="string", nullable=true),
  *     @OA\Property(property="phiysical_and_medical_status", type="array", @OA\Items(type="string"), nullable=true),
- *     @OA\Property(property="maladaptives", type="array", @OA\Items(type="string"), nullable=true),
+ *     @OA\Property(property="maladaptives", type="array", @OA\Items(ref="#/components/schemas/Maladaptive"), nullable=true),
  *     @OA\Property(property="assestment_conducted", type="string", nullable=true),
  *     @OA\Property(property="assestment_conducted_options", type="array", @OA\Items(type="string"), nullable=true),
  *     @OA\Property(property="assestmentEvaluationSettings", type="array", @OA\Items(type="string"), nullable=true),
@@ -54,11 +56,13 @@ use Illuminate\Support\Carbon;
  *     @OA\Property(property="deleted_at", type="string", format="date-time", nullable=true)
  * )
  */
-class Bip extends Model
+class BipV2 extends Model
 {
     use HasFactory;
     use SoftDeletes;
     use CreatedAtFilterable;
+
+    protected $table = 'bips';
 
     protected $fillable = [
         'type_of_assessment',
@@ -71,7 +75,7 @@ class Bip extends Model
         'current_treatment_and_progress',
         'education_status',
         'phisical_and_medical_status',
-        'maladaptives', //json
+        // 'maladaptives', //json
         'assestment_conducted',
         'assestment_conducted_options', //json
         'prevalent_setting_event_and_atecedents', //json
@@ -107,7 +111,7 @@ class Bip extends Model
 
     protected $casts = [
         'documents_reviewed' => 'json',
-        'maladaptives' => 'json',
+        // 'maladaptives' => 'json',
         'assestment_conducted_options' => 'json',
         'prevalent_setting_event_and_atecedents' => 'json',
         'interventions' => 'json',
@@ -126,7 +130,7 @@ class Bip extends Model
 
     public function doctor()
     {
-        return $this->belongsTo(User::class, "doctor_id");
+        return $this->belongsTo(User::class, "doctor_id")->select('id', 'name', 'surname', 'npi');
     }
 
     //  public function doctors()
@@ -137,45 +141,55 @@ class Bip extends Model
     // {
     //     return $this->hasOne(Maladaptive::class, 'maladaptive_id');
     // }
-    public function reduction_goals()
+    // public function reduction_goals()
+    // {
+    //     return $this->hasMany(ReductionGoal::class, 'bip_id');
+    // }
+
+    public function maladaptives()
     {
-        return $this->hasMany(ReductionGoal::class);
+        return $this->hasMany(Maladaptive::class, 'bip_id');
+    }
+
+    public function replacements()
+    {
+        return $this->hasMany(Replacement::class, 'bip_id');
     }
 
     public function sustitution_goals()
     {
-        return $this->hasMany(SustitutionGoal::class);
+        return $this->hasMany(SustitutionGoal::class, 'bip_id');
     }
 
     public function family_envolments()
     {
-        return $this->hasMany(FamilyEnvolment::class);
+        return $this->hasMany(FamilyEnvolment::class, 'bip_id');
     }
 
     public function monitoring_evalutatings()
     {
-        return $this->hasMany(MonitoringEvaluating::class);
+        return $this->hasMany(MonitoringEvaluating::class, 'bip_id');
     }
 
 
     public function generalization_trainings()
     {
-        return $this->hasMany(GeneralizationTraining::class);
+        return $this->hasMany(GeneralizationTraining::class, 'bip_id');
     }
 
     public function crisis_plans()
     {
-        return $this->hasMany(CrisisPlan::class);
+        return $this->hasMany(CrisisPlan::class, 'bip_id');
     }
 
     public function de_escalation_techniques()
     {
-        return $this->hasMany(DeEscalationTechnique::class);
+        return $this->hasMany(DeEscalationTechnique::class, 'bip_id');
     }
 
     public function consent_to_treatments()
     {
-        return $this->hasMany(ConsentToTreatment::class);
+        return $this->hasMany(ConsentToTreatment::class, 'bip_id');
     }
 
 

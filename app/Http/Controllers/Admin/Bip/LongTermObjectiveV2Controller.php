@@ -14,7 +14,7 @@ class LongTermObjectiveV2Controller extends Controller
      *     path="/api/v2/long-term-objectives",
      *     summary="Get all Long Term Objectives with filters",
      *     tags={"Long Term Objectives"},
-     *     @OA\Parameter(name="reduction_goal_id", in="query", required=false, @OA\Schema(type="integer")),
+     *     @OA\Parameter(name="maladaptive_id", in="query", required=false, @OA\Schema(type="integer")),
      *     @OA\Parameter(name="status", in="query", required=false, @OA\Schema(type="string")),
      *     @OA\Parameter(name="per_page", in="query", required=false, @OA\Schema(type="integer", default=15)),
      *     @OA\Response(response=200, description="Successful operation")
@@ -24,8 +24,8 @@ class LongTermObjectiveV2Controller extends Controller
     {
         $query = LongTermObjective::query();
 
-        if ($request->has('reduction_goal_id')) {
-            $query->where('reduction_goal_id', $request->reduction_goal_id);
+        if ($request->has('maladaptive_id')) {
+            $query->where('maladaptive_id', $request->maladaptive_id);
         }
 
         if ($request->has('status')) {
@@ -52,20 +52,20 @@ class LongTermObjectiveV2Controller extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'reduction_goal_id' => 'required|exists:reduction_goals,id',
-            'status' => 'required|in:in progress,mastered,initiated,on hold,discontinued,maintenance',
+            'maladaptive_id' => 'required|exists:maladaptives,id',
+            'status' => 'required|in:in progress,mastered,not started,discontinued,maintenance',
             'initial_date' => 'required|date',
             'end_date' => 'required|date|after:initial_date',
             'description' => 'required|string',
             'target' => 'required|numeric'
         ]);
 
-        // Check if reduction goal already has a long term objective
-        $existing = LongTermObjective::where('reduction_goal_id', $validated['reduction_goal_id'])->first();
+        // Check if maladaptive behavior already has a long term objective
+        $existing = LongTermObjective::where('maladaptive_id', $validated['maladaptive_id'])->first();
         if ($existing) {
             return response()->json([
                 'status' => 'error',
-                'message' => 'Reduction goal already has a long term objective'
+                'message' => 'Maladaptive behavior already has a long term objective'
             ], 422);
         }
 
@@ -89,7 +89,7 @@ class LongTermObjectiveV2Controller extends Controller
      */
     public function show($id)
     {
-        $objective = LongTermObjective::with('reductionGoal')->find($id);
+        $objective = LongTermObjective::with('maladaptive')->find($id);
 
         if (!$objective) {
             return response()->json([
@@ -118,7 +118,7 @@ class LongTermObjectiveV2Controller extends Controller
         $objective = LongTermObjective::findOrFail($id);
 
         $validated = $request->validate([
-            'status' => 'sometimes|required|in:in progress,mastered,initiated,on hold,discontinued,maintenance',
+            'status' => 'sometimes|required|in:in progress,mastered,not started,discontinued,maintenance',
             'initial_date' => 'sometimes|required|date',
             'end_date' => 'sometimes|required|date|after:initial_date',
             'description' => 'sometimes|required|string',

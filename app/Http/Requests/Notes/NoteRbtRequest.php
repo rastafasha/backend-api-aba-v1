@@ -2,10 +2,13 @@
 
 namespace App\Http\Requests\Notes;
 
+use App\Http\Requests\Notes\Traits\ValidatesTimeOverlap;
 use Illuminate\Foundation\Http\FormRequest;
 
 class NoteRbtRequest extends FormRequest
 {
+    use ValidatesTimeOverlap;
+
     public function authorize()
     {
         return true;
@@ -16,15 +19,16 @@ class NoteRbtRequest extends FormRequest
         return [
             'insurance_id' => 'nullable|exists:insurances,id',
             'patient_id' => 'required|exists:patients,id',
-            'doctor_id' => 'required|exists:users,id',
+            'patient_identifier' => 'nullable|string',
+            'doctor_id' => 'nullable|exists:users,id',
             'pa_service_id' => 'required|exists:pa_services,id',
             'bip_id' => 'nullable|exists:bips,id',
             'pos' => 'nullable|string',
             'session_date' => 'required|date|before:tomorrow',
-            'time_in' => 'nullable|date_format:H:i:s',
-            'time_out' => 'nullable|date_format:H:i:s|after:time_in',
-            'time_in2' => 'nullable|date_format:H:i:s',
-            'time_out2' => 'nullable|date_format:H:i:s|after:time_in2',
+            'time_in' => 'nullable|date_format:H:i,H:i:s',
+            'time_out' => 'nullable|date_format:H:i,H:i:s|after:time_in',
+            'time_in2' => 'nullable|date_format:H:i,H:i:s',
+            'time_out2' => 'nullable|date_format:H:i,H:i:s|after:time_in2',
             'environmental_changes' => 'nullable|string',
             'maladaptives' => 'nullable|array',
             'replacements' => 'nullable|array',
@@ -51,5 +55,28 @@ class NoteRbtRequest extends FormRequest
             'supervisor_id' => 'nullable|exists:users,id',
             'summary_note' => 'nullable|string',
         ];
+    }
+
+    protected function prepareForValidation()
+    {
+        if ($this->has('session_date')) {
+            $this->merge([
+                'session_date' => date('Y-m-d', strtotime($this->session_date))
+            ]);
+        }
+
+        // Convert HH:MM:SS to HH:MM for all time fields
+        foreach (['time_in', 'time_out', 'time_in2', 'time_out2'] as $timeField) {
+            if ($this->has($timeField) && strlen($this->$timeField) > 5) {
+                $this->merge([
+                    $timeField => date('H:i', strtotime($this->$timeField))
+                ]);
+            }
+        }
+    }
+
+    public function withValidator($validator)
+    {
+        $this->validateTimeOverlap($validator);
     }
 }

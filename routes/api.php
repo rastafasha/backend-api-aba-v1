@@ -8,6 +8,8 @@ use App\Http\Controllers\Admin\Doctor\DoctorController;
 use App\Http\Controllers\Auth\ChangePasswordController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\ChangeForgotPasswordControllerController;
+use App\Http\Controllers\Admin\Bip\MaladaptiveV2Controller;
+use App\Http\Controllers\Admin\Bip\ReplacementV2Controller;
 
 /*
 |--------------------------------------------------------------------------
@@ -123,6 +125,8 @@ Route::group(['middleware' => 'api'], function ($router) {
     // PDF
     require __DIR__ . '/api_routes/pdf.php';
 
+    Route::apiResource('maladaptives', MaladaptiveV2Controller::class);
+    Route::apiResource('replacements', ReplacementV2Controller::class);
 
     //comandos desde la url del backend
 
@@ -158,4 +162,9 @@ Route::group(['middleware' => 'api'], function ($router) {
 
     // Route::get('/categories', [CategoryController::class, 'index'])
     //     ->name('category.index');
+});
+
+Route::prefix('v2')->group(function () {
+    Route::apiResource('maladaptives', MaladaptiveV2Controller::class);
+    Route::apiResource('replacements', ReplacementV2Controller::class);
 });

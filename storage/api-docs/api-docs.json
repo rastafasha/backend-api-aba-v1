@@ -10,61 +10,8 @@
                 "tags": [
                     "BIPs"
                 ],
-                "summary": "Get all BIPs with filters",
+                "summary": "List all BIPs",
                 "operationId": "a3c6a76edc377107281ee77209fe443a",
-                "parameters": [
-                    {
-                        "name": "patient_id",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "doctor_id",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "integer"
-                        }
-                    },
-                    {
-                        "name": "type_of_assessment",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "integer"
-                        }
-                    },
-                    {
-                        "name": "date_from",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "string",
-                            "format": "date"
-                        }
-                    },
-                    {
-                        "name": "date_to",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "string",
-                            "format": "date"
-                        }
-                    },
-                    {
-                        "name": "per_page",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "integer",
-                            "default": 15
-                        }
-                    }
-                ],
                 "responses": {
                     "200": {
                         "description": "Successful operation",
@@ -79,7 +26,7 @@
                                         "data": {
                                             "type": "array",
                                             "items": {
-                                                "$ref": "#/components/schemas/Bip"
+                                                "$ref": "#/components/schemas/BipV2"
                                             }
                                         }
                                     },
@@ -101,7 +48,7 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "$ref": "#/components/schemas/Bip"
+                                "$ref": "#/components/schemas/BipV2"
                             }
                         }
                     }
@@ -122,7 +69,7 @@
                                             "example": "BIP created successfully"
                                         },
                                         "data": {
-                                            "$ref": "#/components/schemas/Bip"
+                                            "$ref": "#/components/schemas/BipV2"
                                         }
                                     },
                                     "type": "object"
@@ -144,6 +91,7 @@
                     {
                         "name": "id",
                         "in": "path",
+                        "description": "BIP ID",
                         "required": true,
                         "schema": {
                             "type": "integer"
@@ -162,16 +110,13 @@
                                             "example": "success"
                                         },
                                         "data": {
-                                            "$ref": "#/components/schemas/Bip"
+                                            "$ref": "#/components/schemas/BipV2"
                                         }
                                     },
                                     "type": "object"
                                 }
                             }
                         }
-                    },
-                    "404": {
-                        "description": "BIP not found"
                     }
                 }
             },
@@ -185,6 +130,7 @@
                     {
                         "name": "id",
                         "in": "path",
+                        "description": "BIP ID",
                         "required": true,
                         "schema": {
                             "type": "integer"
@@ -196,7 +142,7 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "$ref": "#/components/schemas/Bip"
+                                "$ref": "#/components/schemas/BipV2"
                             }
                         }
                     }
@@ -217,16 +163,13 @@
                                             "example": "BIP updated successfully"
                                         },
                                         "data": {
-                                            "$ref": "#/components/schemas/Bip"
+                                            "$ref": "#/components/schemas/BipV2"
                                         }
                                     },
                                     "type": "object"
                                 }
                             }
                         }
-                    },
-                    "404": {
-                        "description": "BIP not found"
                     }
                 }
             },
@@ -282,7 +225,7 @@
                 "operationId": "11abb4b06d49a4e8a0263ba2fae26942",
                 "parameters": [
                     {
-                        "name": "reduction_goal_id",
+                        "name": "maladaptive_id",
                         "in": "query",
                         "required": false,
                         "schema": {
@@ -394,6 +337,335 @@
                 }
             }
         },
+        "/api/v2/maladaptives": {
+            "get": {
+                "tags": [
+                    "Maladaptives"
+                ],
+                "summary": "Get all Maladaptive behaviors with filters",
+                "operationId": "b27c3e0c152a8b60eb819e545c8d0a64",
+                "parameters": [
+                    {
+                        "name": "bip_id",
+                        "in": "query",
+                        "description": "Filter by BIP ID",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "description": "Filter by behavior name",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "status",
+                        "in": "query",
+                        "description": "Filter by status",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "per_page",
+                        "in": "query",
+                        "description": "Number of items per page",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 15
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "current_page": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "data": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "$ref": "#/components/schemas/Maladaptive"
+                                                    }
+                                                },
+                                                "total": {
+                                                    "type": "integer",
+                                                    "example": 50
+                                                },
+                                                "per_page": {
+                                                    "type": "integer",
+                                                    "example": 15
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Maladaptives"
+                ],
+                "summary": "Create a new Maladaptive behavior",
+                "operationId": "d255dda550cc78360bf84de766e2e618",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "bip_id",
+                                    "name",
+                                    "description",
+                                    "baseline_level",
+                                    "baseline_date",
+                                    "initial_intensity",
+                                    "current_intensity",
+                                    "status"
+                                ],
+                                "properties": {
+                                    "bip_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Aggressive Behavior"
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "example": "Displays aggressive behavior towards others"
+                                    },
+                                    "baseline_level": {
+                                        "type": "integer",
+                                        "example": 5
+                                    },
+                                    "baseline_date": {
+                                        "type": "string",
+                                        "format": "date-time"
+                                    },
+                                    "initial_intensity": {
+                                        "type": "integer",
+                                        "example": 7
+                                    },
+                                    "current_intensity": {
+                                        "type": "integer",
+                                        "example": 4
+                                    },
+                                    "status": {
+                                        "type": "string",
+                                        "enum": [
+                                            "active",
+                                            "completed",
+                                            "hold",
+                                            "discontinued",
+                                            "maintenance",
+                                            "met",
+                                            "monitoring"
+                                        ]
+                                    },
+                                    "long_term_objectives": {
+                                        "type": "array",
+                                        "items": {
+                                            "$ref": "#/components/schemas/LongTermObjective"
+                                        }
+                                    },
+                                    "short_term_objectives": {
+                                        "type": "array",
+                                        "items": {
+                                            "$ref": "#/components/schemas/ShortTermObjective"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Maladaptive behavior created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Maladaptive behavior created successfully"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/Maladaptive"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v2/maladaptives/{id}": {
+            "get": {
+                "tags": [
+                    "Maladaptives"
+                ],
+                "summary": "Get Maladaptive behavior by ID",
+                "operationId": "491443dd5da1d4e90d671e8d4ce817ce",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Maladaptive behavior ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/Maladaptive"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Maladaptives"
+                ],
+                "summary": "Update a Maladaptive behavior",
+                "operationId": "380604f2467c911c0fcb052054d7efab",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Maladaptive behavior ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Maladaptive"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Maladaptive behavior updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Maladaptive behavior updated successfully"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/Maladaptive"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Maladaptives"
+                ],
+                "summary": "Delete a Maladaptive behavior",
+                "operationId": "5138f6ac6361feb4d4d88180c156b01f",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Maladaptive behavior ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Maladaptive behavior deleted successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Maladaptive behavior and related objectives deleted successfully"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/v2/reduction-goals": {
             "get": {
                 "tags": [
@@ -424,6 +696,15 @@
                         "name": "client_id",
                         "in": "query",
                         "description": "Filter by client ID",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "baseline",
+                        "in": "query",
+                        "description": "Filter by baseline value",
                         "required": false,
                         "schema": {
                             "type": "integer"
@@ -692,12 +973,12 @@
                                     "current_status": {
                                         "type": "string",
                                         "enum": [
-                                            "active",
-                                            "completed",
-                                            "on hold",
+                                            "not started",
+                                            "in progress",
+                                            "mastered",
                                             "discontinued"
                                         ],
-                                        "example": "active"
+                                        "example": "not started"
                                     },
                                     "maladaptive": {
                                         "type": "string",
@@ -802,6 +1083,308 @@
                 }
             }
         },
+        "/api/v2/replacements": {
+            "get": {
+                "tags": [
+                    "Replacements"
+                ],
+                "summary": "List all replacement behaviors",
+                "operationId": "6d764bba2bf753effc8fe620fd2e34d5",
+                "parameters": [
+                    {
+                        "name": "bip_id",
+                        "in": "query",
+                        "description": "Filter by BIP ID",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "description": "Filter by name",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "status",
+                        "in": "query",
+                        "description": "Filter by status",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Replacement"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Replacements"
+                ],
+                "summary": "Create a new Replacement behavior",
+                "operationId": "2eb2e9330fffe38b760762d59ffb5ffb",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "bip_id",
+                                    "name",
+                                    "description",
+                                    "baseline_level",
+                                    "baseline_date",
+                                    "initial_intensity",
+                                    "current_intensity",
+                                    "status"
+                                ],
+                                "properties": {
+                                    "bip_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Communication Skills"
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "example": "Uses appropriate communication methods"
+                                    },
+                                    "baseline_level": {
+                                        "type": "integer",
+                                        "example": 5
+                                    },
+                                    "baseline_date": {
+                                        "type": "string",
+                                        "format": "date-time"
+                                    },
+                                    "initial_intensity": {
+                                        "type": "integer",
+                                        "example": 7
+                                    },
+                                    "current_intensity": {
+                                        "type": "integer",
+                                        "example": 4
+                                    },
+                                    "status": {
+                                        "type": "string",
+                                        "enum": [
+                                            "active",
+                                            "completed",
+                                            "hold",
+                                            "discontinued",
+                                            "maintenance",
+                                            "met",
+                                            "monitoring"
+                                        ]
+                                    },
+                                    "long_term_objectives": {
+                                        "type": "array",
+                                        "items": {
+                                            "$ref": "#/components/schemas/LongTermObjective"
+                                        }
+                                    },
+                                    "short_term_objectives": {
+                                        "type": "array",
+                                        "items": {
+                                            "$ref": "#/components/schemas/ShortTermObjective"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Replacement behavior created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Replacement behavior created successfully"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/Replacement"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v2/replacements/{id}": {
+            "get": {
+                "tags": [
+                    "Replacements"
+                ],
+                "summary": "Get Replacement behavior by ID",
+                "operationId": "2fe6803bccb2acc237dee64610487db0",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Replacement behavior ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/Replacement"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Replacements"
+                ],
+                "summary": "Update a Replacement behavior",
+                "operationId": "74a8e505ce51234908a5fe0478fe19be",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Replacement behavior ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Replacement"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Replacement behavior updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Replacement behavior updated successfully"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/Replacement"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Replacements"
+                ],
+                "summary": "Delete a Replacement behavior",
+                "operationId": "7040661ee90416113e569f7727b94bea",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Replacement behavior ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Replacement behavior deleted successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Replacement behavior and related objectives deleted successfully"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/v2/short-term-objectives": {
             "get": {
                 "tags": [
@@ -811,7 +1394,7 @@
                 "operationId": "8c5a636f907e12707b6819fbd2c9b49c",
                 "parameters": [
                     {
-                        "name": "reduction_goal_id",
+                        "name": "maladaptive_id",
                         "in": "query",
                         "required": false,
                         "schema": {
@@ -929,7 +1512,7 @@
                     "Short Term Objectives"
                 ],
                 "summary": "Reorder Short Term Objectives",
-                "description": "Update the order of multiple short term objectives at once. All objectives must belong to the same reduction goal.",
+                "description": "Update the order of multiple short term objectives at once. All objectives must belong to the same maladaptive behavior.",
                 "operationId": "e57e235e7a74433a211ac8feb2869857",
                 "requestBody": {
                     "description": "Array of objectives with their new order positions",
@@ -942,7 +1525,7 @@
                                 ],
                                 "properties": {
                                     "objectives": {
-                                        "description": "List of objectives to reorder. All objectives should belong to the same reduction goal.",
+                                        "description": "List of objectives to reorder. All objectives should belong to the same maladaptive behavior.",
                                         "type": "array",
                                         "items": {
                                             "required": [
@@ -996,36 +1579,6 @@
                                         "message": {
                                             "type": "string",
                                             "example": "Short term objectives reordered successfully"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "422": {
-                        "description": "Validation error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "example": "The given data was invalid."
-                                        },
-                                        "errors": {
-                                            "type": "object",
-                                            "example": {
-                                                "objectives": [
-                                                    "The objectives field is required."
-                                                ],
-                                                "objectives.0.id": [
-                                                    "The objectives.0.id field is required."
-                                                ],
-                                                "objectives.0.order": [
-                                                    "The objectives.0.order must be at least 1."
-                                                ]
-                                            }
                                         }
                                     },
                                     "type": "object"
@@ -2608,22 +3161,22 @@
                                     "time_in": {
                                         "type": "string",
                                         "format": "time",
-                                        "example": "09:00:00"
+                                        "example": "09:00"
                                     },
                                     "time_out": {
                                         "type": "string",
                                         "format": "time",
-                                        "example": "10:00:00"
+                                        "example": "10:00"
                                     },
                                     "time_in2": {
                                         "type": "string",
                                         "format": "time",
-                                        "example": "14:00:00"
+                                        "example": "14:00"
                                     },
                                     "time_out2": {
                                         "type": "string",
                                         "format": "time",
-                                        "example": "15:00:00"
+                                        "example": "15:00"
                                     },
                                     "environmental_changes": {
                                         "type": "string"
@@ -2847,22 +3400,22 @@
                                     "time_in": {
                                         "type": "string",
                                         "format": "time",
-                                        "example": "09:00:00"
+                                        "example": "09:00"
                                     },
                                     "time_out": {
                                         "type": "string",
                                         "format": "time",
-                                        "example": "10:00:00"
+                                        "example": "10:00"
                                     },
                                     "time_in2": {
                                         "type": "string",
                                         "format": "time",
-                                        "example": "14:00:00"
+                                        "example": "14:00"
                                     },
                                     "time_out2": {
                                         "type": "string",
                                         "format": "time",
-                                        "example": "15:00:00"
+                                        "example": "15:00"
                                     },
                                     "environmental_changes": {
                                         "type": "string"
@@ -5518,16 +6071,180 @@
                 },
                 "type": "object"
             },
-            "LongTermObjective": {
-                "title": "Long Term Objective",
-                "description": "A long-term objective for a reduction goal",
+            "BipV2": {
+                "title": "BipV2",
+                "description": "Behavior Intervention Plan model V2",
                 "properties": {
                     "id": {
                         "type": "integer",
                         "format": "int64",
                         "example": 1
                     },
-                    "reduction_goal_id": {
+                    "client_id": {
+                        "type": "integer",
+                        "format": "int64",
+                        "example": 1
+                    },
+                    "patient_id": {
+                        "type": "string",
+                        "maxLength": 50,
+                        "example": "PAT123",
+                        "nullable": true
+                    },
+                    "doctor_id": {
+                        "type": "integer",
+                        "format": "int64",
+                        "example": 1,
+                        "nullable": true
+                    },
+                    "type_of_assessment": {
+                        "type": "integer",
+                        "format": "int32",
+                        "example": 3
+                    },
+                    "documents_reviewed": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "nullable": true
+                    },
+                    "background_information": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "previus_treatment_and_result": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "current_treatment_and_progress": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "education_status": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "phisical_and_medical_status": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "strengths": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "weakneses": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "phiysical_and_medical": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "phiysical_and_medical_status": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "nullable": true
+                    },
+                    "maladaptives": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Maladaptive"
+                        },
+                        "nullable": true
+                    },
+                    "assestment_conducted": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "assestment_conducted_options": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "nullable": true
+                    },
+                    "assestmentEvaluationSettings": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "nullable": true
+                    },
+                    "prevalent_setting_event_and_atecedents": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "nullable": true
+                    },
+                    "hypothesis_based_intervention": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "interventions": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "nullable": true
+                    },
+                    "tangibles": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "nullable": true
+                    },
+                    "attention": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "nullable": true
+                    },
+                    "escape": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "nullable": true
+                    },
+                    "sensory": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "nullable": true
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "deleted_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "nullable": true
+                    }
+                },
+                "type": "object"
+            },
+            "LongTermObjective": {
+                "title": "Long Term Objective",
+                "description": "A long-term objective for a maladaptive",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int64",
+                        "example": 1
+                    },
+                    "maladaptive_id": {
                         "type": "integer",
                         "format": "int64",
                         "example": 1
@@ -5537,8 +6254,7 @@
                         "enum": [
                             "in progress",
                             "mastered",
-                            "initiated",
-                            "on hold",
+                            "not started",
                             "discontinued",
                             "maintenance"
                         ],
@@ -5581,6 +6297,70 @@
                 },
                 "type": "object"
             },
+            "Maladaptive": {
+                "title": "Maladaptive",
+                "description": "Maladaptive behavior model",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int64",
+                        "example": 1
+                    },
+                    "bip_id": {
+                        "type": "integer",
+                        "format": "int64",
+                        "example": 1
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "Aggressive Behavior"
+                    },
+                    "description": {
+                        "type": "string",
+                        "example": "Displays aggressive behavior towards others"
+                    },
+                    "baseline_level": {
+                        "type": "integer",
+                        "format": "int32",
+                        "example": 5
+                    },
+                    "baseline_date": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "initial_intensity": {
+                        "type": "integer",
+                        "format": "int32",
+                        "example": 7
+                    },
+                    "current_intensity": {
+                        "type": "integer",
+                        "format": "int32",
+                        "example": 4
+                    },
+                    "status": {
+                        "type": "string",
+                        "enum": [
+                            "active",
+                            "completed",
+                            "hold",
+                            "discontinued",
+                            "maintenance",
+                            "met",
+                            "monitoring"
+                        ]
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "type": "object"
+            },
             "ReductionGoal": {
                 "title": "Reduction Goal",
                 "description": "A goal to reduce maladaptive behaviors",
@@ -5618,6 +6398,10 @@
                         "type": "string",
                         "example": "Inappropriate Language"
                     },
+                    "baseline": {
+                        "type": "integer",
+                        "example": 5
+                    },
                     "created_at": {
                         "type": "string",
                         "format": "datetime",
@@ -5650,16 +6434,80 @@
                 },
                 "type": "object"
             },
-            "ShortTermObjective": {
-                "title": "Short Term Objective",
-                "description": "A short-term objective for a reduction goal",
+            "Replacement": {
+                "title": "Replacement",
+                "description": "Replacement behavior model",
                 "properties": {
                     "id": {
                         "type": "integer",
                         "format": "int64",
                         "example": 1
                     },
-                    "reduction_goal_id": {
+                    "bip_id": {
+                        "type": "integer",
+                        "format": "int64",
+                        "example": 1
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "Communication Skills"
+                    },
+                    "description": {
+                        "type": "string",
+                        "example": "Uses appropriate communication methods"
+                    },
+                    "baseline_level": {
+                        "type": "integer",
+                        "format": "int32",
+                        "example": 5
+                    },
+                    "baseline_date": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "initial_intensity": {
+                        "type": "integer",
+                        "format": "int32",
+                        "example": 7
+                    },
+                    "current_intensity": {
+                        "type": "integer",
+                        "format": "int32",
+                        "example": 4
+                    },
+                    "status": {
+                        "type": "string",
+                        "enum": [
+                            "active",
+                            "completed",
+                            "hold",
+                            "discontinued",
+                            "maintenance",
+                            "met",
+                            "monitoring"
+                        ]
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "type": "object"
+            },
+            "ShortTermObjective": {
+                "title": "Short Term Objective",
+                "description": "A short-term objective for a maladaptive",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int64",
+                        "example": 1
+                    },
+                    "maladaptive_id": {
                         "type": "integer",
                         "format": "int64",
                         "example": 1
@@ -5669,8 +6517,7 @@
                         "enum": [
                             "in progress",
                             "mastered",
-                            "initiated",
-                            "on hold",
+                            "not started",
                             "discontinued",
                             "maintenance"
                         ],
@@ -5688,16 +6535,15 @@
                     },
                     "description": {
                         "type": "string",
-                        "example": "Use appropriate language in classroom settings"
+                        "example": "Reduce inappropriate language to less than 5 instances per day"
                     },
                     "target": {
                         "type": "number",
                         "format": "float",
-                        "example": 60
+                        "example": 5
                     },
                     "order": {
                         "type": "integer",
-                        "format": "int32",
                         "example": 1
                     },
                     "created_at": {
@@ -6804,6 +7650,10 @@
     },
     "tags": [
         {
+            "name": "Maladaptives",
+            "description": "API Endpoints for managing maladaptive behaviors"
+        },
+        {
             "name": "Reduction Goals",
             "description": "API Endpoints for managing reduction goals"
         },
@@ -6814,6 +7664,10 @@
         {
             "name": "Long Term Objectives",
             "description": "Long Term Objectives"
+        },
+        {
+            "name": "Replacements",
+            "description": "Replacements"
         },
         {
             "name": "Short Term Objectives",

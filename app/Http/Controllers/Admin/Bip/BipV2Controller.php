@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin\Bip;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\BipRequest;
-use App\Models\Bip\Bip;
+use App\Models\Bip\BipV2 as Bip;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 
@@ -13,18 +13,14 @@ class BipV2Controller extends Controller
     /**
      * @OA\Get(
      *     path="/api/v2/bips",
-     *     summary="Get all BIPs with filters",
+     *     summary="List all BIPs",
      *     tags={"BIPs"},
-     *     @OA\Parameter(name="patient_id", in="query", required=false, @OA\Schema(type="string")),
-     *     @OA\Parameter(name="doctor_id", in="query", required=false, @OA\Schema(type="integer")),
-     *     @OA\Parameter(name="type_of_assessment", in="query", required=false, @OA\Schema(type="integer")),
-     *     @OA\Parameter(name="date_from", in="query", required=false, @OA\Schema(type="string", format="date")),
-     *     @OA\Parameter(name="date_to", in="query", required=false, @OA\Schema(type="string", format="date")),
-     *     @OA\Parameter(name="per_page", in="query", required=false, @OA\Schema(type="integer", default=15)),
-     *     @OA\Response(response=200, description="Successful operation",
+     *     @OA\Response(
+     *         response=200,
+     *         description="Successful operation",
      *         @OA\JsonContent(
      *             @OA\Property(property="status", type="string", example="success"),
-     *             @OA\Property(property="data", type="array", @OA\Items(ref="#/components/schemas/Bip"))
+     *             @OA\Property(property="data", type="array", @OA\Items(ref="#/components/schemas/BipV2"))
      *         )
      *     )
      * )
@@ -66,13 +62,15 @@ class BipV2Controller extends Controller
      *     tags={"BIPs"},
      *     @OA\RequestBody(
      *         required=true,
-     *         @OA\JsonContent(ref="#/components/schemas/Bip")
+     *         @OA\JsonContent(ref="#/components/schemas/BipV2")
      *     ),
-     *     @OA\Response(response=201, description="BIP created successfully",
+     *     @OA\Response(
+     *         response=201,
+     *         description="BIP created successfully",
      *         @OA\JsonContent(
      *             @OA\Property(property="status", type="string", example="success"),
      *             @OA\Property(property="message", type="string", example="BIP created successfully"),
-     *             @OA\Property(property="data", ref="#/components/schemas/Bip")
+     *             @OA\Property(property="data", ref="#/components/schemas/BipV2")
      *         )
      *     )
      * )
@@ -95,22 +93,29 @@ class BipV2Controller extends Controller
      *     path="/api/v2/bips/{id}",
      *     summary="Get BIP by ID",
      *     tags={"BIPs"},
-     *     @OA\Parameter(name="id", in="path", required=true, @OA\Schema(type="integer")),
-     *     @OA\Response(response=200, description="Successful operation",
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         description="BIP ID",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Successful operation",
      *         @OA\JsonContent(
      *             @OA\Property(property="status", type="string", example="success"),
-     *             @OA\Property(property="data", ref="#/components/schemas/Bip")
+     *             @OA\Property(property="data", ref="#/components/schemas/BipV2")
      *         )
-     *     ),
-     *     @OA\Response(response=404, description="BIP not found")
+     *     )
      * )
      */
-    public function show($id)
+    public function show(Request $request, $id)
     {
-        $bip = Bip::with([
-            'patient',
+        $includeArray = [
             'doctor',
-            'reduction_goals',
+            'maladaptives',
+            'replacements',
             'sustitution_goals',
             'family_envolments',
             'monitoring_evalutatings',
@@ -118,7 +123,15 @@ class BipV2Controller extends Controller
             'crisis_plans',
             'de_escalation_techniques',
             'consent_to_treatments'
-        ])->find($id);
+        ];
+
+        if ($request->has('include')) {
+            $includes = explode(',', $request->include);
+            if (in_array('patient', $includes)) {
+                $includeArray[] = 'patient';
+            }
+        }
+        $bip = Bip::with($includeArray)->find($id);
 
         if (!$bip) {
             return response()->json([
@@ -139,19 +152,26 @@ class BipV2Controller extends Controller
      *     path="/api/v2/bips/{id}",
      *     summary="Update a BIP",
      *     tags={"BIPs"},
-     *     @OA\Parameter(name="id", in="path", required=true, @OA\Schema(type="integer")),
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         description="BIP ID",
+     *         @OA\Schema(type="integer")
+     *     ),
      *     @OA\RequestBody(
      *         required=true,
-     *         @OA\JsonContent(ref="#/components/schemas/Bip")
+     *         @OA\JsonContent(ref="#/components/schemas/BipV2")
      *     ),
-     *     @OA\Response(response=200, description="BIP updated successfully",
+     *     @OA\Response(
+     *         response=200,
+     *         description="BIP updated successfully",
      *         @OA\JsonContent(
      *             @OA\Property(property="status", type="string", example="success"),
      *             @OA\Property(property="message", type="string", example="BIP updated successfully"),
-     *             @OA\Property(property="data", ref="#/components/schemas/Bip")
+     *             @OA\Property(property="data", ref="#/components/schemas/BipV2")
      *         )
-     *     ),
-     *     @OA\Response(response=404, description="BIP not found")
+     *     )
      * )
      */
     public function update(BipRequest $request, $id)

@@ -69,6 +69,7 @@ class ClaimsService
 
             // Add supervising provider information
             $supervisor = $firstNote->supervisor;
+            Log::info($supervisor);
             if ($supervisor) {
                 $claimData['supervising_provider_fname'] = $supervisor->name;
                 $claimData['supervising_provider_lname'] = $supervisor->surname;
@@ -225,13 +226,13 @@ class ClaimsService
             'submitter_email' => $location->email,
             'submitter_tax_id' => $location->taxid,
             'billing_provider_lastname' => $location->title,
-            'billing_provider_npi' => $location->npi ?? '123456789',
+            'billing_provider_npi' => $location->npi ?? '',
             'billing_provider_street' => $location->address,
             'billing_provider_street2' => $location->address2,
             'billing_provider_city' => $location->city,
             'billing_provider_state' => $location->state,
             'billing_provider_zip' => $location->zip,
-            'billing_provider_federal_taxid' => $location->taxid ?? '123456789',
+            'billing_provider_federal_taxid' => $location->taxid ?? '',
             'biller_tax_code' => $location->taxonomy ?? '103K00000X',
             'claim_type' => '1',
             'transcode' => '837P',
@@ -259,7 +260,10 @@ class ClaimsService
                 'dos' => Carbon::parse($notes->first()->session_date)->format('Ymd'),
                 'quantity' => $totalUnits,
                 'total_amount' => number_format($noteTotalAmount, 2, '.', ''),
-                'facility_code' => '11'
+                'facility_code' => '11',
+                'md' => $notes->first()->md,
+                'md2' => $notes->first()->md2,
+                'md3' => $notes->first()->md3
             ];
         }
 
@@ -282,7 +286,10 @@ class ClaimsService
                 'dos' => Carbon::parse($notes->first()->session_date)->format('Ymd'),
                 'quantity' => $totalUnits,
                 'total_amount' => number_format($noteTotalAmount, 2, '.', ''),
-                'facility_code' => '11'
+                'facility_code' => '11',
+                'md' => $notes->first()->md,
+                'md2' => $notes->first()->md2,
+                'md3' => $notes->first()->md3
             ];
         }
 

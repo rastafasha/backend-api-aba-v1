@@ -113,7 +113,6 @@ class NoteRbt extends Note
         'bip_id',
         'summary_note',
         'pa_service_id',
-        'pos',
         'session_length_total',
         'environmental_changes',
         'maladaptives',
@@ -134,6 +133,8 @@ class NoteRbt extends Note
         'supervisor_name',
         'supervisor_id',
         'insuranceId',
+        'pos',
+        'insurance_identifier',
     ];
 
     protected $casts = [

@@ -19,6 +19,7 @@ class UserSeeder extends Seeder
             'email_verified_at' => now(),
             'gender' => 1,
             'location_id' => 1,
+            'npi' => '1234567890',
         ]);
         $oldSuperadmin->assignRole('SUPERADMIN');
 
@@ -31,6 +32,7 @@ class UserSeeder extends Seeder
             'email_verified_at' => now(),
             'gender' => 1,
             'location_id' => 1,
+            'npi' => '1234567890',
         ]);
         $superadmin->assignRole('SUPERADMIN');
 
@@ -45,6 +47,7 @@ class UserSeeder extends Seeder
             'email_verified_at' => now(),
             'electronic_signature' => 'signatures/example.png',
             'location_id' => 1,
+            'npi' => '1234567890',
         ]);
         $manager->assignRole('MANAGER');
 
@@ -88,6 +91,7 @@ class UserSeeder extends Seeder
             'status' => 'active',
             'gender' => 2,
             'phone' => '1234567892',
+            'npi' => '1234567892',
             'certificate_number' => 'RBT12345',
             'electronic_signature' => 'signatures/example.png',
             'location_id' => 1,
@@ -103,6 +107,7 @@ class UserSeeder extends Seeder
             'gender' => 1,
             'phone' => '1234567893',
             'certificate_number' => 'RBT12346',
+            'npi' => '1234567893',
             'electronic_signature' => 'signatures/example.png',
             'location_id' => 1,
         ]);

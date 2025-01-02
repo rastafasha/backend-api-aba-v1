@@ -13,6 +13,10 @@ class InsuranceSeeder extends Seeder
             [
                 'name' => 'Fl Blue',
                 'payer_id' => 'FBM01',
+                'street' => '4800 Deerwood Campus Pkwy',
+                'city' => 'Jacksonville',
+                'state' => 'FL',
+                'zip' => '32246',
                 'services' => [
                     [
                         'code' => '97151',
@@ -75,6 +79,10 @@ class InsuranceSeeder extends Seeder
             [
                 'name' => 'United',
                 'payer_id' => '87726',
+                'street' => '9900 Bren Road East',
+                'city' => 'Minnetonka',
+                'state' => 'MN',
+                'zip' => '55343',
                 'services' => [
                     [
                         'code' => '97153',
@@ -161,6 +169,10 @@ class InsuranceSeeder extends Seeder
             [
                 'name' => 'CIGNA',
                 'payer_id' => '62308',
+                'street' => '900 Cottage Grove Road',
+                'city' => 'Bloomfield',
+                'state' => 'CT',
+                'zip' => '06002',
                 'services' => [
                     [
                         'code' => '97151',
@@ -202,6 +214,10 @@ class InsuranceSeeder extends Seeder
             [
                 'name' => 'TRICARE',
                 'payer_id' => '99726',
+                'street' => '7700 Arlington Boulevard',
+                'city' => 'Falls Church',
+                'state' => 'VA',
+                'zip' => '22042',
                 'services' => [
                     [
                         'code' => '97151',
@@ -287,6 +303,10 @@ class InsuranceSeeder extends Seeder
             [
                 'name' => 'AETNA',
                 'payer_id' => '60054',
+                'street' => '151 Farmington Avenue',
+                'city' => 'Hartford',
+                'state' => 'CT',
+                'zip' => '06156',
                 'services' => [
                     [
                         'code' => '97151',
@@ -377,6 +397,10 @@ class InsuranceSeeder extends Seeder
             [
                 'name' => 'Medicaid',
                 'payer_id' => '77027',
+                'street' => '2727 Mahan Drive',
+                'city' => 'Tallahassee',
+                'state' => 'FL',
+                'zip' => '32308',
                 'services' => [
                     [
                         'code' => '97153',
