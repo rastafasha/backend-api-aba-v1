@@ -133,6 +133,8 @@ class NoteRbt extends Note
         'supervisor_name',
         'supervisor_id',
         'insuranceId',
+        'pos',
+        'insurance_identifier',
     ];
 
     protected $casts = [

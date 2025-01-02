@@ -19,6 +19,7 @@ class NoteRbtRequest extends FormRequest
         return [
             'insurance_id' => 'nullable|exists:insurances,id',
             'patient_id' => 'required|exists:patients,id',
+            'patient_identifier' => 'nullable|string',
             'doctor_id' => 'nullable|exists:users,id',
             'pa_service_id' => 'required|exists:pa_services,id',
             'bip_id' => 'nullable|exists:bips,id',
