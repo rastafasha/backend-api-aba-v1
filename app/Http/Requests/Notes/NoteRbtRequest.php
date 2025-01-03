@@ -25,6 +25,7 @@ class NoteRbtRequest extends FormRequest
             'bip_id' => 'nullable|exists:bips,id',
             'pos' => 'nullable|string',
             'session_date' => 'required|date|before:tomorrow',
+            'participants' => 'nullable|string',
             'time_in' => 'nullable|date_format:H:i,H:i:s',
             'time_out' => 'nullable|date_format:H:i,H:i:s|after:time_in',
             'time_in2' => 'nullable|date_format:H:i,H:i:s',

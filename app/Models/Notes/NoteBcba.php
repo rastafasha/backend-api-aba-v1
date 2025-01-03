@@ -10,6 +10,8 @@ namespace App\Models\Notes;
  *     @OA\Property(property="patient_id", type="string", nullable=true),
  *     @OA\Property(property="doctor_id", type="integer", nullable=true),
  *     @OA\Property(property="bip_id", type="integer", nullable=true),
+ *     @OA\Property(property="participants", type="string", nullable=true),
+ *     @OA\Property(property="pos", type="string", nullable=true),
  *     @OA\Property(property="insurance_identifier", type="string", nullable=true),
  *     @OA\Property(property="diagnosis_code", type="string", maxLength=50, nullable=true),
  *     @OA\Property(property="meet_with_client_at", type="string", nullable=true),
@@ -64,6 +66,7 @@ class NoteBcba extends Note
         'bip_id',
         'summary_note',
         'pa_service_id',
+        'participants',
         'summary_note',
         'diagnosis_code',
         'supervisor_id',
@@ -77,6 +80,8 @@ class NoteBcba extends Note
         'session_length_total',
         'session_length_total2',
         'insuranceId',
+        'pos',
+        'insurance_identifier',
     ];
 
     protected $casts = [

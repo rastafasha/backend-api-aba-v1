@@ -24,6 +24,8 @@ class NoteBcbaRequest extends FormRequest
             'diagnosis_code' => 'nullable|string|max:50',
             'meet_with_client_at' => 'nullable|string',
             'session_date' => 'required|date|before:tomorrow',
+            'participants' => 'nullable|string',
+            'pos' => 'nullable|string',
             'time_in' => 'nullable|date_format:H:i,H:i:s',
             'time_out' => 'nullable|date_format:H:i,H:i:s|after:time_in',
             'time_in2' => 'nullable|date_format:H:i,H:i:s',
