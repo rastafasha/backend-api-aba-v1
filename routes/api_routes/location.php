@@ -5,12 +5,12 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\LocationController;
 use App\Http\Controllers\Admin\LocationV2Controller;
 
-Route::get('location', [LocationController::class, 'index'])->name('index');
-Route::get('location/config', [LocationController::class, 'config'])->name('config');
-Route::post('location/store', [LocationController::class, 'store'])->name('store');
-Route::get('location/show/{id}', [LocationController::class, 'show'])->name('show');
-Route::post('location/update/{id}', [LocationController::class, 'update'])->name('update');
-Route::delete('location/destroy/{id}', [LocationController::class, 'destroy'])->name('destroy');
+Route::get('location', [LocationController::class, 'index'])->name('locations.index');
+Route::get('location/config', [LocationController::class, 'config'])->name('locations.config');
+Route::post('location/store', [LocationController::class, 'store'])->name('locations.store');
+Route::get('location/show/{id}', [LocationController::class, 'show'])->name('locations.show');
+Route::post('location/update/{id}', [LocationController::class, 'update'])->name('locations.update');
+Route::delete('location/destroy/{id}', [LocationController::class, 'destroy'])->name('locations.destroy');
 
 Route::prefix('v2/locations')->group(function () {
     Route::get('/', [LocationV2Controller::class, 'index']);
