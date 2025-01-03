@@ -125,11 +125,11 @@ Route::group(['middleware' => 'api'], function ($router) {
     // PDF
     require __DIR__ . '/api_routes/pdf.php';
 
-    Route::apiResource('maladaptives', MaladaptiveV2Controller::class);
-    Route::apiResource('replacements', ReplacementV2Controller::class);
+    //Objectives
+    require __DIR__ . '/api_routes/objectives.php';
+
 
     //comandos desde la url del backend
-
     Route::get('/cache', function () {
         Artisan::call('cache:clear');
         return "Cache";
@@ -162,9 +162,4 @@ Route::group(['middleware' => 'api'], function ($router) {
 
     // Route::get('/categories', [CategoryController::class, 'index'])
     //     ->name('category.index');
-});
-
-Route::prefix('v2')->group(function () {
-    Route::apiResource('maladaptives', MaladaptiveV2Controller::class);
-    Route::apiResource('replacements', ReplacementV2Controller::class);
 });

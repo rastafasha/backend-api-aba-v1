@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\InsuranceController;
 use App\Http\Controllers\Admin\InsuranceV2Controller;
 
-Route::resource('insurance', InsuranceController::class);
+Route::resource('insurance', InsuranceController::class)->names('insurance.resource');
 
 Route::post('/insurance/store', [InsuranceController::class, 'store'])
     ->name('insurance.store');
