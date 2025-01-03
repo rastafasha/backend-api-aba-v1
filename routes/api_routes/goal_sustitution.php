@@ -11,7 +11,8 @@ Route::post('sustitutiongoal/store', [SustitutionGoalController::class, 'store']
 Route::get('sustitutiongoal/show/{id}', [SustitutionGoalController::class, 'show'])->name('sustitutiongoal.show');
 
 
-Route::get('sustitutiongoal/show/goalsmaladaptives/{maladaptive}', [SustitutionGoalController::class, 'sustitutiongoal.showGoalsbyMaladaptive'])->name('sustitutiongoal.showGoalsbyMaladaptive2');
+Route::get('sustitutiongoal/show/goalsmaladaptives/{maladaptive}', [SustitutionGoalController::class, 'showGoalsbyMaladaptive'])
+    ->name('sustitutiongoal.showGoalsbyMaladaptive2');
 
 Route::get('sustitutiongoal/showbyGoal/{goal}', [SustitutionGoalController::class, 'showGoalsbyMaladaptive'])->name('sustitutiongoal.showGoalsbyMaladaptive3');
 Route::get('sustitutiongoal/showBipId/{bip_id}', [SustitutionGoalController::class, 'showGoalsbBipId'])->name('sustitutiongoal.showGoalsbBipId');
