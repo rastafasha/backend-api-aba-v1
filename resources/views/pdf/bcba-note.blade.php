@@ -136,7 +136,8 @@
     <table>
         <tr>
             <td colspan="2">
-                <strong>Participants:</strong><br><br>
+                <strong>Participants:</strong><br>
+                {{ $note->participants }}
             </td>
             {{-- <td>
                 <strong>Environmental Changes:</strong><br>
