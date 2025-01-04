@@ -100,6 +100,19 @@ class EdiX12837Service
             $file_data .= $this->createDMG($row) . PHP_EOL;
             ++$loopcounter;
 
+            // Add patient information when subscriber is not the patient
+            if (!$row['is_self_subscriber']) {
+                // Patient Hierarchical Level - 2000C
+                $file_data .= $this->createHL($row, 3) . PHP_EOL;  // Level 3 for patient
+                ++$loopcounter;
+
+                // Patient Information - 2010CA
+                $file_data .= $this->createPAT($row) . PHP_EOL;  // Add relationship info
+                ++$loopcounter;
+                $file_data .= $this->createNM1($row, 'QC') . PHP_EOL;  // Add patient name
+                ++$loopcounter;
+            }
+
             // Payer Name - 2010BB
             $file_data .= $this->createNM1($row, 'PR') . PHP_EOL;
             ++$loopcounter;
@@ -271,7 +284,17 @@ class EdiX12837Service
         $NM1 = array();
         $NM1[0] = "NM1";
 
-        if ($nm1Cast == 'RC') {
+        if ($nm1Cast == 'QC') {  // Patient name
+            $NM1[1] = "QC";
+            $NM1[2] = "1";
+            $NM1[3] = $row["patient_lname"];
+            $NM1[4] = $row["patient_fname"];
+            $NM1[5] = $row["patient_mname"];
+            $NM1[6] = "";
+            $NM1[7] = "";
+            $NM1[8] = "";
+            $NM1[9] = "";
+        } elseif ($nm1Cast == 'RC') {
             $NM1[1] = "40";
             $NM1[2] = "2";
             $NM1[3] = $row["payer_name"];
@@ -411,6 +434,11 @@ class EdiX12837Service
             $HL[2] = "1";
             $HL[3] = "22";
             $HL[4] = "1";
+        } elseif ($nHlCounter == 3) {
+            $HL[1] = "3";
+            $HL[2] = "2";
+            $HL[3] = "23";
+            $HL[4] = "0";
         }
 
         $HL['Created'] = implode('*', $HL);
@@ -576,8 +604,8 @@ class EdiX12837Service
         $DMG = array();
         $DMG[0] = "DMG";
         $DMG[1] = "D8";
-        $DMG[2] = $row['subscriber_dob'];
-        $DMG[3] = $row['subscriber_gender'];
+        $DMG[2] = $row['patient_dob'];
+        $DMG[3] = $row['patient_gender'];
 
         $DMG['Created'] = implode('*', $DMG);
         $DMG['Created'] = $DMG['Created'] . $this->segTer;
@@ -778,5 +806,17 @@ class EdiX12837Service
             default:
                 return "G8";
         }
+    }
+
+    private function createPAT($row)
+    {
+        $PAT = array();
+        $PAT[0] = "PAT";
+        $PAT[1] = $this->translateRelationship($row['subscriber_relationship']);
+
+        $PAT['Created'] = implode('*', $PAT);
+        $PAT['Created'] = $PAT['Created'] . $this->segTer;
+
+        return trim($PAT['Created']);
     }
 }

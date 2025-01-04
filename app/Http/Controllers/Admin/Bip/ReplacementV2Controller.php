@@ -4,10 +4,7 @@ namespace App\Http\Controllers\Admin\Bip;
 
 use App\Http\Controllers\Controller;
 use App\Models\Bip\Replacement;
-use App\Models\Bip\LongTermObjective;
-use App\Models\Bip\ShortTermObjective;
 use Illuminate\Http\Request;
-use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 
 class ReplacementV2Controller extends Controller

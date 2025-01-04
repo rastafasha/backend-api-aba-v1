@@ -19,8 +19,8 @@ class LocationSeeder extends Seeder
                 'phone1' => '305-555-0123',
                 'phone2' => '305-555-0124',
                 'telfax' => '305-555-0125',
-                'npi' => '1234567890',
-                'taxid' => '1234567890',
+                'npi' => '1487654321',
+                'taxid' => '1998765432',
             ],
             [
                 'title' => 'Branch Office',
@@ -32,8 +32,8 @@ class LocationSeeder extends Seeder
                 'phone1' => '407-555-0123',
                 'phone2' => '407-555-0124',
                 'telfax' => '407-555-0125',
-                'npi' => '1234567890',
-                'taxid' => '1234567890',
+                'npi' => '1487654321',
+                'taxid' => '1998765432',
             ],
             [
                 'title' => 'South Miami Center',
@@ -45,8 +45,8 @@ class LocationSeeder extends Seeder
                 'phone1' => '305-555-0126',
                 'phone2' => '305-555-0127',
                 'telfax' => '305-555-0128',
-                'npi' => '1234567890',
-                'taxid' => '1234567890',
+                'npi' => '1487654321',
+                'taxid' => '1998765432',
             ],
         ];
 
