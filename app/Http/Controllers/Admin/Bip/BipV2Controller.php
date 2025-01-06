@@ -34,8 +34,8 @@ class BipV2Controller extends Controller
             $query->where('patient_identifier', $request->patient_identifier);
         }
 
-        if ($request->has('patient_id')) {
-            $query->where('patient_id', $request->patient_id);
+        if ($request->has('client_id')) {
+            $query->where('client_id', $request->client_id);
         }
 
         if ($request->has('doctor_id')) {
