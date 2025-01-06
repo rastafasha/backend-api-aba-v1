@@ -2292,6 +2292,12 @@
                                         "type": "string",
                                         "format": "date"
                                     },
+                                    "participants": {
+                                        "type": "string"
+                                    },
+                                    "pos": {
+                                        "type": "string"
+                                    },
                                     "time_in": {
                                         "type": "string",
                                         "format": "H:i:s"
@@ -2469,10 +2475,6 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "required": [
-                                    "session_date",
-                                    "patient_id"
-                                ],
                                 "properties": {
                                     "session_date": {
                                         "type": "string",
@@ -2484,13 +2486,92 @@
                                     "bip_id": {
                                         "type": "integer"
                                     },
-                                    "location_id": {
-                                        "type": "integer"
+                                    "diagnosis_code": {
+                                        "type": "string",
+                                        "maxLength": 50
+                                    },
+                                    "location": {
+                                        "type": "string",
+                                        "maxLength": 50
                                     },
                                     "summary_note": {
                                         "type": "string"
                                     },
+                                    "note_description": {
+                                        "type": "string"
+                                    },
+                                    "participants": {
+                                        "type": "string"
+                                    },
+                                    "pos": {
+                                        "type": "string"
+                                    },
+                                    "time_in": {
+                                        "type": "string",
+                                        "format": "H:i:s"
+                                    },
+                                    "time_out": {
+                                        "type": "string",
+                                        "format": "H:i:s"
+                                    },
+                                    "time_in2": {
+                                        "type": "string",
+                                        "format": "H:i:s"
+                                    },
+                                    "time_out2": {
+                                        "type": "string",
+                                        "format": "H:i:s"
+                                    },
+                                    "session_length_total": {
+                                        "type": "number",
+                                        "format": "double"
+                                    },
+                                    "supervisor_id": {
+                                        "type": "integer"
+                                    },
+                                    "caregiver_goals": {
+                                        "type": "object"
+                                    },
+                                    "rbt_training_goals": {
+                                        "type": "object"
+                                    },
+                                    "provider_signature": {
+                                        "type": "string"
+                                    },
+                                    "provider_id": {
+                                        "type": "integer"
+                                    },
+                                    "supervisor_signature": {
+                                        "type": "string"
+                                    },
+                                    "meet_with_client_at": {
+                                        "type": "string"
+                                    },
+                                    "billed": {
+                                        "type": "boolean"
+                                    },
+                                    "paid": {
+                                        "type": "boolean"
+                                    },
+                                    "cpt_code": {
+                                        "type": "string"
+                                    },
                                     "status": {
+                                        "type": "string",
+                                        "enum": [
+                                            "pending",
+                                            "ok",
+                                            "no",
+                                            "review"
+                                        ]
+                                    },
+                                    "location_id": {
+                                        "type": "integer"
+                                    },
+                                    "pa_service_id": {
+                                        "type": "integer"
+                                    },
+                                    "insuranceId": {
                                         "type": "string"
                                     }
                                 },
@@ -2581,6 +2662,12 @@
                                         "type": "string"
                                     },
                                     "note_description": {
+                                        "type": "string"
+                                    },
+                                    "participants": {
+                                        "type": "string"
+                                    },
+                                    "pos": {
                                         "type": "string"
                                     },
                                     "time_in": {
@@ -2887,6 +2974,9 @@
                                     "pos": {
                                         "type": "string"
                                     },
+                                    "participants": {
+                                        "type": "string"
+                                    },
                                     "time_in": {
                                         "type": "string",
                                         "format": "time",
@@ -3158,6 +3248,9 @@
                                     "pos": {
                                         "type": "string"
                                     },
+                                    "participants": {
+                                        "type": "string"
+                                    },
                                     "time_in": {
                                         "type": "string",
                                         "format": "time",
@@ -3395,6 +3488,9 @@
                                         "type": "integer"
                                     },
                                     "pos": {
+                                        "type": "string"
+                                    },
+                                    "participants": {
                                         "type": "string"
                                     },
                                     "time_in": {
@@ -4800,6 +4896,10 @@
                                         "type": "string",
                                         "format": "date"
                                     },
+                                    "participants": {
+                                        "description": "Participants",
+                                        "type": "string"
+                                    },
                                     "startTime": {
                                         "description": "Session start time (HH:MM format)",
                                         "type": "string"
@@ -4826,6 +4926,10 @@
                                     },
                                     "cpt": {
                                         "description": "CPT code",
+                                        "type": "string"
+                                    },
+                                    "clientResponseToTreatmentThisSession": {
+                                        "description": "Patient's response to treatment this session",
                                         "type": "string"
                                     },
                                     "maladaptives": {
@@ -4934,6 +5038,10 @@
                                         "description": "Patient's birth date",
                                         "type": "string",
                                         "format": "date"
+                                    },
+                                    "participants": {
+                                        "description": "Participants",
+                                        "type": "string"
                                     },
                                     "startTime": {
                                         "description": "Session start time (HH:MM format)",
@@ -6818,6 +6926,14 @@
                         "type": "integer",
                         "nullable": true
                     },
+                    "participants": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "pos": {
+                        "type": "string",
+                        "nullable": true
+                    },
                     "insurance_identifier": {
                         "type": "string",
                         "nullable": true
@@ -7031,6 +7147,10 @@
                         "example": 3
                     },
                     "meet_with_client_at": {
+                        "type": "string",
+                        "example": "Home"
+                    },
+                    "participants": {
                         "type": "string",
                         "example": "Home"
                     },
