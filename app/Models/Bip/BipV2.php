@@ -128,6 +128,11 @@ class BipV2 extends Model
         return $this->hasOne(Patient::class, 'patient_identifier', 'patient_identifier');
     }
 
+    public function client()
+    {
+        return $this->belongsTo(Patient::class, 'client_id');
+    }
+
     public function doctor()
     {
         return $this->belongsTo(User::class, "doctor_id")->select('id', 'name', 'surname', 'npi');
