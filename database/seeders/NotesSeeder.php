@@ -74,6 +74,7 @@ class NotesSeeder extends Seeder
                 'time_out' => '11:00:00',
                 'session_length_total' => 2.0,
                 'environmental_changes' => 'None noted',
+                'participants' => 'The patient, the mother and the RBT',
                 'maladaptives' => [
                     [
                         'index' => 1,
@@ -146,6 +147,7 @@ class NotesSeeder extends Seeder
                 'time_out' => '16:00:00',
                 'session_length_total' => 2.0,
                 'environmental_changes' => 'Minimal distractions',
+                'participants' => 'The patient, the mother and the RBT',
                 'maladaptives' => [
                     [
                         'index' => 1,
@@ -221,6 +223,7 @@ class NotesSeeder extends Seeder
                 'time_out' => '12:00:00',
                 'session_length_total' => 2.0,
                 'environmental_changes' => 'Structured environment',
+                'participants' => 'The patient, the mother and the RBT',
                 'maladaptives' => [
                     [
                         'index' => 1,
@@ -292,6 +295,7 @@ class NotesSeeder extends Seeder
                 'time_out' => '15:00:00',
                 'session_length_total' => 2.0,
                 'environmental_changes' => 'Quiet study area',
+                'participants' => 'The patient, the mother and the RBT',
                 'maladaptives' => [
                     [
 
@@ -360,6 +364,7 @@ class NotesSeeder extends Seeder
                 'time_in' => '13:00:00',
                 'time_out' => '14:00:00',
                 'session_length_total' => 1.0,
+                'participants' => 'The patient, the mother and the BCBA',
                 'summary_note' => 'Patient showing consistent progress in communication skills. RBT implementation of behavior protocols is effective.',
                 'note_description' => 'Patient showing consistent progress in communication skills. RBT implementation of behavior protocols is effective.',
                 'caregiver_goals' => [
@@ -407,6 +412,7 @@ class NotesSeeder extends Seeder
                 'time_in' => '15:00:00',
                 'time_out' => '16:00:00',
                 'session_length_total' => 1.0,
+                'participants' => 'The patient, the mother and the BCBA',
                 'summary_note' => 'Client demonstrates improved task engagement. Token economy system is proving effective.',
                 'note_description' => 'Patient demonstrated improved task engagement. Token economy system is proving effective.',
                 'caregiver_goals' => [
