@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Log;
 const SYSTEM_PROMPT =
 "You are an experienced expert in Applied Behavior Analysis (ABA), specializing in treating children with various developmental disorders.
 Your responses should be concise, professional and directly relevant to the request.
-Always format your response as a single paragraph between 3 and 6 lines long.
+Always format your response as a single paragraph between 4 and 7 lines long.
 Provide only the summary text without any additional explanations or information.
 Your tasks will always be to create a brief summary for a note as a RBT.
 Include all the relevant data in the summary, specially the maladaptives, replacements and interventions, in a brief way,
@@ -59,6 +59,7 @@ class OpenAIController extends Controller
      *             required={"diagnosis", "maladaptives", "replacements", "interventions"},
      *             @OA\Property(property="diagnosis", type="string", description="Patient's diagnosis"),
      *             @OA\Property(property="birthDate", type="string", format="date", description="Patient's birth date"),
+     *             @OA\Property(property="participants", type="string", description="Participants"),
      *             @OA\Property(property="startTime", type="string", description="Session start time (HH:MM format)"),
      *             @OA\Property(property="endTime", type="string", description="Session end time (HH:MM format)"),
      *             @OA\Property(property="startTime2", type="string", description="Second session start time (HH:MM format)"),
@@ -66,6 +67,7 @@ class OpenAIController extends Controller
      *             @OA\Property(property="mood", type="string", description="Patient's mood during session"),
      *             @OA\Property(property="pos", type="string", description="Place of service"),
      *             @OA\Property(property="cpt", type="string", description="CPT code"),
+     *             @OA\Property(property="clientResponseToTreatmentThisSession", type="string", description="Patient's response to treatment this session"),
      *             @OA\Property(property="maladaptives", type="array",
      *                 @OA\Items(
      *                     @OA\Property(property="behavior", type="string"),
@@ -109,8 +111,10 @@ class OpenAIController extends Controller
             'endTime2' => ['sometimes', 'nullable', new TimeFormat()],
             'mood' => 'string',
             'pos' => 'string',
+            'participants' => 'sometimes|string',
             'cpt' => 'string',
             "progressNotedThisSessionComparedToPreviousSession" => 'string',
+            'clientResponseToTreatmentThisSession' => 'string',
             'maladaptives' => 'required|array',
             'maladaptives.*.behavior' => 'required|string',
             'maladaptives.*.frequency' => 'required|integer',
@@ -192,6 +196,10 @@ class OpenAIController extends Controller
             $prompt .= "Child's mood: {$request->mood}\n";
         }
 
+        if ($request->clientResponseToTreatmentThisSession) {
+            $prompt .= "Child's response to treatment this session: {$request->clientResponseToTreatmentThisSession}\n";
+        }
+
         if ($request->progressNotedThisSessionComparedToPreviousSession) {
             $prompt .= "Progress noted this session compared to previous session: {$request->progressNotedThisSessionComparedToPreviousSession}\n";
         }
@@ -216,6 +224,7 @@ class OpenAIController extends Controller
      *             required={"diagnosis", "caregiverGoals", "rbtTrainingGoals", "noteDescription"},
      *             @OA\Property(property="diagnosis", type="string", description="Patient's diagnosis"),
      *             @OA\Property(property="birthDate", type="string", format="date", description="Patient's birth date"),
+     *             @OA\Property(property="participants", type="string", description="Participants"),
      *             @OA\Property(property="startTime", type="string", description="Session start time (HH:MM format)"),
      *             @OA\Property(property="endTime", type="string", description="Session end time (HH:MM format)"),
      *             @OA\Property(property="startTime2", type="string", description="Second session start time (HH:MM format)"),
@@ -263,6 +272,7 @@ class OpenAIController extends Controller
             'startTime2' => ['sometimes', 'nullable', new TimeFormat()],
             'endTime2' => ['sometimes', 'nullable', new TimeFormat()],
             'pos' => 'string',
+            'participants' => 'sometimes|string',
             'cpt' => 'string',
             'caregiverGoals' => 'sometimes|array',
             'caregiverGoals.*.goal' => 'required|string',
@@ -330,6 +340,9 @@ class OpenAIController extends Controller
         }
         if ($request->pos) {
             $prompt .= "Place of Service: {$request->pos}\n";
+        }
+        if ($request->participants) {
+            $prompt .= "Participants: {$request->participants}\n";
         }
         if ($request->startTime && $request->endTime) {
             $prompt .= "Morning session: {$request->startTime} to {$request->endTime}\n";

@@ -69,6 +69,7 @@ class ClaimsService
 
             // Add supervising provider information
             $supervisor = $firstNote->supervisor;
+            Log::info($supervisor);
             if ($supervisor) {
                 $claimData['supervising_provider_fname'] = $supervisor->name;
                 $claimData['supervising_provider_lname'] = $supervisor->surname;
@@ -160,6 +161,17 @@ class ClaimsService
 
     private function getPatientData(Patient $patient)
     {
+        // Always include patient's actual name regardless of subscriber status
+        $patientData = [
+            "patient_id" => $patient->patient_identifier,
+            "patient_fname" => $patient->first_name,
+            "patient_lname" => $patient->last_name,
+            "patient_mname" => '',  // Add middle name if available in your Patient model
+            "patient_gender" => $patient->gender === 1 ? 'M' : 'F',
+            "patient_dob" => $patient->birth_date ? Carbon::parse($patient->birth_date)->format('Ymd') : '',
+            "is_self_subscriber" => $patient->is_self_subscriber,
+        ];
+
         // Determine subscriber info based on is_self_subscriber flag
         $subscriberFirstName = $patient->is_self_subscriber ? $patient->first_name : $patient->parent_guardian_name;
         $subscriberLastName = $patient->is_self_subscriber ? $patient->last_name : explode(' ', $patient->parent_guardian_name)[0];
@@ -170,12 +182,11 @@ class ClaimsService
         $subscriberGender = $patient->is_self_subscriber ? $patient->gender : $patient->parent_gender;
         $subscriberDob = $patient->is_self_subscriber ? $patient->birth_date : $patient->parent_birth_date;
 
-        return [
-            "patient_id" => $patient->patient_identifier,
+        $subscriberData = [
             "subscriber_fname" => $subscriberFirstName,
             "subscriber_mname" => '',
-            'subscriber_policy_number' => '123456789', // TODO: Get from insurance
             "subscriber_lname" => $subscriberLastName,
+            'subscriber_policy_number' => '123456789', // TODO: Get from insurance
             "subscriber_relationship" => $patient->is_self_subscriber ? 'self' : $patient->relationship,
             "subscriber_gender" => $subscriberGender === 1 ? 'M' : 'F',
             "subscriber_address" => $subscriberAddress,
@@ -184,27 +195,33 @@ class ClaimsService
             "subscriber_city" => $subscriberCity ?? '',
             "subscriber_state" => $subscriberState,
             "subscriber_zip" => $subscriberZip,
+        ];
+
+        // Rest of the existing data
+        $additionalData = [
             'primary_problem_type_code' => 'ICD10',
             'primary_problem_code' => $patient->diagnosis_code,
-            'patient_encounter_date' => '',  // First session date
-            'patient_first_encounter_date' => '',  // Initial evaluation date
-            'patient_last_visit_date' => '',  // Last session date
+            'patient_encounter_date' => '',
+            'patient_first_encounter_date' => '',
+            'patient_last_visit_date' => '',
             'patient_admission_date' => '',
             'patient_discharge_date' => '',
-            'patient_paid_amt' => '',  // Total paid amount
-            'prior_auth_code' => '',  // ABA therapy typically requires prior authorization
+            'patient_paid_amt' => '',
+            'prior_auth_code' => '',
             'original_claim_number' => '',
             'insurance_type_code' => 'CI',
             'claim_type' => '1',
-            'claim_notes' => '',  // Notes
+            'claim_notes' => '',
             'other_diag_list' => [],
             'procedure_codes' => [],
-            'ref_physician_lname' => $patient->referring_provider_last_name,  // Referring physician
+            'ref_physician_lname' => $patient->referring_provider_last_name,
             'ref_physician_fname' => $patient->referring_provider_first_name,
             'ref_physician_mname' => '',
             'ref_physician_npi' => $patient->referring_provider_npi,
             'referral_number' => '',
         ];
+
+        return array_merge($patientData, $subscriberData, $additionalData);
     }
 
     private function getClaimData(Patient $patient, Collection $notesRbt, Collection $notesBcba, array $services)
@@ -225,13 +242,13 @@ class ClaimsService
             'submitter_email' => $location->email,
             'submitter_tax_id' => $location->taxid,
             'billing_provider_lastname' => $location->title,
-            'billing_provider_npi' => $location->npi ?? '123456789',
+            'billing_provider_npi' => $location->npi ?? '',
             'billing_provider_street' => $location->address,
             'billing_provider_street2' => $location->address2,
             'billing_provider_city' => $location->city,
             'billing_provider_state' => $location->state,
             'billing_provider_zip' => $location->zip,
-            'billing_provider_federal_taxid' => $location->taxid ?? '123456789',
+            'billing_provider_federal_taxid' => $location->taxid ?? '',
             'biller_tax_code' => $location->taxonomy ?? '103K00000X',
             'claim_type' => '1',
             'transcode' => '837P',
@@ -241,7 +258,13 @@ class ClaimsService
         $totalAmount = 0;
 
         // Group RBT notes by CPT code
-        $rbtNotesByCpt = $notesRbt->groupBy('cpt_code');
+        $rbtNotesByCpt = $notesRbt->filter(function ($note) {
+            if (empty($note->cpt_code)) {
+                Log::warning("Note ID {$note->id} has no CPT code. Skipping from EDI generation.");
+                return false;
+            }
+            return true;
+        })->groupBy('cpt_code');
         foreach ($rbtNotesByCpt as $cptCode => $notes) {
             $service = collect($services)->firstWhere('code', $cptCode);
             if (!$service) {
@@ -259,12 +282,21 @@ class ClaimsService
                 'dos' => Carbon::parse($notes->first()->session_date)->format('Ymd'),
                 'quantity' => $totalUnits,
                 'total_amount' => number_format($noteTotalAmount, 2, '.', ''),
-                'facility_code' => '11'
+                'facility_code' => $notes->first()->pos ?? '11',
+                'md' => $notes->first()->md,
+                'md2' => $notes->first()->md2,
+                'md3' => $notes->first()->md3
             ];
         }
 
         // Group BCBA notes by CPT code
-        $bcbaNotesByCpt = $notesBcba->groupBy('cpt_code');
+        $bcbaNotesByCpt = $notesBcba->filter(function ($note) {
+            if (empty($note->cpt_code)) {
+                Log::warning("Note ID {$note->id} has no CPT code. Skipping from EDI generation.");
+                return false;
+            }
+            return true;
+        })->groupBy('cpt_code');
         foreach ($bcbaNotesByCpt as $cptCode => $notes) {
             $service = collect($services)->firstWhere('code', $cptCode);
             if (!$service) {
@@ -282,7 +314,10 @@ class ClaimsService
                 'dos' => Carbon::parse($notes->first()->session_date)->format('Ymd'),
                 'quantity' => $totalUnits,
                 'total_amount' => number_format($noteTotalAmount, 2, '.', ''),
-                'facility_code' => '11'
+                'facility_code' => $notes->first()->pos ?? '11',
+                'md' => $notes->first()->md,
+                'md2' => $notes->first()->md2,
+                'md3' => $notes->first()->md3
             ];
         }
 

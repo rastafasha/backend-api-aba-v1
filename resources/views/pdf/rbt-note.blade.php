@@ -152,7 +152,8 @@
     <table>
         <tr>
             <td>
-                <strong>Participants:</strong><br><br>
+                <strong>Participants:</strong><br>
+                {{ $note->participants }}
             </td>
             <td>
                 <strong>Environmental Changes:</strong><br>
@@ -162,7 +163,7 @@
         <tr>
             <td colspan="2">
                 <strong>Session Summary:</strong><br>
-                {{ $note->client_response_to_treatment_this_session }}
+                {{ $note->summary_note }}
             </td>
         </tr>
     </table>

@@ -19,6 +19,8 @@ class CreateNoteBcbasTable extends Migration
             $table->string('diagnosis_code', 50)->nullable();
             $table->string('cpt_code')->nullable();
             $table->string('meet_with_client_at')->nullable();
+            $table->string('pos')->nullable();
+            $table->string('participants')->nullable();
             $table->timestamp('session_date')->nullable();
             $table->time('time_in')->nullable();
             $table->time('time_out')->nullable();

@@ -34,9 +34,11 @@ class PatientSeeder extends Seeder
                 'location_id' => 1,
                 'insurer_id' => 1,
                 'insurance_identifier' => '123456789',
-                'rbt_home_id' => 5, // RBT1
-                'bcba_home_id' => 3, // BCBA1
-                'clin_director_id' => 1, // Clin Director
+                'insurer_secondary_id' => 2,
+                'insurance_secondary_identifier' => '987654321',
+                'rbt_home_id' => 5,
+                'bcba_home_id' => 3,
+                'clin_director_id' => 1,
                 'diagnosis_code' => 'F84.0',
                 'education' => '2nd Grade',
                 'school_name' => 'School of the Future',
@@ -56,7 +58,19 @@ class PatientSeeder extends Seeder
                 'interview' => 'receive',
                 'referring_provider_first_name' => 'Jeremy',
                 'referring_provider_last_name' => 'Smith',
-                'referring_provider_npi' => '1234567890',
+                'referring_provider_npi' => '1234567893',
+                'is_self_subscriber' => false,
+                'emmployment' => false,
+                'auto_accident' => false,
+                'other_accident' => false,
+                'deductible_individual_I_F' => '1000.00',
+                'balance' => '500.00',
+                'coinsurance' => '20',
+                'copayments' => '30.00',
+                'oop' => '2000.00',
+                'elegibility_date' => '2024-01-01',
+                'telehealth' => false,
+                'pay' => false
             ],
             [
                 'first_name' => 'Jane',
@@ -83,9 +97,11 @@ class PatientSeeder extends Seeder
                 'location_id' => 2,
                 'insurer_id' => 2,
                 'insurance_identifier' => '987654321',
-                'rbt_home_id' => 6, // RBT2
-                'bcba_home_id' => 4, // BCBA2
-                'clin_director_id' => 1, // Clin Director
+                'insurer_secondary_id' => 3,
+                'insurance_secondary_identifier' => '123456789',
+                'rbt_home_id' => 6,
+                'bcba_home_id' => 4,
+                'clin_director_id' => 1,
                 'diagnosis_code' => 'F84.0',
                 'education' => '3rd Grade',
                 'school_name' => 'School of the Future',
@@ -105,8 +121,20 @@ class PatientSeeder extends Seeder
                 'interview' => 'pending',
                 'referring_provider_first_name' => 'Jeremy',
                 'referring_provider_last_name' => 'Smith',
-                'referring_provider_npi' => '1234567890',
-            ],
+                'referring_provider_npi' => '1234567893',
+                'is_self_subscriber' => false,
+                'emmployment' => false,
+                'auto_accident' => false,
+                'other_accident' => false,
+                'deductible_individual_I_F' => '2000.00',
+                'balance' => '1000.00',
+                'coinsurance' => '20',
+                'copayments' => '40.00',
+                'oop' => '3000.00',
+                'elegibility_date' => '2024-01-01',
+                'telehealth' => false,
+                'pay' => false
+            ]
         ];
 
         foreach ($patients as $patient) {

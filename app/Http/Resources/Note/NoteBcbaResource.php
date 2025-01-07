@@ -91,6 +91,8 @@ class NoteBcbaResource extends JsonResource
             "location_id" => $this->resource->location_id,
 
             "session_date" => $this->resource->session_date ? Carbon::parse($this->resource->session_date)->format("Y-m-d") : null,
+            "participants" => $this->resource->participants,
+            "pos" => $this->resource->pos,
             "time_in" => $this->resource->time_in ? Carbon::parse($this->resource->time_in)->format(" H:i:s") : null,
             "time_out" => $this->resource->time_out ? Carbon::parse($this->resource->time_out)->format(" H:i:s") : null,
             "time_in2" => $this->resource->time_in2 ? Carbon::parse($this->resource->time_in2)->format(" H:i:s") : null,

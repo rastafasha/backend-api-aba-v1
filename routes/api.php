@@ -8,6 +8,8 @@ use App\Http\Controllers\Admin\Doctor\DoctorController;
 use App\Http\Controllers\Auth\ChangePasswordController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\ChangeForgotPasswordControllerController;
+use App\Http\Controllers\Admin\Bip\MaladaptiveV2Controller;
+use App\Http\Controllers\Admin\Bip\ReplacementV2Controller;
 
 /*
 |--------------------------------------------------------------------------
@@ -123,9 +125,11 @@ Route::group(['middleware' => 'api'], function ($router) {
     // PDF
     require __DIR__ . '/api_routes/pdf.php';
 
+    //Objectives
+    require __DIR__ . '/api_routes/objectives.php';
+
 
     //comandos desde la url del backend
-
     Route::get('/cache', function () {
         Artisan::call('cache:clear');
         return "Cache";

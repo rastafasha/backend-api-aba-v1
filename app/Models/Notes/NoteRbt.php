@@ -39,6 +39,7 @@ use Illuminate\Support\Facades\DB;
  *     @OA\Property(property="patient_id", type="string", example="PAT001"),
  *     @OA\Property(property="doctor_id", type="integer", example=3),
  *     @OA\Property(property="meet_with_client_at", type="string", example="Home"),
+ *     @OA\Property(property="participants", type="string", example="Home"),
  *     @OA\Property(property="time_in", type="string", example=" 09:00:00"),
  *     @OA\Property(property="time_out", type="string", example=" 11:00:00"),
  *     @OA\Property(property="time_in2", type="string", nullable=true),
@@ -95,6 +96,7 @@ class NoteRbt extends Note
         'insurance_id',
         'patient_id',
         'patient_identifier',
+        'participants',
         'time_in',
         'time_out',
         'time_in2',
@@ -113,7 +115,6 @@ class NoteRbt extends Note
         'bip_id',
         'summary_note',
         'pa_service_id',
-        'pos',
         'session_length_total',
         'environmental_changes',
         'maladaptives',
@@ -134,6 +135,8 @@ class NoteRbt extends Note
         'supervisor_name',
         'supervisor_id',
         'insuranceId',
+        'pos',
+        'insurance_identifier',
     ];
 
     protected $casts = [

@@ -54,8 +54,9 @@ class NoteBcbaTest extends TestCase
             'insurance_id' => $this->insurance->id,
             'pa_service_id' => $this->paService->id,
             'session_date' => $this->faker->date(),
-            'time_in' => '09:00:00',
-            'time_out' => '10:00:00',
+            'doctor_id' => $this->provider->id,
+            'time_in' => '09:00',
+            'time_out' => '10:00',
             'session_length_total' => 60,
             'note_description' => $this->faker->paragraph,
             'status' => 'pending',
@@ -101,8 +102,8 @@ class NoteBcbaTest extends TestCase
             'session_date' => $this->faker->date(),
             'note_description' => 'Updated note description',
             'status' => 'ok',
-            'time_in' => '09:00:00',
-            'time_out' => '10:00:00',
+            'time_in' => '09:00',
+            'time_out' => '10:00',
             'session_length_total' => 60
         ];
 
@@ -227,8 +228,8 @@ class NoteBcbaTest extends TestCase
             'patient_id' => $this->patient->id,
             'cpt_code' => '97155',
             'session_date' => '2024-01-15',
-            'time_in' => '09:00:00',
-            'time_out' => '11:00:00',
+            'time_in' => '09:00',
+            'time_out' => '11:00',
             'time_in2' => null,
             'time_out2' => null,
         ]);
@@ -237,8 +238,8 @@ class NoteBcbaTest extends TestCase
             'patient_id' => $this->patient->id,
             'cpt_code' => '97155',
             'session_date' => '2024-01-15',
-            'time_in' => '09:00:00',
-            'time_out' => '11:08:00',
+            'time_in' => '09:00',
+            'time_out' => '11:15',
             'time_in2' => null,
             'time_out2' => null,
         ]);
@@ -365,6 +366,56 @@ class NoteBcbaTest extends TestCase
                 'note_description' => 'Description One',
                 'session_date' => '2024-01-01'
             ]
+        ]);
+    }
+
+    public function test_time_formats_are_accepted()
+    {
+        // Test with HH:MM format
+        $noteDataHHMM = [
+            'patient_id' => $this->patient->id,
+            'provider_id' => $this->provider->id,
+            'supervisor_id' => $this->supervisor->id,
+            'location_id' => $this->location->id,
+            'pa_service_id' => $this->paService->id,
+            'session_date' => now()->subDays(1)->format('Y-m-d'),
+            'time_in' => '09:30',
+            'time_out' => '10:45',
+            'time_in2' => '13:15',
+            'time_out2' => '14:30'
+        ];
+
+        $response = $this->postJson('/api/v2/notes/bcba', $noteDataHHMM);
+        $response->assertStatus(201);
+        $this->assertDatabaseHas('note_bcbas', [
+            'time_in' => '09:30',
+            'time_out' => '10:45',
+            'time_in2' => '13:15',
+            'time_out2' => '14:30'
+        ]);
+
+        // Test with HH:MM:SS format
+        $noteDataHHMMSS = [
+            'patient_id' => $this->patient->id,
+            'provider_id' => $this->provider->id,
+            'supervisor_id' => $this->supervisor->id,
+            'location_id' => $this->location->id,
+            'pa_service_id' => $this->paService->id,
+            'session_date' => now()->subDays(2)->format('Y-m-d'),
+            'time_in' => '09:30:00',
+            'time_out' => '10:45:00',
+            'time_in2' => '13:15:00',
+            'time_out2' => '14:30:00'
+        ];
+
+        $response = $this->postJson('/api/v2/notes/bcba', $noteDataHHMMSS);
+        $response->assertStatus(201);
+        // Verify that HH:MM:SS was converted to HH:MM in the database
+        $this->assertDatabaseHas('note_bcbas', [
+            'time_in' => '09:30',
+            'time_out' => '10:45',
+            'time_in2' => '13:15',
+            'time_out2' => '14:30'
         ]);
     }
 }

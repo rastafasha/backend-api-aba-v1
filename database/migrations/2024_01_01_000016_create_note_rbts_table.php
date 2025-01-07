@@ -13,6 +13,7 @@ class CreateNoteRbtsTable extends Migration
             $table->foreignId('doctor_id')->nullable()->constrained('users')->nullOnDelete();
             $table->foreignId('patient_id')->nullable()->constrained('users')->nullOnDelete();
             $table->string('patient_identifier')->nullable();
+            $table->string('participants')->nullable();
             $table->foreignId('bip_id')->nullable()->constrained('bips')->nullOnDelete();
             $table->foreignId('insurance_id')->nullable()->constrained('insurances')->nullOnDelete();
             $table->string('insurance_identifier')->nullable();

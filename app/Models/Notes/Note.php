@@ -35,6 +35,7 @@ abstract class Note extends Model
         'provider_id',
         'location_id',
         'session_date',
+        'pos',
         'cpt_code',
         'status',
         'billed',

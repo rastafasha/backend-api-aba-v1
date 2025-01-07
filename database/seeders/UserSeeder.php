@@ -19,6 +19,7 @@ class UserSeeder extends Seeder
             'email_verified_at' => now(),
             'gender' => 1,
             'location_id' => 1,
+            'npi' => '1111234567',
         ]);
         $oldSuperadmin->assignRole('SUPERADMIN');
 
@@ -31,6 +32,7 @@ class UserSeeder extends Seeder
             'email_verified_at' => now(),
             'gender' => 1,
             'location_id' => 1,
+            'npi' => '1245319599',
         ]);
         $superadmin->assignRole('SUPERADMIN');
 
@@ -45,6 +47,7 @@ class UserSeeder extends Seeder
             'email_verified_at' => now(),
             'electronic_signature' => 'signatures/example.png',
             'location_id' => 1,
+            'npi' => '1497842694',
         ]);
         $manager->assignRole('MANAGER');
 
@@ -57,7 +60,7 @@ class UserSeeder extends Seeder
             'status' => 'active',
             'gender' => 2,
             'phone' => '1234567890',
-            'npi' => '1234567890',
+            'npi' => '3309871234',
             'certificate_number' => 'BCBA12345',
             'electronic_signature' => 'signatures/example.png',
             'location_id' => 1,
@@ -72,7 +75,7 @@ class UserSeeder extends Seeder
             'status' => 'active',
             'gender' => 1,
             'phone' => '1234567891',
-            'npi' => '1234567891',
+            'npi' => '3333312334',
             'certificate_number' => 'BCBA12346',
             'electronic_signature' => 'signatures/example.png',
             'location_id' => 1,
@@ -88,6 +91,7 @@ class UserSeeder extends Seeder
             'status' => 'active',
             'gender' => 2,
             'phone' => '1234567892',
+            'npi' => '3333345454',
             'certificate_number' => 'RBT12345',
             'electronic_signature' => 'signatures/example.png',
             'location_id' => 1,
@@ -103,6 +107,7 @@ class UserSeeder extends Seeder
             'gender' => 1,
             'phone' => '1234567893',
             'certificate_number' => 'RBT12346',
+            'npi' => '5421369874',
             'electronic_signature' => 'signatures/example.png',
             'location_id' => 1,
         ]);

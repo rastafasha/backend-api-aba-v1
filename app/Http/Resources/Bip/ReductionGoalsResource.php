@@ -29,11 +29,11 @@ class ReductionGoalsResource extends JsonResource
 
             "goalstos" =>
             is_string($this->resource->goalstos)
-                ? json_decode($this->resource->goalstos) : $this->resource->family_envolment->caregivers_training_goals,
+                ? json_decode($this->resource->goalstos) : $this->resource->goalstos,
 
             "goalltos" =>
                 is_string($this->resource->goalltos)
-                    ? json_decode($this->resource->goalltos) : $this->resource->family_envolment->caregivers_training_goals,
+                    ? json_decode($this->resource->goalltos) : $this->resource->goalltos,
 
             "created_at" => $this->resource->created_at ? Carbon::parse($this->resource->created_at)->format("Y-m-d h:i A") : null,
 

@@ -38,7 +38,7 @@ class SustitutionGoal extends Model
 
     public function patient()
     {
-        return $this->belongsTo(Patient::class, 'patient_identifier');
+        return $this->belongsTo(Patient::class, 'patient_identifier', 'patient_identifier');
     }
 
     public function client()

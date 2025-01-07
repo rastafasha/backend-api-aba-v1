@@ -18,7 +18,9 @@ class LocationSeeder extends Seeder
                 'email' => 'main@example.com',
                 'phone1' => '305-555-0123',
                 'phone2' => '305-555-0124',
-                'telfax' => '305-555-0125'
+                'telfax' => '305-555-0125',
+                'npi' => '1487654321',
+                'taxid' => '1998765432',
             ],
             [
                 'title' => 'Branch Office',
@@ -29,7 +31,9 @@ class LocationSeeder extends Seeder
                 'email' => 'orlando@example.com',
                 'phone1' => '407-555-0123',
                 'phone2' => '407-555-0124',
-                'telfax' => '407-555-0125'
+                'telfax' => '407-555-0125',
+                'npi' => '1487654321',
+                'taxid' => '1998765432',
             ],
             [
                 'title' => 'South Miami Center',
@@ -40,7 +44,9 @@ class LocationSeeder extends Seeder
                 'email' => 'south@example.com',
                 'phone1' => '305-555-0126',
                 'phone2' => '305-555-0127',
-                'telfax' => '305-555-0128'
+                'telfax' => '305-555-0128',
+                'npi' => '1487654321',
+                'taxid' => '1998765432',
             ],
         ];
 

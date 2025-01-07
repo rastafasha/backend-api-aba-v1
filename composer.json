@@ -60,7 +60,9 @@
         ],
         "lint": "phpcs --standard=phpcs.xml.dist --report=summary --basepath=. app/ routes/ ",
         "lint:dev": "phpcs --standard=phpcs.xml.dist --basepath=. app/ routes/ ",
-        "lint:fix": "phpcbf --standard=phpcs.xml.dist app/ routes/"
+        "lint:fix": "phpcbf --standard=phpcs.xml.dist app/ routes/",
+        "reset": "php artisan migrate:fresh && php artisan db:seed",
+        "swagger:generate": "php artisan l5-swagger:generate"
     },
     "extra": {
         "laravel": {
