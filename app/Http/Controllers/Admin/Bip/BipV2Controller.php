@@ -49,6 +49,7 @@ class BipV2Controller extends Controller
         // Get paginated results
         $perPage = $request->input('per_page', 15);
         $bips = $query->filterByCreatedAtRange($request->date_from, $request->date_to)
+            ->with('maladaptives', 'replacements')
             ->orderBy('created_at', 'desc')
             ->paginate($perPage);
 
