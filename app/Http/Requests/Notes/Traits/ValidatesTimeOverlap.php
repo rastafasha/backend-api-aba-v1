@@ -197,7 +197,8 @@ trait ValidatesTimeOverlap
             if ($providerId) {
                 $providerOverlap = $this->checkProviderOverlap($sessionDate, $timeIn, $timeOut, $timeIn2, $timeOut2, $providerId, $noteId);
                 if ($providerOverlap) {
-                    $validator->errors()->add('time_in', 'Oops! It seems the time you’re inputting is already assigned to another client. Please double-check your schedule and make adjustments to avoid overlap.');
+                    $validator->errors()->add('time_in', 'Oops! It seems the time you’re inputting is already assigned to another client. ' .
+                        'Please double-check your schedule and make adjustments to avoid overlap.');
                     return;
                 }
 

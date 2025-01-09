@@ -65,8 +65,10 @@ class NoteRbtRequest extends FormRequest
     public function messages()
     {
         return [
-            'session_date.before' => 'Oops! It looks like you’re trying to save a session note with a future date. Please ensure the date and time are accurate before saving.',
-            'next_session_is_scheduled_for.after' => 'Oops! It looks like you’re trying to save a next session date that is before the current session date. Please ensure the date and time are accurate before saving.',
+            'session_date.before' => 'Oops! It looks like you’re trying to save a session note with a future date. '
+            . 'Please ensure the date and time are accurate before saving.',
+            'next_session_is_scheduled_for.after' => 'Oops! It looks like you’re trying to save a next session date that is before the current session date. '
+            . 'Please ensure the date and time are accurate before saving.',
         ];
     }
 
