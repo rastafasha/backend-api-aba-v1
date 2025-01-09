@@ -46,7 +46,7 @@ class BipSeeder extends Seeder
                     ],
                     [
                         'index' => 2,
-                        'maladaptive_behavior' => 'Drawin walls', 
+                        'maladaptive_behavior' => 'Drawin walls',
                         'topografical_definition' => 'draw wall til sleep',
                         'baseline_level' => '30',
                         'baseline_date' => '2024-11-24T04:00:00.000Z',
