@@ -11,6 +11,7 @@ use App\Models\Patient\Patient;
 use App\Models\PaService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Spatie\Permission\Models\Permission;
 
 class NoteRbtTest extends TestCase
 {
@@ -40,10 +41,17 @@ class NoteRbtTest extends TestCase
         $this->doctor = User::factory()->create();
         $this->location = Location::factory()->create();
         $this->insurance = Insurance::factory()->create();
+
+        // Create and assign the ignore_time_limits permission
+        $permission = Permission::create(['name' => 'ignore_time_limits']);
+        $this->provider->givePermissionTo($permission);
     }
 
     public function test_can_create_note_rbt()
     {
+        $sessionDate = now()->subDay();
+        $nextSessionDate = $sessionDate->copy()->addDays(7);
+
         $noteData = [
             'patient_id' => $this->patient->id,
             'patient_identifier' => $this->patient->patient_identifier,
@@ -52,7 +60,7 @@ class NoteRbtTest extends TestCase
             'doctor_id' => $this->doctor->id,
             'location_id' => $this->location->id,
             'insurance_id' => $this->insurance->id,
-            'session_date' => $this->faker->date(),
+            'session_date' => $sessionDate->format('Y-m-d'),
             'time_in' => '09:00',
             'time_out' => '10:00',
             'time_in2' => '14:00',
@@ -68,7 +76,7 @@ class NoteRbtTest extends TestCase
             'rbt_modeled_and_demonstrated_to_caregiver' => $this->faker->sentence,
             'client_response_to_treatment_this_session' => $this->faker->paragraph,
             'progress_noted_this_session_compared_to_previous_session' => $this->faker->sentence,
-            'next_session_is_scheduled_for' => $this->faker->date(),
+            'next_session_is_scheduled_for' => $nextSessionDate->format('Y-m-d'),
             'provider_signature' => $this->faker->name,
             'provider_credential' => 'RBT',
             'status' => 'pending',
@@ -78,7 +86,7 @@ class NoteRbtTest extends TestCase
             'pa_service_id' => $this->paService->id,
         ];
 
-        $response = $this->postJson('/api/v2/notes/rbt', $noteData);
+        $response = $this->actingAs($this->provider)->postJson('/api/v2/notes/rbt', $noteData);
 
         $response->assertStatus(201)
             ->assertJson([
@@ -110,13 +118,13 @@ class NoteRbtTest extends TestCase
             'next_session_is_scheduled_for' => now()->addDays(7)->format('Y-m-d H:i:s')
         ];
 
-        $response = $this->postJson('/api/v2/notes/rbt', $noteData);
+        $response = $this->actingAs($this->provider)->postJson('/api/v2/notes/rbt', $noteData);
 
         $response->assertStatus(422)
             ->assertJsonValidationErrors(['session_date'])
             ->assertJson([
                 'errors' => [
-                    'session_date' => ['The session date must be a date before tomorrow.']
+                    'session_date' => ['Oops! It looks like you’re trying to save a session note with a future date. Please ensure the date and time are accurate before saving.']
                 ]
             ]);
     }
@@ -146,7 +154,7 @@ class NoteRbtTest extends TestCase
             'pa_service_id' => $this->paService->id,
         ];
 
-        $response = $this->putJson("/api/v2/notes/rbt/{$note->id}", $updatedData);
+        $response = $this->actingAs($this->provider)->putJson("/api/v2/notes/rbt/{$note->id}", $updatedData);
 
         $response->assertStatus(200)
             ->assertJson([
@@ -160,8 +168,6 @@ class NoteRbtTest extends TestCase
             'status' => 'ok'
         ]);
     }
-
-    // ... existing code ...
 
     /**
      * Test that patch endpoint can partially update note
@@ -182,7 +188,7 @@ class NoteRbtTest extends TestCase
             'status' => 'ok'
         ];
 
-        $response = $this->patchJson("/api/v2/notes/rbt/{$note->id}", $patchData);
+        $response = $this->actingAs($this->provider)->patchJson("/api/v2/notes/rbt/{$note->id}", $patchData);
 
         $response->assertStatus(200)
             ->assertJson([
@@ -211,7 +217,7 @@ class NoteRbtTest extends TestCase
     {
         $note = NoteRbt::factory()->create();
 
-        $response = $this->deleteJson("/api/v2/notes/rbt/{$note->id}");
+        $response = $this->actingAs($this->provider)->deleteJson("/api/v2/notes/rbt/{$note->id}");
 
         $response->assertStatus(200)
             ->assertJson([
@@ -228,7 +234,7 @@ class NoteRbtTest extends TestCase
     {
         $note = NoteRbt::factory()->create();
 
-        $response = $this->getJson("/api/v2/notes/rbt/{$note->id}");
+        $response = $this->actingAs($this->provider)->getJson("/api/v2/notes/rbt/{$note->id}");
 
         $response->assertStatus(200)
             ->assertJson([

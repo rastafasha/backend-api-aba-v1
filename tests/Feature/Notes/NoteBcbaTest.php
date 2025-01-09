@@ -53,7 +53,7 @@ class NoteBcbaTest extends TestCase
             'location_id' => $this->location->id,
             'insurance_id' => $this->insurance->id,
             'pa_service_id' => $this->paService->id,
-            'session_date' => $this->faker->date(),
+            'session_date' => now()->format('Y-m-d'),
             'doctor_id' => $this->provider->id,
             'time_in' => '09:00',
             'time_out' => '10:00',
@@ -99,7 +99,7 @@ class NoteBcbaTest extends TestCase
         $updatedData = [
             'patient_id' => $this->patient->id,
             'patient_identifier' => $this->patient->patient_identifier,
-            'session_date' => $this->faker->date(),
+            'session_date' => now()->subDays(1)->format('Y-m-d'),
             'note_description' => 'Updated note description',
             'status' => 'ok',
             'time_in' => '09:00',
