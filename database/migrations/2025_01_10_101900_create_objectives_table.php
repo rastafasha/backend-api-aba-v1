@@ -4,27 +4,37 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
+class CreateObjectivesTable extends Migration
 {
-    public function up(): void
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
     {
-        Schema::create('short_term_objectives', function (Blueprint $table) {
+        Schema::create('objectives', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('maladaptive_id')->nullable()->constrained('maladaptives')->onDelete('cascade');
-            $table->foreignId('replacement_id')->nullable()->constrained('replacements')->onDelete('cascade');
+            $table->foreignId('plan_id')->constrained('plans')->cascadeOnDelete();
+            $table->enum('type', ['STO', 'LTO'])->default('STO');
             $table->enum('status', ['in progress', 'mastered', 'not started', 'discontinued', 'maintenance'])->default('not started');
             $table->date('initial_date')->nullable();
             $table->date('end_date')->nullable();
             $table->text('description');
-            $table->decimal('target', 8, 2);
+            $table->decimal('target', 8, 2)->nullable();
             $table->integer('order')->default(1);
             $table->timestamps();
             $table->softDeletes();
         });
     }
 
-    public function down(): void
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
     {
-        Schema::dropIfExists('short_term_objectives');
+        Schema::dropIfExists('objectives');
     }
-};
+}

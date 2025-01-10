@@ -11,18 +11,17 @@ class BipSeeder extends Seeder
     {
         $bips = [
             [
-                'id' => 1,
                 'client_id' => 1, // Make sure this user exists
                 'patient_identifier' => 'PAT001',
                 'doctor_id' => 3, // BCBA1
                 'type_of_assessment' => 3,
                 'documents_reviewed' => [
                     [
-                        'index' =>1,
+                        'index' => 1,
                         'title' => 'School Records'
                     ],
                     [
-                        'index' =>2,
+                        'index' => 2,
                         'title' => 'Behavioral Assessment'
                     ]
                 ],
@@ -32,45 +31,20 @@ class BipSeeder extends Seeder
                 'education_status' => 'Attending special education program',
                 'phisical_and_medical_status' => 'Generally healthy, no major concerns',
                 'strengths' => 'Good motor skills, responsive to reinforcement',
-                'weakneses' => 'Communication difficulties, attention challenges',
-
-                'maladaptives' => [
-                    [
-                        'index' => 1,
-                        'maladaptive_behavior' => 'Bad Words',
-                        'topografical_definition' => 'Said bad word every day',
-                        'baseline_level' => '43',
-                        'baseline_date' => '2024-11-23T04:00:00.000Z',
-                        'initial_interesting' => 30,
-                        'current_intensity' => 58
-                    ],
-                    [
-                        'index' => 2,
-                        'maladaptive_behavior' => 'Drawin walls',
-                        'topografical_definition' => 'draw wall til sleep',
-                        'baseline_level' => '30',
-                        'baseline_date' => '2024-11-24T04:00:00.000Z',
-                        'initial_interesting' => 30,
-                        'current_intensity' => 70
-                    ]
-                ],
-
-
+                'weakneses' => 'Communication difficulties, attention challenges'
             ],
             [
-                'id' => 2,
                 'client_id' => 2, // Make sure this user exists
                 'patient_identifier' => 'PAT002',
                 'doctor_id' => 4, // BCBA2
                 'type_of_assessment' => 3,
                 'documents_reviewed' => [
-
                     [
-                        'index' =>1,
+                        'index' => 1,
                         'title' => 'School Records'
                     ],
                     [
-                        'index' =>2,
+                        'index' => 2,
                         'title' => 'Behavioral Assessment'
                     ]
                 ],
@@ -80,36 +54,12 @@ class BipSeeder extends Seeder
                 'education_status' => 'Mainstream education with support',
                 'phisical_and_medical_status' => 'No significant health concerns',
                 'strengths' => 'Strong visual learning skills',
-                'weakneses' => 'Social interaction challenges',
-
-                'maladaptives' => [
-                    [
-                        'index' => 1,
-                        'maladaptive_behavior' => 'Bad Words',
-                        'topografical_definition' => 'Said bad word every day',
-                        'baseline_level' => '43',
-                        'baseline_date' => '2024-11-23T04:00:00.000Z',
-                        'initial_interesting' => 30,
-                        'current_intensity' => 58
-                    ],
-                    [
-                        'index' => 2,
-                        'maladaptive_behavior' => 'Drawin walls',
-                        'topografical_definition' => 'draw wall til sleep',
-                        'baseline_level' => '30',
-                        'baseline_date' => '2024-11-24T04:00:00.000Z',
-                        'initial_interesting' => 30,
-                        'current_intensity' => 70
-                    ]
-                ],
-
-
-
-            ],
+                'weakneses' => 'Social interaction challenges'
+            ]
         ];
 
-        foreach ($bips as $bip) {
-            Bip::create($bip);
+        foreach ($bips as $bipData) {
+            Bip::create($bipData);
         }
     }
 }

@@ -2,13 +2,13 @@
 
 namespace Database\Factories\Bip;
 
-use App\Models\Bip\BipV2;
+use App\Models\Bip\Bip;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class BipV2Factory extends Factory
+class BipFactory extends Factory
 {
-    protected $model = BipV2::class;
+    protected $model = Bip::class;
 
     public function definition()
     {
@@ -47,7 +47,7 @@ class BipV2Factory extends Factory
     // State methods for different scenarios
     public function withMaladaptives()
     {
-        return $this->afterCreating(function (BipV2 $bip) {
+        return $this->afterCreating(function (Bip $bip) {
             $bip->maladaptives()->create([
                 'name' => $this->faker->word(),
                 'description' => $this->faker->paragraph(),
