@@ -82,11 +82,37 @@ class NoteBcba extends Note
         'insuranceId',
         'pos',
         'insurance_identifier',
+        'modifications_needed_at_this_time',
+        'additional_goals_or_interventions',
+        'cargiver_participation',
+        'was_the_client_present',
+        'asked_and_clarified_questions_about_the_implementation_of',
+        'reinforced_caregiver_strengths_in',
+        'gave_constructive_feedback_on',
+        'recomended_more_practice_on',
+        'type',
+        'environmental_changes',
+        'BCBA_conducted_client_observations',
+        'BCBA_conducted_assessments',
+        'interventions',//json
+        'interventions2',//json
+        'behaviors',//json
+        'intake_outcome',//json
+        'newlist_added',//json
+        'replacements',//json
+        'replacements2',//json
     ];
 
     protected $casts = [
         'caregiver_goals' => 'json',
         'rbt_training_goals' => 'json',
+        'interventions' => 'json',
+        'interventions2' => 'json',
+        'behaviors' => 'json',
+        'intake_outcome' => 'json',
+        'newlist_added' => 'json',
+        'replacements' => 'json',
+        'replacements2' => 'json',
         'billed' => 'boolean',
         'paid' => 'boolean',
         'session_date' => 'date:Y-m-d',

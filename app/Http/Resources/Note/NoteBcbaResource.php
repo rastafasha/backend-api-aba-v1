@@ -110,6 +110,40 @@ class NoteBcbaResource extends JsonResource
 
             "total_minutes" => $this->resource->total_minutes,
             "total_units" => $this->resource->total_units,
+            
+            "modifications_needed_at_this_time" => $this->resource->modifications_needed_at_this_time,
+            "additional_goals_or_interventions" => $this->resource->additional_goals_or_interventions,
+            "cargiver_participation" => $this->resource->cargiver_participation,
+            "was_the_client_present" => $this->resource->was_the_client_present,
+            "asked_and_clarified_questions_about_the_implementation_of" => $this->resource->asked_and_clarified_questions_about_the_implementation_of,
+            "reinforced_caregiver_strengths_in" => $this->resource->reinforced_caregiver_strengths_in,
+            "gave_constructive_feedback_on" => $this->resource->gave_constructive_feedback_on,
+            "recomended_more_practice_on" => $this->resource->recomended_more_practice_on,
+            "type" => $this->resource->type,
+            "environmental_changes" => $this->resource->environmental_changes,
+            "BCBA_conducted_client_observations" => $this->resource->BCBA_conducted_client_observations,
+            "BCBA_conducted_assessments" => $this->resource->BCBA_conducted_assessments,
+
+            "interventions" => is_string($this->resource->interventions)
+                ? json_decode($this->resource->interventions) : $this->resource->interventions,
+
+            "interventions2" => is_string($this->resource->interventions2)
+            ? json_decode($this->resource->interventions2) : $this->resource->interventions2,
+
+            "behaviors" => is_string($this->resource->behaviors)
+            ? json_decode($this->resource->behaviors) : $this->resource->behaviors,
+
+            "intake_outcome" => is_string($this->resource->intake_outcome)
+            ? json_decode($this->resource->intake_outcome) : $this->resource->intake_outcome,
+
+            "newlist_added" => is_string($this->resource->newlist_added)
+            ? json_decode($this->resource->newlist_added) : $this->resource->newlist_added,
+
+            "replacements" => is_string($this->resource->replacements)
+            ? json_decode($this->resource->replacements) : $this->resource->replacements,
+            "replacements2" => is_string($this->resource->replacements2)
+            ? json_decode($this->resource->replacements2) : $this->resource->replacements2,
+
 
             "created_at" => $this->resource->created_at ? Carbon::parse($this->resource->created_at)->format("Y-m-d h:i A") : null,
             "updated_at" => $this->resource->updated_at ? Carbon::parse($this->resource->updated_at)->format("Y-m-d h:i A") : null,

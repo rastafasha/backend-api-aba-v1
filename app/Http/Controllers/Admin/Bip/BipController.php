@@ -7,12 +7,11 @@ use App\Models\Bip\Bip;
 use Illuminate\Http\Request;
 use App\Models\Patient\Patient;
 use App\Models\Bip\ReductionGoal;
+use App\Models\Bip\SustitutionGoal;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Bip\BipResource;
 use App\Services\UnitCalculationService;
-use App\Http\Resources\Bip\BipCollection;
-use App\Http\Resources\Patient\PatientCollection;
-use App\Http\Resources\Bip\ConsentToTreatmentResource;
+use App\Http\Resources\Bip\SustitutionGoalsCollection;
 
 class BipController extends Controller
 {
@@ -192,6 +191,9 @@ class BipController extends Controller
         }
 
         $paServices = $this->getFormattedPaServices($patient_identifier);
+        $bip = Bip::where('patient_identifier', $patient_identifier)->first();
+        $replacements = SustitutionGoal::where('patient_identifier', $patient_identifier)
+        -> select('id', 'goal')->get();
 
         return response()->json([
             "patient" => $patient->patient_identifier ? [
@@ -216,7 +218,15 @@ class BipController extends Controller
                 "insurer_id" => $patient->insurer_id, // el id interno del insuerer
                 // "insuranceId" => $patient->insuranceId, // el id externo (o code) del insuerer
                 "insurance_identifier" => $patient->insurance_identifier,
-            ] : null
+            ] : null,
+            "bip" => $bip ? [
+                "id" => $bip->id,
+                "maladaptives" => $bip->maladaptives,
+                ] : null,
+
+            "replacements" => $replacements
+                
+
         ]);
     }
 
