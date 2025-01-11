@@ -110,7 +110,7 @@ class NoteBcbaResource extends JsonResource
 
             "total_minutes" => $this->resource->total_minutes,
             "total_units" => $this->resource->total_units,
-            
+
             "modifications_needed_at_this_time" => $this->resource->modifications_needed_at_this_time,
             "additional_goals_or_interventions" => $this->resource->additional_goals_or_interventions,
             "cargiver_participation" => $this->resource->cargiver_participation,

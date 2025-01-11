@@ -225,7 +225,7 @@ class BipController extends Controller
                 ] : null,
 
             "replacements" => $replacements
-                
+
 
         ]);
     }
