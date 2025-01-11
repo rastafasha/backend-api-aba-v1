@@ -242,7 +242,6 @@ class Bip extends Model
         'previus_treatment_and_result',
         'current_treatment_and_progress',
         'education_status',
-        'phisical_and_medical_status',
         // 'maladaptives', //json
         'assestment_conducted',
         'assestment_conducted_options', //json
@@ -254,6 +253,7 @@ class Bip extends Model
         'weakneses',
         'hypothesis_based_intervention',
 
+        'phisical_and_medical_status',
         'phiysical_and_medical',
         'phiysical_and_medical_status', //json
 

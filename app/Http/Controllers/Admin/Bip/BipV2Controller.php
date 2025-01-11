@@ -209,7 +209,20 @@ class BipV2Controller extends Controller
         return response()->json([
             'status' => 'success',
             'message' => 'BIP updated successfully',
-            'data' => $bip->fresh()
+            'data' => $bip->fresh()->load([
+                'maladaptives',
+                'replacements',
+                'caregiver_trainings',
+                'rbt_trainings',
+                'maladaptives.objectives',
+                'replacements.objectives',
+                'caregiver_trainings.objectives',
+                'rbt_trainings.objectives',
+                'generalization_trainings',
+                'crisis_plans',
+                'de_escalation_techniques',
+                'consent_to_treatments'
+            ])
         ]);
     }
 
