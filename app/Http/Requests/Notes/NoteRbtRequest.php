@@ -3,11 +3,15 @@
 namespace App\Http\Requests\Notes;
 
 use App\Http\Requests\Notes\Traits\ValidatesTimeOverlap;
+use App\Http\Requests\Notes\Traits\ValidatesTimeLimits;
+use App\Http\Requests\Notes\Traits\ValidatesBackdatedNotes;
 use Illuminate\Foundation\Http\FormRequest;
 
 class NoteRbtRequest extends FormRequest
 {
     use ValidatesTimeOverlap;
+    use ValidatesTimeLimits;
+    use ValidatesBackdatedNotes;
 
     public function authorize()
     {
@@ -40,7 +44,7 @@ class NoteRbtRequest extends FormRequest
             'rbt_modeled_and_demonstrated_to_caregiver' => 'nullable|string',
             'client_response_to_treatment_this_session' => 'nullable|string',
             'progress_noted_this_session_compared_to_previous_session' => 'nullable|string',
-            'next_session_is_scheduled_for' => 'nullable|date',
+            'next_session_is_scheduled_for' => 'nullable|date|after:session_date',
             'provider_id' => 'nullable|exists:users,id',
             'provider_signature' => 'nullable|string',
             'provider_credential' => 'nullable|string',
@@ -58,11 +62,27 @@ class NoteRbtRequest extends FormRequest
         ];
     }
 
+    public function messages()
+    {
+        return [
+            'session_date.before' => 'Oops! It looks like you’re trying to save a session note with a future date. '
+            . 'Please ensure the date and time are accurate before saving.',
+            'next_session_is_scheduled_for.after' => 'Oops! It looks like you’re trying to save a next session date that is before the current session date. '
+            . 'Please ensure the date and time are accurate before saving.',
+        ];
+    }
+
     protected function prepareForValidation()
     {
         if ($this->has('session_date')) {
             $this->merge([
                 'session_date' => date('Y-m-d', strtotime($this->session_date))
+            ]);
+        }
+
+        if ($this->has('next_session_is_scheduled_for')) {
+            $this->merge([
+                'next_session_is_scheduled_for' => date('Y-m-d', strtotime($this->next_session_is_scheduled_for))
             ]);
         }
 
@@ -79,5 +99,7 @@ class NoteRbtRequest extends FormRequest
     public function withValidator($validator)
     {
         $this->validateTimeOverlap($validator);
+        $this->validateTimeLimits($validator);
+        $this->validateBackdatedNotes($validator);
     }
 }

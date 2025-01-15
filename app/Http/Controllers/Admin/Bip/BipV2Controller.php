@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin\Bip;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\BipRequest;
-use App\Models\Bip\BipV2 as Bip;
+use App\Models\Bip\Bip;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 
@@ -14,13 +14,22 @@ class BipV2Controller extends Controller
      * @OA\Get(
      *     path="/api/v2/bips",
      *     summary="List all BIPs",
+     *     description="Retrieve a paginated list of behavior intervention plans (BIPs) with optional filters. " .
+     *         "Each BIP includes its associated plans, objectives, and other related data.",
      *     tags={"BIPs"},
+     *     @OA\Parameter(
+     *         name="patient_identifier",
+     *         in="query",
+     *         description="Filter BIPs by patient identifier",
+     *         required=false,
+     *         @OA\Schema(type="string")
+     *     ),
      *     @OA\Response(
      *         response=200,
      *         description="Successful operation",
      *         @OA\JsonContent(
      *             @OA\Property(property="status", type="string", example="success"),
-     *             @OA\Property(property="data", type="array", @OA\Items(ref="#/components/schemas/BipV2"))
+     *             @OA\Property(property="data", type="array", @OA\Items(ref="#/components/schemas/Bip"))
      *         )
      *     )
      * )
@@ -42,14 +51,23 @@ class BipV2Controller extends Controller
             $query->where('doctor_id', $request->doctor_id);
         }
 
-        if ($request->has('type_of_assessment')) {
-            $query->where('type_of_assessment', $request->type_of_assessment);
-        }
-
         // Get paginated results
         $perPage = $request->input('per_page', 15);
         $bips = $query->filterByCreatedAtRange($request->date_from, $request->date_to)
-            ->with('maladaptives', 'replacements')
+            ->with([
+                'maladaptives',
+                'replacements',
+                'caregiver_trainings',
+                'rbt_trainings',
+                'maladaptives.objectives',
+                'replacements.objectives',
+                'caregiver_trainings.objectives',
+                'rbt_trainings.objectives',
+                'generalization_trainings',
+                'crisis_plans',
+                'de_escalation_techniques',
+                'consent_to_treatments'
+            ])
             ->orderBy('created_at', 'desc')
             ->paginate($perPage);
 
@@ -67,7 +85,7 @@ class BipV2Controller extends Controller
      *     tags={"BIPs"},
      *     @OA\RequestBody(
      *         required=true,
-     *         @OA\JsonContent(ref="#/components/schemas/BipV2")
+     *         @OA\JsonContent(ref="#/components/schemas/Bip")
      *     ),
      *     @OA\Response(
      *         response=201,
@@ -75,7 +93,7 @@ class BipV2Controller extends Controller
      *         @OA\JsonContent(
      *             @OA\Property(property="status", type="string", example="success"),
      *             @OA\Property(property="message", type="string", example="BIP created successfully"),
-     *             @OA\Property(property="data", ref="#/components/schemas/BipV2")
+     *             @OA\Property(property="data", ref="#/components/schemas/Bip")
      *         )
      *     )
      * )
@@ -110,7 +128,7 @@ class BipV2Controller extends Controller
      *         description="Successful operation",
      *         @OA\JsonContent(
      *             @OA\Property(property="status", type="string", example="success"),
-     *             @OA\Property(property="data", ref="#/components/schemas/BipV2")
+     *             @OA\Property(property="data", ref="#/components/schemas/Bip")
      *         )
      *     )
      * )
@@ -121,9 +139,12 @@ class BipV2Controller extends Controller
             'doctor',
             'maladaptives',
             'replacements',
-            'sustitution_goals',
-            'family_envolments',
-            'monitoring_evalutatings',
+            'caregiver_trainings',
+            'rbt_trainings',
+            'maladaptives.objectives',
+            'replacements.objectives',
+            'caregiver_trainings.objectives',
+            'rbt_trainings.objectives',
             'generalization_trainings',
             'crisis_plans',
             'de_escalation_techniques',
@@ -166,7 +187,7 @@ class BipV2Controller extends Controller
      *     ),
      *     @OA\RequestBody(
      *         required=true,
-     *         @OA\JsonContent(ref="#/components/schemas/BipV2")
+     *         @OA\JsonContent(ref="#/components/schemas/Bip")
      *     ),
      *     @OA\Response(
      *         response=200,
@@ -174,7 +195,7 @@ class BipV2Controller extends Controller
      *         @OA\JsonContent(
      *             @OA\Property(property="status", type="string", example="success"),
      *             @OA\Property(property="message", type="string", example="BIP updated successfully"),
-     *             @OA\Property(property="data", ref="#/components/schemas/BipV2")
+     *             @OA\Property(property="data", ref="#/components/schemas/Bip")
      *         )
      *     )
      * )
@@ -188,7 +209,20 @@ class BipV2Controller extends Controller
         return response()->json([
             'status' => 'success',
             'message' => 'BIP updated successfully',
-            'data' => $bip->fresh()
+            'data' => $bip->fresh()->load([
+                'maladaptives',
+                'replacements',
+                'caregiver_trainings',
+                'rbt_trainings',
+                'maladaptives.objectives',
+                'replacements.objectives',
+                'caregiver_trainings.objectives',
+                'rbt_trainings.objectives',
+                'generalization_trainings',
+                'crisis_plans',
+                'de_escalation_techniques',
+                'consent_to_treatments'
+            ])
         ]);
     }
 

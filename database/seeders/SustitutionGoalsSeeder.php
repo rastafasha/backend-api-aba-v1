@@ -51,14 +51,14 @@ class SustitutionGoalsSeeder extends Seeder
             'goal' => 'communication improvement',
             'description' => 'improve verbal communication skills',
             'goalstos' => '[{
-                "sto": "test",
-                "date_sto": "2024-07-12T04:00:00.000Z",
-                "sustitution_status_sto": "inprogress",
-                "sustitution_sto": "test",
-                "decription_sto": "test",
+                "end_sustitution_date_sto": null,
+                "index": 1,
                 "sustitution_date_sto": "2024-12-04T04:00:00.000Z",
-                "end_sustitution_date_sto": "2024-12-28T04:00:00.000Z",
-                "target": "35-45"
+                "sustitution_decription_sto": "test",
+                "sustitution_status_sto": "inprogress",
+                "sustitution_status_sto_edit": "inprogress",
+                "sustitution_sto": "STO#1",
+                "target": "70"
             }]',
             'goalltos' => '[{
                 "sustitution_lto": "1",

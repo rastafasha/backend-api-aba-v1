@@ -116,5 +116,6 @@ class NoteBcba extends Note
         'billed' => 'boolean',
         'paid' => 'boolean',
         'session_date' => 'date:Y-m-d',
+        'next_session_is_scheduled_for' => 'date:Y-m-d',
     ];
 }

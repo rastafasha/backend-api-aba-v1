@@ -56,6 +56,9 @@ Route::group(['middleware' => 'api'], function ($router) {
     // bip
     require __DIR__ . '/api_routes/bip.php';
 
+    // plans and objectives
+    require __DIR__ . '/api_routes/plan_objective.php';
+
     // goals
     // reduction goals
     require __DIR__ . '/api_routes/goal.php';
@@ -125,8 +128,6 @@ Route::group(['middleware' => 'api'], function ($router) {
     // PDF
     require __DIR__ . '/api_routes/pdf.php';
 
-    //Objectives
-    require __DIR__ . '/api_routes/objectives.php';
 
 
     //comandos desde la url del backend
