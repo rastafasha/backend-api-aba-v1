@@ -217,14 +217,10 @@ class PatientController extends Controller
 
 
         return response()->json([
-            // "patient" => $patient,
             "patient" => PatientResource::make($patient),
             "specialists" => $specialists,
             "insurances" => $insurances,
             "locations" => $locations,
-            // "pa_assessments"=>$patient->pa_assessments ? json_decode($patient->pa_assessments) : [],
-
-            // "patient" => PatientResource::make($patient),
         ]);
     }
 
@@ -302,18 +298,17 @@ class PatientController extends Controller
         ]);
     }
 
-    public function showPatientId($id)
+    public function showPatientIdentifier($patient_identifier)
     {
 
-        $patient_id = Patient::where('id', $id)->first();
-        $patient = Patient::where('id', $id)->first();
+        $patient = Patient::where('patient_identifier', $patient_identifier)->first();
         $doctors = Patient::join('users', 'patients.id', '=', 'users.id')
         ->select(
             'patients.id as id',
             'users.name',
         )
         ->get();
-
+        $paServices = $this->getFormattedPaServices($patient_identifier);
 
 
         return response()->json([
@@ -321,15 +316,26 @@ class PatientController extends Controller
             "patient" => $patient,
             "patient" => $patient ? [
                 "id" => $patient->id,
-                "title" => $patient->patient_identifier,
+                "patient_identifier" => $patient->patient_identifier,
+                "first_name" => $patient->first_name,
+                "last_name" => $patient->last_name,
+                "birth_date" => $patient->birth_date,
+                "location_id" => $patient->location_id,
                 "full_name" => $patient->first_name . ' ' . $patient->last_name,
                 "email" => $patient->email,
                 "insurer_id" => $patient->insurer_id,
+                "insurance_identifier" => $patient->insurance_identifier,
                 "rbt_home" => $patient->rbt_home_id,
                 "rbt2_school" => $patient->rbt2_school_id,
                 "bcba_home" => $patient->bcba_home_id,
                 "bcba2_school" => $patient->bcba2_school_id,
                 "clin_director_id" => $patient->clin_director_id,
+                "diagnosis_code" => $patient->diagnosis_code,
+                "pa_services" => $paServices,
+                "pos_covered" =>
+                is_string($patient->pos_covered)
+                    ? json_decode($patient->pos_covered)
+                    : $patient->pos_covered,
                 "status" => $patient->status,
                 "gender" => $patient->gender,
                 "avatar" => $patient->avatar ? env("APP_URL") . "storage/" . $patient->avatar : null,
@@ -390,18 +396,7 @@ class PatientController extends Controller
 
         $patient_is_valid = Patient::where("id", "<>", $id)->first();
 
-        // $request->request->add(["pa_services"=>json_encode($request->services)]);
-        // $request->request->add(["pa_assessments" => json_encode($request->pa_assessments)]);
-        // $request->request->add(["pos_covered" => json_encode($request->pos_covered)]);
-
-        // $validator = Validator::make($request->all(), [
-        //     'email' => 'required|email|unique:patients',
-        //     // ...
-        // ]);
-
-        // if ($validator->fails()) {
-        //     return response()->json(['error' => $validator->messages()], 422);
-        // }
+      
 
         $patient = Patient::findOrFail($id);
 
@@ -423,37 +418,10 @@ class PatientController extends Controller
             $request->request->add(["parent_birth_date" => Carbon::parse($date_clean_p)->format('Y-m-d h:i:s')]);
         }
 
-        // if ($request->pa_assessment_start_date) {
-        //     $date_clean1 = preg_replace('/\(.*\)|[A-Z]{3}-\d{4}/', '', $request->pa_assessment_start_date);
-        //     $request->request->add(["pa_assessment_start_date" => Carbon::parse($date_clean1)->format('Y-m-d h:i:s')]);
-        // }
-
-        // if ($request->pa_assessment_end_date) {
-        //     $date_clean2 = preg_replace('/\(.*\)|[A-Z]{3}-\d{4}/', '', $request->pa_assessment_end_date);
-        //     $request->request->add(["pa_assessment_end_date" => Carbon::parse($date_clean2)->format('Y-m-d h:i:s')]);
-        // }
-
-        // if ($request->pa_services_start_date) {
-        //     $date_clean3 = preg_replace('/\(.*\)|[A-Z]{3}-\d{4}/', '', $request->pa_services_start_date);
-        //     $request->request->add(["pa_services_start_date" => Carbon::parse($date_clean3)->format('Y-m-d h:i:s')]);
-        // }
-
-        // if ($request->pa_services_end_date) {
-        //     $date_clean4 = preg_replace('/\(.*\)|[A-Z]{3}-\d{4}/', '', $request->pa_services_end_date);
-        //     $request->request->add(["pa_services_end_date" => Carbon::parse($date_clean4)->format('Y-m-d h:i:s')]);
-        // }
-        // if ($request->elegibility_date) {
-        //     $date_clean5 = preg_replace('/\(.*\)|[A-Z]{3}-\d{4}/', '', $request->elegibility_date);
-        //     $request->request->add(["elegibility_date" => Carbon::parse($date_clean5)->format('Y-m-d h:i:s')]);
-        // }
+        
 
         $patient->update($request->all());
 
-        // error_log($patient);
-
-        // if($patient->person){
-        //     $patient->person->update($request->all());
-        // }
         return response()->json([
             "message" => 200,
             "patient" => $patient,
@@ -549,5 +517,30 @@ class PatientController extends Controller
         $patient->status = $request->status;
         $patient->update();
         return $patient;
+    }
+
+    private function getFormattedPaServices($patient_identifier)
+    {
+        $patient = Patient::where("patient_identifier", $patient_identifier)->first();
+
+        if (!$patient) {
+            return [];
+        }
+
+        return $patient->paServices()
+            ->get()
+            ->map(function ($service) use ($patient_identifier) {
+                return [
+                    'id' => $service->id,
+                    'pa_services' => $service->pa_services,
+                    'cpt' => $service->cpt,
+                    'n_units' => $service->n_units,
+                    'available_units' => $service->available_units,
+                    'spent_units' => $service->spent_units,
+                    'start_date' => $service->start_date->format('Y-m-d'),
+                    'end_date' => $service->end_date->format('Y-m-d'),
+                ];
+            })
+            ->toArray();
     }
 }

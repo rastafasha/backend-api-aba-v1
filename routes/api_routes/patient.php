@@ -8,7 +8,7 @@ Route::get('patients', [PatientController::class, 'index'])->name('patients.inde
 Route::get('patients/show/{id}', [PatientController::class, 'show'])->name('patients.show');
 Route::get('patients/all', [PatientController::class, 'all'])->name('patients.all');
 Route::get('patients/profile/{id}', [PatientController::class, 'profile'])->name('patients.profile');
-Route::get('patients/shobypatientid/{patient}', [PatientController::class, 'showPatientId'])->name('patients.showPatientId');
+Route::get('patients/shobypatientid/{patient}', [PatientController::class, 'showPatientIdentifier'])->name('patients.showPatientIdentifier');
 Route::get('patients/shobypatienLocation/{location_id}', [PatientController::class, 'showPatientbyLocation'])->name('patients.showPatientbyLocation');
 
 Route::get('patients/byDoctor/{doctor_id}', [PatientController::class, 'patientsByDoctor'])->name('patient.patientsByDoctor');
