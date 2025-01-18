@@ -21,12 +21,39 @@ class CreateNoteBcbasTable extends Migration
             $table->string('meet_with_client_at')->nullable();
             $table->string('pos')->nullable();
             $table->string('participants')->nullable();
+            $table->string('environmental_changes')->nullable();
             $table->timestamp('session_date')->nullable();
             $table->time('time_in')->nullable();
             $table->time('time_out')->nullable();
             $table->time('time_in2')->nullable();
             $table->time('time_out2')->nullable();
             $table->double('session_length_total')->nullable();
+
+            $table->json('interventions')->nullable();
+            $table->json('interventions2')->nullable();
+            $table->json('behaviors')->nullable();
+            $table->json('intake_outcome')->nullable();
+            $table->json('newlist_added')->nullable();
+            $table->json('replacements')->nullable();
+            $table->json('replacements2')->nullable();
+
+            //note bcba 55
+            $table->boolean('modifications_needed_at_this_time')->default(false);
+            $table->string('additional_goals_or_interventions')->nullable();
+
+            //note bcba 56
+            $table->boolean('cargiver_participation')->default(false);
+            $table->boolean('was_the_client_present')->default(false);
+            $table->string('asked_and_clarified_questions_about_the_implementation_of')->nullable();
+            $table->string('reinforced_caregiver_strengths_in')->nullable();
+            $table->string('gave_constructive_feedback_on')->nullable();
+            $table->string('recomended_more_practice_on')->nullable();
+            
+            //note bcba 51
+            $table->string('type')->nullable();
+            $table->boolean('BCBA_conducted_client_observations')->default(false);
+            $table->boolean('BCBA_conducted_assessments')->default(false);
+
             $table->text('note_description')->nullable();
             $table->unsignedBigInteger('rendering_provider')->nullable();
             $table->unsignedBigInteger('supervisor_id')->nullable();
@@ -40,6 +67,7 @@ class CreateNoteBcbasTable extends Migration
             $table->text('summary_note')->nullable();
             $table->boolean('billed')->default(false);
             $table->boolean('paid')->default(false);
+            
             $table->string('md', 20)->nullable();
             $table->string('md2', 20)->nullable();
             $table->string('md3', 20)->nullable();
