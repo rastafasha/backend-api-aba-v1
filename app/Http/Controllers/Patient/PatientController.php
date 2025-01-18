@@ -396,7 +396,7 @@ class PatientController extends Controller
 
         $patient_is_valid = Patient::where("id", "<>", $id)->first();
 
-      
+
 
         $patient = Patient::findOrFail($id);
 
@@ -418,7 +418,7 @@ class PatientController extends Controller
             $request->request->add(["parent_birth_date" => Carbon::parse($date_clean_p)->format('Y-m-d h:i:s')]);
         }
 
-        
+
 
         $patient->update($request->all());
 
