@@ -11,7 +11,19 @@
                     "BIPs"
                 ],
                 "summary": "List all BIPs",
+                "description": "Retrieve a paginated list of behavior intervention plans (BIPs) with optional filters and their subplans.",
                 "operationId": "a3c6a76edc377107281ee77209fe443a",
+                "parameters": [
+                    {
+                        "name": "patient_identifier",
+                        "in": "query",
+                        "description": "Filter BIPs by patient identifier",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "Successful operation",
@@ -3814,13 +3826,295 @@
                 }
             }
         },
+        "/api/v2/pa-services": {
+            "get": {
+                "tags": [
+                    "PA Services"
+                ],
+                "summary": "List all PA services",
+                "description": "Retrieve a paginated list of PA services with optional filters",
+                "operationId": "f9a3b8922004579d32fe758d70056180",
+                "parameters": [
+                    {
+                        "name": "patient_id",
+                        "in": "query",
+                        "description": "Filter PA services by patient ID",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "per_page",
+                        "in": "query",
+                        "description": "Number of items per page",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 15
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/PaginatedPaServiceResponse"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "PA Services"
+                ],
+                "summary": "Create a new PA service",
+                "operationId": "d6e993aec76f70cbd141b9f5bfc45734",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "patient_id",
+                                    "pa_service",
+                                    "cpt",
+                                    "n_units",
+                                    "start_date",
+                                    "end_date"
+                                ],
+                                "properties": {
+                                    "patient_id": {
+                                        "type": "string",
+                                        "example": "123"
+                                    },
+                                    "pa_service": {
+                                        "type": "string",
+                                        "example": "Behavioral Analysis"
+                                    },
+                                    "cpt": {
+                                        "type": "string",
+                                        "example": "97151"
+                                    },
+                                    "n_units": {
+                                        "type": "integer",
+                                        "example": 8
+                                    },
+                                    "start_date": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2024-03-01"
+                                    },
+                                    "end_date": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2024-04-01"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "PA service created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "PA service created successfully"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/PaService"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v2/pa-services/{id}": {
+            "get": {
+                "tags": [
+                    "PA Services"
+                ],
+                "summary": "Get PA service by ID",
+                "operationId": "74cb4b7a643eeee749c88af6d7bb15e0",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "PA service ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/PaService"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "PA Services"
+                ],
+                "summary": "Update a PA service",
+                "operationId": "0bc1777e63f22068a22d71035136ad1e",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "PA service ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "pa_service": {
+                                        "type": "string"
+                                    },
+                                    "cpt": {
+                                        "type": "string"
+                                    },
+                                    "n_units": {
+                                        "type": "integer"
+                                    },
+                                    "start_date": {
+                                        "type": "string",
+                                        "format": "date"
+                                    },
+                                    "end_date": {
+                                        "type": "string",
+                                        "format": "date"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "PA service updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "PA service updated successfully"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/PaService"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "PA Services"
+                ],
+                "summary": "Delete a PA service",
+                "operationId": "a93f34e16a436fc477a98f75670374ad",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "PA service deleted successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "PA service deleted successfully"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/v2/patients/{patient_id}/pa-services": {
             "get": {
                 "tags": [
-                    "Admin/PA Services"
+                    "Old/PA Services"
                 ],
                 "summary": "Get paginated PA services list for a patient",
-                "operationId": "1f0487852b4957237caac5a3b2abe153",
+                "operationId": "064d7c1800562f3ba250e24853c2e806",
                 "parameters": [
                     {
                         "name": "patient_id",
@@ -3869,10 +4163,10 @@
             },
             "post": {
                 "tags": [
-                    "Admin/PA Services"
+                    "Old/PA Services"
                 ],
                 "summary": "Create a new PA service",
-                "operationId": "2a936b7250606d99539722846b315e55",
+                "operationId": "c0289d7a737f78bb0a3459a5ae49dcf9",
                 "parameters": [
                     {
                         "name": "patient_id",
@@ -3935,10 +4229,10 @@
         "/api/v2/patients/{patient_id}/pa-services/{id}": {
             "get": {
                 "tags": [
-                    "Admin/PA Services"
+                    "Old/PA Services"
                 ],
                 "summary": "Get a single PA service",
-                "operationId": "d3fcce7d0ae49f17eeaa0e537706d6c0",
+                "operationId": "1eb81b2f2f35062c13d0377fe6371c22",
                 "parameters": [
                     {
                         "name": "patient_id",
@@ -3965,10 +4259,10 @@
             },
             "delete": {
                 "tags": [
-                    "Admin/PA Services"
+                    "Old/PA Services"
                 ],
                 "summary": "Delete a PA service",
-                "operationId": "381f42d90beb0df64630315880b1b1ad",
+                "operationId": "aaf8b3c36db2d8ff099381efa1211965",
                 "parameters": [
                     {
                         "name": "patient_id",
@@ -3997,10 +4291,10 @@
         "/api/v2/patients/{patient_identfifier}/pa-services/{id}": {
             "put": {
                 "tags": [
-                    "Admin/PA Services"
+                    "Old/PA Services"
                 ],
                 "summary": "Update a PA service",
-                "operationId": "243d651e85087c15d448ace65a108a8e",
+                "operationId": "4105ac9b56826272da6189c97ab48348",
                 "parameters": [
                     {
                         "name": "patient_id",
@@ -5624,6 +5918,54 @@
                 },
                 "type": "object"
             },
+            "PaginatedOldPaServiceResponse": {
+                "properties": {
+                    "current_page": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/PaService"
+                        }
+                    },
+                    "first_page_url": {
+                        "type": "string"
+                    },
+                    "from": {
+                        "type": "integer"
+                    },
+                    "last_page": {
+                        "type": "integer"
+                    },
+                    "last_page_url": {
+                        "type": "string"
+                    },
+                    "next_page_url": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "path": {
+                        "type": "string"
+                    },
+                    "per_page": {
+                        "type": "integer",
+                        "example": 15
+                    },
+                    "prev_page_url": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "to": {
+                        "type": "integer"
+                    },
+                    "total": {
+                        "type": "integer"
+                    }
+                },
+                "type": "object"
+            },
             "Role": {
                 "properties": {
                     "id": {
@@ -5849,25 +6191,23 @@
             },
             "Bip": {
                 "title": "Bip",
-                "description": "Behavior Intervention Plan model V2. Contains all information about a patient's behavior intervention plan, including various types of plans and related documents.",
+                "description": "Behavior Intervention Plan (BIP) model. Contains all information about a patient's behavior intervention plan, with their subplans.",
                 "properties": {
                     "id": {
                         "type": "integer",
                         "format": "int64",
                         "example": 1
                     },
+                    "patient_identifier": {
+                        "description": "Unique identifier for the patient",
+                        "type": "string",
+                        "example": "PAT123"
+                    },
                     "client_id": {
                         "description": "ID of the client this BIP belongs to",
                         "type": "integer",
                         "format": "int64",
                         "example": 1
-                    },
-                    "patient_id": {
-                        "description": "Patient identifier",
-                        "type": "string",
-                        "maxLength": 50,
-                        "example": "PAT123",
-                        "nullable": true
                     },
                     "doctor_id": {
                         "description": "ID of the supervising doctor",
@@ -6089,7 +6429,7 @@
             },
             "Objective": {
                 "title": "Objective",
-                "description": "Objective model for behavior intervention plans. Each plan can have multiple Short-Term Objectives (STOs) but only one Long-Term Objective (LTO). STOs represent intermediate goals, while LTOs represent the ultimate goal.",
+                "description": "Objective model for behavior intervention plans. Has multiple STOs and one LTO.",
                 "properties": {
                     "id": {
                         "type": "integer",
@@ -6103,7 +6443,7 @@
                         "example": 1
                     },
                     "type": {
-                        "description": "STO = Short Term Objective (multiple allowed per plan), LTO = Long Term Objective (only one per plan). LTOs always have order=999.",
+                        "description": "STO = Short Term Objective (multiple allowed per plan), LTO = Long Term Objective (only one per plan).",
                         "type": "string",
                         "enum": [
                             "STO",
@@ -6143,14 +6483,14 @@
                         "example": "Reduce inappropriate behavior to less than 5 instances per day"
                     },
                     "target": {
-                        "description": "Target value to achieve. For maladaptive plans: decreases from baseline to 0 (reduction). For replacement plans: increases from baseline to 100% (improvement). For training plans: represents mastery percentage.",
+                        "description": "Target value to achieve. For maladaptive plans: decreases, for replacement plans: increases, for training plans: mastery percentage.",
                         "type": "number",
                         "format": "float",
                         "example": 5,
                         "nullable": true
                     },
                     "order": {
-                        "description": "Order of the objective. For LTOs, this is always 999. For STOs, this determines their sequence. If not provided for STOs, will be set to the next available number.",
+                        "description": "Order of the objective. For LTOs, this is always 999. For STOs, this determines their sequence.",
                         "type": "integer",
                         "example": 1
                     },
@@ -6174,7 +6514,7 @@
             },
             "Plan": {
                 "title": "Plan",
-                "description": "Plan model for behavior intervention strategies. Can be one of four types: maladaptive (for reducing problem behaviors), replacement (for teaching alternative behaviors), caregiver_training (for training caregivers), or rbt_training (for training RBTs).",
+                "description": "Plan model for behavior intervention strategies. Can be one of four types: maladaptive (for reducing problem behaviors),\n *         replacement (for teaching alternative behaviors), caregiver_training (for training caregivers), or rbt_training (for training RBTs).",
                 "properties": {
                     "id": {
                         "type": "integer",
@@ -6198,7 +6538,7 @@
                         "example": "Displays aggressive behavior towards others"
                     },
                     "baseline_level": {
-                        "description": "Required for maladaptive and replacement plans. Initial baseline measurement. For maladaptive plans, represents frequency of behavior. For replacement plans, represents current skill level.",
+                        "description": "Required for maladaptive and replacement plans. Initial baseline measurement.\n *             For maladaptive plans, represents frequency of behavior. For replacement plans, represents current skill level.",
                         "type": "integer",
                         "format": "int32",
                         "example": 5,
@@ -6226,7 +6566,7 @@
                         "nullable": true
                     },
                     "category": {
-                        "description": "Category determines required fields and validation rules. Maladaptive and replacement plans require baseline fields. Each category has specific objective target rules.",
+                        "description": "Category determines required fields and validation rules. Maladaptive and replacement plans require baseline fields.\n *             Each category has specific objective target rules.",
                         "type": "string",
                         "enum": [
                             "maladaptive",
@@ -6266,7 +6606,7 @@
                         "nullable": true
                     },
                     "objectives": {
-                        "description": "List of objectives associated with this plan. Each plan can have multiple STOs (Short Term Objectives) but only one LTO (Long Term Objective). STOs are ordered by their order field, while LTOs always have order=999.",
+                        "description": "List of objectives associated with this plan. Each plan can have multiple STOs (Short Term Objectives)\n *             but only one LTO (Long Term Objective). STOs are ordered by their order field, while LTOs always have order=999.",
                         "type": "array",
                         "items": {
                             "$ref": "#/components/schemas/Objective"
@@ -7692,8 +8032,8 @@
             "description": "PA Services"
         },
         {
-            "name": "Admin/PA Services",
-            "description": "Admin/PA Services"
+            "name": "Old/PA Services",
+            "description": "Old/PA Services"
         },
         {
             "name": "Admin/Roles",

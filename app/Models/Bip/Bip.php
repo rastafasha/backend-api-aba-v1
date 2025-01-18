@@ -144,8 +144,7 @@ use App\Models\Bip\Replacement;
  * @OA\Schema(
  *     schema="Bip",
  *     title="Bip",
- *     description="Behavior Intervention Plan (BIP) model. Contains all information about a patient's behavior intervention plan, " .
- *         "including plans, objectives, and related data.",
+ *     description="Behavior Intervention Plan (BIP) model. Contains all information about a patient's behavior intervention plan, with their subplans.",
  *     @OA\Property(property="id", type="integer", format="int64", example=1),
  *     @OA\Property(property="patient_identifier", type="string", example="PAT123", description="Unique identifier for the patient"),
  *     @OA\Property(property="client_id", type="integer", format="int64", example=1, description="ID of the client this BIP belongs to"),

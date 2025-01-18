@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class PaServiceRequest extends FormRequest
+class PaServiceOldRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,7 +24,7 @@ class PaServiceRequest extends FormRequest
     public function rules()
     {
         $rules = [
-            'patient_id' => 'required|exists:patients,id',
+            'patient_id' => 'sometimes|exists:patients,id',
             'pa_service' => 'required|string|max:255',
             'cpt' => 'required|string|max:255',
             'n_units' => 'required|integer|min:0',

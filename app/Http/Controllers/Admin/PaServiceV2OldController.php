@@ -6,11 +6,11 @@ use App\Http\Controllers\Controller;
 use App\Models\PaService;
 use App\Models\Patient\Patient;
 use Illuminate\Http\Request;
-use App\Http\Requests\PaServiceRequest;
+use App\Http\Requests\PaServiceOldRequest;
 
 /**
  * @OA\Schema(
- *     schema="PaginatedPaServiceResponse",
+ *     schema="PaginatedOldPaServiceResponse",
  *     @OA\Property(property="current_page", type="integer", example=1),
  *     @OA\Property(property="data", type="array", @OA\Items(ref="#/components/schemas/PaService")),
  *     @OA\Property(property="first_page_url", type="string"),
@@ -25,19 +25,18 @@ use App\Http\Requests\PaServiceRequest;
  *     @OA\Property(property="total", type="integer")
  * )
  */
-class PaServiceV2Controller extends Controller
+class PaServiceV2OldController extends Controller
 {
     /**
      * @OA\Get(
-     *     path="/api/v2/pa-services",
-     *     summary="List all PA services",
-     *     description="Retrieve a paginated list of PA services with optional filters",
-     *     tags={"PA Services"},
+     *     path="/api/v2/patients/{patient_id}/pa-services",
+     *     summary="Get paginated PA services list for a patient",
+     *     tags={"Old/PA Services"},
      *     @OA\Parameter(
      *         name="patient_id",
-     *         in="query",
-     *         description="Filter PA services by patient ID",
-     *         required=false,
+     *         in="path",
+     *         required=true,
+     *         description="ID of the patient",
      *         @OA\Schema(type="string")
      *     ),
      *     @OA\Parameter(
@@ -51,31 +50,31 @@ class PaServiceV2Controller extends Controller
      *         response=200,
      *         description="Successful operation",
      *         @OA\JsonContent(
+     *             type="object",
      *             @OA\Property(property="status", type="string", example="success"),
      *             @OA\Property(
      *                 property="data",
      *                 ref="#/components/schemas/PaginatedPaServiceResponse"
      *             )
      *         )
-     *     )
+     *     ),
+     *     @OA\Response(response=404, description="Patient not found")
      * )
      */
-    public function index(Request $request)
+    public function index(Request $request, $patient_id)
     {
-        $query = PaService::query();
+        $patient = Patient::where('id', $patient_id)->first();
 
-        // Apply filters
-        if ($request->has('patient_id')) {
-            $query->whereHas('patient', function ($q) use ($request) {
-                $q->where('id', $request->patient_id);
-            });
+        if (!$patient) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Patient not found'
+            ], 404);
         }
 
-
-        // Get paginated results
-        $perPage = $request->input('per_page', 15);
-        $paServices = $query->orderBy('created_at', 'desc')
-            ->paginate($perPage);
+        $paServices = $patient->paServices()
+            ->orderBy('created_at', 'desc')
+            ->paginate($request->input('per_page', 15));
 
         return response()->json([
             'status' => 'success',
@@ -85,14 +84,20 @@ class PaServiceV2Controller extends Controller
 
     /**
      * @OA\Post(
-     *     path="/api/v2/pa-services",
+     *     path="/api/v2/patients/{patient_id}/pa-services",
      *     summary="Create a new PA service",
-     *     tags={"PA Services"},
+     *     tags={"Old/PA Services"},
+     *     @OA\Parameter(
+     *         name="patient_id",
+     *         in="path",
+     *         required=true,
+     *         description="ID of the patient",
+     *         @OA\Schema(type="string")
+     *     ),
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(
-     *             required={"patient_id", "pa_service", "cpt", "n_units", "start_date", "end_date"},
-     *             @OA\Property(property="patient_id", type="string", example="123"),
+     *             required={"pa_service", "cpt", "n_units", "start_date", "end_date"},
      *             @OA\Property(property="pa_service", type="string", example="Behavioral Analysis"),
      *             @OA\Property(property="cpt", type="string", example="97151"),
      *             @OA\Property(property="n_units", type="integer", example=8),
@@ -102,19 +107,25 @@ class PaServiceV2Controller extends Controller
      *     ),
      *     @OA\Response(
      *         response=201,
-     *         description="PA service created successfully",
-     *         @OA\JsonContent(
-     *             @OA\Property(property="status", type="string", example="success"),
-     *             @OA\Property(property="message", type="string", example="PA service created successfully"),
-     *             @OA\Property(property="data", ref="#/components/schemas/PaService")
-     *         )
+     *         description="PA service created successfully"
      *     )
      * )
      */
-    public function store(PaServiceRequest $request)
+    public function store(PaServiceOldRequest $request, $patient_id)
     {
+        $patient = Patient::where('id', $patient_id)->first();
+
+        if (!$patient) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Patient not found'
+            ], 404);
+        }
+
         $validated = $request->validated();
-        $paService = PaService::create($validated);
+        $paService = new PaService($validated);
+        $paService->patient_id = $patient->id;
+        $paService->save();
 
         return response()->json([
             'status' => 'success',
@@ -125,29 +136,39 @@ class PaServiceV2Controller extends Controller
 
     /**
      * @OA\Get(
-     *     path="/api/v2/pa-services/{id}",
-     *     summary="Get PA service by ID",
-     *     tags={"PA Services"},
+     *     path="/api/v2/patients/{patient_id}/pa-services/{id}",
+     *     summary="Get a single PA service",
+     *     tags={"Old/PA Services"},
+     *     @OA\Parameter(
+     *         name="patient_id",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="string")
+     *     ),
      *     @OA\Parameter(
      *         name="id",
      *         in="path",
      *         required=true,
-     *         description="PA service ID",
      *         @OA\Schema(type="integer")
      *     ),
      *     @OA\Response(
      *         response=200,
-     *         description="Successful operation",
-     *         @OA\JsonContent(
-     *             @OA\Property(property="status", type="string", example="success"),
-     *             @OA\Property(property="data", ref="#/components/schemas/PaService")
-     *         )
+     *         description="Successful operation"
      *     )
      * )
      */
-    public function show($id)
+    public function show($patient_identfifier, $id)
     {
-        $paService = PaService::find($id);
+        $patient = Patient::where('id', $patient_identfifier)->first();
+
+        if (!$patient) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Patient not found'
+            ], 404);
+        }
+
+        $paService = $patient->paServices()->find($id);
 
         if (!$paService) {
             return response()->json([
@@ -164,14 +185,19 @@ class PaServiceV2Controller extends Controller
 
     /**
      * @OA\Put(
-     *     path="/api/v2/pa-services/{id}",
+     *     path="/api/v2/patients/{patient_identfifier}/pa-services/{id}",
      *     summary="Update a PA service",
-     *     tags={"PA Services"},
+     *     tags={"Old/PA Services"},
+     *     @OA\Parameter(
+     *         name="patient_id",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="string")
+     *     ),
      *     @OA\Parameter(
      *         name="id",
      *         in="path",
      *         required=true,
-     *         description="PA service ID",
      *         @OA\Schema(type="integer")
      *     ),
      *     @OA\RequestBody(
@@ -186,33 +212,51 @@ class PaServiceV2Controller extends Controller
      *     ),
      *     @OA\Response(
      *         response=200,
-     *         description="PA service updated successfully",
-     *         @OA\JsonContent(
-     *             @OA\Property(property="status", type="string", example="success"),
-     *             @OA\Property(property="message", type="string", example="PA service updated successfully"),
-     *             @OA\Property(property="data", ref="#/components/schemas/PaService")
-     *         )
+     *         description="PA service updated successfully"
      *     )
      * )
      */
-    public function update(PaServiceRequest $request, $id)
+    public function update(PaServiceOldRequest $request, $patient_identfifier, $id)
     {
-        $paService = PaService::findOrFail($id);
+        $patient = Patient::where('id', $patient_identfifier)->first();
+
+        if (!$patient) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Patient not found'
+            ], 404);
+        }
+
+        $paService = $patient->paServices()->find($id);
+
+        if (!$paService) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'PA service not found'
+            ], 404);
+        }
+
         $validated = $request->validated();
         $paService->update($validated);
 
         return response()->json([
             'status' => 'success',
             'message' => 'PA service updated successfully',
-            'data' => $paService->fresh()
+            'data' => $paService
         ]);
     }
 
     /**
      * @OA\Delete(
-     *     path="/api/v2/pa-services/{id}",
+     *     path="/api/v2/patients/{patient_id}/pa-services/{id}",
      *     summary="Delete a PA service",
-     *     tags={"PA Services"},
+     *     tags={"Old/PA Services"},
+     *     @OA\Parameter(
+     *         name="patient_id",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="string")
+     *     ),
      *     @OA\Parameter(
      *         name="id",
      *         in="path",
@@ -221,17 +265,22 @@ class PaServiceV2Controller extends Controller
      *     ),
      *     @OA\Response(
      *         response=200,
-     *         description="PA service deleted successfully",
-     *         @OA\JsonContent(
-     *             @OA\Property(property="status", type="string", example="success"),
-     *             @OA\Property(property="message", type="string", example="PA service deleted successfully")
-     *         )
+     *         description="PA service deleted successfully"
      *     )
      * )
      */
-    public function destroy($id)
+    public function destroy($patient_identfifier, $id)
     {
-        $paService = PaService::find($id);
+        $patient = Patient::where('id', $patient_identfifier)->first();
+
+        if (!$patient) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Patient not found'
+            ], 404);
+        }
+
+        $paService = $patient->paServices()->find($id);
 
         if (!$paService) {
             return response()->json([

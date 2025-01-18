@@ -12,8 +12,8 @@ use Illuminate\Support\Facades\Validator;
  * @OA\Schema(
  *     schema="Plan",
  *     title="Plan",
- *     description="Plan model for behavior intervention strategies. Can be one of four types: maladaptive (for reducing problem behaviors), " .
- *         "replacement (for teaching alternative behaviors), caregiver_training (for training caregivers), or rbt_training (for training RBTs).",
+ *     description="Plan model for behavior intervention strategies. Can be one of four types: maladaptive (for reducing problem behaviors),
+ *         replacement (for teaching alternative behaviors), caregiver_training (for training caregivers), or rbt_training (for training RBTs).",
  *     @OA\Property(property="id", type="integer", format="int64", example=1),
  *     @OA\Property(property="bip_id", type="integer", format="int64", example=1, description="ID of the BIP this plan belongs to"),
  *     @OA\Property(property="name", type="string", example="Aggressive Behavior", description="Name of the plan"),
@@ -24,8 +24,8 @@ use Illuminate\Support\Facades\Validator;
  *         format="int32",
  *         example=5,
  *         nullable=true,
- *         description="Required for maladaptive and replacement plans. Initial baseline measurement. " .
- *             "For maladaptive plans, represents frequency of behavior. For replacement plans, represents current skill level."
+ *         description="Required for maladaptive and replacement plans. Initial baseline measurement.
+ *             For maladaptive plans, represents frequency of behavior. For replacement plans, represents current skill level."
  *     ),
  *     @OA\Property(
  *         property="baseline_date",
@@ -56,8 +56,8 @@ use Illuminate\Support\Facades\Validator;
  *         type="string",
  *         enum={"maladaptive", "replacement", "caregiver_training", "rbt_training"},
  *         example="maladaptive",
- *         description="Category determines required fields and validation rules. Maladaptive and replacement plans require baseline fields. " .
- *             "Each category has specific objective target rules."
+ *         description="Category determines required fields and validation rules. Maladaptive and replacement plans require baseline fields.
+ *             Each category has specific objective target rules."
  *     ),
  *     @OA\Property(
  *         property="status",
@@ -72,8 +72,8 @@ use Illuminate\Support\Facades\Validator;
  *     @OA\Property(
  *         property="objectives",
  *         type="array",
- *         description="List of objectives associated with this plan. Each plan can have multiple STOs (Short Term Objectives) " .
- *             "but only one LTO (Long Term Objective). STOs are ordered by their order field, while LTOs always have order=999.",
+ *         description="List of objectives associated with this plan. Each plan can have multiple STOs (Short Term Objectives)
+ *             but only one LTO (Long Term Objective). STOs are ordered by their order field, while LTOs always have order=999.",
  *         @OA\Items(ref="#/components/schemas/Objective")
  *     )
  * )

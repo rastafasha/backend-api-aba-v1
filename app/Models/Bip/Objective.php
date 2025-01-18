@@ -11,8 +11,7 @@ use Illuminate\Support\Facades\Validator;
  * @OA\Schema(
  *     schema="Objective",
  *     title="Objective",
- *     description="Objective model for behavior intervention plans. Each plan can have multiple Short-Term Objectives (STOs) " .
- *         "but only one Long-Term Objective (LTO). STOs represent intermediate goals, while LTOs represent the ultimate goal.",
+ *     description="Objective model for behavior intervention plans. Has multiple STOs and one LTO.",
  *     @OA\Property(property="id", type="integer", format="int64", example=1),
  *     @OA\Property(property="plan_id", type="integer", format="int64", example=1, description="ID of the plan this objective belongs to"),
  *     @OA\Property(
@@ -20,8 +19,7 @@ use Illuminate\Support\Facades\Validator;
  *         type="string",
  *         enum={"STO", "LTO"},
  *         example="STO",
- *         description="STO = Short Term Objective (multiple allowed per plan), LTO = Long Term Objective (only one per plan). " .
- *             "LTOs always have order=999."
+ *         description="STO = Short Term Objective (multiple allowed per plan), LTO = Long Term Objective (only one per plan).",
  *     ),
  *     @OA\Property(
  *         property="status",
@@ -58,15 +56,13 @@ use Illuminate\Support\Facades\Validator;
  *         format="float",
  *         example=5,
  *         nullable=true,
- *         description="Target value to achieve. For maladaptive plans: decreases from baseline to 0 (reduction). " .
- *             "For replacement plans: increases from baseline to 100% (improvement). For training plans: represents mastery percentage."
+ *         description="Target value to achieve. For maladaptive plans: decreases, for replacement plans: increases, for training plans: mastery percentage."
  *     ),
  *     @OA\Property(
  *         property="order",
  *         type="integer",
  *         example=1,
- *         description="Order of the objective. For LTOs, this is always 999. For STOs, this determines their sequence. " .
- *             "If not provided for STOs, will be set to the next available number."
+ *         description="Order of the objective. For LTOs, this is always 999. For STOs, this determines their sequence.",
  *     ),
  *     @OA\Property(property="created_at", type="string", format="datetime", example="2024-01-01 00:00:00"),
  *     @OA\Property(property="updated_at", type="string", format="datetime", example="2024-01-01 00:00:00"),

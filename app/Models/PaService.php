@@ -34,7 +34,6 @@ class PaService extends Model
 
     protected $fillable = [
         'patient_id',
-        // 'id_patient',
         'pa_service',
         'cpt',
         'n_units',

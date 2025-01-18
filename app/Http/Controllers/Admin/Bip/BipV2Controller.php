@@ -14,8 +14,7 @@ class BipV2Controller extends Controller
      * @OA\Get(
      *     path="/api/v2/bips",
      *     summary="List all BIPs",
-     *     description="Retrieve a paginated list of behavior intervention plans (BIPs) with optional filters. " .
-     *         "Each BIP includes its associated plans, objectives, and other related data.",
+     *     description="Retrieve a paginated list of behavior intervention plans (BIPs) with optional filters and their subplans.",
      *     tags={"BIPs"},
      *     @OA\Parameter(
      *         name="patient_identifier",
