@@ -9,7 +9,7 @@ use App\Models\User;
 use App\Models\PaService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
-
+use Spatie\Permission\Models\Permission;
 class NoteRbtTimeOverlapTest extends TestCase
 {
     use RefreshDatabase;
@@ -27,6 +27,8 @@ class NoteRbtTimeOverlapTest extends TestCase
         // Create test data
         $this->patient = Patient::factory()->create();
         $this->provider = User::factory()->create();
+        $permission = Permission::create(['name' => 'ignore_time_limits']);
+        $this->provider->givePermissionTo($permission);
         $this->doctor = User::factory()->create();
         $this->paService = PaService::factory()->create();
 
@@ -51,7 +53,7 @@ class NoteRbtTimeOverlapTest extends TestCase
         ]));
 
         // Try to create second note with non-overlapping time
-        $response = $this->postJson('/api/v2/notes/rbt', array_merge($this->baseData, [
+        $response = $this->actingAs($this->provider)->postJson('/api/v2/notes/rbt', array_merge($this->baseData, [
             'time_in' => '10:30',
             'time_out' => '11:30',
         ]));
@@ -88,7 +90,7 @@ class NoteRbtTimeOverlapTest extends TestCase
         ]));
 
         // Try to create second note with non-overlapping time
-        $response = $this->postJson('/api/v2/notes/rbt', array_merge($this->baseData, [
+        $response = $this->actingAs($this->provider)->postJson('/api/v2/notes/rbt', array_merge($this->baseData, [
             'time_in2' => '15:30',
             'time_out2' => '16:30',
         ]));
@@ -185,7 +187,7 @@ class NoteRbtTimeOverlapTest extends TestCase
         ]));
 
         // Try to update the same note with the same times
-        $response = $this->putJson("/api/v2/notes/rbt/{$note->id}", array_merge($this->baseData, [
+        $response = $this->actingAs($this->provider)->putJson("/api/v2/notes/rbt/{$note->id}", array_merge($this->baseData, [
             'time_in' => '09:00',
             'time_out' => '10:00',
         ]));
@@ -212,6 +214,44 @@ class NoteRbtTimeOverlapTest extends TestCase
         $response = $this->putJson("/api/v2/notes/rbt/{$note2->id}", array_merge($this->baseData, [
             'time_in' => '09:30',
             'time_out' => '10:30',
+        ]));
+
+        $response->assertStatus(422)
+            ->assertJsonValidationErrors(['time_in']);
+    }
+
+    /** @test */
+    public function it_prevents_sessions_without_buffer_time_morning()
+    {
+        // Create first note
+        NoteRbt::create(array_merge($this->baseData, [
+            'time_in' => '09:00',
+            'time_out' => '10:00',
+        ]));
+
+        // Try to create second note with insufficient buffer time (less than 15 minutes)
+        $response = $this->postJson('/api/v2/notes/rbt', array_merge($this->baseData, [
+            'time_in' => '10:10',
+            'time_out' => '11:10',
+        ]));
+
+        $response->assertStatus(422)
+            ->assertJsonValidationErrors(['time_in']);
+    }
+
+    /** @test */
+    public function it_prevents_sessions_without_buffer_time_afternoon()
+    {
+        // Create first note with afternoon session
+        NoteRbt::create(array_merge($this->baseData, [
+            'time_in2' => '14:00',
+            'time_out2' => '15:00',
+        ]));
+
+        // Try to create second note with insufficient buffer time (less than 15 minutes)
+        $response = $this->postJson('/api/v2/notes/rbt', array_merge($this->baseData, [
+            'time_in2' => '15:05',
+            'time_out2' => '16:05',
         ]));
 
         $response->assertStatus(422)

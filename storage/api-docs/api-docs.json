@@ -11,7 +11,19 @@
                     "BIPs"
                 ],
                 "summary": "List all BIPs",
+                "description": "Retrieve a paginated list of behavior intervention plans (BIPs) with optional filters and their subplans.",
                 "operationId": "a3c6a76edc377107281ee77209fe443a",
+                "parameters": [
+                    {
+                        "name": "patient_identifier",
+                        "in": "query",
+                        "description": "Filter BIPs by patient identifier",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "Successful operation",
@@ -26,7 +38,7 @@
                                         "data": {
                                             "type": "array",
                                             "items": {
-                                                "$ref": "#/components/schemas/BipV2"
+                                                "$ref": "#/components/schemas/Bip"
                                             }
                                         }
                                     },
@@ -48,7 +60,7 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "$ref": "#/components/schemas/BipV2"
+                                "$ref": "#/components/schemas/Bip"
                             }
                         }
                     }
@@ -69,7 +81,7 @@
                                             "example": "BIP created successfully"
                                         },
                                         "data": {
-                                            "$ref": "#/components/schemas/BipV2"
+                                            "$ref": "#/components/schemas/Bip"
                                         }
                                     },
                                     "type": "object"
@@ -110,7 +122,7 @@
                                             "example": "success"
                                         },
                                         "data": {
-                                            "$ref": "#/components/schemas/BipV2"
+                                            "$ref": "#/components/schemas/Bip"
                                         }
                                     },
                                     "type": "object"
@@ -142,7 +154,7 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "$ref": "#/components/schemas/BipV2"
+                                "$ref": "#/components/schemas/Bip"
                             }
                         }
                     }
@@ -163,7 +175,7 @@
                                             "example": "BIP updated successfully"
                                         },
                                         "data": {
-                                            "$ref": "#/components/schemas/BipV2"
+                                            "$ref": "#/components/schemas/Bip"
                                         }
                                     },
                                     "type": "object"
@@ -216,160 +228,61 @@
                 }
             }
         },
-        "/api/v2/long-term-objectives": {
+        "/api/v2/objectives": {
             "get": {
                 "tags": [
-                    "Long Term Objectives"
+                    "Objectives"
                 ],
-                "summary": "Get all Long Term Objectives with filters",
-                "operationId": "11abb4b06d49a4e8a0263ba2fae26942",
+                "summary": "List all Objectives",
+                "description": "Retrieve a paginated list of objectives with optional filters",
+                "operationId": "c0947a9f85d6c79d0b4b5c7120282246",
                 "parameters": [
                     {
-                        "name": "maladaptive_id",
+                        "name": "plan_id",
                         "in": "query",
+                        "description": "Filter objectives by Plan ID",
                         "required": false,
                         "schema": {
                             "type": "integer"
                         }
                     },
                     {
-                        "name": "status",
+                        "name": "type",
                         "in": "query",
+                        "description": "Filter objectives by type (STO or LTO)",
                         "required": false,
                         "schema": {
-                            "type": "string"
+                            "type": "string",
+                            "enum": [
+                                "STO",
+                                "LTO"
+                            ]
                         }
                     },
                     {
-                        "name": "per_page",
+                        "name": "status",
                         "in": "query",
+                        "description": "Filter objectives by their current status",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "in progress",
+                                "mastered",
+                                "not started",
+                                "discontinued",
+                                "maintenance"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Page number for pagination",
                         "required": false,
                         "schema": {
                             "type": "integer",
-                            "default": 15
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Successful operation"
-                    }
-                }
-            },
-            "post": {
-                "tags": [
-                    "Long Term Objectives"
-                ],
-                "summary": "Create a new Long Term Objective",
-                "operationId": "153a9a9b736bab9db80a24f185e7eef9",
-                "responses": {
-                    "201": {
-                        "description": "Objective created successfully"
-                    }
-                }
-            }
-        },
-        "/api/v2/long-term-objectives/{id}": {
-            "get": {
-                "tags": [
-                    "Long Term Objectives"
-                ],
-                "summary": "Get Long Term Objective by ID",
-                "operationId": "3245fbf787e043dca9d561f1738430e7",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Successful operation"
-                    }
-                }
-            },
-            "put": {
-                "tags": [
-                    "Long Term Objectives"
-                ],
-                "summary": "Update a Long Term Objective",
-                "operationId": "cc71e5ed8c1fa0c558ba8fe7e0215e93",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Objective updated successfully"
-                    }
-                }
-            },
-            "delete": {
-                "tags": [
-                    "Long Term Objectives"
-                ],
-                "summary": "Delete a Long Term Objective",
-                "operationId": "4076b7bbcb35ba2a907beb420b3355c0",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Objective deleted successfully"
-                    }
-                }
-            }
-        },
-        "/api/v2/maladaptives": {
-            "get": {
-                "tags": [
-                    "Maladaptives"
-                ],
-                "summary": "Get all Maladaptive behaviors with filters",
-                "operationId": "b27c3e0c152a8b60eb819e545c8d0a64",
-                "parameters": [
-                    {
-                        "name": "bip_id",
-                        "in": "query",
-                        "description": "Filter by BIP ID",
-                        "required": false,
-                        "schema": {
-                            "type": "integer"
-                        }
-                    },
-                    {
-                        "name": "name",
-                        "in": "query",
-                        "description": "Filter by behavior name",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "status",
-                        "in": "query",
-                        "description": "Filter by status",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
+                            "default": 1
                         }
                     },
                     {
@@ -403,19 +316,71 @@
                                                 "data": {
                                                     "type": "array",
                                                     "items": {
-                                                        "$ref": "#/components/schemas/Maladaptive"
+                                                        "$ref": "#/components/schemas/Objective"
                                                     }
                                                 },
-                                                "total": {
+                                                "first_page_url": {
+                                                    "type": "string",
+                                                    "example": "http://localhost/api/v2/objectives?page=1"
+                                                },
+                                                "from": {
                                                     "type": "integer",
-                                                    "example": 50
+                                                    "example": 1
+                                                },
+                                                "last_page": {
+                                                    "type": "integer",
+                                                    "example": 3
+                                                },
+                                                "last_page_url": {
+                                                    "type": "string",
+                                                    "example": "http://localhost/api/v2/objectives?page=3"
+                                                },
+                                                "next_page_url": {
+                                                    "type": "string",
+                                                    "example": "http://localhost/api/v2/objectives?page=2"
+                                                },
+                                                "path": {
+                                                    "type": "string",
+                                                    "example": "http://localhost/api/v2/objectives"
                                                 },
                                                 "per_page": {
                                                     "type": "integer",
                                                     "example": 15
+                                                },
+                                                "prev_page_url": {
+                                                    "type": "string",
+                                                    "example": null
+                                                },
+                                                "to": {
+                                                    "type": "integer",
+                                                    "example": 15
+                                                },
+                                                "total": {
+                                                    "type": "integer",
+                                                    "example": 40
                                                 }
                                             },
                                             "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Invalid parameters"
                                         }
                                     },
                                     "type": "object"
@@ -427,77 +392,76 @@
             },
             "post": {
                 "tags": [
-                    "Maladaptives"
+                    "Objectives"
                 ],
-                "summary": "Create a new Maladaptive behavior",
-                "operationId": "d255dda550cc78360bf84de766e2e618",
+                "summary": "Create a new Objective",
+                "description": "Create a new objective. Note: Only one LTO is allowed per plan, and LTOs must have order=999.",
+                "operationId": "3b2cba26336ef8f05a2b0f9da362453a",
                 "requestBody": {
                     "required": true,
                     "content": {
                         "application/json": {
                             "schema": {
                                 "required": [
-                                    "bip_id",
-                                    "name",
+                                    "plan_id",
+                                    "type",
                                     "description",
-                                    "baseline_level",
-                                    "baseline_date",
-                                    "initial_intensity",
-                                    "current_intensity",
-                                    "status"
+                                    "target",
+                                    "initial_date",
+                                    "end_date"
                                 ],
                                 "properties": {
-                                    "bip_id": {
+                                    "plan_id": {
                                         "type": "integer",
                                         "example": 1
                                     },
-                                    "name": {
+                                    "type": {
+                                        "description": "LTO = Long Term Objective (only one per plan, order=999), STO = Short Term Objective",
                                         "type": "string",
-                                        "example": "Aggressive Behavior"
+                                        "enum": [
+                                            "STO",
+                                            "LTO"
+                                        ],
+                                        "example": "STO"
+                                    },
+                                    "status": {
+                                        "description": "Initial status of the objective",
+                                        "type": "string",
+                                        "enum": [
+                                            "in progress",
+                                            "mastered",
+                                            "not started",
+                                            "discontinued",
+                                            "maintenance"
+                                        ],
+                                        "example": "not started"
+                                    },
+                                    "initial_date": {
+                                        "description": "Start date. Must be before end_date.",
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2024-01-01"
+                                    },
+                                    "end_date": {
+                                        "description": "End date. Must be after initial_date.",
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2024-03-01"
                                     },
                                     "description": {
                                         "type": "string",
-                                        "example": "Displays aggressive behavior towards others"
+                                        "example": "Reduce inappropriate behavior to less than 5 instances per day"
                                     },
-                                    "baseline_level": {
-                                        "type": "integer",
+                                    "target": {
+                                        "description": "For maladaptive plans: 0-100 (reduction). For replacement plans: >= 0 (improvement).",
+                                        "type": "number",
+                                        "format": "float",
                                         "example": 5
                                     },
-                                    "baseline_date": {
-                                        "type": "string",
-                                        "format": "date-time"
-                                    },
-                                    "initial_intensity": {
+                                    "order": {
+                                        "description": "Optional for STOs (will be placed at end if not provided). For LTOs, always set to 999.",
                                         "type": "integer",
-                                        "example": 7
-                                    },
-                                    "current_intensity": {
-                                        "type": "integer",
-                                        "example": 4
-                                    },
-                                    "status": {
-                                        "type": "string",
-                                        "enum": [
-                                            "active",
-                                            "completed",
-                                            "hold",
-                                            "discontinued",
-                                            "maintenance",
-                                            "met",
-                                            "monitoring"
-                                        ]
-                                    },
-                                    "long_term_objectives": {
-                                        "type": "array",
-                                        "items": {
-                                            "$ref": "#/components/schemas/LongTermObjective"
-                                        }
-                                    },
-                                    "short_term_objectives": {
-                                        "type": "array",
-                                        "items": {
-                                            "$ref": "#/components/schemas/ShortTermObjective"
-                                        }
+                                        "example": 1
                                     }
                                 },
                                 "type": "object"
@@ -507,7 +471,7 @@
                 },
                 "responses": {
                     "201": {
-                        "description": "Maladaptive behavior created successfully",
+                        "description": "Objective created successfully",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -518,328 +482,10 @@
                                         },
                                         "message": {
                                             "type": "string",
-                                            "example": "Maladaptive behavior created successfully"
+                                            "example": "Objective created successfully"
                                         },
                                         "data": {
-                                            "$ref": "#/components/schemas/Maladaptive"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/api/v2/maladaptives/{id}": {
-            "get": {
-                "tags": [
-                    "Maladaptives"
-                ],
-                "summary": "Get Maladaptive behavior by ID",
-                "operationId": "491443dd5da1d4e90d671e8d4ce817ce",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "Maladaptive behavior ID",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Successful operation",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "status": {
-                                            "type": "string",
-                                            "example": "success"
-                                        },
-                                        "data": {
-                                            "$ref": "#/components/schemas/Maladaptive"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "put": {
-                "tags": [
-                    "Maladaptives"
-                ],
-                "summary": "Update a Maladaptive behavior",
-                "operationId": "380604f2467c911c0fcb052054d7efab",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "Maladaptive behavior ID",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
-                    }
-                ],
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/Maladaptive"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "Maladaptive behavior updated successfully",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "status": {
-                                            "type": "string",
-                                            "example": "success"
-                                        },
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Maladaptive behavior updated successfully"
-                                        },
-                                        "data": {
-                                            "$ref": "#/components/schemas/Maladaptive"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "delete": {
-                "tags": [
-                    "Maladaptives"
-                ],
-                "summary": "Delete a Maladaptive behavior",
-                "operationId": "5138f6ac6361feb4d4d88180c156b01f",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "Maladaptive behavior ID",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Maladaptive behavior deleted successfully",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "status": {
-                                            "type": "string",
-                                            "example": "success"
-                                        },
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Maladaptive behavior and related objectives deleted successfully"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/api/v2/reduction-goals": {
-            "get": {
-                "tags": [
-                    "Reduction Goals"
-                ],
-                "summary": "Get all Reduction Goals with filters",
-                "operationId": "4a4cc6b11fc55cb6967ffbde936142e5",
-                "parameters": [
-                    {
-                        "name": "bip_id",
-                        "in": "query",
-                        "description": "Filter by BIP ID",
-                        "required": false,
-                        "schema": {
-                            "type": "integer"
-                        }
-                    },
-                    {
-                        "name": "patient_identifier",
-                        "in": "query",
-                        "description": "Filter by patient identifier",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "client_id",
-                        "in": "query",
-                        "description": "Filter by client ID",
-                        "required": false,
-                        "schema": {
-                            "type": "integer"
-                        }
-                    },
-                    {
-                        "name": "baseline",
-                        "in": "query",
-                        "description": "Filter by baseline value",
-                        "required": false,
-                        "schema": {
-                            "type": "integer"
-                        }
-                    },
-                    {
-                        "name": "per_page",
-                        "in": "query",
-                        "description": "Number of items per page",
-                        "required": false,
-                        "schema": {
-                            "type": "integer",
-                            "default": 15
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Successful operation",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "status": {
-                                            "type": "string",
-                                            "example": "success"
-                                        },
-                                        "data": {
-                                            "properties": {
-                                                "current_page": {
-                                                    "type": "integer",
-                                                    "example": 1
-                                                },
-                                                "data": {
-                                                    "type": "array",
-                                                    "items": {
-                                                        "$ref": "#/components/schemas/ReductionGoal"
-                                                    }
-                                                },
-                                                "total": {
-                                                    "type": "integer",
-                                                    "example": 50
-                                                },
-                                                "per_page": {
-                                                    "type": "integer",
-                                                    "example": 15
-                                                }
-                                            },
-                                            "type": "object"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "post": {
-                "tags": [
-                    "Reduction Goals"
-                ],
-                "summary": "Create a new Reduction Goal",
-                "operationId": "072ae50ab21dbe0c3ce571907459c1cc",
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "required": [
-                                    "bip_id",
-                                    "patient_identifier",
-                                    "client_id",
-                                    "current_status",
-                                    "maladaptive"
-                                ],
-                                "properties": {
-                                    "bip_id": {
-                                        "type": "integer",
-                                        "example": 1
-                                    },
-                                    "patient_identifier": {
-                                        "type": "string",
-                                        "example": "PAT001"
-                                    },
-                                    "client_id": {
-                                        "type": "integer",
-                                        "example": 1
-                                    },
-                                    "current_status": {
-                                        "type": "string",
-                                        "enum": [
-                                            "active",
-                                            "completed",
-                                            "on hold",
-                                            "discontinued"
-                                        ],
-                                        "example": "active"
-                                    },
-                                    "maladaptive": {
-                                        "type": "string",
-                                        "example": "Inappropriate Language"
-                                    },
-                                    "long_term_objective": {
-                                        "$ref": "#/components/schemas/LongTermObjective"
-                                    },
-                                    "short_term_objectives": {
-                                        "type": "array",
-                                        "items": {
-                                            "$ref": "#/components/schemas/ShortTermObjective"
-                                        }
-                                    }
-                                },
-                                "type": "object"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "201": {
-                        "description": "Goal created successfully",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "status": {
-                                            "type": "string",
-                                            "example": "success"
-                                        },
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Reduction goal created successfully"
-                                        },
-                                        "data": {
-                                            "$ref": "#/components/schemas/ReductionGoal"
+                                            "$ref": "#/components/schemas/Objective"
                                         }
                                     },
                                     "type": "object"
@@ -853,12 +499,27 @@
                             "application/json": {
                                 "schema": {
                                     "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
                                         "message": {
                                             "type": "string",
-                                            "example": "The given data was invalid."
+                                            "example": "Validation failed"
                                         },
                                         "errors": {
                                             "type": "object",
+                                            "example": {
+                                                "type": [
+                                                    "The type field is required."
+                                                ],
+                                                "target": [
+                                                    "Target for maladaptive plans must be between 0 and 100"
+                                                ],
+                                                "multiple_lto": [
+                                                    "Plan already has a long term objective"
+                                                ]
+                                            },
                                             "additionalProperties": {
                                                 "type": "array",
                                                 "items": {
@@ -875,18 +536,19 @@
                 }
             }
         },
-        "/api/v2/reduction-goals/{id}": {
+        "/api/v2/objectives/{id}": {
             "get": {
                 "tags": [
-                    "Reduction Goals"
+                    "Objectives"
                 ],
-                "summary": "Get Reduction Goal by ID",
-                "operationId": "adb401723f90bf4f850b0a15d4928f0f",
+                "summary": "Get Objective by ID",
+                "description": "Retrieve a single objective with its associated plan",
+                "operationId": "f076f078ad9ee3558666f213cbfd3939",
                 "parameters": [
                     {
                         "name": "id",
                         "in": "path",
-                        "description": "Reduction Goal ID",
+                        "description": "Objective ID",
                         "required": true,
                         "schema": {
                             "type": "integer"
@@ -905,7 +567,7 @@
                                             "example": "success"
                                         },
                                         "data": {
-                                            "$ref": "#/components/schemas/ReductionGoal"
+                                            "$ref": "#/components/schemas/Objective"
                                         }
                                     },
                                     "type": "object"
@@ -914,7 +576,7 @@
                         }
                     },
                     "404": {
-                        "description": "Goal not found",
+                        "description": "Objective not found",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -925,7 +587,7 @@
                                         },
                                         "message": {
                                             "type": "string",
-                                            "example": "Reduction goal not found"
+                                            "example": "Objective not found"
                                         }
                                     },
                                     "type": "object"
@@ -937,15 +599,16 @@
             },
             "put": {
                 "tags": [
-                    "Reduction Goals"
+                    "Objectives"
                 ],
-                "summary": "Update a Reduction Goal",
-                "operationId": "dfae602c79b78d8a4f0a42d3f8937daa",
+                "summary": "Update an Objective",
+                "description": "Update an existing objective. Note: LTO order cannot be changed from 999.",
+                "operationId": "db9fcd766c8067f66dcc46569a934cdf",
                 "parameters": [
                     {
                         "name": "id",
                         "in": "path",
-                        "description": "Reduction Goal ID",
+                        "description": "Objective ID",
                         "required": true,
                         "schema": {
                             "type": "integer"
@@ -958,31 +621,34 @@
                         "application/json": {
                             "schema": {
                                 "properties": {
-                                    "bip_id": {
-                                        "type": "integer",
-                                        "example": 1
-                                    },
-                                    "patient_identifier": {
-                                        "type": "string",
-                                        "example": "PAT001"
-                                    },
-                                    "client_id": {
-                                        "type": "integer",
-                                        "example": 1
-                                    },
-                                    "current_status": {
+                                    "status": {
                                         "type": "string",
                                         "enum": [
-                                            "not started",
                                             "in progress",
                                             "mastered",
-                                            "discontinued"
-                                        ],
-                                        "example": "not started"
+                                            "not started",
+                                            "discontinued",
+                                            "maintenance"
+                                        ]
                                     },
-                                    "maladaptive": {
+                                    "initial_date": {
                                         "type": "string",
-                                        "example": "Inappropriate Language"
+                                        "format": "date"
+                                    },
+                                    "end_date": {
+                                        "type": "string",
+                                        "format": "date"
+                                    },
+                                    "description": {
+                                        "type": "string"
+                                    },
+                                    "target": {
+                                        "description": "For maladaptive plans: 0-100 (reduction). For replacement plans: >= 0 (improvement).",
+                                        "type": "number"
+                                    },
+                                    "order": {
+                                        "description": "Only for STOs. Existing objectives will be reordered.",
+                                        "type": "integer"
                                     }
                                 },
                                 "type": "object"
@@ -992,7 +658,7 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "Goal updated successfully",
+                        "description": "Objective updated successfully",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -1003,10 +669,10 @@
                                         },
                                         "message": {
                                             "type": "string",
-                                            "example": "Reduction goal updated successfully"
+                                            "example": "Objective updated successfully"
                                         },
                                         "data": {
-                                            "$ref": "#/components/schemas/ReductionGoal"
+                                            "$ref": "#/components/schemas/Objective"
                                         }
                                     },
                                     "type": "object"
@@ -1015,7 +681,7 @@
                         }
                     },
                     "404": {
-                        "description": "Goal not found"
+                        "description": "Objective not found"
                     },
                     "422": {
                         "description": "Validation error"
@@ -1024,15 +690,16 @@
             },
             "delete": {
                 "tags": [
-                    "Reduction Goals"
+                    "Objectives"
                 ],
-                "summary": "Delete a Reduction Goal",
-                "operationId": "6173c5de8f0149b1f11932e3df12f822",
+                "summary": "Delete an Objective",
+                "description": "Delete an objective and reorder remaining objectives if necessary",
+                "operationId": "9297ca5496560558152a2a69ec13c4cf",
                 "parameters": [
                     {
                         "name": "id",
                         "in": "path",
-                        "description": "Reduction Goal ID",
+                        "description": "Objective ID",
                         "required": true,
                         "schema": {
                             "type": "integer"
@@ -1041,7 +708,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "Goal deleted successfully",
+                        "description": "Objective deleted successfully",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -1052,7 +719,7 @@
                                         },
                                         "message": {
                                             "type": "string",
-                                            "example": "Reduction goal deleted successfully"
+                                            "example": "Objective deleted successfully"
                                         }
                                     },
                                     "type": "object"
@@ -1061,7 +728,7 @@
                         }
                     },
                     "404": {
-                        "description": "Goal not found",
+                        "description": "Objective not found",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -1072,175 +739,27 @@
                                         },
                                         "message": {
                                             "type": "string",
-                                            "example": "Reduction goal not found"
+                                            "example": "Objective not found"
                                         }
                                     },
                                     "type": "object"
                                 }
                             }
                         }
-                    }
-                }
-            }
-        },
-        "/api/v2/replacements": {
-            "get": {
-                "tags": [
-                    "Replacements"
-                ],
-                "summary": "List all replacement behaviors",
-                "operationId": "6d764bba2bf753effc8fe620fd2e34d5",
-                "parameters": [
-                    {
-                        "name": "bip_id",
-                        "in": "query",
-                        "description": "Filter by BIP ID",
-                        "required": false,
-                        "schema": {
-                            "type": "integer"
-                        }
                     },
-                    {
-                        "name": "name",
-                        "in": "query",
-                        "description": "Filter by name",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "status",
-                        "in": "query",
-                        "description": "Filter by status",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Successful operation",
+                    "500": {
+                        "description": "Server error",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "properties": {
                                         "status": {
                                             "type": "string",
-                                            "example": "success"
-                                        },
-                                        "data": {
-                                            "type": "array",
-                                            "items": {
-                                                "$ref": "#/components/schemas/Replacement"
-                                            }
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "post": {
-                "tags": [
-                    "Replacements"
-                ],
-                "summary": "Create a new Replacement behavior",
-                "operationId": "2eb2e9330fffe38b760762d59ffb5ffb",
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "required": [
-                                    "bip_id",
-                                    "name",
-                                    "description",
-                                    "baseline_level",
-                                    "baseline_date",
-                                    "initial_intensity",
-                                    "current_intensity",
-                                    "status"
-                                ],
-                                "properties": {
-                                    "bip_id": {
-                                        "type": "integer",
-                                        "example": 1
-                                    },
-                                    "name": {
-                                        "type": "string",
-                                        "example": "Communication Skills"
-                                    },
-                                    "description": {
-                                        "type": "string",
-                                        "example": "Uses appropriate communication methods"
-                                    },
-                                    "baseline_level": {
-                                        "type": "integer",
-                                        "example": 5
-                                    },
-                                    "baseline_date": {
-                                        "type": "string",
-                                        "format": "date-time"
-                                    },
-                                    "initial_intensity": {
-                                        "type": "integer",
-                                        "example": 7
-                                    },
-                                    "current_intensity": {
-                                        "type": "integer",
-                                        "example": 4
-                                    },
-                                    "status": {
-                                        "type": "string",
-                                        "enum": [
-                                            "active",
-                                            "completed",
-                                            "hold",
-                                            "discontinued",
-                                            "maintenance",
-                                            "met",
-                                            "monitoring"
-                                        ]
-                                    },
-                                    "long_term_objectives": {
-                                        "type": "array",
-                                        "items": {
-                                            "$ref": "#/components/schemas/LongTermObjective"
-                                        }
-                                    },
-                                    "short_term_objectives": {
-                                        "type": "array",
-                                        "items": {
-                                            "$ref": "#/components/schemas/ShortTermObjective"
-                                        }
-                                    }
-                                },
-                                "type": "object"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "201": {
-                        "description": "Replacement behavior created successfully",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "status": {
-                                            "type": "string",
-                                            "example": "success"
+                                            "example": "error"
                                         },
                                         "message": {
                                             "type": "string",
-                                            "example": "Replacement behavior created successfully"
-                                        },
-                                        "data": {
-                                            "$ref": "#/components/schemas/Replacement"
+                                            "example": "Error deleting objective"
                                         }
                                     },
                                     "type": "object"
@@ -1251,271 +770,14 @@
                 }
             }
         },
-        "/api/v2/replacements/{id}": {
-            "get": {
-                "tags": [
-                    "Replacements"
-                ],
-                "summary": "Get Replacement behavior by ID",
-                "operationId": "2fe6803bccb2acc237dee64610487db0",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "Replacement behavior ID",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Successful operation",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "status": {
-                                            "type": "string",
-                                            "example": "success"
-                                        },
-                                        "data": {
-                                            "$ref": "#/components/schemas/Replacement"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "put": {
-                "tags": [
-                    "Replacements"
-                ],
-                "summary": "Update a Replacement behavior",
-                "operationId": "74a8e505ce51234908a5fe0478fe19be",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "Replacement behavior ID",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
-                    }
-                ],
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/Replacement"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "Replacement behavior updated successfully",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "status": {
-                                            "type": "string",
-                                            "example": "success"
-                                        },
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Replacement behavior updated successfully"
-                                        },
-                                        "data": {
-                                            "$ref": "#/components/schemas/Replacement"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "delete": {
-                "tags": [
-                    "Replacements"
-                ],
-                "summary": "Delete a Replacement behavior",
-                "operationId": "7040661ee90416113e569f7727b94bea",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "Replacement behavior ID",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Replacement behavior deleted successfully",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "status": {
-                                            "type": "string",
-                                            "example": "success"
-                                        },
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Replacement behavior and related objectives deleted successfully"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/api/v2/short-term-objectives": {
-            "get": {
-                "tags": [
-                    "Short Term Objectives"
-                ],
-                "summary": "Get all Short Term Objectives with filters",
-                "operationId": "8c5a636f907e12707b6819fbd2c9b49c",
-                "parameters": [
-                    {
-                        "name": "maladaptive_id",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "integer"
-                        }
-                    },
-                    {
-                        "name": "status",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "per_page",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "integer",
-                            "default": 15
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Successful operation"
-                    }
-                }
-            },
+        "/api/v2/objectives/reorder": {
             "post": {
                 "tags": [
-                    "Short Term Objectives"
+                    "Objectives"
                 ],
-                "summary": "Create a new Short Term Objective",
-                "operationId": "d6ee4ad58a238e0b619b861ca434eb9d",
-                "responses": {
-                    "201": {
-                        "description": "Objective created successfully"
-                    }
-                }
-            }
-        },
-        "/api/v2/short-term-objectives/{id}": {
-            "get": {
-                "tags": [
-                    "Short Term Objectives"
-                ],
-                "summary": "Get Short Term Objective by ID",
-                "operationId": "8a218d5f10b0e9b047901b1a8ac3fe33",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Successful operation"
-                    }
-                }
-            },
-            "put": {
-                "tags": [
-                    "Short Term Objectives"
-                ],
-                "summary": "Update a Short Term Objective",
-                "operationId": "b78c351f461598c1a384b444684cdcd0",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Objective updated successfully"
-                    }
-                }
-            },
-            "delete": {
-                "tags": [
-                    "Short Term Objectives"
-                ],
-                "summary": "Delete a Short Term Objective",
-                "operationId": "dfa8b328882a0663e0c865d7829ef6a2",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Objective deleted successfully"
-                    }
-                }
-            }
-        },
-        "/api/v2/short-term-objectives/reorder": {
-            "post": {
-                "tags": [
-                    "Short Term Objectives"
-                ],
-                "summary": "Reorder Short Term Objectives",
-                "description": "Update the order of multiple short term objectives at once. All objectives must belong to the same maladaptive behavior.",
-                "operationId": "e57e235e7a74433a211ac8feb2869857",
+                "summary": "Reorder objectives",
+                "operationId": "11dea52673775fcc941091a1fd982787",
                 "requestBody": {
-                    "description": "Array of objectives with their new order positions",
                     "required": true,
                     "content": {
                         "application/json": {
@@ -1525,7 +787,6 @@
                                 ],
                                 "properties": {
                                     "objectives": {
-                                        "description": "List of objectives to reorder. All objectives should belong to the same maladaptive behavior.",
                                         "type": "array",
                                         "items": {
                                             "required": [
@@ -1534,30 +795,14 @@
                                             ],
                                             "properties": {
                                                 "id": {
-                                                    "description": "The ID of the short term objective",
                                                     "type": "integer"
                                                 },
                                                 "order": {
-                                                    "description": "The new position in the order sequence (starting from 1)",
                                                     "type": "integer"
                                                 }
                                             },
                                             "type": "object"
-                                        },
-                                        "example": [
-                                            {
-                                                "id": 1,
-                                                "order": 3
-                                            },
-                                            {
-                                                "id": 2,
-                                                "order": 1
-                                            },
-                                            {
-                                                "id": 3,
-                                                "order": 2
-                                            }
-                                        ]
+                                        }
                                     }
                                 },
                                 "type": "object"
@@ -1578,7 +823,606 @@
                                         },
                                         "message": {
                                             "type": "string",
-                                            "example": "Short term objectives reordered successfully"
+                                            "example": "Objectives reordered successfully"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v2/plans": {
+            "get": {
+                "tags": [
+                    "Plans"
+                ],
+                "summary": "List all Plans",
+                "description": "Retrieve a paginated list of plans with optional filters",
+                "operationId": "ccb7cb45138a7c03cbbc56bde776bc39",
+                "parameters": [
+                    {
+                        "name": "bip_id",
+                        "in": "query",
+                        "description": "Filter plans by BIP ID",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "description": "Filter plans by name (partial match)",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "category",
+                        "in": "query",
+                        "description": "Filter plans by category",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "maladaptive",
+                                "replacement",
+                                "caregiver_training",
+                                "rbt_training"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "status",
+                        "in": "query",
+                        "description": "Filter plans by status",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "active",
+                                "completed",
+                                "hold",
+                                "discontinued",
+                                "maintenance",
+                                "met",
+                                "monitoring"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Page number for pagination",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 1
+                        }
+                    },
+                    {
+                        "name": "per_page",
+                        "in": "query",
+                        "description": "Number of items per page",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 15
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "current_page": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "data": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "$ref": "#/components/schemas/Plan"
+                                                    }
+                                                },
+                                                "first_page_url": {
+                                                    "type": "string",
+                                                    "example": "http://localhost/api/v2/plans?page=1"
+                                                },
+                                                "from": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "last_page": {
+                                                    "type": "integer",
+                                                    "example": 3
+                                                },
+                                                "last_page_url": {
+                                                    "type": "string",
+                                                    "example": "http://localhost/api/v2/plans?page=3"
+                                                },
+                                                "next_page_url": {
+                                                    "type": "string",
+                                                    "example": "http://localhost/api/v2/plans?page=2"
+                                                },
+                                                "path": {
+                                                    "type": "string",
+                                                    "example": "http://localhost/api/v2/plans"
+                                                },
+                                                "per_page": {
+                                                    "type": "integer",
+                                                    "example": 15
+                                                },
+                                                "prev_page_url": {
+                                                    "type": "string",
+                                                    "example": null
+                                                },
+                                                "to": {
+                                                    "type": "integer",
+                                                    "example": 15
+                                                },
+                                                "total": {
+                                                    "type": "integer",
+                                                    "example": 40
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Invalid parameters"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Plans"
+                ],
+                "summary": "Create a new Plan",
+                "description": "Create a new plan with optional objectives. For maladaptive and replacement plans, baseline fields are required.",
+                "operationId": "e881f9d8dfdba8bf0374693c95475083",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "bip_id",
+                                    "name",
+                                    "description",
+                                    "category",
+                                    "status"
+                                ],
+                                "properties": {
+                                    "bip_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Aggressive Behavior"
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "example": "Displays aggressive behavior towards others"
+                                    },
+                                    "category": {
+                                        "type": "string",
+                                        "enum": [
+                                            "maladaptive",
+                                            "replacement",
+                                            "caregiver_training",
+                                            "rbt_training"
+                                        ]
+                                    },
+                                    "status": {
+                                        "type": "string",
+                                        "enum": [
+                                            "active",
+                                            "completed",
+                                            "hold",
+                                            "discontinued",
+                                            "maintenance",
+                                            "met",
+                                            "monitoring"
+                                        ]
+                                    },
+                                    "baseline_level": {
+                                        "description": "Required for maladaptive/replacement",
+                                        "type": "integer",
+                                        "example": 5
+                                    },
+                                    "baseline_date": {
+                                        "description": "Required for maladaptive/replacement",
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2024-01-01"
+                                    },
+                                    "initial_intensity": {
+                                        "description": "Required for maladaptive/replacement",
+                                        "type": "integer",
+                                        "example": 7
+                                    },
+                                    "current_intensity": {
+                                        "description": "Required for maladaptive/replacement",
+                                        "type": "integer",
+                                        "example": 4
+                                    },
+                                    "objectives": {
+                                        "description": "Optional objectives to create with the plan",
+                                        "type": "array",
+                                        "items": {
+                                            "required": [
+                                                "type",
+                                                "description",
+                                                "target",
+                                                "initial_date",
+                                                "end_date"
+                                            ],
+                                            "properties": {
+                                                "type": {
+                                                    "type": "string",
+                                                    "enum": [
+                                                        "LTO",
+                                                        "STO"
+                                                    ]
+                                                },
+                                                "description": {
+                                                    "type": "string"
+                                                },
+                                                "target": {
+                                                    "type": "integer"
+                                                },
+                                                "initial_date": {
+                                                    "type": "string",
+                                                    "format": "date"
+                                                },
+                                                "end_date": {
+                                                    "type": "string",
+                                                    "format": "date"
+                                                },
+                                                "order": {
+                                                    "description": "Optional. For LTOs, will be set to 999",
+                                                    "type": "integer"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Plan created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Plan created successfully"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/Plan"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Validation failed"
+                                        },
+                                        "errors": {
+                                            "properties": {
+                                                "field": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string"
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v2/plans/{id}": {
+            "get": {
+                "tags": [
+                    "Plans"
+                ],
+                "summary": "Get Plan by ID",
+                "description": "Retrieve a single plan with its objectives",
+                "operationId": "e081a38f8afdb4bf9737103a407510c1",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Plan ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/Plan"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Plan not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Plan not found"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Plans"
+                ],
+                "summary": "Update a Plan",
+                "description": "Update an existing plan. Only provided fields will be updated.",
+                "operationId": "2ac79a50604c1dac07591764e8b736d3",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Plan ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "description": {
+                                        "type": "string"
+                                    },
+                                    "category": {
+                                        "type": "string",
+                                        "enum": [
+                                            "maladaptive",
+                                            "replacement",
+                                            "caregiver_training",
+                                            "rbt_training"
+                                        ]
+                                    },
+                                    "status": {
+                                        "type": "string",
+                                        "enum": [
+                                            "active",
+                                            "completed",
+                                            "hold",
+                                            "discontinued",
+                                            "maintenance",
+                                            "met",
+                                            "monitoring"
+                                        ]
+                                    },
+                                    "baseline_level": {
+                                        "type": "integer"
+                                    },
+                                    "baseline_date": {
+                                        "type": "string",
+                                        "format": "date"
+                                    },
+                                    "initial_intensity": {
+                                        "type": "integer"
+                                    },
+                                    "current_intensity": {
+                                        "type": "integer"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Plan updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Plan updated successfully"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/Plan"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Plan not found"
+                    },
+                    "422": {
+                        "description": "Validation error"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Plans"
+                ],
+                "summary": "Delete a Plan",
+                "description": "Delete a plan and all its associated objectives",
+                "operationId": "e99ca25d31e5155590d6eacbb2dd55d1",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Plan ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Plan deleted successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Plan and related objectives deleted successfully"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Plan not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Plan not found"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Error deleting plan"
                                         }
                                     },
                                     "type": "object"
@@ -3982,13 +3826,295 @@
                 }
             }
         },
+        "/api/v2/pa-services": {
+            "get": {
+                "tags": [
+                    "PA Services"
+                ],
+                "summary": "List all PA services",
+                "description": "Retrieve a paginated list of PA services with optional filters",
+                "operationId": "f9a3b8922004579d32fe758d70056180",
+                "parameters": [
+                    {
+                        "name": "patient_id",
+                        "in": "query",
+                        "description": "Filter PA services by patient ID",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "per_page",
+                        "in": "query",
+                        "description": "Number of items per page",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 15
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/PaginatedPaServiceResponse"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "PA Services"
+                ],
+                "summary": "Create a new PA service",
+                "operationId": "d6e993aec76f70cbd141b9f5bfc45734",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "patient_id",
+                                    "pa_service",
+                                    "cpt",
+                                    "n_units",
+                                    "start_date",
+                                    "end_date"
+                                ],
+                                "properties": {
+                                    "patient_id": {
+                                        "type": "string",
+                                        "example": "123"
+                                    },
+                                    "pa_service": {
+                                        "type": "string",
+                                        "example": "Behavioral Analysis"
+                                    },
+                                    "cpt": {
+                                        "type": "string",
+                                        "example": "97151"
+                                    },
+                                    "n_units": {
+                                        "type": "integer",
+                                        "example": 8
+                                    },
+                                    "start_date": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2024-03-01"
+                                    },
+                                    "end_date": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2024-04-01"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "PA service created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "PA service created successfully"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/PaService"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v2/pa-services/{id}": {
+            "get": {
+                "tags": [
+                    "PA Services"
+                ],
+                "summary": "Get PA service by ID",
+                "operationId": "74cb4b7a643eeee749c88af6d7bb15e0",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "PA service ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/PaService"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "PA Services"
+                ],
+                "summary": "Update a PA service",
+                "operationId": "0bc1777e63f22068a22d71035136ad1e",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "PA service ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "pa_service": {
+                                        "type": "string"
+                                    },
+                                    "cpt": {
+                                        "type": "string"
+                                    },
+                                    "n_units": {
+                                        "type": "integer"
+                                    },
+                                    "start_date": {
+                                        "type": "string",
+                                        "format": "date"
+                                    },
+                                    "end_date": {
+                                        "type": "string",
+                                        "format": "date"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "PA service updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "PA service updated successfully"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/PaService"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "PA Services"
+                ],
+                "summary": "Delete a PA service",
+                "operationId": "a93f34e16a436fc477a98f75670374ad",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "PA service deleted successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "PA service deleted successfully"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/v2/patients/{patient_id}/pa-services": {
             "get": {
                 "tags": [
-                    "Admin/PA Services"
+                    "Old/PA Services"
                 ],
                 "summary": "Get paginated PA services list for a patient",
-                "operationId": "1f0487852b4957237caac5a3b2abe153",
+                "operationId": "064d7c1800562f3ba250e24853c2e806",
                 "parameters": [
                     {
                         "name": "patient_id",
@@ -4037,10 +4163,10 @@
             },
             "post": {
                 "tags": [
-                    "Admin/PA Services"
+                    "Old/PA Services"
                 ],
                 "summary": "Create a new PA service",
-                "operationId": "2a936b7250606d99539722846b315e55",
+                "operationId": "c0289d7a737f78bb0a3459a5ae49dcf9",
                 "parameters": [
                     {
                         "name": "patient_id",
@@ -4103,10 +4229,10 @@
         "/api/v2/patients/{patient_id}/pa-services/{id}": {
             "get": {
                 "tags": [
-                    "Admin/PA Services"
+                    "Old/PA Services"
                 ],
                 "summary": "Get a single PA service",
-                "operationId": "d3fcce7d0ae49f17eeaa0e537706d6c0",
+                "operationId": "1eb81b2f2f35062c13d0377fe6371c22",
                 "parameters": [
                     {
                         "name": "patient_id",
@@ -4133,10 +4259,10 @@
             },
             "delete": {
                 "tags": [
-                    "Admin/PA Services"
+                    "Old/PA Services"
                 ],
                 "summary": "Delete a PA service",
-                "operationId": "381f42d90beb0df64630315880b1b1ad",
+                "operationId": "aaf8b3c36db2d8ff099381efa1211965",
                 "parameters": [
                     {
                         "name": "patient_id",
@@ -4165,10 +4291,10 @@
         "/api/v2/patients/{patient_identfifier}/pa-services/{id}": {
             "put": {
                 "tags": [
-                    "Admin/PA Services"
+                    "Old/PA Services"
                 ],
                 "summary": "Update a PA service",
-                "operationId": "243d651e85087c15d448ace65a108a8e",
+                "operationId": "4105ac9b56826272da6189c97ab48348",
                 "parameters": [
                     {
                         "name": "patient_id",
@@ -5792,6 +5918,54 @@
                 },
                 "type": "object"
             },
+            "PaginatedOldPaServiceResponse": {
+                "properties": {
+                    "current_page": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/PaService"
+                        }
+                    },
+                    "first_page_url": {
+                        "type": "string"
+                    },
+                    "from": {
+                        "type": "integer"
+                    },
+                    "last_page": {
+                        "type": "integer"
+                    },
+                    "last_page_url": {
+                        "type": "string"
+                    },
+                    "next_page_url": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "path": {
+                        "type": "string"
+                    },
+                    "per_page": {
+                        "type": "integer",
+                        "example": 15
+                    },
+                    "prev_page_url": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "to": {
+                        "type": "integer"
+                    },
+                    "total": {
+                        "type": "integer"
+                    }
+                },
+                "type": "object"
+            },
             "Role": {
                 "properties": {
                     "id": {
@@ -6017,610 +6191,268 @@
             },
             "Bip": {
                 "title": "Bip",
-                "description": "Behavior Intervention Plan model",
+                "description": "Behavior Intervention Plan (BIP) model. Contains all information about a patient's behavior intervention plan, with their subplans.",
                 "properties": {
                     "id": {
-                        "type": "integer",
-                        "format": "int64",
-                        "example": 1
-                    },
-                    "client_id": {
-                        "type": "integer",
-                        "format": "int64",
-                        "example": 1
-                    },
-                    "patient_id": {
-                        "type": "string",
-                        "maxLength": 50,
-                        "example": "PAT123",
-                        "nullable": true
-                    },
-                    "doctor_id": {
-                        "type": "integer",
-                        "format": "int64",
-                        "example": 1,
-                        "nullable": true
-                    },
-                    "type_of_assessment": {
-                        "type": "integer",
-                        "format": "int32",
-                        "example": 3
-                    },
-                    "documents_reviewed": {
-                        "type": "array",
-                        "items": {
-                            "type": "string"
-                        },
-                        "nullable": true
-                    },
-                    "background_information": {
-                        "type": "string",
-                        "nullable": true
-                    },
-                    "previus_treatment_and_result": {
-                        "type": "string",
-                        "nullable": true
-                    },
-                    "current_treatment_and_progress": {
-                        "type": "string",
-                        "nullable": true
-                    },
-                    "education_status": {
-                        "type": "string",
-                        "nullable": true
-                    },
-                    "phisical_and_medical_status": {
-                        "type": "string",
-                        "nullable": true
-                    },
-                    "strengths": {
-                        "type": "string",
-                        "nullable": true
-                    },
-                    "weakneses": {
-                        "type": "string",
-                        "nullable": true
-                    },
-                    "phiysical_and_medical": {
-                        "type": "string",
-                        "nullable": true
-                    },
-                    "phiysical_and_medical_status": {
-                        "type": "array",
-                        "items": {
-                            "type": "string"
-                        },
-                        "nullable": true
-                    },
-                    "maladaptives": {
-                        "type": "array",
-                        "items": {
-                            "type": "string"
-                        },
-                        "nullable": true
-                    },
-                    "assestment_conducted": {
-                        "type": "string",
-                        "nullable": true
-                    },
-                    "assestment_conducted_options": {
-                        "type": "array",
-                        "items": {
-                            "type": "string"
-                        },
-                        "nullable": true
-                    },
-                    "assestmentEvaluationSettings": {
-                        "type": "array",
-                        "items": {
-                            "type": "string"
-                        },
-                        "nullable": true
-                    },
-                    "prevalent_setting_event_and_atecedents": {
-                        "type": "array",
-                        "items": {
-                            "type": "string"
-                        },
-                        "nullable": true
-                    },
-                    "hypothesis_based_intervention": {
-                        "type": "string",
-                        "nullable": true
-                    },
-                    "interventions": {
-                        "type": "array",
-                        "items": {
-                            "type": "string"
-                        },
-                        "nullable": true
-                    },
-                    "tangibles": {
-                        "type": "array",
-                        "items": {
-                            "type": "string"
-                        },
-                        "nullable": true
-                    },
-                    "attention": {
-                        "type": "array",
-                        "items": {
-                            "type": "string"
-                        },
-                        "nullable": true
-                    },
-                    "escape": {
-                        "type": "array",
-                        "items": {
-                            "type": "string"
-                        },
-                        "nullable": true
-                    },
-                    "sensory": {
-                        "type": "array",
-                        "items": {
-                            "type": "string"
-                        },
-                        "nullable": true
-                    },
-                    "created_at": {
-                        "type": "string",
-                        "format": "date-time"
-                    },
-                    "updated_at": {
-                        "type": "string",
-                        "format": "date-time"
-                    },
-                    "deleted_at": {
-                        "type": "string",
-                        "format": "date-time",
-                        "nullable": true
-                    }
-                },
-                "type": "object"
-            },
-            "BipV2": {
-                "title": "BipV2",
-                "description": "Behavior Intervention Plan model V2",
-                "properties": {
-                    "id": {
-                        "type": "integer",
-                        "format": "int64",
-                        "example": 1
-                    },
-                    "client_id": {
-                        "type": "integer",
-                        "format": "int64",
-                        "example": 1
-                    },
-                    "patient_id": {
-                        "type": "string",
-                        "maxLength": 50,
-                        "example": "PAT123",
-                        "nullable": true
-                    },
-                    "doctor_id": {
-                        "type": "integer",
-                        "format": "int64",
-                        "example": 1,
-                        "nullable": true
-                    },
-                    "type_of_assessment": {
-                        "type": "integer",
-                        "format": "int32",
-                        "example": 3
-                    },
-                    "documents_reviewed": {
-                        "type": "array",
-                        "items": {
-                            "type": "string"
-                        },
-                        "nullable": true
-                    },
-                    "background_information": {
-                        "type": "string",
-                        "nullable": true
-                    },
-                    "previus_treatment_and_result": {
-                        "type": "string",
-                        "nullable": true
-                    },
-                    "current_treatment_and_progress": {
-                        "type": "string",
-                        "nullable": true
-                    },
-                    "education_status": {
-                        "type": "string",
-                        "nullable": true
-                    },
-                    "phisical_and_medical_status": {
-                        "type": "string",
-                        "nullable": true
-                    },
-                    "strengths": {
-                        "type": "string",
-                        "nullable": true
-                    },
-                    "weakneses": {
-                        "type": "string",
-                        "nullable": true
-                    },
-                    "phiysical_and_medical": {
-                        "type": "string",
-                        "nullable": true
-                    },
-                    "phiysical_and_medical_status": {
-                        "type": "array",
-                        "items": {
-                            "type": "string"
-                        },
-                        "nullable": true
-                    },
-                    "maladaptives": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/Maladaptive"
-                        },
-                        "nullable": true
-                    },
-                    "assestment_conducted": {
-                        "type": "string",
-                        "nullable": true
-                    },
-                    "assestment_conducted_options": {
-                        "type": "array",
-                        "items": {
-                            "type": "string"
-                        },
-                        "nullable": true
-                    },
-                    "assestmentEvaluationSettings": {
-                        "type": "array",
-                        "items": {
-                            "type": "string"
-                        },
-                        "nullable": true
-                    },
-                    "prevalent_setting_event_and_atecedents": {
-                        "type": "array",
-                        "items": {
-                            "type": "string"
-                        },
-                        "nullable": true
-                    },
-                    "hypothesis_based_intervention": {
-                        "type": "string",
-                        "nullable": true
-                    },
-                    "interventions": {
-                        "type": "array",
-                        "items": {
-                            "type": "string"
-                        },
-                        "nullable": true
-                    },
-                    "tangibles": {
-                        "type": "array",
-                        "items": {
-                            "type": "string"
-                        },
-                        "nullable": true
-                    },
-                    "attention": {
-                        "type": "array",
-                        "items": {
-                            "type": "string"
-                        },
-                        "nullable": true
-                    },
-                    "escape": {
-                        "type": "array",
-                        "items": {
-                            "type": "string"
-                        },
-                        "nullable": true
-                    },
-                    "sensory": {
-                        "type": "array",
-                        "items": {
-                            "type": "string"
-                        },
-                        "nullable": true
-                    },
-                    "created_at": {
-                        "type": "string",
-                        "format": "date-time"
-                    },
-                    "updated_at": {
-                        "type": "string",
-                        "format": "date-time"
-                    },
-                    "deleted_at": {
-                        "type": "string",
-                        "format": "date-time",
-                        "nullable": true
-                    }
-                },
-                "type": "object"
-            },
-            "LongTermObjective": {
-                "title": "Long Term Objective",
-                "description": "A long-term objective for a maladaptive",
-                "properties": {
-                    "id": {
-                        "type": "integer",
-                        "format": "int64",
-                        "example": 1
-                    },
-                    "maladaptive_id": {
-                        "type": "integer",
-                        "format": "int64",
-                        "example": 1
-                    },
-                    "status": {
-                        "type": "string",
-                        "enum": [
-                            "in progress",
-                            "mastered",
-                            "not started",
-                            "discontinued",
-                            "maintenance"
-                        ],
-                        "example": "in progress"
-                    },
-                    "initial_date": {
-                        "type": "string",
-                        "format": "date",
-                        "example": "2024-01-01"
-                    },
-                    "end_date": {
-                        "type": "string",
-                        "format": "date",
-                        "example": "2024-06-01"
-                    },
-                    "description": {
-                        "type": "string",
-                        "example": "Reduce inappropriate language usage by 80% in all settings"
-                    },
-                    "target": {
-                        "type": "number",
-                        "format": "float",
-                        "example": 80
-                    },
-                    "created_at": {
-                        "type": "string",
-                        "format": "datetime",
-                        "example": "2024-01-01 00:00:00"
-                    },
-                    "updated_at": {
-                        "type": "string",
-                        "format": "datetime",
-                        "example": "2024-01-01 00:00:00"
-                    },
-                    "deleted_at": {
-                        "type": "string",
-                        "format": "datetime",
-                        "nullable": true
-                    }
-                },
-                "type": "object"
-            },
-            "Maladaptive": {
-                "title": "Maladaptive",
-                "description": "Maladaptive behavior model",
-                "properties": {
-                    "id": {
-                        "type": "integer",
-                        "format": "int64",
-                        "example": 1
-                    },
-                    "bip_id": {
-                        "type": "integer",
-                        "format": "int64",
-                        "example": 1
-                    },
-                    "name": {
-                        "type": "string",
-                        "example": "Aggressive Behavior"
-                    },
-                    "description": {
-                        "type": "string",
-                        "example": "Displays aggressive behavior towards others"
-                    },
-                    "baseline_level": {
-                        "type": "integer",
-                        "format": "int32",
-                        "example": 5
-                    },
-                    "baseline_date": {
-                        "type": "string",
-                        "format": "date-time"
-                    },
-                    "initial_intensity": {
-                        "type": "integer",
-                        "format": "int32",
-                        "example": 7
-                    },
-                    "current_intensity": {
-                        "type": "integer",
-                        "format": "int32",
-                        "example": 4
-                    },
-                    "status": {
-                        "type": "string",
-                        "enum": [
-                            "active",
-                            "completed",
-                            "hold",
-                            "discontinued",
-                            "maintenance",
-                            "met",
-                            "monitoring"
-                        ]
-                    },
-                    "created_at": {
-                        "type": "string",
-                        "format": "date-time"
-                    },
-                    "updated_at": {
-                        "type": "string",
-                        "format": "date-time"
-                    }
-                },
-                "type": "object"
-            },
-            "ReductionGoal": {
-                "title": "Reduction Goal",
-                "description": "A goal to reduce maladaptive behaviors",
-                "properties": {
-                    "id": {
-                        "type": "integer",
-                        "format": "int64",
-                        "example": 1
-                    },
-                    "bip_id": {
                         "type": "integer",
                         "format": "int64",
                         "example": 1
                     },
                     "patient_identifier": {
+                        "description": "Unique identifier for the patient",
                         "type": "string",
-                        "example": "PAT001"
+                        "example": "PAT123"
                     },
                     "client_id": {
+                        "description": "ID of the client this BIP belongs to",
                         "type": "integer",
                         "format": "int64",
                         "example": 1
                     },
-                    "current_status": {
-                        "type": "string",
-                        "enum": [
-                            "active",
-                            "completed",
-                            "on hold",
-                            "discontinued"
-                        ],
-                        "example": "active"
-                    },
-                    "maladaptive": {
-                        "type": "string",
-                        "example": "Inappropriate Language"
-                    },
-                    "baseline": {
+                    "doctor_id": {
+                        "description": "ID of the supervising doctor",
                         "type": "integer",
-                        "example": 5
-                    },
-                    "created_at": {
-                        "type": "string",
-                        "format": "datetime",
-                        "example": "2024-01-01 00:00:00"
-                    },
-                    "updated_at": {
-                        "type": "string",
-                        "format": "datetime",
-                        "example": "2024-01-01 00:00:00"
-                    },
-                    "deleted_at": {
-                        "type": "string",
-                        "format": "datetime",
+                        "format": "int64",
+                        "example": 1,
                         "nullable": true
                     },
-                    "long_term_objective": {
-                        "oneOf": [
-                            {
-                                "$ref": "#/components/schemas/LongTermObjective"
-                            }
-                        ],
-                        "nullable": true
+                    "type_of_assessment": {
+                        "description": "Type of assessment performed",
+                        "type": "integer",
+                        "format": "int32",
+                        "example": 3
                     },
-                    "short_term_objectives": {
+                    "documents_reviewed": {
+                        "description": "List of documents reviewed during assessment",
                         "type": "array",
                         "items": {
-                            "$ref": "#/components/schemas/ShortTermObjective"
+                            "type": "string"
+                        },
+                        "nullable": true
+                    },
+                    "background_information": {
+                        "description": "Patient's background information",
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "previus_treatment_and_result": {
+                        "description": "History of previous treatments and their outcomes",
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "current_treatment_and_progress": {
+                        "description": "Current treatment details and progress",
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "education_status": {
+                        "description": "Patient's educational background and status",
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "phisical_and_medical_status": {
+                        "description": "Patient's physical and medical conditions",
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "strengths": {
+                        "description": "Patient's identified strengths",
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "weakneses": {
+                        "description": "Patient's identified weaknesses",
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "phiysical_and_medical": {
+                        "description": "Detailed physical and medical information",
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "phiysical_and_medical_status": {
+                        "description": "List of physical and medical conditions",
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "nullable": true
+                    },
+                    "assestment_conducted": {
+                        "description": "Details of conducted assessments",
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "assestment_conducted_options": {
+                        "description": "Types of assessments performed",
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "nullable": true
+                    },
+                    "assestmentEvaluationSettings": {
+                        "description": "Settings where assessments were conducted",
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "nullable": true
+                    },
+                    "prevalent_setting_event_and_atecedents": {
+                        "description": "Common triggers and antecedents",
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "nullable": true
+                    },
+                    "hypothesis_based_intervention": {
+                        "description": "Intervention strategy based on behavioral hypothesis",
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "interventions": {
+                        "description": "List of planned interventions",
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "nullable": true
+                    },
+                    "tangibles": {
+                        "description": "Tangible reinforcers",
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "nullable": true
+                    },
+                    "attention": {
+                        "description": "Attention-based interventions",
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "nullable": true
+                    },
+                    "escape": {
+                        "description": "Escape-related behaviors and interventions",
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "nullable": true
+                    },
+                    "sensory": {
+                        "description": "Sensory-related behaviors and interventions",
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "nullable": true
+                    },
+                    "created_at": {
+                        "description": "Creation timestamp",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "description": "Last update timestamp",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "deleted_at": {
+                        "description": "Soft delete timestamp",
+                        "type": "string",
+                        "format": "date-time",
+                        "nullable": true
+                    },
+                    "maladaptives": {
+                        "description": "Collection of maladaptive behavior plans. These plans focus on reducing problematic behaviors.",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Plan"
+                        }
+                    },
+                    "replacements": {
+                        "description": "Collection of replacement behavior plans. These plans focus on teaching and increasing appropriate behaviors.",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Plan"
+                        }
+                    },
+                    "caregiver_trainings": {
+                        "description": "Collection of caregiver training plans. These plans focus on teaching caregivers effective strategies.",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Plan"
+                        }
+                    },
+                    "rbt_trainings": {
+                        "description": "Collection of RBT training plans. These plans focus on training Registered Behavior Technicians.",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Plan"
+                        }
+                    },
+                    "generalization_trainings": {
+                        "description": "Collection of generalization training records. These document how skills are generalized across settings.",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/GeneralizationTraining"
+                        }
+                    },
+                    "crisis_plans": {
+                        "description": "Collection of crisis plans. These detail procedures for handling crisis situations.",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/CrisisPlan"
+                        }
+                    },
+                    "de_escalation_techniques": {
+                        "description": "Collection of de-escalation techniques. These detail strategies to prevent and manage escalating behaviors.",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/DeEscalationTechnique"
+                        }
+                    },
+                    "consent_to_treatments": {
+                        "description": "Collection of consent to treatment records. These document patient/guardian consent for treatments.",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ConsentToTreatment"
                         }
                     }
                 },
                 "type": "object"
             },
-            "Replacement": {
-                "title": "Replacement",
-                "description": "Replacement behavior model",
+            "Objective": {
+                "title": "Objective",
+                "description": "Objective model for behavior intervention plans. Has multiple STOs and one LTO.",
                 "properties": {
                     "id": {
                         "type": "integer",
                         "format": "int64",
                         "example": 1
                     },
-                    "bip_id": {
+                    "plan_id": {
+                        "description": "ID of the plan this objective belongs to",
                         "type": "integer",
                         "format": "int64",
                         "example": 1
                     },
-                    "name": {
-                        "type": "string",
-                        "example": "Communication Skills"
-                    },
-                    "description": {
-                        "type": "string",
-                        "example": "Uses appropriate communication methods"
-                    },
-                    "baseline_level": {
-                        "type": "integer",
-                        "format": "int32",
-                        "example": 5
-                    },
-                    "baseline_date": {
-                        "type": "string",
-                        "format": "date-time"
-                    },
-                    "initial_intensity": {
-                        "type": "integer",
-                        "format": "int32",
-                        "example": 7
-                    },
-                    "current_intensity": {
-                        "type": "integer",
-                        "format": "int32",
-                        "example": 4
-                    },
-                    "status": {
+                    "type": {
+                        "description": "STO = Short Term Objective (multiple allowed per plan), LTO = Long Term Objective (only one per plan).",
                         "type": "string",
                         "enum": [
-                            "active",
-                            "completed",
-                            "hold",
-                            "discontinued",
-                            "maintenance",
-                            "met",
-                            "monitoring"
-                        ]
-                    },
-                    "created_at": {
-                        "type": "string",
-                        "format": "date-time"
-                    },
-                    "updated_at": {
-                        "type": "string",
-                        "format": "date-time"
-                    }
-                },
-                "type": "object"
-            },
-            "ShortTermObjective": {
-                "title": "Short Term Objective",
-                "description": "A short-term objective for a maladaptive",
-                "properties": {
-                    "id": {
-                        "type": "integer",
-                        "format": "int64",
-                        "example": 1
-                    },
-                    "maladaptive_id": {
-                        "type": "integer",
-                        "format": "int64",
-                        "example": 1
+                            "STO",
+                            "LTO"
+                        ],
+                        "example": "STO"
                     },
                     "status": {
+                        "description": "Current status of the objective. Affects data collection and progress tracking.",
                         "type": "string",
                         "enum": [
                             "in progress",
@@ -6632,25 +6464,33 @@
                         "example": "in progress"
                     },
                     "initial_date": {
+                        "description": "Start date of the objective. Must be before end_date. Required when status changes from 'not started'.",
                         "type": "string",
                         "format": "date",
-                        "example": "2024-01-01"
+                        "example": "2024-01-01",
+                        "nullable": true
                     },
                     "end_date": {
+                        "description": "End date of the objective. Must be after initial_date. Required when status changes from 'not started'.",
                         "type": "string",
                         "format": "date",
-                        "example": "2024-03-01"
+                        "example": "2024-03-01",
+                        "nullable": true
                     },
                     "description": {
+                        "description": "Detailed description of what this objective aims to achieve. Should be specific and measurable.",
                         "type": "string",
-                        "example": "Reduce inappropriate language to less than 5 instances per day"
+                        "example": "Reduce inappropriate behavior to less than 5 instances per day"
                     },
                     "target": {
+                        "description": "Target value to achieve. For maladaptive plans: decreases, for replacement plans: increases, for training plans: mastery percentage.",
                         "type": "number",
                         "format": "float",
-                        "example": 5
+                        "example": 5,
+                        "nullable": true
                     },
                     "order": {
+                        "description": "Order of the objective. For LTOs, this is always 999. For STOs, this determines their sequence.",
                         "type": "integer",
                         "example": 1
                     },
@@ -6668,6 +6508,109 @@
                         "type": "string",
                         "format": "datetime",
                         "nullable": true
+                    }
+                },
+                "type": "object"
+            },
+            "Plan": {
+                "title": "Plan",
+                "description": "Plan model for behavior intervention strategies. Can be one of four types: maladaptive (for reducing problem behaviors),\n *         replacement (for teaching alternative behaviors), caregiver_training (for training caregivers), or rbt_training (for training RBTs).",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int64",
+                        "example": 1
+                    },
+                    "bip_id": {
+                        "description": "ID of the BIP this plan belongs to",
+                        "type": "integer",
+                        "format": "int64",
+                        "example": 1
+                    },
+                    "name": {
+                        "description": "Name of the plan",
+                        "type": "string",
+                        "example": "Aggressive Behavior"
+                    },
+                    "description": {
+                        "description": "Detailed description of the plan",
+                        "type": "string",
+                        "example": "Displays aggressive behavior towards others"
+                    },
+                    "baseline_level": {
+                        "description": "Required for maladaptive and replacement plans. Initial baseline measurement.\n *             For maladaptive plans, represents frequency of behavior. For replacement plans, represents current skill level.",
+                        "type": "integer",
+                        "format": "int32",
+                        "example": 5,
+                        "nullable": true
+                    },
+                    "baseline_date": {
+                        "description": "Required for maladaptive and replacement plans. Date when baseline was measured.",
+                        "type": "string",
+                        "format": "date",
+                        "example": "2024-01-01",
+                        "nullable": true
+                    },
+                    "initial_intensity": {
+                        "description": "Required for maladaptive and replacement plans. Initial intensity of the behavior (1-10 scale).",
+                        "type": "integer",
+                        "format": "int32",
+                        "example": 7,
+                        "nullable": true
+                    },
+                    "current_intensity": {
+                        "description": "Required for maladaptive and replacement plans. Current intensity of the behavior (1-10 scale).",
+                        "type": "integer",
+                        "format": "int32",
+                        "example": 4,
+                        "nullable": true
+                    },
+                    "category": {
+                        "description": "Category determines required fields and validation rules. Maladaptive and replacement plans require baseline fields.\n *             Each category has specific objective target rules.",
+                        "type": "string",
+                        "enum": [
+                            "maladaptive",
+                            "replacement",
+                            "caregiver_training",
+                            "rbt_training"
+                        ],
+                        "example": "maladaptive"
+                    },
+                    "status": {
+                        "description": "Current status of the plan. Affects whether new objectives can be added.",
+                        "type": "string",
+                        "enum": [
+                            "active",
+                            "completed",
+                            "hold",
+                            "discontinued",
+                            "maintenance",
+                            "met",
+                            "monitoring"
+                        ],
+                        "example": "active"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "datetime",
+                        "example": "2024-01-01 00:00:00"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "datetime",
+                        "example": "2024-01-01 00:00:00"
+                    },
+                    "deleted_at": {
+                        "type": "string",
+                        "format": "datetime",
+                        "nullable": true
+                    },
+                    "objectives": {
+                        "description": "List of objectives associated with this plan. Each plan can have multiple STOs (Short Term Objectives)\n *             but only one LTO (Long Term Objective). STOs are ordered by their order field, while LTOs always have order=999.",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Objective"
+                        }
                     }
                 },
                 "type": "object"
@@ -7765,33 +7708,312 @@
                     }
                 },
                 "type": "object"
+            },
+            "ConsentToTreatment": {
+                "title": "ConsentToTreatment",
+                "description": "Model for documenting consent to treatment agreements",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int64",
+                        "example": 1
+                    },
+                    "bip_id": {
+                        "description": "ID of the BIP this consent belongs to",
+                        "type": "integer",
+                        "format": "int64",
+                        "example": 1
+                    },
+                    "patient_id": {
+                        "description": "ID of the patient",
+                        "type": "integer",
+                        "format": "int64",
+                        "example": 1
+                    },
+                    "client_id": {
+                        "description": "ID of the client",
+                        "type": "integer",
+                        "format": "int64",
+                        "example": 1
+                    },
+                    "analyst_signature": {
+                        "description": "Signature of the analyst",
+                        "type": "string"
+                    },
+                    "analyst_signature_date": {
+                        "description": "Date of analyst signature",
+                        "type": "string",
+                        "format": "date",
+                        "example": "2024-01-01"
+                    },
+                    "parent_guardian_signature": {
+                        "description": "Signature of parent or guardian",
+                        "type": "string"
+                    },
+                    "parent_guardian_signature_date": {
+                        "description": "Date of parent/guardian signature",
+                        "type": "string",
+                        "format": "date",
+                        "example": "2024-01-01"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "datetime",
+                        "example": "2024-01-01 00:00:00"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "datetime",
+                        "example": "2024-01-01 00:00:00"
+                    },
+                    "deleted_at": {
+                        "type": "string",
+                        "format": "datetime",
+                        "nullable": true
+                    }
+                },
+                "type": "object"
+            },
+            "CrisisPlan": {
+                "title": "CrisisPlan",
+                "description": "Model for documenting crisis management plans",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int64",
+                        "example": 1
+                    },
+                    "bip_id": {
+                        "description": "ID of the BIP this crisis plan belongs to",
+                        "type": "integer",
+                        "format": "int64",
+                        "example": 1
+                    },
+                    "patient_identifier": {
+                        "description": "Patient identifier",
+                        "type": "string",
+                        "example": "PAT123"
+                    },
+                    "crisis_description": {
+                        "description": "Description of the crisis situation",
+                        "type": "string"
+                    },
+                    "crisis_note": {
+                        "description": "Additional notes about the crisis",
+                        "type": "string"
+                    },
+                    "caregiver_requirements_for_prevention_of_crisis": {
+                        "description": "Requirements for caregivers to prevent crisis",
+                        "type": "string"
+                    },
+                    "risk_factors": {
+                        "description": "List of risk factors",
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "suicidalities": {
+                        "description": "List of suicidality factors",
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "homicidalities": {
+                        "description": "List of homicidality factors",
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "datetime",
+                        "example": "2024-01-01 00:00:00"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "datetime",
+                        "example": "2024-01-01 00:00:00"
+                    },
+                    "deleted_at": {
+                        "type": "string",
+                        "format": "datetime",
+                        "nullable": true
+                    }
+                },
+                "type": "object"
+            },
+            "DeEscalationTechnique": {
+                "title": "DeEscalationTechnique",
+                "description": "Model for documenting techniques used to prevent and manage escalating behaviors",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int64",
+                        "example": 1
+                    },
+                    "bip_id": {
+                        "description": "ID of the BIP this technique belongs to",
+                        "type": "integer",
+                        "format": "int64",
+                        "example": 1
+                    },
+                    "patient_identifier": {
+                        "description": "Patient identifier",
+                        "type": "string",
+                        "example": "PAT123"
+                    },
+                    "client_id": {
+                        "description": "ID of the client",
+                        "type": "integer",
+                        "format": "int64",
+                        "example": 1
+                    },
+                    "description": {
+                        "description": "Description of the de-escalation technique",
+                        "type": "string"
+                    },
+                    "service_recomendation": {
+                        "description": "Service recommendations",
+                        "type": "string"
+                    },
+                    "recomendation_lists": {
+                        "description": "List of specific recommendations",
+                        "type": "array",
+                        "items": {
+                            "properties": {
+                                "cpt": {
+                                    "description": "CPT code",
+                                    "type": "string",
+                                    "example": "97151"
+                                },
+                                "location": {
+                                    "description": "Location where technique is applied",
+                                    "type": "string",
+                                    "example": "In Home/School"
+                                },
+                                "num_units": {
+                                    "description": "Number of units",
+                                    "type": "integer",
+                                    "example": 32
+                                },
+                                "breakdown_per_week": {
+                                    "description": "Weekly breakdown",
+                                    "type": "string",
+                                    "example": "8"
+                                },
+                                "description_service": {
+                                    "description": "Service description",
+                                    "type": "string",
+                                    "example": "Assessment"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "datetime",
+                        "example": "2024-01-01 00:00:00"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "datetime",
+                        "example": "2024-01-01 00:00:00"
+                    },
+                    "deleted_at": {
+                        "type": "string",
+                        "format": "datetime",
+                        "nullable": true
+                    }
+                },
+                "type": "object"
+            },
+            "GeneralizationTraining": {
+                "title": "GeneralizationTraining",
+                "description": "Model for documenting generalization training and transition plans",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int64",
+                        "example": 1
+                    },
+                    "bip_id": {
+                        "description": "ID of the BIP this training belongs to",
+                        "type": "integer",
+                        "format": "int64",
+                        "example": 1
+                    },
+                    "patient_identifier": {
+                        "description": "Patient identifier",
+                        "type": "string",
+                        "example": "PAT123"
+                    },
+                    "client_id": {
+                        "description": "ID of the client",
+                        "type": "integer",
+                        "format": "int64",
+                        "example": 1
+                    },
+                    "discharge_plan": {
+                        "description": "Plan for discharge from services",
+                        "type": "string"
+                    },
+                    "transition_fading_plans": {
+                        "description": "List of transition and fading plans",
+                        "type": "array",
+                        "items": {
+                            "properties": {
+                                "transition_plan": {
+                                    "description": "Description of the transition plan",
+                                    "type": "string"
+                                },
+                                "fading_plan": {
+                                    "description": "Description of the fading plan",
+                                    "type": "string"
+                                },
+                                "timeline": {
+                                    "description": "Timeline for the transition/fading plan",
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "datetime",
+                        "example": "2024-01-01 00:00:00"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "datetime",
+                        "example": "2024-01-01 00:00:00"
+                    },
+                    "deleted_at": {
+                        "type": "string",
+                        "format": "datetime",
+                        "nullable": true
+                    }
+                },
+                "type": "object"
             }
         }
     },
     "tags": [
         {
-            "name": "Maladaptives",
-            "description": "API Endpoints for managing maladaptive behaviors"
-        },
-        {
-            "name": "Reduction Goals",
-            "description": "API Endpoints for managing reduction goals"
-        },
-        {
             "name": "BIPs",
             "description": "BIPs"
         },
         {
-            "name": "Long Term Objectives",
-            "description": "Long Term Objectives"
+            "name": "Objectives",
+            "description": "Objectives"
         },
         {
-            "name": "Replacements",
-            "description": "Replacements"
-        },
-        {
-            "name": "Short Term Objectives",
-            "description": "Short Term Objectives"
+            "name": "Plans",
+            "description": "Plans"
         },
         {
             "name": "Admin/Insurance",
@@ -7810,8 +8032,8 @@
             "description": "PA Services"
         },
         {
-            "name": "Admin/PA Services",
-            "description": "Admin/PA Services"
+            "name": "Old/PA Services",
+            "description": "Old/PA Services"
         },
         {
             "name": "Admin/Roles",

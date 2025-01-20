@@ -34,6 +34,8 @@ class NoteRbtResource extends JsonResource
             is_string($this->resource->maladaptives)
                 ? json_decode($this->resource->maladaptives) : $this->resource->maladaptives,
 
+            "summary_note" => $this->resource->summary_note,
+
             "participants" => $this->resource->participants,
             "bip_id" => $this->resource->bip_id,
             "pos" => $this->resource->pos,

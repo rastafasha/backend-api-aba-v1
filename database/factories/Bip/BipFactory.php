@@ -27,12 +27,6 @@ class BipFactory extends Factory
             'weakneses' => $this->faker->paragraph(),
             'phiysical_and_medical' => null,
             'phiysical_and_medical_status' => null,
-            'maladaptives' => [
-                'tantrums' => $this->faker->boolean(),
-                'aggression' => $this->faker->boolean(),
-                'self_stimming' => $this->faker->boolean(),
-                'avoidance' => $this->faker->boolean()
-            ],
             'assestment_conducted' => null,
             'assestment_conducted_options' => null,
             'assestmentEvaluationSettings' => null,
@@ -51,55 +45,23 @@ class BipFactory extends Factory
     }
 
     // State methods for different scenarios
-    public function withReductionGoals()
+    public function withMaladaptives()
     {
         return $this->afterCreating(function (Bip $bip) {
-            $bip->reduction_goals()->create([
-                'patient_identifier' => $bip->patient_identifier,
-                'client_id' => $bip->client_id,
-                'current_status' => $this->faker->paragraph(),
-                'maladaptive' => $this->faker->word(),
-                'goalstos' => $this->faker->words(3),
-                'goalltos' => $this->faker->words(3),
-            ]);
-        });
-    }
-
-    public function withSustitutionGoals()
-    {
-        return $this->afterCreating(function (Bip $bip) {
-            $bip->sustitution_goals()->create([
-                'patient_identifier' => $bip->patient_identifier,
-                'client_id' => $bip->client_id,
-                'current_status' => $this->faker->paragraph(),
-                'goal' => $this->faker->sentence(),
+            $bip->maladaptives()->create([
+                'name' => $this->faker->word(),
                 'description' => $this->faker->paragraph(),
-                'goalstos' => $this->faker->words(3),
-                'goalltos' => $this->faker->words(3),
-            ]);
-        });
-    }
-
-    public function withCrisisPlan()
-    {
-        return $this->afterCreating(function (Bip $bip) {
-            $bip->crisis_plans()->create([
-                'patient_identifier' => $bip->patient_identifier,
-                'client_id' => $bip->client_id,
-                'crisis_description' => $this->faker->paragraph(),
-                'crisis_note' => $this->faker->paragraph(),
-                'caregiver_requirements_for_prevention_of_crisis' => $this->faker->paragraph(),
-                'risk_factors' => $this->faker->words(3),
-                'suicidalities' => $this->faker->words(3),
-                'homicidalities' => $this->faker->words(3),
+                'baseline_level' => $this->faker->numberBetween(1, 10),
+                'baseline_date' => now(),
+                'initial_intensity' => $this->faker->numberBetween(1, 10),
+                'current_intensity' => $this->faker->numberBetween(1, 10),
+                'status' => $this->faker->randomElement(['active', 'completed', 'hold', 'discontinued', 'maintenance', 'met', 'monitoring'])
             ]);
         });
     }
 
     public function complete()
     {
-        return $this->withReductionGoals()
-            ->withSustitutionGoals()
-            ->withCrisisPlan();
+        return $this->withMaladaptives();
     }
 }

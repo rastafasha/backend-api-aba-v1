@@ -5,9 +5,8 @@ namespace Tests\Feature\Admin\Bip;
 use Tests\TestCase;
 use App\Models\User;
 use App\Models\Bip\Bip;
-use App\Models\Bip\Maladaptive;
-use App\Models\Bip\LongTermObjective;
-use App\Models\Bip\ShortTermObjective;
+use App\Models\Bip\Plan;
+use App\Models\Bip\Objective;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ObjectivesV2Test extends TestCase
@@ -16,7 +15,7 @@ class ObjectivesV2Test extends TestCase
 
     private User $user;
     private Bip $bip;
-    private Maladaptive $maladaptive;
+    private Plan $plan;
 
     protected function setUp(): void
     {
@@ -24,107 +23,41 @@ class ObjectivesV2Test extends TestCase
 
         $this->user = User::factory()->create();
         $this->bip = Bip::factory()->create();
-        $this->maladaptive = Maladaptive::factory()
+        $this->plan = Plan::factory()
             ->for($this->bip)
-            ->create();
-    }
-
-    /** @test */
-    public function it_can_list_long_term_objectives()
-    {
-        $ltos = LongTermObjective::factory()
-            ->count(3)
-            ->forMaladaptive($this->maladaptive)
-            ->create();
-
-        $response = $this->getJson('/api/v2/long-term-objectives');
-
-        $response->assertStatus(200)
-            ->assertJsonStructure([
-                'status',
-                'data' => [
-                    'current_page',
-                    'data' => [
-                        '*' => [
-                            'id',
-                            'maladaptive_id',
-                            'status',
-                            'initial_date',
-                            'end_date',
-                            'description',
-                            'target'
-                        ]
-                    ]
-                ]
+            ->create([
+                'category' => 'maladaptive',
+                'status' => 'active'
             ]);
     }
 
     /** @test */
-    public function it_can_create_a_long_term_objective()
+    public function it_can_list_objectives()
     {
-        $data = [
-            'maladaptive_id' => $this->maladaptive->id,
-            'status' => 'in progress',
-            'initial_date' => '2024-01-01',
-            'end_date' => '2024-06-30',
-            'description' => 'Test LTO',
-            'target' => 80
-        ];
-
-        $response = $this->postJson('/api/v2/long-term-objectives', $data);
-
-        $response->assertStatus(201)
-            ->assertJsonStructure([
-                'status',
-                'message',
-                'data'
-            ]);
-
-        $this->assertDatabaseHas('long_term_objectives', [
-            'maladaptive_id' => $this->maladaptive->id,
-            'description' => 'Test LTO'
-        ]);
-    }
-
-    /** @test */
-    public function it_prevents_multiple_ltos_for_same_maladaptive()
-    {
-        $existingLto = LongTermObjective::factory()
-            ->forMaladaptive($this->maladaptive)
-            ->create();
-
-        $data = [
-            'maladaptive_id' => $this->maladaptive->id,
-            'status' => 'in progress',
-            'initial_date' => '2024-01-01',
-            'end_date' => '2024-06-30',
-            'description' => 'Second LTO',
-            'target' => 80
-        ];
-
-        $response = $this->postJson('/api/v2/long-term-objectives', $data);
-
-        $response->assertStatus(422)
-            ->assertJson([
-                'status' => 'error',
-                'message' => 'Maladaptive behavior already has a long term objective'
-            ]);
-    }
-
-    /** @test */
-    public function it_can_list_short_term_objectives()
-    {
-        $stos = ShortTermObjective::factory()
-            ->count(3)
+        $objectives = Objective::factory()
+            ->count(4)
             ->sequence(
-                ['order' => 1],
-                ['order' => 2],
-                ['order' => 3]
+                [
+                    'type' => 'STO',
+                    'order' => 1
+                ],
+                [
+                    'type' => 'STO',
+                    'order' => 2
+                ],
+                [
+                    'type' => 'STO',
+                    'order' => 3
+                ],
+                [
+                    'type' => 'LTO',
+                    'order' => 999
+                ]
             )
-            ->forMaladaptive($this->maladaptive)
+            ->for($this->plan)
             ->create();
 
-        $response = $this->getJson('/api/v2/short-term-objectives');
+        $response = $this->getJson('/api/v2/objectives');
 
         $response->assertStatus(200)
             ->assertJsonStructure([
@@ -134,7 +67,8 @@ class ObjectivesV2Test extends TestCase
                     'data' => [
                         '*' => [
                             'id',
-                            'maladaptive_id',
+                            'plan_id',
+                            'type',
                             'status',
                             'initial_date',
                             'end_date',
@@ -148,19 +82,20 @@ class ObjectivesV2Test extends TestCase
     }
 
     /** @test */
-    public function it_can_create_a_short_term_objective()
+    public function it_can_create_an_objective()
     {
         $data = [
-            'maladaptive_id' => $this->maladaptive->id,
+            'plan_id' => $this->plan->id,
+            'type' => 'STO',
             'status' => 'in progress',
             'initial_date' => '2024-01-01',
             'end_date' => '2024-03-31',
-            'description' => 'Test STO',
+            'description' => 'Test Objective',
             'target' => 60,
             'order' => 1
         ];
 
-        $response = $this->postJson('/api/v2/short-term-objectives', $data);
+        $response = $this->postJson('/api/v2/objectives', $data);
 
         $response->assertStatus(201)
             ->assertJsonStructure([
@@ -169,28 +104,61 @@ class ObjectivesV2Test extends TestCase
                 'data'
             ]);
 
-        $this->assertDatabaseHas('short_term_objectives', [
-            'maladaptive_id' => $this->maladaptive->id,
-            'description' => 'Test STO',
+        $this->assertDatabaseHas('objectives', [
+            'plan_id' => $this->plan->id,
+            'description' => 'Test Objective',
             'order' => 1
         ]);
+    }
+
+    /** @test */
+    public function it_prevents_multiple_ltos_for_same_plan()
+    {
+        $existingLto = Objective::factory()
+            ->for($this->plan)
+            ->create([
+                'type' => 'LTO',
+                'order' => 999
+            ]);
+
+        $data = [
+            'plan_id' => $this->plan->id,
+            'type' => 'LTO',
+            'status' => 'in progress',
+            'initial_date' => '2024-01-01',
+            'end_date' => '2024-06-30',
+            'description' => 'Second LTO',
+            'target' => 80,
+            'order' => 999
+        ];
+
+        $response = $this->postJson('/api/v2/objectives', $data);
+
+        $response->assertStatus(422)
+            ->assertJson([
+                'status' => 'error',
+                'message' => 'Plan already has a long term objective'
+            ]);
     }
 
     /** @test */
     public function it_automatically_assigns_next_order_when_creating_sto()
     {
         // Create two existing STOs
-        ShortTermObjective::factory()
+        Objective::factory()
             ->count(2)
             ->sequence(
                 ['order' => 1],
                 ['order' => 2]
             )
-            ->forMaladaptive($this->maladaptive)
-            ->create();
+            ->for($this->plan)
+            ->create([
+                'type' => 'STO'
+            ]);
 
         $data = [
-            'maladaptive_id' => $this->maladaptive->id,
+            'plan_id' => $this->plan->id,
+            'type' => 'STO',
             'status' => 'in progress',
             'initial_date' => '2024-01-01',
             'end_date' => '2024-03-31',
@@ -198,56 +166,58 @@ class ObjectivesV2Test extends TestCase
             'target' => 60
         ];
 
-        $response = $this->postJson('/api/v2/short-term-objectives', $data);
+        $response = $this->postJson('/api/v2/objectives', $data);
 
         $response->assertStatus(201);
         $this->assertEquals(3, $response->json('data.order'));
     }
 
     /** @test */
-    public function it_can_reorder_short_term_objectives()
+    public function it_can_reorder_objectives()
     {
-        $stos = ShortTermObjective::factory()
+        $objectives = Objective::factory()
             ->count(3)
             ->sequence(
                 ['order' => 1],
                 ['order' => 2],
                 ['order' => 3]
             )
-            ->forMaladaptive($this->maladaptive)
-            ->create();
+            ->for($this->plan)
+            ->create([
+                'type' => 'STO'
+            ]);
 
         $data = [
             'objectives' => [
-                ['id' => $stos[0]->id, 'order' => 3],
-                ['id' => $stos[1]->id, 'order' => 1],
-                ['id' => $stos[2]->id, 'order' => 2]
+                ['id' => $objectives[0]->id, 'order' => 3],
+                ['id' => $objectives[1]->id, 'order' => 1],
+                ['id' => $objectives[2]->id, 'order' => 2]
             ]
         ];
 
-        $response = $this->postJson('/api/v2/short-term-objectives/reorder', $data);
+        $response = $this->postJson('/api/v2/objectives/reorder', $data);
 
         $response->assertStatus(200);
 
-        $this->assertDatabaseHas('short_term_objectives', [
-            'id' => $stos[0]->id,
+        $this->assertDatabaseHas('objectives', [
+            'id' => $objectives[0]->id,
             'order' => 3
         ]);
-        $this->assertDatabaseHas('short_term_objectives', [
-            'id' => $stos[1]->id,
+        $this->assertDatabaseHas('objectives', [
+            'id' => $objectives[1]->id,
             'order' => 1
         ]);
-        $this->assertDatabaseHas('short_term_objectives', [
-            'id' => $stos[2]->id,
+        $this->assertDatabaseHas('objectives', [
+            'id' => $objectives[2]->id,
             'order' => 2
         ]);
     }
 
     /** @test */
-    public function it_maintains_order_when_deleting_sto()
+    public function it_maintains_order_when_deleting_objective()
     {
-        // Create STOs with specific orders
-        $stos = ShortTermObjective::factory()
+        // Create objectives with specific orders
+        $objectives = Objective::factory()
             ->count(4)
             ->sequence(
                 ['order' => 1],
@@ -255,33 +225,36 @@ class ObjectivesV2Test extends TestCase
                 ['order' => 3],
                 ['order' => 4]
             )
-            ->forMaladaptive($this->maladaptive)
-            ->create();
+            ->for($this->plan)
+            ->create([
+                'type' => 'STO'
+            ]);
 
-        // Delete the second STO
-        $response = $this->deleteJson("/api/v2/short-term-objectives/{$stos[1]->id}");
+        // Delete the second objective
+        $response = $this->deleteJson("/api/v2/objectives/{$objectives[1]->id}");
         $response->assertStatus(200);
 
-        // Check that remaining STOs have been reordered
-        $this->assertDatabaseHas('short_term_objectives', [
-            'id' => $stos[0]->id,
+        // Check that remaining objectives have been reordered
+        $this->assertDatabaseHas('objectives', [
+            'id' => $objectives[0]->id,
             'order' => 1
         ]);
-        $this->assertDatabaseHas('short_term_objectives', [
-            'id' => $stos[2]->id,
+        $this->assertDatabaseHas('objectives', [
+            'id' => $objectives[2]->id,
             'order' => 2
         ]);
-        $this->assertDatabaseHas('short_term_objectives', [
-            'id' => $stos[3]->id,
+        $this->assertDatabaseHas('objectives', [
+            'id' => $objectives[3]->id,
             'order' => 3
         ]);
     }
 
     /** @test */
-    public function it_validates_dates_when_creating_objectives()
+    public function it_validates_dates_when_creating_objective()
     {
         $data = [
-            'maladaptive_id' => $this->maladaptive->id,
+            'plan_id' => $this->plan->id,
+            'type' => 'STO',
             'status' => 'in progress',
             'initial_date' => '2024-01-01',
             'end_date' => '2023-12-31', // End date before initial date
@@ -289,10 +262,7 @@ class ObjectivesV2Test extends TestCase
             'target' => 80
         ];
 
-        $response = $this->postJson('/api/v2/long-term-objectives', $data);
-        $response->assertStatus(422);
-
-        $response = $this->postJson('/api/v2/short-term-objectives', $data);
+        $response = $this->postJson('/api/v2/objectives', $data);
         $response->assertStatus(422);
     }
 
@@ -300,7 +270,8 @@ class ObjectivesV2Test extends TestCase
     public function it_validates_status_values()
     {
         $data = [
-            'maladaptive_id' => $this->maladaptive->id,
+            'plan_id' => $this->plan->id,
+            'type' => 'STO',
             'status' => 'invalid_status',
             'initial_date' => '2024-01-01',
             'end_date' => '2024-06-30',
@@ -308,10 +279,54 @@ class ObjectivesV2Test extends TestCase
             'target' => 80
         ];
 
-        $response = $this->postJson('/api/v2/long-term-objectives', $data);
+        $response = $this->postJson('/api/v2/objectives', $data);
+        $response->assertStatus(422);
+    }
+
+    /** @test */
+    public function it_validates_target_values_based_on_plan_category()
+    {
+        // For maladaptive plans, target should be 0-100 (lower is better)
+        $data = [
+            'plan_id' => $this->plan->id,
+            'type' => 'STO',
+            'status' => 'in progress',
+            'description' => 'Test Objective',
+            'target' => 150 // Invalid target for maladaptive
+        ];
+
+        $response = $this->postJson('/api/v2/objectives', $data);
         $response->assertStatus(422);
 
-        $response = $this->postJson('/api/v2/short-term-objectives', $data);
+        // Create a replacement plan and test its target validation
+        $replacementPlan = Plan::factory()
+            ->for($this->bip)
+            ->create([
+                'category' => 'replacement'
+            ]);
+
+        $data['plan_id'] = $replacementPlan->id;
+        $data['target'] = -10; // Invalid target for replacement
+
+        $response = $this->postJson('/api/v2/objectives', $data);
         $response->assertStatus(422);
+    }
+
+    /** @test */
+    public function it_enforces_lto_order_to_be_last()
+    {
+        $data = [
+            'plan_id' => $this->plan->id,
+            'type' => 'LTO',
+            'status' => 'not started',
+            'description' => 'Test LTO',
+            'target' => 0,
+            'order' => 1 // Trying to set LTO order to something other than 999
+        ];
+
+        $response = $this->postJson('/api/v2/objectives', $data);
+
+        $response->assertStatus(201);
+        $this->assertEquals(999, $response->json('data.order')); // Should force order to 999
     }
 }

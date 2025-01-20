@@ -3,11 +3,15 @@
 namespace App\Http\Requests\Notes;
 
 use App\Http\Requests\Notes\Traits\ValidatesTimeOverlap;
+use App\Http\Requests\Notes\Traits\ValidatesTimeLimits;
+use App\Http\Requests\Notes\Traits\ValidatesBackdatedNotes;
 use Illuminate\Foundation\Http\FormRequest;
 
 class NoteBcbaRequest extends FormRequest
 {
     use ValidatesTimeOverlap;
+    use ValidatesTimeLimits;
+    use ValidatesBackdatedNotes;
 
     public function authorize()
     {
@@ -24,6 +28,7 @@ class NoteBcbaRequest extends FormRequest
             'diagnosis_code' => 'nullable|string|max:50',
             'meet_with_client_at' => 'nullable|string',
             'session_date' => 'required|date|before:tomorrow',
+            'next_session_is_scheduled_for' => 'nullable|date|after:session_date',
             'participants' => 'nullable|string',
             'pos' => 'nullable|string',
             'time_in' => 'nullable|date_format:H:i,H:i:s',
@@ -51,6 +56,16 @@ class NoteBcbaRequest extends FormRequest
         ];
     }
 
+    public function messages()
+    {
+        return [
+            'session_date.before' => 'Oops! It looks like you’re trying to save a session note with a future date.' .
+                'Please ensure the date and time are accurate before saving.',
+            'next_session_is_scheduled_for.after' => 'Oops! It looks like you’re trying to save a next session date that is before the current session date.' .
+                'Please ensure the date and time are accurate before saving.',
+        ];
+    }
+
     protected function prepareForValidation()
     {
         if ($this->has('session_date')) {
@@ -72,5 +87,7 @@ class NoteBcbaRequest extends FormRequest
     public function withValidator($validator)
     {
         $this->validateTimeOverlap($validator);
+        $this->validateTimeLimits($validator);
+        $this->validateBackdatedNotes($validator);
     }
 }
