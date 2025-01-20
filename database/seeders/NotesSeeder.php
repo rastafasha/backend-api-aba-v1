@@ -12,48 +12,48 @@ class NotesSeeder extends Seeder
     public function run()
     {
         // First, let's ensure PaServices have their spent_units set to 0 initially
-        $paServices = [
-            [
-                'patient_id' => 1,
-                'pa_service' => 'Behavioral Analysis',
-                'cpt' => '97153',
-                'n_units' => 100,
-                'spent_units' => 0,
-                'start_date' => Carbon::now()->subDays(30),
-                'end_date' => Carbon::now()->addDays(30),
-            ],
-            [
-                'patient_id' => 1,
-                'pa_service' => 'BCBA Supervision',
-                'cpt' => '97155',
-                'n_units' => 50,
-                'spent_units' => 0,
-                'start_date' => Carbon::now()->subDays(30),
-                'end_date' => Carbon::now()->addDays(30),
-            ],
-            [
-                'patient_id' => 2,
-                'pa_service' => 'Behavioral Analysis',
-                'cpt' => '97153',
-                'n_units' => 100,
-                'spent_units' => 0,
-                'start_date' => Carbon::now()->subDays(30),
-                'end_date' => Carbon::now()->addDays(30),
-            ],
-            [
-                'patient_id' => 2,
-                'pa_service' => 'BCBA Supervision',
-                'cpt' => '97155',
-                'n_units' => 50,
-                'spent_units' => 0,
-                'start_date' => Carbon::now()->subDays(30),
-                'end_date' => Carbon::now()->addDays(30),
-            ],
-        ];
+        // $paServices = [
+        //     [
+        //         'patient_id' => 1,
+        //         'pa_service' => 'Behavioral Analysis',
+        //         'cpt' => '97153',
+        //         'n_units' => 100,
+        //         'spent_units' => 0,
+        //         'start_date' => Carbon::now()->subDays(30),
+        //         'end_date' => Carbon::now()->addDays(30),
+        //     ],
+        //     [
+        //         'patient_id' => 1,
+        //         'pa_service' => 'BCBA Supervision',
+        //         'cpt' => '97155',
+        //         'n_units' => 50,
+        //         'spent_units' => 0,
+        //         'start_date' => Carbon::now()->subDays(30),
+        //         'end_date' => Carbon::now()->addDays(30),
+        //     ],
+        //     [
+        //         'patient_id' => 2,
+        //         'pa_service' => 'Behavioral Analysis',
+        //         'cpt' => '97153',
+        //         'n_units' => 100,
+        //         'spent_units' => 0,
+        //         'start_date' => Carbon::now()->subDays(30),
+        //         'end_date' => Carbon::now()->addDays(30),
+        //     ],
+        //     [
+        //         'patient_id' => 2,
+        //         'pa_service' => 'BCBA Supervision',
+        //         'cpt' => '97155',
+        //         'n_units' => 50,
+        //         'spent_units' => 0,
+        //         'start_date' => Carbon::now()->subDays(30),
+        //         'end_date' => Carbon::now()->addDays(30),
+        //     ],
+        // ];
 
-        foreach ($paServices as $service) {
-            \App\Models\PaService::create($service);
-        }
+        // foreach ($paServices as $service) {
+        //     \App\Models\PaService::create($service);
+        // }
 
         $notes = [
             // Notes for Patient 1
@@ -62,7 +62,7 @@ class NotesSeeder extends Seeder
                 'patient_identifier' => 'PAT001',
                 'insurance_id' => 1,
                 'doctor_id' => 3,
-                'pa_service_id' => 1,
+                'pa_service_id' => 2,
                 'bip_id' => 1,
                 'insurance_identifier' => '123456789',
                 'provider_id' => 5,
@@ -78,7 +78,7 @@ class NotesSeeder extends Seeder
                 'maladaptives' => [
                     [
                         'index' => 1,
-                        'maladaptive_behavior' => 'Bad Words',
+                        'name' => 'Bad Words',
                         'topografical_definition' => 'Said bad word every day',
                         'baseline_level' => 43,
                         'baseline_date' => '2024-11-23T04:00:00.000Z',
@@ -88,7 +88,7 @@ class NotesSeeder extends Seeder
                     ],
                     [
                         'index' => 2,
-                        'maladaptive_behavior' => 'Drawin walls',
+                        'name' => 'Drawin walls',
                         'topografical_definition' => 'draw wall til sleep',
                         'baseline_level' => 30,
                         'baseline_date' => '2024-11-24T04:00:00.000Z',
@@ -99,15 +99,12 @@ class NotesSeeder extends Seeder
                 ],
 
                 'replacements' => [
-                    'id'=> 1,
-                    'goal' => 'test goal',
-                    'current_status' => 'test',
-                    'description' => 'description',
-                    'patient_identifier' => 'PAT001',
-                    'client_id' => 1,
-                    'bip_id' => 1,
-                    'total_trials' => 6,
-                    'number_of_correct_response' => 5
+                    [
+                        'id' => 1,
+                        'name' => 'test goal',
+                        'total_trials' => 6,
+                        'number_of_correct_response' => 5
+                    ]
                 ],
 
 
@@ -135,7 +132,7 @@ class NotesSeeder extends Seeder
                 'patient_identifier' => 'PAT001',
                 'insurance_id' => 1,
                 'doctor_id' => 3,
-                'pa_service_id' => 1,
+                'pa_service_id' => 2,
                 'bip_id' => 1,
                 'insurance_identifier' => '123456789',
                 'provider_id' => 5,
@@ -151,7 +148,7 @@ class NotesSeeder extends Seeder
                 'maladaptives' => [
                     [
                         'index' => 1,
-                        'maladaptive_behavior' => 'Bad Words',
+                        'name' => 'Bad Words',
                         'topografical_definition' => 'Said bad word every day',
                         'baseline_level' => 43,
                         'baseline_date' => '2024-11-23T04:00:00.000Z',
@@ -161,7 +158,7 @@ class NotesSeeder extends Seeder
                     ],
                     [
                         'index' => 2,
-                        'maladaptive_behavior' => 'Drawin walls',
+                        'name' => 'Drawin walls',
                         'topografical_definition' => 'draw wall til sleep',
                         'baseline_level' => 30,
                         'baseline_date' => '2024-11-24T04:00:00.000Z',
@@ -172,15 +169,12 @@ class NotesSeeder extends Seeder
                 ],
 
                 'replacements' => [
-                    'id'=> 1,
-                    'goal' => 'test goal',
-                    'current_status' => 'test',
-                    'description' => 'description',
-                    'patient_identifier' => 'PAT001',
-                    'client_id' => 1,
-                    'bip_id' => 1,
-                    'total_trials' => 6,
-                    'number_of_correct_response' => 5
+                    [
+                        'id' => 1,
+                        'name' => 'test goal',
+                        'total_trials' => 6,
+                        'number_of_correct_response' => 5
+                    ]
                 ],
 
 
@@ -211,7 +205,7 @@ class NotesSeeder extends Seeder
                 'patient_identifier' => 'PAT002',
                 'insurance_id' => 1,
                 'doctor_id' => 4,
-                'pa_service_id' => 3,
+                'pa_service_id' => 6,
                 'bip_id' => 2,
                 'insurance_identifier' => '987654321',
                 'provider_id' => 6,
@@ -248,15 +242,12 @@ class NotesSeeder extends Seeder
                 ],
 
                 'replacements' => [
-                    'id'=> 1,
-                    'goal' => 'test goal',
-                    'current_status' => 'test',
-                    'description' => 'description',
-                    'patient_identifier' => 'PAT002',
-                    'client_id' => 2,
-                    'bip_id' => 1,
-                    'total_trials' => 6,
-                    'number_of_correct_response' => 5
+                    [
+                        'id' => 1,
+                        'name' => 'test goal',
+                        'total_trials' => 6,
+                        'number_of_correct_response' => 5
+                    ]
                 ],
 
                 'interventions' => [
@@ -283,7 +274,7 @@ class NotesSeeder extends Seeder
                 'patient_identifier' => 'PAT002',
                 'insurance_id' => 1,
                 'doctor_id' => 4,
-                'pa_service_id' => 3,
+                'pa_service_id' => 6,
                 'bip_id' => 2,
                 'insurance_identifier' => '987654321',
                 'provider_id' => 6,
@@ -298,10 +289,6 @@ class NotesSeeder extends Seeder
                 'participants' => 'The patient, the mother and the RBT',
                 'maladaptives' => [
                     [
-
-                    ],
-
-                    [
                         'index' => 2,
                         'maladaptive_behavior' => 'Drawin walls',
                         'topografical_definition' => 'draw wall til sleep',
@@ -314,15 +301,12 @@ class NotesSeeder extends Seeder
                 ],
 
                 'replacements' => [
-                    'id'=> 1,
-                    'goal' => 'test goal',
-                    'current_status' => 'test',
-                    'description' => 'description',
-                    'patient_identifier' => 'PAT002',
-                    'client_id' => 2,
-                    'bip_id' => 1,
-                    'total_trials' => 6,
-                    'number_of_correct_response' => 5
+                    [
+                        'id' => 1,
+                        'name' => 'test goal',
+                        'total_trials' => 6,
+                        'number_of_correct_response' => 5
+                    ]
                 ],
 
 
@@ -354,7 +338,7 @@ class NotesSeeder extends Seeder
                 'patient_identifier' => 'PAT001',
                 'insurance_id' => 2,
                 'doctor_id' => 3,
-                'pa_service_id' => 2,
+                'pa_service_id' => 3,
                 'bip_id' => 1,
                 'insurance_identifier' => '123456789',
                 'provider_id' => 3,
@@ -402,7 +386,7 @@ class NotesSeeder extends Seeder
                 'patient_identifier' => 'PAT002',
                 'insurance_id' => 2,
                 'doctor_id' => 4,
-                'pa_service_id' => 4,
+                'pa_service_id' => 7,
                 'bip_id' => 1,
                 'insurance_identifier' => '987654321',
                 'provider_id' => 4,
