@@ -109,6 +109,7 @@ class NoteRbtResource extends JsonResource
             "insuranceId" => $this->resource->insuranceId,
             "provider" => $this->resource->provider,
             "location_id" => $this->resource->location_id,
+            "summary_note" => $this->resource->summary_note,
 
             "total_minutes" => $this->resource->total_minutes,
             "total_units" => $this->resource->total_units,
