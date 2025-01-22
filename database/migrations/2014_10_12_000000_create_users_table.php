@@ -56,7 +56,7 @@ class CreateUsersTable extends Migration
             $table->string('contract_type', 155)->nullable();
             $table->double('salary')->nullable();
             $table->string('location_id', 50)->nullable();
-            $table->string('note')->nullable();
+            $table->text('note')->nullable();
             $table->string('schedule', 50)->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
