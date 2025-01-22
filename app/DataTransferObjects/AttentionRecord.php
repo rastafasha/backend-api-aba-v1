@@ -9,7 +9,8 @@ class AttentionRecord
         public ?string $preventive_strategies,
         public ?string $replacement_skills,
         public ?string $manager_strategies
-    ) {}
+    ) {
+    }
 
     public static function fromArray(array $data): self
     {
@@ -31,4 +32,3 @@ class AttentionRecord
         ];
     }
 }
-
