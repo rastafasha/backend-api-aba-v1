@@ -170,6 +170,8 @@ class DoctorController extends Controller
                 "caqh_bcbas_only" => $doctor->caqh_bcbas_only,
                 "contract_type" => $doctor->contract_type,
                 "salary" => $doctor->salary,
+                "schedule" => $doctor->schedule,
+                "note" => $doctor->note,
 
             ],
             // "full_name" =>$doctor->full_name,
