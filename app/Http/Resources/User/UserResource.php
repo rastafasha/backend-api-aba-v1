@@ -89,6 +89,9 @@ class UserResource extends JsonResource
             "caqh_bcbas_only" => $this->resource->caqh_bcbas_only,
             "contract_type" => $this->resource->contract_type,
             "salary" => $this->resource->salary,
+            "note" => $this->resource->note,
+            "schedule" => $this->resource->schedule,
+            "school_badge_expiration" => $this->resource->school_badge_expiration,
 
 
 
