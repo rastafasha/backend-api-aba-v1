@@ -112,6 +112,9 @@ class User extends Authenticatable implements JWTSubject
         'contract_type',
         'salary',
         'location_id',
+        'note',
+        'schedule',
+        'school_badge_expiration',
 
     ];
 
