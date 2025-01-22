@@ -20,7 +20,6 @@ class GeneralizationTraining extends Model
         'client_id',
         'discharge_plan',
         'transition_fading_plans',//json
-
     ];
 
     // protected $casts = [

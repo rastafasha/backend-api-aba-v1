@@ -21,6 +21,7 @@ class CreateObjectivesTable extends Migration
             $table->date('initial_date')->nullable();
             $table->date('end_date')->nullable();
             $table->text('description');
+            $table->decimal('start_point', 8, 2)->nullable();
             $table->decimal('target', 8, 2)->nullable();
             $table->integer('order')->default(1);
             $table->timestamps();

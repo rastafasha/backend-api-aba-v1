@@ -51,6 +51,14 @@ use Illuminate\Support\Facades\Validator;
  *         description="Detailed description of what this objective aims to achieve. Should be specific and measurable."
  *     ),
  *     @OA\Property(
+ *         property="start_point",
+ *         type="number",
+ *         format="float",
+ *         example=10,
+ *         nullable=true,
+ *         description="Starting point of the objective. For maladaptive plans: initial value, for replacement plans: 0, for training plans: 0."
+ *     ),
+ *     @OA\Property(
  *         property="target",
  *         type="number",
  *         format="float",
@@ -81,6 +89,7 @@ class Objective extends Model
         'initial_date',
         'end_date',
         'description',
+        'start_point',
         'target',
         'order'
     ];
@@ -88,6 +97,7 @@ class Objective extends Model
     protected $casts = [
         'initial_date' => 'date:Y-m-d',
         'end_date' => 'date:Y-m-d',
+        'start_point' => 'decimal:8,2',
         'target' => 'integer',
         'order' => 'integer'
     ];
@@ -106,6 +116,7 @@ class Objective extends Model
             'initial_date' => 'nullable|date',
             'end_date' => 'nullable|date|after:initial_date',
             'description' => 'required|string',
+            'start_point' => 'nullable|numeric',
             'target' => 'nullable|numeric',
             'order' => [
                 'nullable',
