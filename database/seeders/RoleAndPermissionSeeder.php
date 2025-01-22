@@ -62,6 +62,8 @@ class RoleAndPermissionSeeder extends Seeder
             ['id' => 61, 'name' => 'list_billing', 'guard_name' => 'api'],
             ['id' => 62, 'name' => 'list_patient_log_report', 'guard_name' => 'api'],
             ['id' => 63, 'name' => 'ignore_time_limits', 'guard_name' => 'api'],
+            ['id' => 64, 'name' => 'logs', 'guard_name' => 'api'],
+            ['id' => 65, 'name' => 'claims', 'guard_name' => 'api'],
         ];
 
         foreach ($permissions as $permission) {
@@ -71,9 +73,10 @@ class RoleAndPermissionSeeder extends Seeder
         // Create roles
         $roles = [
             ['id' => 1, 'name' => 'SUPERADMIN', 'guard_name' => 'api'],
-            ['id' => 2, 'name' => 'MANAGER', 'guard_name' => 'api'],
-            ['id' => 7, 'name' => 'BCBA', 'guard_name' => 'api'],
-            ['id' => 8, 'name' => 'RBT', 'guard_name' => 'api'],
+            ['id' => 2, 'name' => 'ADMIN', 'guard_name' => 'api'],
+            ['id' => 3, 'name' => 'MANAGER', 'guard_name' => 'api'],
+            ['id' => 4, 'name' => 'BCBA', 'guard_name' => 'api'],
+            ['id' => 5, 'name' => 'RBT', 'guard_name' => 'api'],
         ];
 
         foreach ($roles as $role) {
@@ -84,10 +87,14 @@ class RoleAndPermissionSeeder extends Seeder
         $superadminRole = Role::find(1);
         $superadminRole->givePermissionTo(Permission::all());
 
+        // Give all permissions to ADMIN
+        $adminRole = Role::find(2);
+        $adminRole->givePermissionTo(Permission::all());
+
         // Assign specific permissions to other roles
-        $managerRole = Role::find(2);
-        $bcbaRole = Role::find(7);
-        $rbtRole = Role::find(8);
+        $managerRole = Role::find(3);
+        $bcbaRole = Role::find(4);
+        $rbtRole = Role::find(5);
 
         // Assign permissions based on the provided SQL dump
         $managerRole->givePermissionTo([10, 11]); // Manager specific permissions
