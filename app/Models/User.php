@@ -139,6 +139,7 @@ class User extends Authenticatable implements JWTSubject
     ];
 
     public const SUPERADMIN = 'SUPERADMIN';
+    public const ADMIN = 'ADMIN';
     public const GUEST = 'GUEST';
     public const PARENT = 'PARENT';
 
@@ -179,6 +180,10 @@ class User extends Authenticatable implements JWTSubject
     public function isSuperAdmin()
     {
         return $this->role === User::SUPERADMIN;
+    }
+    public function isAdmin()
+    {
+        return $this->role === User::ADMIN;
     }
 
     public function isGuest()
