@@ -30,16 +30,6 @@ class BipSeeder extends Seeder
                 'current_treatment_and_progress' => 'Currently receiving regular ABA therapy',
                 'education_status' => 'Attending special education program',
                 'physical_and_medical_status' => 'Generally healthy, no major concerns',
-                'physical_and_medical' => [
-                    [
-                        'index' => 1,
-                        'medication' => 'Methylphenidate',
-                        'dose' => '10mg',
-                        'frecuency' => 'Twice daily',
-                        'reason' => 'ADHD management',
-                        'preescribing_physician' => 'Dr. Smith'
-                    ]
-                ],
                 'strengths' => 'Good motor skills, responsive to reinforcement',
                 'weakneses' => 'Communication difficulties, attention challenges'
             ],
@@ -63,16 +53,6 @@ class BipSeeder extends Seeder
                 'current_treatment_and_progress' => 'New to ABA treatment program',
                 'education_status' => 'Mainstream education with support',
                 'physical_and_medical_status' => 'No significant health concerns',
-                'physical_and_medical' => [
-                    [
-                        'index' => 1,
-                        'medication' => 'Methylphenidate',
-                        'dose' => '10mg',
-                        'frecuency' => 'Twice daily',
-                        'reason' => 'ADHD management',
-                        'preescribing_physician' => 'Dr. Smith'
-                    ]
-                ],
                 'strengths' => 'Strong visual learning skills',
                 'weakneses' => 'Social interaction challenges'
             ]

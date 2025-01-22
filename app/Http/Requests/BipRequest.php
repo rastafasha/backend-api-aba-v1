@@ -40,6 +40,13 @@ class BipRequest extends FormRequest
             'physical_and_medical.*.reason' => 'required|string',
             'physical_and_medical.*.preescribing_physician' => 'required|string',
 
+            // Attention records validation
+            'attention' => 'nullable|array',
+            'attention.*.index' => 'required|integer',
+            'attention.*.preventive_strategies' => 'required|string',
+            'attention.*.replacement_skills' => 'required|string',
+            'attention.*.manager_strategies' => 'required|string',
+
             // Text fields
             'background_information' => 'nullable|string',
             'previus_treatment_and_result' => 'nullable|string',

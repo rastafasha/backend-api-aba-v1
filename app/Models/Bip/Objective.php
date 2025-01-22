@@ -97,7 +97,7 @@ class Objective extends Model
     protected $casts = [
         'initial_date' => 'date:Y-m-d',
         'end_date' => 'date:Y-m-d',
-        'start_point' => 'decimal:8,2',
+        'start_point' => 'integer',
         'target' => 'integer',
         'order' => 'integer'
     ];

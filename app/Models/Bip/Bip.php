@@ -294,7 +294,7 @@ class Bip extends Model
         'attention' => 'json',
         'escape' => 'json',
         'sensory' => 'json',
-        'physical_and_medical' => \App\Casts\PhysicalMedicalCast::class,
+        'physical_and_medical' => 'json' // \App\Casts\PhysicalMedicalCast::class,
     ];
 
 
