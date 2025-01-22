@@ -11,7 +11,8 @@ class PhysicalMedicalRecord
         public ?string $frecuency,
         public ?string $reason,
         public ?string $preescribing_physician
-    ) {}
+    ) {
+    }
 
     public static function fromArray(array $data): self
     {
