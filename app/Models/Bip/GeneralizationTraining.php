@@ -22,9 +22,9 @@ class GeneralizationTraining extends Model
         'transition_fading_plans',//json
     ];
 
-    // protected $casts = [
-    //     'transition_fading_plans' => 'array',
-    // ];
+    protected $casts = [
+        'transition_fading_plans' => 'array',
+    ];
 
     public function bip()
     {
@@ -33,7 +33,7 @@ class GeneralizationTraining extends Model
 
     public function patient()
     {
-        return $this->belongsTo(Patient::class, 'patient_identifier');
+        return $this->belongsTo(Patient::class, 'client_id');
     }
 
     public function client()

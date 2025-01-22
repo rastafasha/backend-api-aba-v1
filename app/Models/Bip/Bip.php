@@ -155,14 +155,23 @@ use App\Models\Bip\Replacement;
  *     @OA\Property(property="previus_treatment_and_result", type="string", nullable=true, description="History of previous treatments and their outcomes"),
  *     @OA\Property(property="current_treatment_and_progress", type="string", nullable=true, description="Current treatment details and progress"),
  *     @OA\Property(property="education_status", type="string", nullable=true, description="Patient's educational background and status"),
- *     @OA\Property(property="phisical_and_medical_status", type="string", nullable=true, description="Patient's physical and medical conditions"),
+ *     @OA\Property(property="physical_and_medical_status", type="string", nullable=true, description="Patient's physical and medical conditions"),
  *     @OA\Property(property="strengths", type="string", nullable=true, description="Patient's identified strengths"),
  *     @OA\Property(property="weakneses", type="string", nullable=true, description="Patient's identified weaknesses"),
- *     @OA\Property(property="phiysical_and_medical", type="string", nullable=true, description="Detailed physical and medical information"),
- *     @OA\Property(property="phiysical_and_medical_status", type="array", @OA\Items(type="string"), nullable=true, description="List of physical and medical conditions"),
+ *     @OA\Property(property="physical_and_medical", type="array", description="List of patient's physical and medical information",
+ *         @OA\Items(
+ *             type="object",
+ *             @OA\Property(property="index", type="integer", example=1, description="Index of the medical record"),
+ *             @OA\Property(property="medication", type="string", example="Methylphenidate", description="Name of medication"),
+ *             @OA\Property(property="dose", type="string", example="10mg", description="Medication dosage"),
+ *             @OA\Property(property="frecuency", type="string", example="Twice daily", description="Medication frequency"),
+ *             @OA\Property(property="reason", type="string", example="ADHD management", description="Reason for medication"),
+ *             @OA\Property(property="preescribing_physician", type="string", example="Dr. Smith", description="Name of prescribing physician")
+ *         )
+ *     ),
  *     @OA\Property(property="assestment_conducted", type="string", nullable=true, description="Details of conducted assessments"),
  *     @OA\Property(property="assestment_conducted_options", type="array", @OA\Items(type="string"), nullable=true, description="Types of assessments performed"),
- *     @OA\Property(property="assestmentEvaluationSettings", type="array", @OA\Items(type="string"), nullable=true, description="Settings where assessments were conducted"),
+ *     @OA\Property(property="assestment_evaluation_settings", type="array", @OA\Items(type="string"), nullable=true, description="Settings where assessments were conducted"),
  *     @OA\Property(property="prevalent_setting_event_and_atecedents", type="array", @OA\Items(type="string"), nullable=true, description="Common triggers and antecedents"),
  *     @OA\Property(property="hypothesis_based_intervention", type="string", nullable=true, description="Intervention strategy based on behavioral hypothesis"),
  *     @OA\Property(property="interventions", type="array", @OA\Items(type="string"), nullable=true, description="List of planned interventions"),
@@ -245,16 +254,15 @@ class Bip extends Model
         'assestment_conducted',
         'assestment_conducted_options', //json
         'prevalent_setting_event_and_atecedents', //json
-        'assestmentEvaluationSettings', //json
+        'assestment_evaluation_settings', //json
         'interventions', //json
         'reduction_id',
         'strengths',
         'weakneses',
         'hypothesis_based_intervention',
 
-        'phisical_and_medical_status',
-        'phiysical_and_medical',
-        'phiysical_and_medical_status', //json
+        'physical_and_medical_status',
+        'physical_and_medical', //json
 
         'tangibles', //json
         'attention', //json
@@ -286,7 +294,7 @@ class Bip extends Model
         'attention' => 'json',
         'escape' => 'json',
         'sensory' => 'json',
-        'phiysical_and_medical_status' => 'json',
+        'physical_and_medical' => \App\Casts\PhysicalMedicalCast::class,
     ];
 
 
@@ -362,9 +370,6 @@ class Bip extends Model
     {
         return $this->hasMany(ConsentToTreatment::class, 'bip_id');
     }
-
-
-
 
 
 
