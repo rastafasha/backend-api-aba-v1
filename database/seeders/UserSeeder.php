@@ -35,6 +35,18 @@ class UserSeeder extends Seeder
             'npi' => '1245319599',
         ]);
         $superadmin->assignRole('SUPERADMIN');
+        // Create admin
+        $admin = User::create([
+            'name' => 'Admin',
+            'email' => 'admin@example.com',
+            'password' => Hash::make('password'),
+            'status' => 'active',
+            'email_verified_at' => now(),
+            'gender' => 1,
+            'location_id' => 1,
+            'npi' => '1245319599',
+        ]);
+        $admin->assignRole('ADMIN');
 
         // Create manager
         $manager = User::create([
