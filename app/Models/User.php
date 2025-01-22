@@ -114,7 +114,6 @@ class User extends Authenticatable implements JWTSubject
         'location_id',
         'note',
         'schedule',
-        'school_badge_expiration',
 
     ];
 

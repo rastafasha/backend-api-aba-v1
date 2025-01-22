@@ -91,7 +91,7 @@ class UserResource extends JsonResource
             "salary" => $this->resource->salary,
             "note" => $this->resource->note,
             "schedule" => $this->resource->schedule,
-            "school_badge_expiration" => $this->resource->school_badge_expiration,
+
 
 
 
