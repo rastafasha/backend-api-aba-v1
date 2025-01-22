@@ -19,15 +19,14 @@ class CreateBipsTable extends Migration
             $table->text('previus_treatment_and_result')->nullable();
             $table->text('current_treatment_and_progress')->nullable();
             $table->text('education_status')->nullable();
-            $table->text('phisical_and_medical_status')->nullable();
+            $table->text('physical_and_medical_status')->nullable();
             $table->text('strengths')->nullable();
             $table->text('weakneses')->nullable();
-            $table->text('phiysical_and_medical')->nullable();
-            $table->json('phiysical_and_medical_status')->nullable();
+            $table->json('physical_and_medical')->nullable();
             $table->json('maladaptives')->nullable();
             $table->text('assestment_conducted')->nullable();
             $table->json('assestment_conducted_options')->nullable();
-            $table->json('assestmentEvaluationSettings')->nullable();
+            $table->json('assestment_evaluation_settings')->nullable();
             $table->json('prevalent_setting_event_and_atecedents')->nullable();
             $table->text('hypothesis_based_intervention')->nullable();
             $table->json('interventions')->nullable();

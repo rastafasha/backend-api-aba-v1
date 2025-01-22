@@ -452,6 +452,13 @@
                                         "type": "string",
                                         "example": "Reduce inappropriate behavior to less than 5 instances per day"
                                     },
+                                    "start_point": {
+                                        "description": "Starting point of the objective. For maladaptive plans: initial value, for replacement plans: 0, for training plans: 0.",
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 10,
+                                        "nullable": true
+                                    },
                                     "target": {
                                         "description": "For maladaptive plans: 0-100 (reduction). For replacement plans: >= 0 (improvement).",
                                         "type": "number",
@@ -6250,7 +6257,7 @@
                         "type": "string",
                         "nullable": true
                     },
-                    "phisical_and_medical_status": {
+                    "physical_and_medical_status": {
                         "description": "Patient's physical and medical conditions",
                         "type": "string",
                         "nullable": true
@@ -6265,18 +6272,44 @@
                         "type": "string",
                         "nullable": true
                     },
-                    "phiysical_and_medical": {
-                        "description": "Detailed physical and medical information",
-                        "type": "string",
-                        "nullable": true
-                    },
-                    "phiysical_and_medical_status": {
-                        "description": "List of physical and medical conditions",
+                    "physical_and_medical": {
+                        "description": "List of patient's physical and medical information",
                         "type": "array",
                         "items": {
-                            "type": "string"
-                        },
-                        "nullable": true
+                            "properties": {
+                                "index": {
+                                    "description": "Index of the medical record",
+                                    "type": "integer",
+                                    "example": 1
+                                },
+                                "medication": {
+                                    "description": "Name of medication",
+                                    "type": "string",
+                                    "example": "Methylphenidate"
+                                },
+                                "dose": {
+                                    "description": "Medication dosage",
+                                    "type": "string",
+                                    "example": "10mg"
+                                },
+                                "frecuency": {
+                                    "description": "Medication frequency",
+                                    "type": "string",
+                                    "example": "Twice daily"
+                                },
+                                "reason": {
+                                    "description": "Reason for medication",
+                                    "type": "string",
+                                    "example": "ADHD management"
+                                },
+                                "preescribing_physician": {
+                                    "description": "Name of prescribing physician",
+                                    "type": "string",
+                                    "example": "Dr. Smith"
+                                }
+                            },
+                            "type": "object"
+                        }
                     },
                     "assestment_conducted": {
                         "description": "Details of conducted assessments",
@@ -6481,6 +6514,13 @@
                         "description": "Detailed description of what this objective aims to achieve. Should be specific and measurable.",
                         "type": "string",
                         "example": "Reduce inappropriate behavior to less than 5 instances per day"
+                    },
+                    "start_point": {
+                        "description": "Starting point of the objective. For maladaptive plans: initial value, for replacement plans: 0, for training plans: 0.",
+                        "type": "number",
+                        "format": "float",
+                        "example": 10,
+                        "nullable": true
                     },
                     "target": {
                         "description": "Target value to achieve. For maladaptive plans: decreases, for replacement plans: increases, for training plans: mastery percentage.",

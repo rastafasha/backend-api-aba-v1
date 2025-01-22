@@ -156,6 +156,14 @@ class ObjectiveV2Controller extends Controller
      *                 example="Reduce inappropriate behavior to less than 5 instances per day"
      *             ),
      *             @OA\Property(
+     *                 property="start_point",
+     *                 type="number",
+     *                 format="float",
+     *                 example=10,
+     *                 nullable=true,
+     *                 description="Starting point of the objective. For maladaptive plans: initial value, for replacement plans: 0, for training plans: 0."
+     *             ),
+     *             @OA\Property(
      *                 property="target",
      *                 type="number",
      *                 format="float",
