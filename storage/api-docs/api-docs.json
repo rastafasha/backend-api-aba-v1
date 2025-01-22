@@ -452,6 +452,13 @@
                                         "type": "string",
                                         "example": "Reduce inappropriate behavior to less than 5 instances per day"
                                     },
+                                    "start_point": {
+                                        "description": "Starting point of the objective. For maladaptive plans: initial value, for replacement plans: 0, for training plans: 0.",
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 10,
+                                        "nullable": true
+                                    },
                                     "target": {
                                         "description": "For maladaptive plans: 0-100 (reduction). For replacement plans: >= 0 (improvement).",
                                         "type": "number",
@@ -6481,6 +6488,13 @@
                         "description": "Detailed description of what this objective aims to achieve. Should be specific and measurable.",
                         "type": "string",
                         "example": "Reduce inappropriate behavior to less than 5 instances per day"
+                    },
+                    "start_point": {
+                        "description": "Starting point of the objective. For maladaptive plans: initial value, for replacement plans: 0, for training plans: 0.",
+                        "type": "number",
+                        "format": "float",
+                        "example": 10,
+                        "nullable": true
                     },
                     "target": {
                         "description": "Target value to achieve. For maladaptive plans: decreases, for replacement plans: increases, for training plans: mastery percentage.",

@@ -33,6 +33,20 @@ class PlanSeeder extends Seeder
                     100                                      // complete mastery
                 ];
 
+            $startPointSteps = $isMaladaptive ? [
+                $baselineLevel,
+                $baselineLevel * 0.75,
+                $baselineLevel * 0.5,
+                $baselineLevel * 0.25,
+                0
+            ] : [
+                0,
+                $baselineLevel * 0.25,
+                $baselineLevel * 0.5,
+                $baselineLevel * 0.75,
+                100
+            ];
+
             // Create LTO
             $ltoDescription = $isMaladaptive
                 ? "Long term reduction of {$plan->name} to 0 occurrences across all settings"
@@ -67,6 +81,7 @@ class PlanSeeder extends Seeder
                             ? " to {$target} occurrences or less"
                             : " to achieve {$target}% success rate"),
                     'target' => $target,
+                    'start_point' => $startPointSteps[$index],
                     'initial_date' => $baseDate->format('Y-m-d'),
                     'end_date' => $baseDate->addMonths(2)->subDay()->format('Y-m-d'),
                     'order' => $index + 1
