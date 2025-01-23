@@ -2,12 +2,11 @@
 
 namespace App\Models\Bip;
 
-use App\Models\User;
 use App\Models\Bip\Bip;
-use App\Models\Patient\Patient;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Facades\Validator;
 
 class CrisisPlan extends Model
 {
@@ -16,7 +15,6 @@ class CrisisPlan extends Model
 
     protected $fillable = [
         'bip_id',
-        'patient_identifier',
         'crisis_description',
         'crisis_note',
         'caregiver_requirements_for_prevention_of_crisis',
@@ -25,11 +23,11 @@ class CrisisPlan extends Model
         'homicidalities', //json
     ];
 
-    // protected $casts = [
-    //     'risk_factors' => 'array',
-    //     'suicidalities' => 'array',
-    //     'homicidalities' => 'array',
-    // ];
+    protected $casts = [
+        'risk_factors' => 'array',
+        'suicidalities' => 'array',
+        'homicidalities' => 'array',
+    ];
 
     // Updated relationships to match database structure
     public function bip()
@@ -37,13 +35,20 @@ class CrisisPlan extends Model
         return $this->belongsTo(Bip::class, 'bip_id');
     }
 
-    public function patient()
-    {
-        return $this->belongsTo(Patient::class, 'patient_identifier');
-    }
 
-    public function client()
+    // validation rules
+    public static function validate($data)
     {
-        return $this->belongsTo(User::class, 'client_id');
+        $rules = [
+            'bip_id' => 'required|exists:bips,id',
+            'crisis_description' => 'nullable|string',
+            'crisis_note' => 'nullable|string',
+            'caregiver_requirements_for_prevention_of_crisis' => 'nullable|string',
+            'risk_factors' => 'nullable|array',
+            'suicidalities' => 'nullable|array',
+            'homicidalities' => 'nullable|array'
+        ];
+
+        return Validator::make($data, $rules);
     }
 }

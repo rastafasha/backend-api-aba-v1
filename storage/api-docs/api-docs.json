@@ -228,6 +228,283 @@
                 }
             }
         },
+        "/api/v2/crisis-plans": {
+            "get": {
+                "tags": [
+                    "Admin/Crisis Plans"
+                ],
+                "summary": "Get paginated crisis plans",
+                "description": "Retrieves a paginated list of crisis plans with optional filters",
+                "operationId": "eb6f452a5214e528d631e0e1c977f94c",
+                "parameters": [
+                    {
+                        "name": "bip_id",
+                        "in": "query",
+                        "description": "Filter by BIP ID",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "per_page",
+                        "in": "query",
+                        "description": "Number of items per page",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 15
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/PaginatedCrisisPlanResponse"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Admin/Crisis Plans"
+                ],
+                "summary": "Create a new crisis plan",
+                "description": "Creates a new crisis plan with the provided data",
+                "operationId": "9701d5f6a54a4d4bbf9fbb138bf1df94",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "patient_identifier"
+                                ],
+                                "properties": {
+                                    "bip_id": {
+                                        "type": "integer"
+                                    },
+                                    "patient_identifier": {
+                                        "type": "string"
+                                    },
+                                    "crisis_description": {
+                                        "type": "string"
+                                    },
+                                    "crisis_note": {
+                                        "type": "string"
+                                    },
+                                    "caregiver_requirements_for_prevention_of_crisis": {
+                                        "type": "string"
+                                    },
+                                    "risk_factors": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "suicidalities": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "homicidalities": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Crisis plan created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Crisis plan created successfully"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/CrisisPlan"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v2/crisis-plans/{id}": {
+            "get": {
+                "tags": [
+                    "Admin/Crisis Plans"
+                ],
+                "summary": "Get a single crisis plan",
+                "description": "Retrieves a specific crisis plan by its ID",
+                "operationId": "f6239cc7fbcd33c900a1438cb020b68e",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the crisis plan",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/CrisisPlan"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Crisis plan not found"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Admin/Crisis Plans"
+                ],
+                "summary": "Update a crisis plan",
+                "description": "Updates an existing crisis plan",
+                "operationId": "8c0cf2ce482c1d04e92ddf5a6890dae2",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the crisis plan",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "bip_id": {
+                                        "type": "integer"
+                                    },
+                                    "patient_identifier": {
+                                        "type": "string"
+                                    },
+                                    "crisis_description": {
+                                        "type": "string"
+                                    },
+                                    "crisis_note": {
+                                        "type": "string"
+                                    },
+                                    "caregiver_requirements_for_prevention_of_crisis": {
+                                        "type": "string"
+                                    },
+                                    "risk_factors": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "suicidalities": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "homicidalities": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Crisis plan updated successfully"
+                    },
+                    "404": {
+                        "description": "Crisis plan not found"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Admin/Crisis Plans"
+                ],
+                "summary": "Delete a crisis plan",
+                "description": "Deletes an existing crisis plan",
+                "operationId": "7e6ab4dc8c7be39ee2370b88c4cb7aac",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the crisis plan",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Crisis plan deleted successfully"
+                    },
+                    "404": {
+                        "description": "Crisis plan not found"
+                    }
+                }
+            }
+        },
         "/api/v2/objectives": {
             "get": {
                 "tags": [
@@ -5671,6 +5948,54 @@
     },
     "components": {
         "schemas": {
+            "PaginatedCrisisPlanResponse": {
+                "properties": {
+                    "current_page": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/CrisisPlan"
+                        }
+                    },
+                    "first_page_url": {
+                        "type": "string"
+                    },
+                    "from": {
+                        "type": "integer"
+                    },
+                    "last_page": {
+                        "type": "integer"
+                    },
+                    "last_page_url": {
+                        "type": "string"
+                    },
+                    "next_page_url": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "path": {
+                        "type": "string"
+                    },
+                    "per_page": {
+                        "type": "integer",
+                        "example": 15
+                    },
+                    "prev_page_url": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "to": {
+                        "type": "integer"
+                    },
+                    "total": {
+                        "type": "integer"
+                    }
+                },
+                "type": "object"
+            },
             "PaginatedInsuranceResponse": {
                 "properties": {
                     "current_page": {
@@ -6324,7 +6649,7 @@
                         },
                         "nullable": true
                     },
-                    "assestmentEvaluationSettings": {
+                    "assestment_evaluation_settings": {
                         "description": "Settings where assessments were conducted",
                         "type": "array",
                         "items": {
@@ -7829,11 +8154,6 @@
                         "format": "int64",
                         "example": 1
                     },
-                    "patient_identifier": {
-                        "description": "Patient identifier",
-                        "type": "string",
-                        "example": "PAT123"
-                    },
                     "crisis_description": {
                         "description": "Description of the crisis situation",
                         "type": "string"
@@ -8046,6 +8366,10 @@
         {
             "name": "BIPs",
             "description": "BIPs"
+        },
+        {
+            "name": "Admin/Crisis Plans",
+            "description": "Admin/Crisis Plans"
         },
         {
             "name": "Objectives",
