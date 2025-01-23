@@ -780,6 +780,263 @@
                 }
             }
         },
+        "/api/v2/generalization-trainings": {
+            "get": {
+                "tags": [
+                    "Admin/Generalization Trainings"
+                ],
+                "summary": "Get paginated generalization trainings",
+                "description": "Retrieves a paginated list of generalization trainings with optional filters",
+                "operationId": "cd5d8cee82378d3cd696d8f0a6363ef8",
+                "parameters": [
+                    {
+                        "name": "bip_id",
+                        "in": "query",
+                        "description": "Filter by BIP ID",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "per_page",
+                        "in": "query",
+                        "description": "Number of items per page",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 15
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/PaginatedGeneralizationTrainingResponse"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Admin/Generalization Trainings"
+                ],
+                "summary": "Create a new generalization training",
+                "description": "Creates a new generalization training with the provided data",
+                "operationId": "5a0e35123c27d7be6b1f00dad8d411d4",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "bip_id"
+                                ],
+                                "properties": {
+                                    "bip_id": {
+                                        "type": "integer"
+                                    },
+                                    "discharge_plan": {
+                                        "type": "string"
+                                    },
+                                    "transition_fading_plans": {
+                                        "type": "array",
+                                        "items": {
+                                            "properties": {
+                                                "transition_plan": {
+                                                    "type": "string"
+                                                },
+                                                "fading_plan": {
+                                                    "type": "string"
+                                                },
+                                                "timeline": {
+                                                    "type": "string"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Generalization training created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Generalization training created successfully"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/GeneralizationTraining"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v2/generalization-trainings/{id}": {
+            "get": {
+                "tags": [
+                    "Admin/Generalization Trainings"
+                ],
+                "summary": "Get a single generalization training",
+                "description": "Retrieves a specific generalization training by its ID",
+                "operationId": "9e7b8d445cb664293d9d733535fb01a6",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the generalization training",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/GeneralizationTraining"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Generalization training not found"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Admin/Generalization Trainings"
+                ],
+                "summary": "Update a generalization training",
+                "description": "Updates an existing generalization training",
+                "operationId": "a6e93b2d290cf95a9e964685eaa6272a",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the generalization training",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "bip_id": {
+                                        "type": "integer"
+                                    },
+                                    "discharge_plan": {
+                                        "type": "string"
+                                    },
+                                    "transition_fading_plans": {
+                                        "type": "array",
+                                        "items": {
+                                            "properties": {
+                                                "transition_plan": {
+                                                    "type": "string"
+                                                },
+                                                "fading_plan": {
+                                                    "type": "string"
+                                                },
+                                                "timeline": {
+                                                    "type": "string"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Generalization training updated successfully"
+                    },
+                    "404": {
+                        "description": "Generalization training not found"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Admin/Generalization Trainings"
+                ],
+                "summary": "Delete a generalization training",
+                "description": "Deletes an existing generalization training",
+                "operationId": "90cb3e8e6c33d580279e21ebcd4e2de6",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the generalization training",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Generalization training deleted successfully"
+                    },
+                    "404": {
+                        "description": "Generalization training not found"
+                    }
+                }
+            }
+        },
         "/api/v2/objectives": {
             "get": {
                 "tags": [
@@ -6319,6 +6576,54 @@
                 },
                 "type": "object"
             },
+            "PaginatedGeneralizationTrainingResponse": {
+                "properties": {
+                    "current_page": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/GeneralizationTraining"
+                        }
+                    },
+                    "first_page_url": {
+                        "type": "string"
+                    },
+                    "from": {
+                        "type": "integer"
+                    },
+                    "last_page": {
+                        "type": "integer"
+                    },
+                    "last_page_url": {
+                        "type": "string"
+                    },
+                    "next_page_url": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "path": {
+                        "type": "string"
+                    },
+                    "per_page": {
+                        "type": "integer",
+                        "example": 15
+                    },
+                    "prev_page_url": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "to": {
+                        "type": "integer"
+                    },
+                    "total": {
+                        "type": "integer"
+                    }
+                },
+                "type": "object"
+            },
             "PaginatedInsuranceResponse": {
                 "properties": {
                     "current_page": {
@@ -8618,17 +8923,6 @@
                         "format": "int64",
                         "example": 1
                     },
-                    "patient_identifier": {
-                        "description": "Patient identifier",
-                        "type": "string",
-                        "example": "PAT123"
-                    },
-                    "client_id": {
-                        "description": "ID of the client",
-                        "type": "integer",
-                        "format": "int64",
-                        "example": 1
-                    },
                     "discharge_plan": {
                         "description": "Plan for discharge from services",
                         "type": "string"
@@ -8686,6 +8980,10 @@
         {
             "name": "Admin/De-escalation Techniques",
             "description": "Admin/De-escalation Techniques"
+        },
+        {
+            "name": "Admin/Generalization Trainings",
+            "description": "Admin/Generalization Trainings"
         },
         {
             "name": "Objectives",

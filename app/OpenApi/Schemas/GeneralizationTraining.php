@@ -9,8 +9,6 @@ namespace App\OpenApi\Schemas;
  *     description="Model for documenting generalization training and transition plans",
  *     @OA\Property(property="id", type="integer", format="int64", example=1),
  *     @OA\Property(property="bip_id", type="integer", format="int64", example=1, description="ID of the BIP this training belongs to"),
- *     @OA\Property(property="patient_identifier", type="string", example="PAT123", description="Patient identifier"),
- *     @OA\Property(property="client_id", type="integer", format="int64", example=1, description="ID of the client"),
  *     @OA\Property(property="discharge_plan", type="string", description="Plan for discharge from services"),
  *     @OA\Property(
  *         property="transition_fading_plans",

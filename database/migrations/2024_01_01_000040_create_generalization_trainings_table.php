@@ -11,8 +11,6 @@ class CreateGeneralizationTrainingsTable extends Migration
         Schema::create('generalization_trainings', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->foreignId('bip_id')->nullable()->constrained('bips')->nullOnDelete();
-            $table->string('patient_identifier')->nullable();
-            $table->foreignId('client_id')->nullable()->constrained('users')->nullOnDelete();
             $table->text('discharge_plan')->nullable();
             $table->json('transition_fading_plans')->nullable();
             $table->timestamps();
