@@ -505,6 +505,281 @@
                 }
             }
         },
+        "/api/v2/de-escalation-techniques": {
+            "get": {
+                "tags": [
+                    "Admin/De-escalation Techniques"
+                ],
+                "summary": "Get paginated de-escalation techniques",
+                "description": "Retrieves a paginated list of de-escalation techniques with optional filters",
+                "operationId": "01ede1a8fb50b2dcde42a031133a826a",
+                "parameters": [
+                    {
+                        "name": "bip_id",
+                        "in": "query",
+                        "description": "Filter by BIP ID",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "per_page",
+                        "in": "query",
+                        "description": "Number of items per page",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 15
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/PaginatedDeEscalationTechniqueResponse"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Admin/De-escalation Techniques"
+                ],
+                "summary": "Create a new de-escalation technique",
+                "description": "Creates a new de-escalation technique with the provided data",
+                "operationId": "a17094c6d0cb1c41da9fee41304aad77",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "bip_id"
+                                ],
+                                "properties": {
+                                    "bip_id": {
+                                        "type": "integer"
+                                    },
+                                    "description": {
+                                        "type": "string"
+                                    },
+                                    "service_recomendation": {
+                                        "type": "string"
+                                    },
+                                    "recomendation_lists": {
+                                        "type": "array",
+                                        "items": {
+                                            "properties": {
+                                                "cpt": {
+                                                    "type": "string"
+                                                },
+                                                "location": {
+                                                    "type": "string"
+                                                },
+                                                "num_units": {
+                                                    "type": "integer"
+                                                },
+                                                "breakdown_per_week": {
+                                                    "type": "string"
+                                                },
+                                                "description_service": {
+                                                    "type": "string"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "De-escalation technique created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "De-escalation technique created successfully"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/DeEscalationTechnique"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v2/de-escalation-techniques/{id}": {
+            "get": {
+                "tags": [
+                    "Admin/De-escalation Techniques"
+                ],
+                "summary": "Get a single de-escalation technique",
+                "description": "Retrieves a specific de-escalation technique by its ID",
+                "operationId": "ba121f87211bf0d07ac5b7b0a6d49ccb",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the de-escalation technique",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/DeEscalationTechnique"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "De-escalation technique not found"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Admin/De-escalation Techniques"
+                ],
+                "summary": "Update a de-escalation technique",
+                "description": "Updates an existing de-escalation technique",
+                "operationId": "8826adf3be5feb7312a7db82b9100d92",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the de-escalation technique",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "bip_id": {
+                                        "type": "integer"
+                                    },
+                                    "description": {
+                                        "type": "string"
+                                    },
+                                    "service_recomendation": {
+                                        "type": "string"
+                                    },
+                                    "recomendation_lists": {
+                                        "type": "array",
+                                        "items": {
+                                            "properties": {
+                                                "cpt": {
+                                                    "type": "string"
+                                                },
+                                                "location": {
+                                                    "type": "string"
+                                                },
+                                                "num_units": {
+                                                    "type": "integer"
+                                                },
+                                                "breakdown_per_week": {
+                                                    "type": "string"
+                                                },
+                                                "description_service": {
+                                                    "type": "string"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "De-escalation technique updated successfully"
+                    },
+                    "404": {
+                        "description": "De-escalation technique not found"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Admin/De-escalation Techniques"
+                ],
+                "summary": "Delete a de-escalation technique",
+                "description": "Deletes an existing de-escalation technique",
+                "operationId": "815f7cbb1ed6e75d52ca855cfd18386c",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the de-escalation technique",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "De-escalation technique deleted successfully"
+                    },
+                    "404": {
+                        "description": "De-escalation technique not found"
+                    }
+                }
+            }
+        },
         "/api/v2/objectives": {
             "get": {
                 "tags": [
@@ -5996,6 +6271,54 @@
                 },
                 "type": "object"
             },
+            "PaginatedDeEscalationTechniqueResponse": {
+                "properties": {
+                    "current_page": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/DeEscalationTechnique"
+                        }
+                    },
+                    "first_page_url": {
+                        "type": "string"
+                    },
+                    "from": {
+                        "type": "integer"
+                    },
+                    "last_page": {
+                        "type": "integer"
+                    },
+                    "last_page_url": {
+                        "type": "string"
+                    },
+                    "next_page_url": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "path": {
+                        "type": "string"
+                    },
+                    "per_page": {
+                        "type": "integer",
+                        "example": 15
+                    },
+                    "prev_page_url": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "to": {
+                        "type": "integer"
+                    },
+                    "total": {
+                        "type": "integer"
+                    }
+                },
+                "type": "object"
+            },
             "PaginatedInsuranceResponse": {
                 "properties": {
                     "current_page": {
@@ -8220,17 +8543,6 @@
                         "format": "int64",
                         "example": 1
                     },
-                    "patient_identifier": {
-                        "description": "Patient identifier",
-                        "type": "string",
-                        "example": "PAT123"
-                    },
-                    "client_id": {
-                        "description": "ID of the client",
-                        "type": "integer",
-                        "format": "int64",
-                        "example": 1
-                    },
                     "description": {
                         "description": "Description of the de-escalation technique",
                         "type": "string"
@@ -8370,6 +8682,10 @@
         {
             "name": "Admin/Crisis Plans",
             "description": "Admin/Crisis Plans"
+        },
+        {
+            "name": "Admin/De-escalation Techniques",
+            "description": "Admin/De-escalation Techniques"
         },
         {
             "name": "Objectives",

@@ -11,8 +11,6 @@ class CreateDeEscalationTechniquesTable extends Migration
         Schema::create('de_escalation_techniques', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->foreignId('bip_id')->nullable()->constrained('bips')->nullOnDelete();
-            $table->string('patient_identifier')->nullable();
-            $table->foreignId('client_id')->nullable()->constrained('users')->nullOnDelete();
             $table->text('description')->nullable();
             $table->text('service_recomendation')->nullable();
             $table->json('recomendation_lists')->nullable();
