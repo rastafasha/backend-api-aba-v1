@@ -140,7 +140,7 @@ class Plan extends Model
             return isset($input->category) && in_array($input->category, ['maladaptive', 'replacement']);
         });
 
-        $validator->sometimes('baseline_date', 'date', function ($input) {
+        $validator->sometimes('baseline_date', 'required|date_format:Y-m-d', function ($input) {
             return isset($input->category) && in_array($input->category, ['maladaptive', 'replacement']);
         });
 
