@@ -104,11 +104,11 @@ class NoteBcba extends Note
     protected $casts = [
         'caregiver_goals' => 'json',
         'rbt_training_goals' => 'json',
-        'interventions' => 'json',
+        'interventionProtocols' => 'json',
         'behaviors' => 'json',
         'intake_outcome' => 'json',
         'newlist_added' => 'json',
-        'replacements' => 'json',
+        'replacementProtocols' => 'json',
         'billed' => 'boolean',
         'paid' => 'boolean',
         'session_date' => 'date:Y-m-d',
