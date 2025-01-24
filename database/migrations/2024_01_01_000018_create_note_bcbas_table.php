@@ -30,7 +30,7 @@ class CreateNoteBcbasTable extends Migration
             $table->double('session_length_total')->nullable();
 
             $table->json('interventionProtocols')->nullable();
-            $table->json('behaviors')->nullable();
+            $table->json('behaviorProtocols')->nullable();
             $table->json('intake_outcome')->nullable();
             $table->json('newlist_added')->nullable();
             $table->json('replacementProtocols')->nullable();

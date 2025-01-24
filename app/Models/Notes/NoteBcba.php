@@ -95,7 +95,7 @@ class NoteBcba extends Note
         'BCBA_conducted_client_observations',
         'BCBA_conducted_assessments',
         'interventionProtocols',//json
-        'behaviors',//json
+        'behaviorProtocols',//json
         'intake_outcome',//json
         'newlist_added',//json
         'replacementProtocols',//json
@@ -105,7 +105,7 @@ class NoteBcba extends Note
         'caregiver_goals' => 'json',
         'rbt_training_goals' => 'json',
         'interventionProtocols' => 'json',
-        'behaviors' => 'json',
+        'behaviorProtocols' => 'json',
         'intake_outcome' => 'json',
         'newlist_added' => 'json',
         'replacementProtocols' => 'json',
