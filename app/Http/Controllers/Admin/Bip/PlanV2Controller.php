@@ -217,7 +217,8 @@ class PlanV2Controller extends Controller
             DB::rollBack();
             return response()->json([
                 'status' => 'error',
-                'message' => 'Error creating plan'
+                'message' => 'Error creating plan',
+                'error' => $e->getMessage()
             ], 500);
         }
     }

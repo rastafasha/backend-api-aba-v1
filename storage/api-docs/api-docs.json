@@ -228,6 +228,815 @@
                 }
             }
         },
+        "/api/v2/crisis-plans": {
+            "get": {
+                "tags": [
+                    "Admin/Crisis Plans"
+                ],
+                "summary": "Get paginated crisis plans",
+                "description": "Retrieves a paginated list of crisis plans with optional filters",
+                "operationId": "eb6f452a5214e528d631e0e1c977f94c",
+                "parameters": [
+                    {
+                        "name": "bip_id",
+                        "in": "query",
+                        "description": "Filter by BIP ID",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "per_page",
+                        "in": "query",
+                        "description": "Number of items per page",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 15
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/PaginatedCrisisPlanResponse"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Admin/Crisis Plans"
+                ],
+                "summary": "Create a new crisis plan",
+                "description": "Creates a new crisis plan with the provided data",
+                "operationId": "9701d5f6a54a4d4bbf9fbb138bf1df94",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "patient_identifier"
+                                ],
+                                "properties": {
+                                    "bip_id": {
+                                        "type": "integer"
+                                    },
+                                    "patient_identifier": {
+                                        "type": "string"
+                                    },
+                                    "crisis_description": {
+                                        "type": "string"
+                                    },
+                                    "crisis_note": {
+                                        "type": "string"
+                                    },
+                                    "caregiver_requirements_for_prevention_of_crisis": {
+                                        "type": "string"
+                                    },
+                                    "risk_factors": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "suicidalities": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "homicidalities": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Crisis plan created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Crisis plan created successfully"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/CrisisPlan"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v2/crisis-plans/{id}": {
+            "get": {
+                "tags": [
+                    "Admin/Crisis Plans"
+                ],
+                "summary": "Get a single crisis plan",
+                "description": "Retrieves a specific crisis plan by its ID",
+                "operationId": "f6239cc7fbcd33c900a1438cb020b68e",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the crisis plan",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/CrisisPlan"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Crisis plan not found"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Admin/Crisis Plans"
+                ],
+                "summary": "Update a crisis plan",
+                "description": "Updates an existing crisis plan",
+                "operationId": "8c0cf2ce482c1d04e92ddf5a6890dae2",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the crisis plan",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "bip_id": {
+                                        "type": "integer"
+                                    },
+                                    "patient_identifier": {
+                                        "type": "string"
+                                    },
+                                    "crisis_description": {
+                                        "type": "string"
+                                    },
+                                    "crisis_note": {
+                                        "type": "string"
+                                    },
+                                    "caregiver_requirements_for_prevention_of_crisis": {
+                                        "type": "string"
+                                    },
+                                    "risk_factors": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "suicidalities": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "homicidalities": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Crisis plan updated successfully"
+                    },
+                    "404": {
+                        "description": "Crisis plan not found"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Admin/Crisis Plans"
+                ],
+                "summary": "Delete a crisis plan",
+                "description": "Deletes an existing crisis plan",
+                "operationId": "7e6ab4dc8c7be39ee2370b88c4cb7aac",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the crisis plan",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Crisis plan deleted successfully"
+                    },
+                    "404": {
+                        "description": "Crisis plan not found"
+                    }
+                }
+            }
+        },
+        "/api/v2/de-escalation-techniques": {
+            "get": {
+                "tags": [
+                    "Admin/De-escalation Techniques"
+                ],
+                "summary": "Get paginated de-escalation techniques",
+                "description": "Retrieves a paginated list of de-escalation techniques with optional filters",
+                "operationId": "01ede1a8fb50b2dcde42a031133a826a",
+                "parameters": [
+                    {
+                        "name": "bip_id",
+                        "in": "query",
+                        "description": "Filter by BIP ID",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "per_page",
+                        "in": "query",
+                        "description": "Number of items per page",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 15
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/PaginatedDeEscalationTechniqueResponse"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Admin/De-escalation Techniques"
+                ],
+                "summary": "Create a new de-escalation technique",
+                "description": "Creates a new de-escalation technique with the provided data",
+                "operationId": "a17094c6d0cb1c41da9fee41304aad77",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "bip_id"
+                                ],
+                                "properties": {
+                                    "bip_id": {
+                                        "type": "integer"
+                                    },
+                                    "description": {
+                                        "type": "string"
+                                    },
+                                    "service_recomendation": {
+                                        "type": "string"
+                                    },
+                                    "recomendation_lists": {
+                                        "type": "array",
+                                        "items": {
+                                            "properties": {
+                                                "cpt": {
+                                                    "type": "string"
+                                                },
+                                                "location": {
+                                                    "type": "string"
+                                                },
+                                                "num_units": {
+                                                    "type": "integer"
+                                                },
+                                                "breakdown_per_week": {
+                                                    "type": "string"
+                                                },
+                                                "description_service": {
+                                                    "type": "string"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "De-escalation technique created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "De-escalation technique created successfully"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/DeEscalationTechnique"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v2/de-escalation-techniques/{id}": {
+            "get": {
+                "tags": [
+                    "Admin/De-escalation Techniques"
+                ],
+                "summary": "Get a single de-escalation technique",
+                "description": "Retrieves a specific de-escalation technique by its ID",
+                "operationId": "ba121f87211bf0d07ac5b7b0a6d49ccb",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the de-escalation technique",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/DeEscalationTechnique"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "De-escalation technique not found"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Admin/De-escalation Techniques"
+                ],
+                "summary": "Update a de-escalation technique",
+                "description": "Updates an existing de-escalation technique",
+                "operationId": "8826adf3be5feb7312a7db82b9100d92",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the de-escalation technique",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "bip_id": {
+                                        "type": "integer"
+                                    },
+                                    "description": {
+                                        "type": "string"
+                                    },
+                                    "service_recomendation": {
+                                        "type": "string"
+                                    },
+                                    "recomendation_lists": {
+                                        "type": "array",
+                                        "items": {
+                                            "properties": {
+                                                "cpt": {
+                                                    "type": "string"
+                                                },
+                                                "location": {
+                                                    "type": "string"
+                                                },
+                                                "num_units": {
+                                                    "type": "integer"
+                                                },
+                                                "breakdown_per_week": {
+                                                    "type": "string"
+                                                },
+                                                "description_service": {
+                                                    "type": "string"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "De-escalation technique updated successfully"
+                    },
+                    "404": {
+                        "description": "De-escalation technique not found"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Admin/De-escalation Techniques"
+                ],
+                "summary": "Delete a de-escalation technique",
+                "description": "Deletes an existing de-escalation technique",
+                "operationId": "815f7cbb1ed6e75d52ca855cfd18386c",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the de-escalation technique",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "De-escalation technique deleted successfully"
+                    },
+                    "404": {
+                        "description": "De-escalation technique not found"
+                    }
+                }
+            }
+        },
+        "/api/v2/generalization-trainings": {
+            "get": {
+                "tags": [
+                    "Admin/Generalization Trainings"
+                ],
+                "summary": "Get paginated generalization trainings",
+                "description": "Retrieves a paginated list of generalization trainings with optional filters",
+                "operationId": "cd5d8cee82378d3cd696d8f0a6363ef8",
+                "parameters": [
+                    {
+                        "name": "bip_id",
+                        "in": "query",
+                        "description": "Filter by BIP ID",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "per_page",
+                        "in": "query",
+                        "description": "Number of items per page",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 15
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/PaginatedGeneralizationTrainingResponse"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Admin/Generalization Trainings"
+                ],
+                "summary": "Create a new generalization training",
+                "description": "Creates a new generalization training with the provided data",
+                "operationId": "5a0e35123c27d7be6b1f00dad8d411d4",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "bip_id"
+                                ],
+                                "properties": {
+                                    "bip_id": {
+                                        "type": "integer"
+                                    },
+                                    "discharge_plan": {
+                                        "type": "string"
+                                    },
+                                    "transition_fading_plans": {
+                                        "type": "array",
+                                        "items": {
+                                            "properties": {
+                                                "transition_plan": {
+                                                    "type": "string"
+                                                },
+                                                "fading_plan": {
+                                                    "type": "string"
+                                                },
+                                                "timeline": {
+                                                    "type": "string"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Generalization training created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Generalization training created successfully"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/GeneralizationTraining"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v2/generalization-trainings/{id}": {
+            "get": {
+                "tags": [
+                    "Admin/Generalization Trainings"
+                ],
+                "summary": "Get a single generalization training",
+                "description": "Retrieves a specific generalization training by its ID",
+                "operationId": "9e7b8d445cb664293d9d733535fb01a6",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the generalization training",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/GeneralizationTraining"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Generalization training not found"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Admin/Generalization Trainings"
+                ],
+                "summary": "Update a generalization training",
+                "description": "Updates an existing generalization training",
+                "operationId": "a6e93b2d290cf95a9e964685eaa6272a",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the generalization training",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "bip_id": {
+                                        "type": "integer"
+                                    },
+                                    "discharge_plan": {
+                                        "type": "string"
+                                    },
+                                    "transition_fading_plans": {
+                                        "type": "array",
+                                        "items": {
+                                            "properties": {
+                                                "transition_plan": {
+                                                    "type": "string"
+                                                },
+                                                "fading_plan": {
+                                                    "type": "string"
+                                                },
+                                                "timeline": {
+                                                    "type": "string"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Generalization training updated successfully"
+                    },
+                    "404": {
+                        "description": "Generalization training not found"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Admin/Generalization Trainings"
+                ],
+                "summary": "Delete a generalization training",
+                "description": "Deletes an existing generalization training",
+                "operationId": "90cb3e8e6c33d580279e21ebcd4e2de6",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the generalization training",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Generalization training deleted successfully"
+                    },
+                    "404": {
+                        "description": "Generalization training not found"
+                    }
+                }
+            }
+        },
         "/api/v2/objectives": {
             "get": {
                 "tags": [
@@ -5671,6 +6480,150 @@
     },
     "components": {
         "schemas": {
+            "PaginatedCrisisPlanResponse": {
+                "properties": {
+                    "current_page": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/CrisisPlan"
+                        }
+                    },
+                    "first_page_url": {
+                        "type": "string"
+                    },
+                    "from": {
+                        "type": "integer"
+                    },
+                    "last_page": {
+                        "type": "integer"
+                    },
+                    "last_page_url": {
+                        "type": "string"
+                    },
+                    "next_page_url": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "path": {
+                        "type": "string"
+                    },
+                    "per_page": {
+                        "type": "integer",
+                        "example": 15
+                    },
+                    "prev_page_url": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "to": {
+                        "type": "integer"
+                    },
+                    "total": {
+                        "type": "integer"
+                    }
+                },
+                "type": "object"
+            },
+            "PaginatedDeEscalationTechniqueResponse": {
+                "properties": {
+                    "current_page": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/DeEscalationTechnique"
+                        }
+                    },
+                    "first_page_url": {
+                        "type": "string"
+                    },
+                    "from": {
+                        "type": "integer"
+                    },
+                    "last_page": {
+                        "type": "integer"
+                    },
+                    "last_page_url": {
+                        "type": "string"
+                    },
+                    "next_page_url": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "path": {
+                        "type": "string"
+                    },
+                    "per_page": {
+                        "type": "integer",
+                        "example": 15
+                    },
+                    "prev_page_url": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "to": {
+                        "type": "integer"
+                    },
+                    "total": {
+                        "type": "integer"
+                    }
+                },
+                "type": "object"
+            },
+            "PaginatedGeneralizationTrainingResponse": {
+                "properties": {
+                    "current_page": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/GeneralizationTraining"
+                        }
+                    },
+                    "first_page_url": {
+                        "type": "string"
+                    },
+                    "from": {
+                        "type": "integer"
+                    },
+                    "last_page": {
+                        "type": "integer"
+                    },
+                    "last_page_url": {
+                        "type": "string"
+                    },
+                    "next_page_url": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "path": {
+                        "type": "string"
+                    },
+                    "per_page": {
+                        "type": "integer",
+                        "example": 15
+                    },
+                    "prev_page_url": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "to": {
+                        "type": "integer"
+                    },
+                    "total": {
+                        "type": "integer"
+                    }
+                },
+                "type": "object"
+            },
             "PaginatedInsuranceResponse": {
                 "properties": {
                     "current_page": {
@@ -6324,7 +7277,7 @@
                         },
                         "nullable": true
                     },
-                    "assestmentEvaluationSettings": {
+                    "assestment_evaluation_settings": {
                         "description": "Settings where assessments were conducted",
                         "type": "array",
                         "items": {
@@ -7829,11 +8782,6 @@
                         "format": "int64",
                         "example": 1
                     },
-                    "patient_identifier": {
-                        "description": "Patient identifier",
-                        "type": "string",
-                        "example": "PAT123"
-                    },
                     "crisis_description": {
                         "description": "Description of the crisis situation",
                         "type": "string"
@@ -7896,17 +8844,6 @@
                     },
                     "bip_id": {
                         "description": "ID of the BIP this technique belongs to",
-                        "type": "integer",
-                        "format": "int64",
-                        "example": 1
-                    },
-                    "patient_identifier": {
-                        "description": "Patient identifier",
-                        "type": "string",
-                        "example": "PAT123"
-                    },
-                    "client_id": {
-                        "description": "ID of the client",
                         "type": "integer",
                         "format": "int64",
                         "example": 1
@@ -7986,17 +8923,6 @@
                         "format": "int64",
                         "example": 1
                     },
-                    "patient_identifier": {
-                        "description": "Patient identifier",
-                        "type": "string",
-                        "example": "PAT123"
-                    },
-                    "client_id": {
-                        "description": "ID of the client",
-                        "type": "integer",
-                        "format": "int64",
-                        "example": 1
-                    },
                     "discharge_plan": {
                         "description": "Plan for discharge from services",
                         "type": "string"
@@ -8046,6 +8972,18 @@
         {
             "name": "BIPs",
             "description": "BIPs"
+        },
+        {
+            "name": "Admin/Crisis Plans",
+            "description": "Admin/Crisis Plans"
+        },
+        {
+            "name": "Admin/De-escalation Techniques",
+            "description": "Admin/De-escalation Techniques"
+        },
+        {
+            "name": "Admin/Generalization Trainings",
+            "description": "Admin/Generalization Trainings"
         },
         {
             "name": "Objectives",

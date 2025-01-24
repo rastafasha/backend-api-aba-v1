@@ -3,11 +3,10 @@
 namespace App\Models\Bip;
 
 use App\Models\Bip\Bip;
-use App\Models\Patient\Patient;
-use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Facades\Validator;
 
 class GeneralizationTraining extends Model
 {
@@ -16,8 +15,6 @@ class GeneralizationTraining extends Model
 
     protected $fillable = [
         'bip_id',
-        'patient_identifier',
-        'client_id',
         'discharge_plan',
         'transition_fading_plans',//json
     ];
@@ -31,13 +28,16 @@ class GeneralizationTraining extends Model
         return $this->belongsTo(Bip::class, 'bip_id');
     }
 
-    public function patient()
+    public static function validate($data)
     {
-        return $this->belongsTo(Patient::class, 'client_id');
-    }
-
-    public function client()
-    {
-        return $this->belongsTo(User::class, 'client_id');
+        $rules = [
+            'bip_id' => 'required|exists:bips,id',
+            'discharge_plan' => 'nullable|string',
+            'transition_fading_plans' => 'nullable|array',
+            'transition_fading_plans.*.transition_plan' => 'nullable|string',
+            'transition_fading_plans.*.fading_plan' => 'nullable|string',
+            'transition_fading_plans.*.timeline' => 'nullable|string',
+        ];
+        return Validator::make($data, $rules);
     }
 }

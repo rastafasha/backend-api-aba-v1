@@ -9,7 +9,6 @@ namespace App\OpenApi\Schemas;
  *     description="Model for documenting crisis management plans",
  *     @OA\Property(property="id", type="integer", format="int64", example=1),
  *     @OA\Property(property="bip_id", type="integer", format="int64", example=1, description="ID of the BIP this crisis plan belongs to"),
- *     @OA\Property(property="patient_identifier", type="string", example="PAT123", description="Patient identifier"),
  *     @OA\Property(property="crisis_description", type="string", description="Description of the crisis situation"),
  *     @OA\Property(property="crisis_note", type="string", description="Additional notes about the crisis"),
  *     @OA\Property(property="caregiver_requirements_for_prevention_of_crisis", type="string", description="Requirements for caregivers to prevent crisis"),
