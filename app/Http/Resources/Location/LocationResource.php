@@ -29,7 +29,6 @@ class LocationResource extends JsonResource
             "client_id" => $this->resource->client_id,
             "zip" => $this->resource->zip,
             "telfax" => $this->resource->telfax,
-            "telfax" => $this->resource->telfax,
 
             "taxid" => $this->resource->taxid,
             "npi" => $this->resource->npi,
