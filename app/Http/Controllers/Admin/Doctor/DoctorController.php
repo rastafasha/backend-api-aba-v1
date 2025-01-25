@@ -356,12 +356,27 @@ class DoctorController extends Controller
         //    }
         $user = User::findOrFail($id);
         $locations_user = DB::table('user_locations')
-            ->where('user_id', $id)
-            ->pluck('location_id');
+            ->join('locations', 'user_locations.location_id', '=', 'locations.id')
+            ->where('user_locations.user_id', $id)
+            ->select('locations.*')
+            ->get();
 
         return response()->json([
             "user" => UserResource::make($user),
-            "locations" => $locations_user
+
+            // "locations" => $locations_user,
+            "locations" => $locations_user->map(function ($location) {
+                return [
+                    "id" => $location->id,
+                    "title" => $location->title,
+                    "email" => $location->email,
+                    "city" => $location->city,
+                    "phone1" => $location->phone1,
+                    "phone2" => $location->phone2,
+                    "zip" => $location->zip,
+                    "created_at" => $location->created_at,
+                ];
+            }),
         ]);
     }
 
