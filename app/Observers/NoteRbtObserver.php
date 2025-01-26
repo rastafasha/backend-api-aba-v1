@@ -21,7 +21,7 @@ class NoteRbtObserver
         }
 
         if (!$paService->consumeUnits($units)) {
-            throw new \Exception('Insufficient units available in PaService');
+            throw new \Exception("Ooops! It looks like you're exceeding the number of available units. Please double-check to ensure we don't run out of units before the authorization expires.");
         }
     }
 
@@ -68,7 +68,7 @@ class NoteRbtObserver
                     $originalPaService->spent_units += $originalUnits;
                     $originalPaService->save();
                 }
-                throw new \Exception('Insufficient units available in PaService');
+                throw new \Exception("Ooops! It looks like you're exceeding the number of available units. Please double-check to ensure we don't run out of units before the authorization expires.");
             }
         }
     }
