@@ -7,6 +7,9 @@ use App\Models\PaService;
 
 class NoteRbtObserver
 {
+    private $limitExceededMessage = "Ooops! It looks like you're exceeding the number of available units."
+    . " Please double-check to ensure we don't run out of units before the authorization expires.";
+
     public function creating(NoteRbt $note)
     {
         if (!$note->pa_service_id) {
@@ -21,7 +24,7 @@ class NoteRbtObserver
         }
 
         if (!$paService->consumeUnits($units)) {
-            throw new \Exception("Ooops! It looks like you're exceeding the number of available units. Please double-check to ensure we don't run out of units before the authorization expires.");
+            throw new \Exception($this->limitExceededMessage);
         }
     }
 
@@ -68,7 +71,7 @@ class NoteRbtObserver
                     $originalPaService->spent_units += $originalUnits;
                     $originalPaService->save();
                 }
-                throw new \Exception("Ooops! It looks like you're exceeding the number of available units. Please double-check to ensure we don't run out of units before the authorization expires.");
+                throw new \Exception($this->limitExceededMessage);
             }
         }
     }
