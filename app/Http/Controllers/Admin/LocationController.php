@@ -156,6 +156,7 @@ class LocationController extends Controller
                     "patient_id" => $patient->patient_id,
                     "full_name" => $patient->first_name . ' ' . $patient->last_name,
                     "patient_id" => $patient->patient_id,
+                    "patient_identifier" => $patient->patient_identifier,
 
                     "first_name" => $patient->first_name,
                     "last_name" => $patient->last_name,
