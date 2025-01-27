@@ -94,25 +94,21 @@ class NoteBcba extends Note
         'environmental_changes',
         'BCBA_conducted_client_observations',
         'BCBA_conducted_assessments',
-        'interventions',//json
-        'interventions2',//json
-        'behaviors',//json
+        'interventionProtocols',//json
+        'behaviorProtocols',//json
         'intake_outcome',//json
         'newlist_added',//json
-        'replacements',//json
-        'replacements2',//json
+        'replacementProtocols',//json
     ];
 
     protected $casts = [
         'caregiver_goals' => 'json',
         'rbt_training_goals' => 'json',
-        'interventions' => 'json',
-        'interventions2' => 'json',
-        'behaviors' => 'json',
+        'interventionProtocols' => 'json',
+        'behaviorProtocols' => 'json',
         'intake_outcome' => 'json',
         'newlist_added' => 'json',
-        'replacements' => 'json',
-        'replacements2' => 'json',
+        'replacementProtocols' => 'json',
         'billed' => 'boolean',
         'paid' => 'boolean',
         'session_date' => 'date:Y-m-d',

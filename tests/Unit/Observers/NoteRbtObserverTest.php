@@ -145,7 +145,7 @@ class NoteRbtObserverTest extends TestCase
     public function test_insufficient_units_throws_exception()
     {
         $this->expectException(\Exception::class);
-        $this->expectExceptionMessage('Insufficient units available in PaService');
+        $this->expectExceptionMessage("Ooops! It looks like you're exceeding the number of available units. Please double-check to ensure we don't run out of units before the authorization expires.");
 
         $paService = PaService::factory()->create([
             'n_units' => 4, // Only 4 units available

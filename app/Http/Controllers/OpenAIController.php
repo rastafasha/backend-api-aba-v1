@@ -19,28 +19,21 @@ Never include the CPT code in the summary.
 The notes should usually start with 'Met with client at...'
 Many people's jobs depend on this, I know you can do this!
 
-This is the code you'll be using:
+This is the CPT code you'll be using:
 97153: Adaptive behavior treatment by protocol, delivered by a technician.
 ";
 const BCBA_SYSTEM_PROMPT =
 "You are an experienced expert in Applied Behavior Analysis (ABA), specializing in treating children with various developmental disorders.
 Your responses should be concise, professional and directly relevant to the request.
-Always format your response as a single paragraph between 3 and 6 lines long.
+Always format your response as a single paragraph between 3 and 6 lines long, in a professional and clear style.
 Provide only the summary text without any additional explanations or information.
 Your tasks will always be to create a brief summary for a note as a BCBA.
 Include all the relevant data in the summary, specially the maladaptives, replacements and interventions, in a brief way,
-but you don't need to include the patient's data like name, diagnosis, age, etc., nor the session's date or times.
+but you don't need to include the patient's data like full name, diagnosis, age, etc., nor the session's date or times.
 Never include the CPT code in the summary.
 Many people's jobs depend on this, I know you can do this!
 
-These are the CPT codes you'll be using:
-97151: Behavior identification assessment, administered by a qualified healthcare professional; includes observation and development of treatment plan.
-97152: Behavior identification supporting assessment, administered by one technician under the direction of a qualified professional.
-97154: Group adaptive behavior treatment by protocol, delivered by a technician.
-97155: Adaptive behavior treatment with protocol modification, administered by a qualified professional.
-97156: Family adaptive behavior treatment guidance.
-97157: Multiple-family group adaptive behavior treatment guidance.
-97158: Group adaptive behavior treatment with protocol modification.
+This is the CPT code you'll be using:
 ";
 class OpenAIController extends Controller
 {
@@ -280,6 +273,10 @@ class OpenAIController extends Controller
             'rbtTrainingGoals' => 'sometimes|array',
             'rbtTrainingGoals.*.goal' => 'required|string',
             'rbtTrainingGoals.*.percentCorrect' => 'required|numeric',
+            'procedure' => 'sometimes|string',
+            'instruments' => 'sometimes|string',
+            'cpt51type' => 'sometimes|string',
+            'intakeAndOutcomeMeasurements' => 'sometimes|string',
             // 'noteDescription' => 'required|string',
         ]);
 
@@ -287,13 +284,15 @@ class OpenAIController extends Controller
 
         $client = OpenAI::client(env('OPENAI_API_KEY'));
 
+        $cptDetailed = $request->cpt . ': ' . $this->getCPTdescription($request->cpt);
+
         try {
             $result = $client->chat()->create([
                 'model' => env('OPENAI_MODEL'),
                 'messages' => [
                     [
                         'role' => 'system',
-                        'content' => $this->bcbaSystemPrompt,
+                        'content' => $this->bcbaSystemPrompt . $cptDetailed,
                     ],
                     ['role' => 'user', 'content' => $prompt],
                 ],
@@ -330,10 +329,10 @@ class OpenAIController extends Controller
         $prompt = "Create a summary note as Board Certified Behavior Analyst (BCBA) for the treatment of a child with {$request->diagnosis} ";
 
         if ($request->birthDate) {
-            $prompt .= "born on {$request->birthDate}\n";
+            $prompt .= "born on {$request->birthDate}, ";
         }
 
-        $prompt .= "using the following data collected during the BCBA session(s):\n\n";
+        $prompt .= "using the following data collected during this session:\n\n";
 
         if ($request->cpt) {
             $prompt .= "CPT Code: {$request->cpt}\n";
@@ -344,13 +343,13 @@ class OpenAIController extends Controller
         if ($request->participants) {
             $prompt .= "Participants: {$request->participants}\n";
         }
-        if ($request->startTime && $request->endTime) {
-            $prompt .= "Morning session: {$request->startTime} to {$request->endTime}\n";
-        }
+        // if ($request->startTime && $request->endTime) {
+        //     $prompt .= "Morning session: {$request->startTime} to {$request->endTime}\n";
+        // }
 
-        if ($request->startTime2 && $request->endTime2) {
-            $prompt .= "Afternoon session: {$request->startTime2} to {$request->endTime2}\n";
-        }
+        // if ($request->startTime2 && $request->endTime2) {
+        //     $prompt .= "Afternoon session: {$request->startTime2} to {$request->endTime2}\n";
+        // }
 
         if ($caregiverGoals) {
             $prompt .= "\nCaregiver Training Goals: {$caregiverGoals}\n";
@@ -362,6 +361,43 @@ class OpenAIController extends Controller
             $prompt .= "Session Description: {$request->noteDescription}";
         }
 
+        // CPT 97151
+        if ($request->cpt === "97151") {
+            if ($request->cpt51type === "observation") {
+                $prompt .= "\nType of assessment: Observation";
+                $prompt .= "\nProcedure: {$request->procedure}";
+                $prompt .= "\nAssessment Tools: {$request->instruments}";
+                $prompt .= "\nIntake and Outcome Measurements: {$request->intakeAndOutcomeMeasurements}";
+            } elseif ($request->cpt51type === "report") {
+                $prompt .= "\nType of assessment: Report\n";
+                $prompt .= "\nProcedure: {$request->procedure}\n";
+            }
+        }
+
         return $prompt;
+    }
+
+    private function getCPTdescription($cptCode)
+    {
+        switch ($cptCode) {
+            case "97151":
+                return 'Behavior identification assessment, administered by a qualified healthcare professional; includes observation and development of treatment plan.';
+            case "97152":
+                return 'Behavior identification supporting assessment, administered by one technician under the direction of a qualified professional.';
+            case "97153":
+                return 'Adaptive behavior treatment by protocol, delivered by a technician.';
+            case "97154":
+                return 'Group adaptive behavior treatment by protocol, delivered by a technician.';
+            case "97155":
+                return 'Adaptive behavior treatment with protocol modification, administered by a qualified professional.';
+            case "97156":
+                return 'Family adaptive behavior treatment guidance.';
+            case "97157":
+                return 'Multiple-family group adaptive behavior treatment guidance.';
+            case "97158":
+                return 'Group adaptive behavior treatment with protocol modification.';
+            default:
+                return 'Unknown CPT code.';
+        }
     }
 }

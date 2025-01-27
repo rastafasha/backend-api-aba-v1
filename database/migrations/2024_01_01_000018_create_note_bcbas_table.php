@@ -29,13 +29,11 @@ class CreateNoteBcbasTable extends Migration
             $table->time('time_out2')->nullable();
             $table->double('session_length_total')->nullable();
 
-            $table->json('interventions')->nullable();
-            $table->json('interventions2')->nullable();
-            $table->json('behaviors')->nullable();
+            $table->json('interventionProtocols')->nullable();
+            $table->json('behaviorProtocols')->nullable();
             $table->json('intake_outcome')->nullable();
             $table->json('newlist_added')->nullable();
-            $table->json('replacements')->nullable();
-            $table->json('replacements2')->nullable();
+            $table->json('replacementProtocols')->nullable();
 
             //note bcba 55
             $table->boolean('modifications_needed_at_this_time')->default(false);
@@ -48,7 +46,7 @@ class CreateNoteBcbasTable extends Migration
             $table->string('reinforced_caregiver_strengths_in')->nullable();
             $table->string('gave_constructive_feedback_on')->nullable();
             $table->string('recomended_more_practice_on')->nullable();
-            
+
             //note bcba 51
             $table->string('type')->nullable();
             $table->boolean('BCBA_conducted_client_observations')->default(false);
@@ -67,7 +65,7 @@ class CreateNoteBcbasTable extends Migration
             $table->text('summary_note')->nullable();
             $table->boolean('billed')->default(false);
             $table->boolean('paid')->default(false);
-            
+
             $table->string('md', 20)->nullable();
             $table->string('md2', 20)->nullable();
             $table->string('md3', 20)->nullable();

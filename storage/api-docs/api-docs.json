@@ -228,6 +228,251 @@
                 }
             }
         },
+        "/api/v2/consent-to-treatments": {
+            "get": {
+                "tags": [
+                    "Admin/Consent To Treatments"
+                ],
+                "summary": "Get paginated consent to treatments",
+                "description": "Retrieves a paginated list of consent to treatments with optional filters",
+                "operationId": "8cc1a33af0713f440016daf615c5d267",
+                "parameters": [
+                    {
+                        "name": "bip_id",
+                        "in": "query",
+                        "description": "Filter by BIP ID",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "per_page",
+                        "in": "query",
+                        "description": "Number of items per page",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 15
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/PaginatedConsentToTreatmentResponse"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Admin/Consent To Treatments"
+                ],
+                "summary": "Create a new consent to treatment",
+                "description": "Creates a new consent to treatment with the provided data",
+                "operationId": "ae1ef6f7eeb4c4c8cac4629be69a4613",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "bip_id"
+                                ],
+                                "properties": {
+                                    "bip_id": {
+                                        "type": "integer"
+                                    },
+                                    "analyst_signature": {
+                                        "type": "string"
+                                    },
+                                    "analyst_signature_date": {
+                                        "type": "string",
+                                        "format": "date"
+                                    },
+                                    "parent_guardian_signature": {
+                                        "type": "string"
+                                    },
+                                    "parent_guardian_signature_date": {
+                                        "type": "string",
+                                        "format": "date"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Consent to treatment created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Consent to treatment created successfully"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/ConsentToTreatment"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v2/consent-to-treatments/{id}": {
+            "get": {
+                "tags": [
+                    "Admin/Consent To Treatments"
+                ],
+                "summary": "Get a single consent to treatment",
+                "description": "Retrieves a specific consent to treatment by its ID",
+                "operationId": "0e22b5d97e76cbbf864a91844ce391f4",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the consent to treatment",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/ConsentToTreatment"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Consent to treatment not found"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Admin/Consent To Treatments"
+                ],
+                "summary": "Update a consent to treatment",
+                "description": "Updates an existing consent to treatment",
+                "operationId": "b1f97aaf5f48de24dcad10312d6bbd12",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the consent to treatment",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "bip_id": {
+                                        "type": "integer"
+                                    },
+                                    "analyst_signature": {
+                                        "type": "string"
+                                    },
+                                    "analyst_signature_date": {
+                                        "type": "string",
+                                        "format": "date"
+                                    },
+                                    "parent_guardian_signature": {
+                                        "type": "string"
+                                    },
+                                    "parent_guardian_signature_date": {
+                                        "type": "string",
+                                        "format": "date"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Consent to treatment updated successfully"
+                    },
+                    "404": {
+                        "description": "Consent to treatment not found"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Admin/Consent To Treatments"
+                ],
+                "summary": "Delete a consent to treatment",
+                "description": "Deletes an existing consent to treatment",
+                "operationId": "0b1dab587b5f256a68527c7d186f9106",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the consent to treatment",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Consent to treatment deleted successfully"
+                    },
+                    "404": {
+                        "description": "Consent to treatment not found"
+                    }
+                }
+            }
+        },
         "/api/v2/crisis-plans": {
             "get": {
                 "tags": [
@@ -6480,6 +6725,54 @@
     },
     "components": {
         "schemas": {
+            "PaginatedConsentToTreatmentResponse": {
+                "properties": {
+                    "current_page": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ConsentToTreatment"
+                        }
+                    },
+                    "first_page_url": {
+                        "type": "string"
+                    },
+                    "from": {
+                        "type": "integer"
+                    },
+                    "last_page": {
+                        "type": "integer"
+                    },
+                    "last_page_url": {
+                        "type": "string"
+                    },
+                    "next_page_url": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "path": {
+                        "type": "string"
+                    },
+                    "per_page": {
+                        "type": "integer",
+                        "example": 15
+                    },
+                    "prev_page_url": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "to": {
+                        "type": "integer"
+                    },
+                    "total": {
+                        "type": "integer"
+                    }
+                },
+                "type": "object"
+            },
             "PaginatedCrisisPlanResponse": {
                 "properties": {
                     "current_page": {
@@ -8717,18 +9010,6 @@
                         "format": "int64",
                         "example": 1
                     },
-                    "patient_id": {
-                        "description": "ID of the patient",
-                        "type": "integer",
-                        "format": "int64",
-                        "example": 1
-                    },
-                    "client_id": {
-                        "description": "ID of the client",
-                        "type": "integer",
-                        "format": "int64",
-                        "example": 1
-                    },
                     "analyst_signature": {
                         "description": "Signature of the analyst",
                         "type": "string"
@@ -8972,6 +9253,10 @@
         {
             "name": "BIPs",
             "description": "BIPs"
+        },
+        {
+            "name": "Admin/Consent To Treatments",
+            "description": "Admin/Consent To Treatments"
         },
         {
             "name": "Admin/Crisis Plans",

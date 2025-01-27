@@ -152,6 +152,13 @@ class Location extends Model
             ->withTimestamps();
     }
 
+    public function scopeFilterByUser($query, $user_id)
+    {
+        return $query->whereHas("specialists", function ($q) use ($user_id) {
+            $q->where("user_id", $user_id);
+        });
+    }
+
     //filtro buscador
     public function scopefilterAdvanceLocation(
         $query,
