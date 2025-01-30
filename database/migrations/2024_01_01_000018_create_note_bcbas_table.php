@@ -28,39 +28,32 @@ class CreateNoteBcbasTable extends Migration
             $table->time('time_in2')->nullable();
             $table->time('time_out2')->nullable();
             $table->double('session_length_total')->nullable();
+            $table->json('rbt_training_goals')->nullable();
 
-            $table->json('interventionProtocols')->nullable();
-            $table->json('behaviorProtocols')->nullable();
+            //note bcba 51
+            $table->string('subtype')->nullable();
             $table->json('intake_outcome')->nullable();
-            $table->json('newlist_added')->nullable();
-            $table->json('replacementProtocols')->nullable();
+            $table->json('assessment_tools')->nullable();
+            $table->boolean('BCBA_conducted_client_observations')->nullable();
+            $table->boolean('BCBA_conducted_assessments')->nullable();
 
             //note bcba 55
             $table->boolean('modifications_needed_at_this_time')->default(false);
-            $table->string('additional_goals_or_interventions')->nullable();
+            $table->text('additional_goals_or_interventions')->nullable();
+            $table->json('intervention_protocols')->nullable();
+            $table->json('replacement_protocols')->nullable();
 
             //note bcba 56
-            $table->boolean('cargiver_participation')->default(false);
-            $table->boolean('was_the_client_present')->default(false);
-            $table->string('asked_and_clarified_questions_about_the_implementation_of')->nullable();
-            $table->string('reinforced_caregiver_strengths_in')->nullable();
-            $table->string('gave_constructive_feedback_on')->nullable();
-            $table->string('recomended_more_practice_on')->nullable();
-
-            //note bcba 51
-            $table->string('type')->nullable();
-            $table->boolean('BCBA_conducted_client_observations')->default(false);
-            $table->boolean('BCBA_conducted_assessments')->default(false);
+            // $table->json('demonstrated_intervention_protocols')->nullable();
+            // $table->json('demonstrated_replacement_protocols')->nullable();
+            $table->json('behavior_protocols')->nullable();
+            $table->json('caregiver_goals')->nullable();
 
             $table->text('note_description')->nullable();
             $table->unsignedBigInteger('rendering_provider')->nullable();
             $table->unsignedBigInteger('supervisor_id')->nullable();
-            $table->json('caregiver_goals')->nullable();
-            $table->json('rbt_training_goals')->nullable();
             $table->string('provider_signature')->nullable();
-            // $table->foreignId('provider_name')->nullable()->constrained('users')->nullOnDelete();
             $table->string('supervisor_signature')->nullable();
-            // $table->foreignId('supervisor_name')->nullable()->constrained('users')->nullOnDelete();
             $table->enum('status', ['pending', 'ok', 'no', 'review'])->default('pending');
             $table->text('summary_note')->nullable();
             $table->boolean('billed')->default(false);

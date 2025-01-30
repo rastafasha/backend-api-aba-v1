@@ -3270,6 +3270,60 @@
                                     },
                                     "insuranceId": {
                                         "type": "string"
+                                    },
+                                    "insurance_identifier": {
+                                        "type": "string"
+                                    },
+                                    "environmental_changes": {
+                                        "type": "string"
+                                    },
+                                    "BCBA_conducted_client_observations": {
+                                        "type": "boolean"
+                                    },
+                                    "BCBA_conducted_assessments": {
+                                        "type": "boolean"
+                                    },
+                                    "interventionProtocols": {
+                                        "type": "object"
+                                    },
+                                    "behaviorProtocols": {
+                                        "type": "object"
+                                    },
+                                    "intake_outcome": {
+                                        "type": "object"
+                                    },
+                                    "assessment_tools": {
+                                        "type": "object"
+                                    },
+                                    "replacementProtocols": {
+                                        "type": "object"
+                                    },
+                                    "modifications_needed_at_this_time": {
+                                        "type": "boolean"
+                                    },
+                                    "additional_goals_or_interventions": {
+                                        "type": "string"
+                                    },
+                                    "cargiver_participation": {
+                                        "type": "boolean"
+                                    },
+                                    "was_the_client_present": {
+                                        "type": "boolean"
+                                    },
+                                    "asked_and_clarified_questions_about_the_implementation_of": {
+                                        "type": "string"
+                                    },
+                                    "reinforced_caregiver_strengths_in": {
+                                        "type": "string"
+                                    },
+                                    "gave_constructive_feedback_on": {
+                                        "type": "string"
+                                    },
+                                    "recomended_more_practice_on": {
+                                        "type": "string"
+                                    },
+                                    "subtype": {
+                                        "type": "string"
                                     }
                                 },
                                 "type": "object"
@@ -3381,11 +3435,16 @@
                         "application/json": {
                             "schema": {
                                 "properties": {
-                                    "session_date": {
-                                        "type": "string",
-                                        "format": "date"
+                                    "insurance_id": {
+                                        "type": "integer"
                                     },
                                     "patient_id": {
+                                        "type": "integer"
+                                    },
+                                    "patient_identifier": {
+                                        "type": "string"
+                                    },
+                                    "doctor_id": {
                                         "type": "integer"
                                     },
                                     "bip_id": {
@@ -3404,6 +3463,10 @@
                                     },
                                     "note_description": {
                                         "type": "string"
+                                    },
+                                    "session_date": {
+                                        "type": "string",
+                                        "format": "date"
                                     },
                                     "participants": {
                                         "type": "string"
@@ -3431,14 +3494,28 @@
                                         "type": "number",
                                         "format": "double"
                                     },
+                                    "session_length_total2": {
+                                        "type": "number",
+                                        "format": "double"
+                                    },
+                                    "next_session_is_scheduled_for": {
+                                        "type": "string",
+                                        "format": "date"
+                                    },
                                     "supervisor_id": {
                                         "type": "integer"
                                     },
                                     "caregiver_goals": {
-                                        "type": "object"
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        }
                                     },
                                     "rbt_training_goals": {
-                                        "type": "object"
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        }
                                     },
                                     "provider_signature": {
                                         "type": "string"
@@ -3447,18 +3524,6 @@
                                         "type": "integer"
                                     },
                                     "supervisor_signature": {
-                                        "type": "string"
-                                    },
-                                    "meet_with_client_at": {
-                                        "type": "string"
-                                    },
-                                    "billed": {
-                                        "type": "boolean"
-                                    },
-                                    "paid": {
-                                        "type": "boolean"
-                                    },
-                                    "cpt_code": {
                                         "type": "string"
                                     },
                                     "status": {
@@ -3470,6 +3535,15 @@
                                             "review"
                                         ]
                                     },
+                                    "billed": {
+                                        "type": "boolean"
+                                    },
+                                    "paid": {
+                                        "type": "boolean"
+                                    },
+                                    "cpt_code": {
+                                        "type": "string"
+                                    },
                                     "location_id": {
                                         "type": "integer"
                                     },
@@ -3478,6 +3552,99 @@
                                     },
                                     "insuranceId": {
                                         "type": "string"
+                                    },
+                                    "insurance_identifier": {
+                                        "type": "string"
+                                    },
+                                    "environmental_changes": {
+                                        "type": "string"
+                                    },
+                                    "BCBA_conducted_client_observations": {
+                                        "type": "boolean"
+                                    },
+                                    "BCBA_conducted_assessments": {
+                                        "type": "boolean"
+                                    },
+                                    "subtype": {
+                                        "type": "string"
+                                    },
+                                    "intake_outcome": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "assessment_tools": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "intervention_protocols": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "replacement_protocols": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "modifications_needed_at_this_time": {
+                                        "type": "boolean"
+                                    },
+                                    "additional_goals_or_interventions": {
+                                        "type": "string"
+                                    },
+                                    "cargiver_participation": {
+                                        "type": "boolean"
+                                    },
+                                    "was_the_client_present": {
+                                        "type": "boolean"
+                                    },
+                                    "asked_and_clarified_questions_about_the_implementation_of": {
+                                        "type": "string"
+                                    },
+                                    "reinforced_caregiver_strengths_in": {
+                                        "type": "string"
+                                    },
+                                    "gave_constructive_feedback_on": {
+                                        "type": "string"
+                                    },
+                                    "recomended_more_practice_on": {
+                                        "type": "string"
+                                    },
+                                    "demonstrated_intervention_protocols": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "demonstrated_replacement_protocols": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "behavior_protocols": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "md": {
+                                        "type": "string",
+                                        "maxLength": 20
+                                    },
+                                    "md2": {
+                                        "type": "string",
+                                        "maxLength": 20
+                                    },
+                                    "md3": {
+                                        "type": "string",
+                                        "maxLength": 20
                                     }
                                 },
                                 "type": "object"
@@ -3545,11 +3712,16 @@
                         "application/json": {
                             "schema": {
                                 "properties": {
-                                    "session_date": {
-                                        "type": "string",
-                                        "format": "date"
+                                    "insurance_id": {
+                                        "type": "integer"
                                     },
                                     "patient_id": {
+                                        "type": "integer"
+                                    },
+                                    "patient_identifier": {
+                                        "type": "string"
+                                    },
+                                    "doctor_id": {
                                         "type": "integer"
                                     },
                                     "bip_id": {
@@ -3568,6 +3740,10 @@
                                     },
                                     "note_description": {
                                         "type": "string"
+                                    },
+                                    "session_date": {
+                                        "type": "string",
+                                        "format": "date"
                                     },
                                     "participants": {
                                         "type": "string"
@@ -3595,14 +3771,28 @@
                                         "type": "number",
                                         "format": "double"
                                     },
+                                    "session_length_total2": {
+                                        "type": "number",
+                                        "format": "double"
+                                    },
+                                    "next_session_is_scheduled_for": {
+                                        "type": "string",
+                                        "format": "date"
+                                    },
                                     "supervisor_id": {
                                         "type": "integer"
                                     },
                                     "caregiver_goals": {
-                                        "type": "object"
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        }
                                     },
                                     "rbt_training_goals": {
-                                        "type": "object"
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        }
                                     },
                                     "provider_signature": {
                                         "type": "string"
@@ -3611,18 +3801,6 @@
                                         "type": "integer"
                                     },
                                     "supervisor_signature": {
-                                        "type": "string"
-                                    },
-                                    "meet_with_client_at": {
-                                        "type": "string"
-                                    },
-                                    "billed": {
-                                        "type": "boolean"
-                                    },
-                                    "paid": {
-                                        "type": "boolean"
-                                    },
-                                    "cpt_code": {
                                         "type": "string"
                                     },
                                     "status": {
@@ -3634,6 +3812,15 @@
                                             "review"
                                         ]
                                     },
+                                    "billed": {
+                                        "type": "boolean"
+                                    },
+                                    "paid": {
+                                        "type": "boolean"
+                                    },
+                                    "cpt_code": {
+                                        "type": "string"
+                                    },
                                     "location_id": {
                                         "type": "integer"
                                     },
@@ -3642,6 +3829,99 @@
                                     },
                                     "insuranceId": {
                                         "type": "string"
+                                    },
+                                    "insurance_identifier": {
+                                        "type": "string"
+                                    },
+                                    "environmental_changes": {
+                                        "type": "string"
+                                    },
+                                    "BCBA_conducted_client_observations": {
+                                        "type": "boolean"
+                                    },
+                                    "BCBA_conducted_assessments": {
+                                        "type": "boolean"
+                                    },
+                                    "subtype": {
+                                        "type": "string"
+                                    },
+                                    "intake_outcome": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "assessment_tools": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "intervention_protocols": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "replacement_protocols": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "modifications_needed_at_this_time": {
+                                        "type": "boolean"
+                                    },
+                                    "additional_goals_or_interventions": {
+                                        "type": "string"
+                                    },
+                                    "cargiver_participation": {
+                                        "type": "boolean"
+                                    },
+                                    "was_the_client_present": {
+                                        "type": "boolean"
+                                    },
+                                    "asked_and_clarified_questions_about_the_implementation_of": {
+                                        "type": "string"
+                                    },
+                                    "reinforced_caregiver_strengths_in": {
+                                        "type": "string"
+                                    },
+                                    "gave_constructive_feedback_on": {
+                                        "type": "string"
+                                    },
+                                    "recomended_more_practice_on": {
+                                        "type": "string"
+                                    },
+                                    "demonstrated_intervention_protocols": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "demonstrated_replacement_protocols": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "behavior_protocols": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "md": {
+                                        "type": "string",
+                                        "maxLength": 20
+                                    },
+                                    "md2": {
+                                        "type": "string",
+                                        "maxLength": 20
+                                    },
+                                    "md3": {
+                                        "type": "string",
+                                        "maxLength": 20
                                     }
                                 },
                                 "type": "object"
@@ -8144,6 +8424,10 @@
                         "nullable": true
                     },
                     "patient_id": {
+                        "type": "integer",
+                        "nullable": true
+                    },
+                    "patient_identifier": {
                         "type": "string",
                         "nullable": true
                     },
@@ -8155,7 +8439,16 @@
                         "type": "integer",
                         "nullable": true
                     },
-                    "participants": {
+                    "diagnosis_code": {
+                        "type": "string",
+                        "maxLength": 50,
+                        "nullable": true
+                    },
+                    "cpt_code": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "meet_with_client_at": {
                         "type": "string",
                         "nullable": true
                     },
@@ -8163,45 +8456,50 @@
                         "type": "string",
                         "nullable": true
                     },
-                    "insurance_identifier": {
+                    "participants": {
                         "type": "string",
                         "nullable": true
                     },
-                    "diagnosis_code": {
-                        "type": "string",
-                        "maxLength": 50,
-                        "nullable": true
-                    },
-                    "meet_with_client_at": {
+                    "environmental_changes": {
                         "type": "string",
                         "nullable": true
                     },
                     "session_date": {
                         "type": "string",
-                        "format": "date-time",
+                        "format": "Y-m-d",
+                        "nullable": true
+                    },
+                    "next_session_is_scheduled_for": {
+                        "type": "string",
+                        "format": "Y-m-d",
                         "nullable": true
                     },
                     "time_in": {
                         "type": "string",
-                        "format": "H:i:s",
+                        "format": "H:i",
                         "nullable": true
                     },
                     "time_out": {
                         "type": "string",
-                        "format": "H:i:s",
+                        "format": "H:i",
                         "nullable": true
                     },
                     "time_in2": {
                         "type": "string",
-                        "format": "H:i:s",
+                        "format": "H:i",
                         "nullable": true
                     },
                     "time_out2": {
                         "type": "string",
-                        "format": "H:i:s",
+                        "format": "H:i",
                         "nullable": true
                     },
                     "session_length_total": {
+                        "type": "number",
+                        "format": "double",
+                        "nullable": true
+                    },
+                    "session_length_total2": {
                         "type": "number",
                         "format": "double",
                         "nullable": true
@@ -8218,20 +8516,12 @@
                         "type": "integer",
                         "nullable": true
                     },
-                    "caregiver_goals": {
-                        "type": "object",
-                        "nullable": true
-                    },
-                    "rbt_training_goals": {
-                        "type": "object",
+                    "provider_id": {
+                        "type": "integer",
                         "nullable": true
                     },
                     "provider_signature": {
                         "type": "string",
-                        "nullable": true
-                    },
-                    "provider_id": {
-                        "type": "integer",
                         "nullable": true
                     },
                     "supervisor_signature": {
@@ -8260,16 +8550,118 @@
                         "type": "boolean",
                         "default": false
                     },
-                    "cpt_code": {
-                        "type": "string",
-                        "nullable": true
-                    },
                     "location_id": {
                         "type": "integer",
                         "nullable": true
                     },
                     "pa_service_id": {
                         "type": "integer",
+                        "nullable": true
+                    },
+                    "insuranceId": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "insurance_identifier": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "md": {
+                        "type": "string",
+                        "maxLength": 20,
+                        "nullable": true
+                    },
+                    "md2": {
+                        "type": "string",
+                        "maxLength": 20,
+                        "nullable": true
+                    },
+                    "md3": {
+                        "type": "string",
+                        "maxLength": 20,
+                        "nullable": true
+                    },
+                    "subtype": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "BCBA_conducted_client_observations": {
+                        "type": "boolean",
+                        "nullable": true
+                    },
+                    "BCBA_conducted_assessments": {
+                        "type": "boolean",
+                        "nullable": true
+                    },
+                    "assessment_tools": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "nullable": true
+                    },
+                    "intake_outcome": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "nullable": true
+                    },
+                    "intervention_protocols": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "nullable": true
+                    },
+                    "replacement_protocols": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "nullable": true
+                    },
+                    "modifications_needed_at_this_time": {
+                        "type": "boolean",
+                        "nullable": true
+                    },
+                    "additional_goals_or_interventions": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "demonstrated_intervention_protocols": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "nullable": true
+                    },
+                    "demonstrated_replacement_protocols": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "nullable": true
+                    },
+                    "behavior_protocols": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "nullable": true
+                    },
+                    "caregiver_goals": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "nullable": true
+                    },
+                    "rbt_training_goals": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
                         "nullable": true
                     },
                     "created_at": {

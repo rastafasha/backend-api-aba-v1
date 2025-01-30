@@ -7,6 +7,12 @@ use Illuminate\Http\Request;
 use OpenAI;
 use Illuminate\Support\Facades\Log;
 
+const BASE_97151 = "
+This is a base to build a 97151 note:
+BCBA compiled and analyzed data from intake, medical notes, assessments, and client observations.
+Reviewed medical records on file. Analyzed collected data from intake and outcome measures, BCBA started the draft of the background and medical history sections of the treatment plan.
+Composed the topographical definitions for maladaptive behaviors. Information will be reported in the final treatment plan.";
+
 const SYSTEM_PROMPT =
 "You are an experienced expert in Applied Behavior Analysis (ABA), specializing in treating children with various developmental disorders.
 Your responses should be concise, professional and directly relevant to the request.
@@ -266,17 +272,20 @@ class OpenAIController extends Controller
             'endTime2' => ['sometimes', 'nullable', new TimeFormat()],
             'pos' => 'string',
             'participants' => 'sometimes|string',
-            'cpt' => 'string',
-            'caregiverGoals' => 'sometimes|array',
-            'caregiverGoals.*.goal' => 'required|string',
-            'caregiverGoals.*.percentCorrect' => 'required|numeric',
-            'rbtTrainingGoals' => 'sometimes|array',
-            'rbtTrainingGoals.*.goal' => 'required|string',
-            'rbtTrainingGoals.*.percentCorrect' => 'required|numeric',
+            'cptCode' => 'string',
+            'caregiverGoals' => 'sometimes|nullable|string',
+            'rbtTrainingGoals' => 'sometimes|nullable|string',
             'procedure' => 'sometimes|string',
             'instruments' => 'sometimes|string',
             'cpt51type' => 'sometimes|string',
             'intakeAndOutcomeMeasurements' => 'sometimes|string',
+            'interventionProtocols' => 'sometimes|nullable|string',
+            'replacementProtocols' => 'sometimes|nullable|string',
+            'modificationsNeededAtThisTime' => 'sometimes|boolean',
+            'additionalGoalsOrInterventions' => 'sometimes|nullable|string',
+            'demonstratedInterventionProtocols' => 'sometimes|nullable|string',
+            'demonstratedReplacementProtocols' => 'sometimes|nullable|string',
+            'discussedBehaviors' => 'sometimes|nullable|string',
             // 'noteDescription' => 'required|string',
         ]);
 
@@ -284,7 +293,11 @@ class OpenAIController extends Controller
 
         $client = OpenAI::client(env('OPENAI_API_KEY'));
 
-        $cptDetailed = $request->cpt . ': ' . $this->getCPTdescription($request->cpt);
+        $cptDetailed = $request->cptCode . ': ' . $this->getCPTdescription($request->cptCode);
+
+        if ($request->cptCode === '97151') {
+            $cptDetailed = $request->cptCode . '\n' . BASE_97151;
+        }
 
         try {
             $result = $client->chat()->create([
@@ -316,11 +329,6 @@ class OpenAIController extends Controller
 
     private function constructBcbaPrompt(Request $request): string
     {
-        $caregiverGoals = isset($request->caregiverGoals) ?
-            collect($request->caregiverGoals)->map(function ($item) {
-                return "{$item['goal']}: {$item['percentCorrect']}% correct";
-            })->implode(', ') : '';
-
         $rbtTrainingGoals = isset($request->rbtTrainingGoals) ?
             collect($request->rbtTrainingGoals)->map(function ($item) {
                 return "{$item['goal']}: {$item['percentCorrect']}% correct";
@@ -334,8 +342,8 @@ class OpenAIController extends Controller
 
         $prompt .= "using the following data collected during this session:\n\n";
 
-        if ($request->cpt) {
-            $prompt .= "CPT Code: {$request->cpt}\n";
+        if ($request->cptCode) {
+            $prompt .= "CPT Code: {$request->cptCode}\n";
         }
         if ($request->pos) {
             $prompt .= "Place of Service: {$request->pos}\n";
@@ -351,9 +359,9 @@ class OpenAIController extends Controller
         //     $prompt .= "Afternoon session: {$request->startTime2} to {$request->endTime2}\n";
         // }
 
-        if ($caregiverGoals) {
-            $prompt .= "\nCaregiver Training Goals: {$caregiverGoals}\n";
-        }
+        // if ($caregiverGoals) {
+        //     $prompt .= "\nCaregiver Training Goals: {$caregiverGoals}\n";
+        // }
         if ($rbtTrainingGoals) {
             $prompt .= "RBT Training Goals: {$rbtTrainingGoals}\n";
         }
@@ -362,7 +370,7 @@ class OpenAIController extends Controller
         }
 
         // CPT 97151
-        if ($request->cpt === "97151") {
+        if ($request->cptCode === "97151") {
             if ($request->cpt51type === "observation") {
                 $prompt .= "\nType of assessment: Observation";
                 $prompt .= "\nProcedure: {$request->procedure}";
@@ -371,6 +379,40 @@ class OpenAIController extends Controller
             } elseif ($request->cpt51type === "report") {
                 $prompt .= "\nType of assessment: Report\n";
                 $prompt .= "\nProcedure: {$request->procedure}\n";
+            }
+        }
+
+        // CPT 97155
+        if ($request->cptCode === "97155") {
+            $prompt .= "\nAll the intervention protocols were assessed.";
+            if ($request->interventionProtocols && $request->interventionProtocols !== '') {
+                $prompt .= "\nIntervention protocols modified: {$request->interventionProtocols}\n";
+            }
+            if ($request->replacementProtocols && $request->replacementProtocols !== '') {
+                $prompt .= "\nReplacement protocols modified: {$request->replacementProtocols}\n";
+            }
+            if ($request->modificationsNeededAtThisTime) {
+                $prompt .= "\nThere were modifications needed at this time\n";
+            }
+            if ($request->additionalGoalsOrInterventions && $request->additionalGoalsOrInterventions !== '') {
+                $prompt .= "\nAdditional goals or interventions: {$request->additionalGoalsOrInterventions}\n";
+            }
+        }
+
+        // CPT 97156
+        if ($request->cptCode === "97156") {
+            $prompt .= "\nSession type: Caregiver Training\n";
+            if ($request->demonstratedInterventionProtocols && $request->demonstratedInterventionProtocols !== '') {
+                $prompt .= "\nDemonstrated intervention protocols: {$request->demonstratedInterventionProtocols}\n";
+            }
+            if ($request->demonstratedReplacementProtocols && $request->demonstratedReplacementProtocols !== '') {
+                $prompt .= "\nDemonstrated replacement protocols: {$request->demonstratedReplacementProtocols}\n";
+            }
+            if ($request->discussedBehaviors && $request->discussedBehaviors !== '') {
+                $prompt .= "\nDiscussed maladaptivebehaviors: {$request->discussedBehaviors}\n";
+            }
+            if ($request->caregiverGoals && $request->caregiverGoals !== '') {
+                $prompt .= "\nCaregiver Training Goals: {$request->caregiverGoals}\n";
             }
         }
 

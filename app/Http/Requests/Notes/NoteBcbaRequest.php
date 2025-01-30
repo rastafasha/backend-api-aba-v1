@@ -23,6 +23,7 @@ class NoteBcbaRequest extends FormRequest
         return [
             'insurance_id' => 'nullable|exists:insurances,id',
             'patient_id' => 'required|exists:patients,id',
+            'patient_identifier' => 'nullable|string',
             'doctor_id' => 'nullable|exists:users,id',
             'bip_id' => 'nullable|exists:bips,id',
             'diagnosis_code' => 'nullable|string|max:50',
@@ -36,10 +37,10 @@ class NoteBcbaRequest extends FormRequest
             'time_in2' => 'nullable|date_format:H:i,H:i:s',
             'time_out2' => 'nullable|date_format:H:i,H:i:s|after:time_in2',
             'session_length_total' => 'nullable|numeric',
+            'session_length_total2' => 'nullable|numeric',
             'note_description' => 'nullable|string',
             'rendering_provider' => 'nullable|exists:users,id',
             'supervisor_id' => 'nullable|exists:users,id',
-            'caregiver_goals' => 'nullable|array',
             'rbt_training_goals' => 'nullable|array',
             'provider_signature' => 'nullable|string',
             'provider_id' => 'nullable|exists:users,id',
@@ -53,16 +54,54 @@ class NoteBcbaRequest extends FormRequest
             'pa_service_id' => 'nullable|exists:pa_services,id',
             'insuranceId' => 'nullable|string',
             'insurance_identifier' => 'nullable|string',
+            'environmental_changes' => 'nullable|string',
+            // 97151
+            'subtype' => 'nullable|string',
+            'BCBA_conducted_assessments' => 'nullable|boolean',
+            'BCBA_conducted_client_observations' => 'nullable|boolean',
+            'intake_outcome' => 'nullable|array',
+            'intake_outcome.*' => 'string',
+            'assessment_tools' => 'nullable|array',
+            'assessment_tools.*' => 'string',
+            // 97155
+            'intervention_protocols' => 'nullable|array',
+            'intervention_protocols.*.name' => 'string',
+            'intervention_protocols.*.assessed' => 'nullable|boolean',
+            'intervention_protocols.*.modified' => 'nullable|boolean',
+            'intervention_protocols.*.demonstrated' => 'nullable|boolean',
+            'replacement_protocols' => 'nullable|array',
+            'replacement_protocols.*.plan_id' => 'required|exists:plans,id',
+            'replacement_protocols.*.name' => 'required|string',
+            'replacement_protocols.*.assessed' => 'nullable|boolean',
+            'replacement_protocols.*.modified' => 'nullable|boolean',
+            'replacement_protocols.*.demonstrated' => 'nullable|boolean',
+            'modifications_needed_at_this_time' => 'nullable|boolean',
+            'additional_goals_or_interventions' => 'nullable|string',
+            // 97156
+            // 'demonstrated_intervention_protocols' => 'nullable|array',
+            // 'demonstrated_replacement_protocols' => 'nullable|array',
+            'behavior_protocols' => 'nullable|array',
+            'behavior_protocols.*.plan_id' => 'required|exists:plans,id',
+            'behavior_protocols.*.name' => 'required|string',
+            'behavior_protocols.*.discussed' => 'nullable|boolean',
+            'caregiver_goals' => 'nullable|array',
+            'caregiver_goals.*.plan_id' => 'required|exists:plans,id',
+            'caregiver_goals.*.name' => 'required|string',
+            'caregiver_goals.*.percentage_achieved' => 'nullable|numeric',
+
+            'md' => 'nullable|string|max:20',
+            'md2' => 'nullable|string|max:20',
+            'md3' => 'nullable|string|max:20',
         ];
     }
 
     public function messages()
     {
         return [
-            'session_date.before' => 'Oops! It looks like you’re trying to save a session note with a future date.' .
-                'Please ensure the date and time are accurate before saving.',
-            'next_session_is_scheduled_for.after' => 'Oops! It looks like you’re trying to save a next session date that is before the current session date.' .
-                'Please ensure the date and time are accurate before saving.',
+            'session_date.before' => "Oops! It looks like you're trying to save a session note with a future date." .
+                "Please ensure the date and time are accurate before saving.",
+            'next_session_is_scheduled_for.after' => "Oops! It looks like you're trying to save a next session date that is before the current session date." .
+                "Please ensure the date and time are accurate before saving.",
         ];
     }
 
