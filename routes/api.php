@@ -128,7 +128,8 @@ Route::group(['middleware' => 'api'], function ($router) {
     // PDF
     require __DIR__ . '/api_routes/pdf.php';
 
-
+    // Weekly Report
+    require __DIR__ . '/api_routes/weekly_report.php';
 
     //comandos desde la url del backend
     Route::get('/cache', function () {

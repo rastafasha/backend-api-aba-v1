@@ -32,10 +32,10 @@ Route::put('/goal/update/eligibility/{bip:id}', [ReductionGoalController::class,
 Route::put('/goal/update/sto/{goal:id}', [ReductionGoalController::class, 'updateSto'])
     ->name('goals.updateSto');
 
-Route::prefix('v2')->group(function () {
-    Route::apiResource('reduction-goals', ReductionGoalV2Controller::class);
-    Route::apiResource('maladaptives', MaladaptiveV2Controller::class);
-    Route::apiResource('long-term-objectives', LongTermObjectiveV2Controller::class);
-    Route::apiResource('short-term-objectives', ShortTermObjectiveV2Controller::class);
-    Route::post('short-term-objectives/reorder', [ShortTermObjectiveV2Controller::class, 'reorder']);
-});
+// Route::prefix('v2')->group(function () {
+//     Route::apiResource('reduction-goals', ReductionGoalV2Controller::class);
+//     Route::apiResource('maladaptives', MaladaptiveV2Controller::class);
+//     Route::apiResource('long-term-objectives', LongTermObjectiveV2Controller::class);
+//     Route::apiResource('short-term-objectives', ShortTermObjectiveV2Controller::class);
+//     Route::post('short-term-objectives/reorder', [ShortTermObjectiveV2Controller::class, 'reorder']);
+// });

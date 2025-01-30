@@ -5694,6 +5694,411 @@
                 }
             }
         },
+        "/api/v2/weekly-reports": {
+            "get": {
+                "tags": [
+                    "WeeklyReports"
+                ],
+                "summary": "Get paginated weekly reports",
+                "description": "Retrieves a paginated list of weekly reports with optional filters",
+                "operationId": "0916d259b951e618ccd7dc1f2da39a5b",
+                "parameters": [
+                    {
+                        "name": "include",
+                        "in": "query",
+                        "description": "Include related models (comma-separated). Options: plan",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "plan_id",
+                        "in": "query",
+                        "description": "Filter by plan ID",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "date_start",
+                        "in": "query",
+                        "description": "Start date for filtering (Y-m-d)",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    },
+                    {
+                        "name": "date_end",
+                        "in": "query",
+                        "description": "End date for filtering (Y-m-d)",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    },
+                    {
+                        "name": "per_page",
+                        "in": "query",
+                        "description": "Number of items per page",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 15
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/PaginatedWeeklyReportResponse"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "WeeklyReports"
+                ],
+                "summary": "Create a new weekly report",
+                "description": "Creates a new weekly report with the provided data",
+                "operationId": "406cfdbe3a4fa0705ddc29f065e2f75f",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "plan_id",
+                                    "week_start",
+                                    "week_end",
+                                    "value"
+                                ],
+                                "properties": {
+                                    "plan_id": {
+                                        "type": "integer"
+                                    },
+                                    "week_start": {
+                                        "type": "string",
+                                        "format": "date"
+                                    },
+                                    "week_end": {
+                                        "type": "string",
+                                        "format": "date"
+                                    },
+                                    "value": {
+                                        "type": "integer"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Report created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Weekly report created successfully"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/WeeklyReport"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error"
+                    }
+                }
+            }
+        },
+        "/api/v2/weekly-reports/{id}": {
+            "get": {
+                "tags": [
+                    "WeeklyReports"
+                ],
+                "summary": "Get a single weekly report",
+                "description": "Retrieves a specific weekly report by its ID",
+                "operationId": "cc555432bca0f70f0386ed909581e4e5",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the weekly report",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "include",
+                        "in": "query",
+                        "description": "Include related models (comma-separated). Options: plan",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/WeeklyReport"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Report not found"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "WeeklyReports"
+                ],
+                "summary": "Update a weekly report",
+                "description": "Updates an existing weekly report",
+                "operationId": "427be47be5ecc1d4386e82f29c462d17",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the weekly report",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "plan_id",
+                                    "week_start",
+                                    "week_end",
+                                    "value"
+                                ],
+                                "properties": {
+                                    "plan_id": {
+                                        "type": "integer"
+                                    },
+                                    "week_start": {
+                                        "type": "string",
+                                        "format": "date"
+                                    },
+                                    "week_end": {
+                                        "type": "string",
+                                        "format": "date"
+                                    },
+                                    "value": {
+                                        "type": "integer"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Weekly report updated successfully"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/WeeklyReport"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Report not found"
+                    },
+                    "422": {
+                        "description": "Validation error"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "WeeklyReports"
+                ],
+                "summary": "Delete a weekly report",
+                "description": "Deletes an existing weekly report",
+                "operationId": "136e7a8c87ca553c39e8b79d7d6f45a7",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the weekly report",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Weekly report deleted successfully"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Report not found"
+                    }
+                }
+            },
+            "patch": {
+                "tags": [
+                    "WeeklyReports"
+                ],
+                "summary": "Partially update a weekly report",
+                "description": "Updates specific fields of an existing weekly report",
+                "operationId": "e52dadb3c1eed59e4da2c4d4a5bc2bad",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the weekly report",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "plan_id": {
+                                        "type": "integer"
+                                    },
+                                    "week_start": {
+                                        "type": "string",
+                                        "format": "date"
+                                    },
+                                    "week_end": {
+                                        "type": "string",
+                                        "format": "date"
+                                    },
+                                    "value": {
+                                        "type": "integer"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Weekly report updated successfully"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/WeeklyReport"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Report not found"
+                    },
+                    "422": {
+                        "description": "Validation error"
+                    }
+                }
+            }
+        },
         "/api/v2/claims": {
             "get": {
                 "tags": [
@@ -7287,6 +7692,61 @@
                         "type": "string",
                         "format": "datetime",
                         "example": "2024-03-20 10:00:00"
+                    }
+                },
+                "type": "object"
+            },
+            "PaginatedWeeklyReportResponse": {
+                "properties": {
+                    "current_page": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/WeeklyReport"
+                        }
+                    },
+                    "first_page_url": {
+                        "type": "string",
+                        "example": "http://example.com/api/v2/weekly-reports?page=1"
+                    },
+                    "from": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "last_page": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "last_page_url": {
+                        "type": "string",
+                        "example": "http://example.com/api/v2/weekly-reports?page=1"
+                    },
+                    "next_page_url": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "path": {
+                        "type": "string",
+                        "example": "http://example.com/api/v2/weekly-reports"
+                    },
+                    "per_page": {
+                        "type": "integer",
+                        "example": 15
+                    },
+                    "prev_page_url": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "to": {
+                        "type": "integer",
+                        "example": 15
+                    },
+                    "total": {
+                        "type": "integer",
+                        "example": 100
                     }
                 },
                 "type": "object"
@@ -8995,6 +9455,68 @@
                 },
                 "type": "object"
             },
+            "WeeklyReport": {
+                "required": [
+                    "plan_id",
+                    "week_start",
+                    "week_end",
+                    "value"
+                ],
+                "properties": {
+                    "id": {
+                        "description": "Weekly report unique identifier",
+                        "type": "integer",
+                        "format": "int64",
+                        "example": 1
+                    },
+                    "plan_id": {
+                        "description": "ID of the associated plan",
+                        "type": "integer",
+                        "format": "int64",
+                        "example": 1
+                    },
+                    "week_start": {
+                        "description": "Start date of the week",
+                        "type": "string",
+                        "format": "date",
+                        "example": "2024-01-01"
+                    },
+                    "week_end": {
+                        "description": "End date of the week",
+                        "type": "string",
+                        "format": "date",
+                        "example": "2024-01-07"
+                    },
+                    "value": {
+                        "description": "Value for the weekly report",
+                        "type": "integer",
+                        "example": 75
+                    },
+                    "created_at": {
+                        "description": "Timestamp of when the record was created",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2024-01-30T19:49:04.000000Z"
+                    },
+                    "updated_at": {
+                        "description": "Timestamp of when the record was last updated",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2024-01-30T19:49:04.000000Z"
+                    },
+                    "deleted_at": {
+                        "description": "Soft delete timestamp",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": null,
+                        "nullable": true
+                    },
+                    "plan": {
+                        "$ref": "#/components/schemas/Plan"
+                    }
+                },
+                "type": "object"
+            },
             "ConsentToTreatment": {
                 "title": "ConsentToTreatment",
                 "description": "Model for documenting consent to treatment agreements",
@@ -9301,6 +9823,10 @@
         {
             "name": "Admin/Roles",
             "description": "Admin/Roles"
+        },
+        {
+            "name": "WeeklyReports",
+            "description": "WeeklyReports"
         },
         {
             "name": "Claims",
