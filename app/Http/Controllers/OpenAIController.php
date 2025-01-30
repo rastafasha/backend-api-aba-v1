@@ -10,7 +10,8 @@ use Illuminate\Support\Facades\Log;
 const BASE_97151 = "
 This is a base to build a 97151 note:
 BCBA compiled and analyzed data from intake, medical notes, assessments, and client observations.
-Reviewed medical records on file. Analyzed collected data from intake and outcome measures, BCBA started the draft of the background and medical history sections of the treatment plan.
+Reviewed medical records on file.
+Analyzed collected data from intake and outcome measures, BCBA started the draft of the background and medical history sections of the treatment plan.
 Composed the topographical definitions for maladaptive behaviors. Information will be reported in the final treatment plan.";
 
 const SYSTEM_PROMPT =
