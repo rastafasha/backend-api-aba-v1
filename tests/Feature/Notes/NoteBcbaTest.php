@@ -11,7 +11,7 @@ use App\Models\PaService;
 use App\Models\Patient\Patient;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
-
+use App\Models\Bip\Plan;
 class NoteBcbaTest extends TestCase
 {
     use RefreshDatabase, WithFaker;
@@ -45,6 +45,7 @@ class NoteBcbaTest extends TestCase
      */
     public function test_can_create_note_bcba()
     {
+        $plan1 = Plan::factory()->create();
         $noteData = [
             'patient_id' => $this->patient->id,
             'patient_identifier' => $this->patient->patient_identifier,
@@ -60,7 +61,18 @@ class NoteBcbaTest extends TestCase
             'session_length_total' => 60,
             'note_description' => $this->faker->paragraph,
             'status' => 'pending',
-            'caregiver_goals' => ['goal1' => true, 'goal2' => false],
+            'caregiver_goals' => [
+                [
+                    'plan_id' => $plan1->id,
+                    'name' => 'Goal 1',
+                    'percentage_achieved' => 90,
+                ],
+                [
+                    'plan_id' => $plan1->id,
+                    'name' => 'Goal 2',
+                    'percentage_achieved' => 80,
+                ],
+            ],
             'rbt_training_goals' => ['training1' => true, 'training2' => false],
             'meet_with_client_at' => 'Office',
             'billed' => false,

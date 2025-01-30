@@ -112,10 +112,9 @@ class NoteBcbaV2Controller extends Controller
 
         // Filter by patient_identifier
         if ($request->has('patient_identifier')) {
-            $query->where('patient_identifier', $request->patient_identifier);
-            // $query->whereHas('patient', function ($q) use ($request) {
-            //     $q->where('patient_id', $request->patient_identifier);
-            // });
+            $query->whereHas('patient', function ($q) use ($request) {
+                $q->where('patient_identifier', $request->patient_identifier);
+            });
         }
 
         // Filter by bip_id
@@ -191,7 +190,25 @@ class NoteBcbaV2Controller extends Controller
      *             @OA\Property(property="status", type="string", enum={"pending", "ok", "no", "review"}),
      *             @OA\Property(property="location_id", type="integer"),
      *             @OA\Property(property="pa_service_id", type="integer"),
-     *             @OA\Property(property="insuranceId", type="string")
+     *             @OA\Property(property="insuranceId", type="string"),
+     *             @OA\Property(property="insurance_identifier", type="string"),
+     *             @OA\Property(property="environmental_changes", type="string"),
+     *             @OA\Property(property="BCBA_conducted_client_observations", type="boolean"),
+     *             @OA\Property(property="BCBA_conducted_assessments", type="boolean"),
+     *             @OA\Property(property="interventionProtocols", type="object"),
+     *             @OA\Property(property="behaviorProtocols", type="object"),
+     *             @OA\Property(property="intake_outcome", type="object"),
+     *             @OA\Property(property="assessment_tools", type="object"),
+     *             @OA\Property(property="replacementProtocols", type="object"),
+     *             @OA\Property(property="modifications_needed_at_this_time", type="boolean"),
+     *             @OA\Property(property="additional_goals_or_interventions", type="string"),
+     *             @OA\Property(property="cargiver_participation", type="boolean"),
+     *             @OA\Property(property="was_the_client_present", type="boolean"),
+     *             @OA\Property(property="asked_and_clarified_questions_about_the_implementation_of", type="string"),
+     *             @OA\Property(property="reinforced_caregiver_strengths_in", type="string"),
+     *             @OA\Property(property="gave_constructive_feedback_on", type="string"),
+     *             @OA\Property(property="recomended_more_practice_on", type="string"),
+     *             @OA\Property(property="subtype", type="string")
      *         )
      *     ),
      *     @OA\Response(
@@ -298,13 +315,16 @@ class NoteBcbaV2Controller extends Controller
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(
-     *             @OA\Property(property="session_date", type="string", format="date"),
+     *             @OA\Property(property="insurance_id", type="integer"),
      *             @OA\Property(property="patient_id", type="integer"),
+     *             @OA\Property(property="patient_identifier", type="string"),
+     *             @OA\Property(property="doctor_id", type="integer"),
      *             @OA\Property(property="bip_id", type="integer"),
      *             @OA\Property(property="diagnosis_code", type="string", maxLength=50),
      *             @OA\Property(property="location", type="string", maxLength=50),
      *             @OA\Property(property="summary_note", type="string"),
      *             @OA\Property(property="note_description", type="string"),
+     *             @OA\Property(property="session_date", type="string", format="date"),
      *             @OA\Property(property="participants", type="string"),
      *             @OA\Property(property="pos", type="string"),
      *             @OA\Property(property="time_in", type="string", format="H:i:s"),
@@ -312,20 +332,44 @@ class NoteBcbaV2Controller extends Controller
      *             @OA\Property(property="time_in2", type="string", format="H:i:s"),
      *             @OA\Property(property="time_out2", type="string", format="H:i:s"),
      *             @OA\Property(property="session_length_total", type="number", format="double"),
+     *             @OA\Property(property="session_length_total2", type="number", format="double"),
+     *             @OA\Property(property="next_session_is_scheduled_for", type="string", format="date"),
      *             @OA\Property(property="supervisor_id", type="integer"),
-     *             @OA\Property(property="caregiver_goals", type="object"),
-     *             @OA\Property(property="rbt_training_goals", type="object"),
+     *             @OA\Property(property="caregiver_goals", type="array", @OA\Items(type="string")),
+     *             @OA\Property(property="rbt_training_goals", type="array", @OA\Items(type="string")),
      *             @OA\Property(property="provider_signature", type="string"),
      *             @OA\Property(property="provider_id", type="integer"),
      *             @OA\Property(property="supervisor_signature", type="string"),
-     *             @OA\Property(property="meet_with_client_at", type="string"),
+     *             @OA\Property(property="status", type="string", enum={"pending", "ok", "no", "review"}),
      *             @OA\Property(property="billed", type="boolean"),
      *             @OA\Property(property="paid", type="boolean"),
      *             @OA\Property(property="cpt_code", type="string"),
-     *             @OA\Property(property="status", type="string", enum={"pending", "ok", "no", "review"}),
      *             @OA\Property(property="location_id", type="integer"),
      *             @OA\Property(property="pa_service_id", type="integer"),
-     *             @OA\Property(property="insuranceId", type="string")
+     *             @OA\Property(property="insuranceId", type="string"),
+     *             @OA\Property(property="insurance_identifier", type="string"),
+     *             @OA\Property(property="environmental_changes", type="string"),
+     *             @OA\Property(property="BCBA_conducted_client_observations", type="boolean"),
+     *             @OA\Property(property="BCBA_conducted_assessments", type="boolean"),
+     *             @OA\Property(property="subtype", type="string"),
+     *             @OA\Property(property="intake_outcome", type="array", @OA\Items(type="string")),
+     *             @OA\Property(property="assessment_tools", type="array", @OA\Items(type="string")),
+     *             @OA\Property(property="intervention_protocols", type="array", @OA\Items(type="string")),
+     *             @OA\Property(property="replacement_protocols", type="array", @OA\Items(type="string")),
+     *             @OA\Property(property="modifications_needed_at_this_time", type="boolean"),
+     *             @OA\Property(property="additional_goals_or_interventions", type="string"),
+     *             @OA\Property(property="cargiver_participation", type="boolean"),
+     *             @OA\Property(property="was_the_client_present", type="boolean"),
+     *             @OA\Property(property="asked_and_clarified_questions_about_the_implementation_of", type="string"),
+     *             @OA\Property(property="reinforced_caregiver_strengths_in", type="string"),
+     *             @OA\Property(property="gave_constructive_feedback_on", type="string"),
+     *             @OA\Property(property="recomended_more_practice_on", type="string"),
+     *             @OA\Property(property="demonstrated_intervention_protocols", type="array", @OA\Items(type="string")),
+     *             @OA\Property(property="demonstrated_replacement_protocols", type="array", @OA\Items(type="string")),
+     *             @OA\Property(property="behavior_protocols", type="array", @OA\Items(type="string")),
+     *             @OA\Property(property="md", type="string", maxLength=20),
+     *             @OA\Property(property="md2", type="string", maxLength=20),
+     *             @OA\Property(property="md3", type="string", maxLength=20)
      *         )
      *     ),
      *     @OA\Response(
@@ -367,13 +411,16 @@ class NoteBcbaV2Controller extends Controller
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(
-     *             @OA\Property(property="session_date", type="string", format="date"),
+     *             @OA\Property(property="insurance_id", type="integer"),
      *             @OA\Property(property="patient_id", type="integer"),
+     *             @OA\Property(property="patient_identifier", type="string"),
+     *             @OA\Property(property="doctor_id", type="integer"),
      *             @OA\Property(property="bip_id", type="integer"),
      *             @OA\Property(property="diagnosis_code", type="string", maxLength=50),
      *             @OA\Property(property="location", type="string", maxLength=50),
      *             @OA\Property(property="summary_note", type="string"),
      *             @OA\Property(property="note_description", type="string"),
+     *             @OA\Property(property="session_date", type="string", format="date"),
      *             @OA\Property(property="participants", type="string"),
      *             @OA\Property(property="pos", type="string"),
      *             @OA\Property(property="time_in", type="string", format="H:i:s"),
@@ -381,20 +428,44 @@ class NoteBcbaV2Controller extends Controller
      *             @OA\Property(property="time_in2", type="string", format="H:i:s"),
      *             @OA\Property(property="time_out2", type="string", format="H:i:s"),
      *             @OA\Property(property="session_length_total", type="number", format="double"),
+     *             @OA\Property(property="session_length_total2", type="number", format="double"),
+     *             @OA\Property(property="next_session_is_scheduled_for", type="string", format="date"),
      *             @OA\Property(property="supervisor_id", type="integer"),
-     *             @OA\Property(property="caregiver_goals", type="object"),
-     *             @OA\Property(property="rbt_training_goals", type="object"),
+     *             @OA\Property(property="caregiver_goals", type="array", @OA\Items(type="string")),
+     *             @OA\Property(property="rbt_training_goals", type="array", @OA\Items(type="string")),
      *             @OA\Property(property="provider_signature", type="string"),
      *             @OA\Property(property="provider_id", type="integer"),
      *             @OA\Property(property="supervisor_signature", type="string"),
-     *             @OA\Property(property="meet_with_client_at", type="string"),
+     *             @OA\Property(property="status", type="string", enum={"pending", "ok", "no", "review"}),
      *             @OA\Property(property="billed", type="boolean"),
      *             @OA\Property(property="paid", type="boolean"),
      *             @OA\Property(property="cpt_code", type="string"),
-     *             @OA\Property(property="status", type="string", enum={"pending", "ok", "no", "review"}),
      *             @OA\Property(property="location_id", type="integer"),
      *             @OA\Property(property="pa_service_id", type="integer"),
-     *             @OA\Property(property="insuranceId", type="string")
+     *             @OA\Property(property="insuranceId", type="string"),
+     *             @OA\Property(property="insurance_identifier", type="string"),
+     *             @OA\Property(property="environmental_changes", type="string"),
+     *             @OA\Property(property="BCBA_conducted_client_observations", type="boolean"),
+     *             @OA\Property(property="BCBA_conducted_assessments", type="boolean"),
+     *             @OA\Property(property="subtype", type="string"),
+     *             @OA\Property(property="intake_outcome", type="array", @OA\Items(type="string")),
+     *             @OA\Property(property="assessment_tools", type="array", @OA\Items(type="string")),
+     *             @OA\Property(property="intervention_protocols", type="array", @OA\Items(type="string")),
+     *             @OA\Property(property="replacement_protocols", type="array", @OA\Items(type="string")),
+     *             @OA\Property(property="modifications_needed_at_this_time", type="boolean"),
+     *             @OA\Property(property="additional_goals_or_interventions", type="string"),
+     *             @OA\Property(property="cargiver_participation", type="boolean"),
+     *             @OA\Property(property="was_the_client_present", type="boolean"),
+     *             @OA\Property(property="asked_and_clarified_questions_about_the_implementation_of", type="string"),
+     *             @OA\Property(property="reinforced_caregiver_strengths_in", type="string"),
+     *             @OA\Property(property="gave_constructive_feedback_on", type="string"),
+     *             @OA\Property(property="recomended_more_practice_on", type="string"),
+     *             @OA\Property(property="demonstrated_intervention_protocols", type="array", @OA\Items(type="string")),
+     *             @OA\Property(property="demonstrated_replacement_protocols", type="array", @OA\Items(type="string")),
+     *             @OA\Property(property="behavior_protocols", type="array", @OA\Items(type="string")),
+     *             @OA\Property(property="md", type="string", maxLength=20),
+     *             @OA\Property(property="md2", type="string", maxLength=20),
+     *             @OA\Property(property="md3", type="string", maxLength=20)
      *         )
      *     ),
      *     @OA\Response(
