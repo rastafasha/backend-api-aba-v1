@@ -3270,6 +3270,60 @@
                                     },
                                     "insuranceId": {
                                         "type": "string"
+                                    },
+                                    "insurance_identifier": {
+                                        "type": "string"
+                                    },
+                                    "environmental_changes": {
+                                        "type": "string"
+                                    },
+                                    "BCBA_conducted_client_observations": {
+                                        "type": "boolean"
+                                    },
+                                    "BCBA_conducted_assessments": {
+                                        "type": "boolean"
+                                    },
+                                    "interventionProtocols": {
+                                        "type": "object"
+                                    },
+                                    "behaviorProtocols": {
+                                        "type": "object"
+                                    },
+                                    "intake_outcome": {
+                                        "type": "object"
+                                    },
+                                    "assessment_tools": {
+                                        "type": "object"
+                                    },
+                                    "replacementProtocols": {
+                                        "type": "object"
+                                    },
+                                    "modifications_needed_at_this_time": {
+                                        "type": "boolean"
+                                    },
+                                    "additional_goals_or_interventions": {
+                                        "type": "string"
+                                    },
+                                    "cargiver_participation": {
+                                        "type": "boolean"
+                                    },
+                                    "was_the_client_present": {
+                                        "type": "boolean"
+                                    },
+                                    "asked_and_clarified_questions_about_the_implementation_of": {
+                                        "type": "string"
+                                    },
+                                    "reinforced_caregiver_strengths_in": {
+                                        "type": "string"
+                                    },
+                                    "gave_constructive_feedback_on": {
+                                        "type": "string"
+                                    },
+                                    "recomended_more_practice_on": {
+                                        "type": "string"
+                                    },
+                                    "subtype": {
+                                        "type": "string"
                                     }
                                 },
                                 "type": "object"
@@ -3381,11 +3435,16 @@
                         "application/json": {
                             "schema": {
                                 "properties": {
-                                    "session_date": {
-                                        "type": "string",
-                                        "format": "date"
+                                    "insurance_id": {
+                                        "type": "integer"
                                     },
                                     "patient_id": {
+                                        "type": "integer"
+                                    },
+                                    "patient_identifier": {
+                                        "type": "string"
+                                    },
+                                    "doctor_id": {
                                         "type": "integer"
                                     },
                                     "bip_id": {
@@ -3404,6 +3463,10 @@
                                     },
                                     "note_description": {
                                         "type": "string"
+                                    },
+                                    "session_date": {
+                                        "type": "string",
+                                        "format": "date"
                                     },
                                     "participants": {
                                         "type": "string"
@@ -3431,14 +3494,28 @@
                                         "type": "number",
                                         "format": "double"
                                     },
+                                    "session_length_total2": {
+                                        "type": "number",
+                                        "format": "double"
+                                    },
+                                    "next_session_is_scheduled_for": {
+                                        "type": "string",
+                                        "format": "date"
+                                    },
                                     "supervisor_id": {
                                         "type": "integer"
                                     },
                                     "caregiver_goals": {
-                                        "type": "object"
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        }
                                     },
                                     "rbt_training_goals": {
-                                        "type": "object"
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        }
                                     },
                                     "provider_signature": {
                                         "type": "string"
@@ -3447,18 +3524,6 @@
                                         "type": "integer"
                                     },
                                     "supervisor_signature": {
-                                        "type": "string"
-                                    },
-                                    "meet_with_client_at": {
-                                        "type": "string"
-                                    },
-                                    "billed": {
-                                        "type": "boolean"
-                                    },
-                                    "paid": {
-                                        "type": "boolean"
-                                    },
-                                    "cpt_code": {
                                         "type": "string"
                                     },
                                     "status": {
@@ -3470,6 +3535,15 @@
                                             "review"
                                         ]
                                     },
+                                    "billed": {
+                                        "type": "boolean"
+                                    },
+                                    "paid": {
+                                        "type": "boolean"
+                                    },
+                                    "cpt_code": {
+                                        "type": "string"
+                                    },
                                     "location_id": {
                                         "type": "integer"
                                     },
@@ -3478,6 +3552,99 @@
                                     },
                                     "insuranceId": {
                                         "type": "string"
+                                    },
+                                    "insurance_identifier": {
+                                        "type": "string"
+                                    },
+                                    "environmental_changes": {
+                                        "type": "string"
+                                    },
+                                    "BCBA_conducted_client_observations": {
+                                        "type": "boolean"
+                                    },
+                                    "BCBA_conducted_assessments": {
+                                        "type": "boolean"
+                                    },
+                                    "subtype": {
+                                        "type": "string"
+                                    },
+                                    "intake_outcome": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "assessment_tools": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "intervention_protocols": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "replacement_protocols": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "modifications_needed_at_this_time": {
+                                        "type": "boolean"
+                                    },
+                                    "additional_goals_or_interventions": {
+                                        "type": "string"
+                                    },
+                                    "cargiver_participation": {
+                                        "type": "boolean"
+                                    },
+                                    "was_the_client_present": {
+                                        "type": "boolean"
+                                    },
+                                    "asked_and_clarified_questions_about_the_implementation_of": {
+                                        "type": "string"
+                                    },
+                                    "reinforced_caregiver_strengths_in": {
+                                        "type": "string"
+                                    },
+                                    "gave_constructive_feedback_on": {
+                                        "type": "string"
+                                    },
+                                    "recomended_more_practice_on": {
+                                        "type": "string"
+                                    },
+                                    "demonstrated_intervention_protocols": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "demonstrated_replacement_protocols": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "behavior_protocols": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "md": {
+                                        "type": "string",
+                                        "maxLength": 20
+                                    },
+                                    "md2": {
+                                        "type": "string",
+                                        "maxLength": 20
+                                    },
+                                    "md3": {
+                                        "type": "string",
+                                        "maxLength": 20
                                     }
                                 },
                                 "type": "object"
@@ -3545,11 +3712,16 @@
                         "application/json": {
                             "schema": {
                                 "properties": {
-                                    "session_date": {
-                                        "type": "string",
-                                        "format": "date"
+                                    "insurance_id": {
+                                        "type": "integer"
                                     },
                                     "patient_id": {
+                                        "type": "integer"
+                                    },
+                                    "patient_identifier": {
+                                        "type": "string"
+                                    },
+                                    "doctor_id": {
                                         "type": "integer"
                                     },
                                     "bip_id": {
@@ -3568,6 +3740,10 @@
                                     },
                                     "note_description": {
                                         "type": "string"
+                                    },
+                                    "session_date": {
+                                        "type": "string",
+                                        "format": "date"
                                     },
                                     "participants": {
                                         "type": "string"
@@ -3595,14 +3771,28 @@
                                         "type": "number",
                                         "format": "double"
                                     },
+                                    "session_length_total2": {
+                                        "type": "number",
+                                        "format": "double"
+                                    },
+                                    "next_session_is_scheduled_for": {
+                                        "type": "string",
+                                        "format": "date"
+                                    },
                                     "supervisor_id": {
                                         "type": "integer"
                                     },
                                     "caregiver_goals": {
-                                        "type": "object"
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        }
                                     },
                                     "rbt_training_goals": {
-                                        "type": "object"
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        }
                                     },
                                     "provider_signature": {
                                         "type": "string"
@@ -3611,18 +3801,6 @@
                                         "type": "integer"
                                     },
                                     "supervisor_signature": {
-                                        "type": "string"
-                                    },
-                                    "meet_with_client_at": {
-                                        "type": "string"
-                                    },
-                                    "billed": {
-                                        "type": "boolean"
-                                    },
-                                    "paid": {
-                                        "type": "boolean"
-                                    },
-                                    "cpt_code": {
                                         "type": "string"
                                     },
                                     "status": {
@@ -3634,6 +3812,15 @@
                                             "review"
                                         ]
                                     },
+                                    "billed": {
+                                        "type": "boolean"
+                                    },
+                                    "paid": {
+                                        "type": "boolean"
+                                    },
+                                    "cpt_code": {
+                                        "type": "string"
+                                    },
                                     "location_id": {
                                         "type": "integer"
                                     },
@@ -3642,6 +3829,99 @@
                                     },
                                     "insuranceId": {
                                         "type": "string"
+                                    },
+                                    "insurance_identifier": {
+                                        "type": "string"
+                                    },
+                                    "environmental_changes": {
+                                        "type": "string"
+                                    },
+                                    "BCBA_conducted_client_observations": {
+                                        "type": "boolean"
+                                    },
+                                    "BCBA_conducted_assessments": {
+                                        "type": "boolean"
+                                    },
+                                    "subtype": {
+                                        "type": "string"
+                                    },
+                                    "intake_outcome": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "assessment_tools": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "intervention_protocols": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "replacement_protocols": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "modifications_needed_at_this_time": {
+                                        "type": "boolean"
+                                    },
+                                    "additional_goals_or_interventions": {
+                                        "type": "string"
+                                    },
+                                    "cargiver_participation": {
+                                        "type": "boolean"
+                                    },
+                                    "was_the_client_present": {
+                                        "type": "boolean"
+                                    },
+                                    "asked_and_clarified_questions_about_the_implementation_of": {
+                                        "type": "string"
+                                    },
+                                    "reinforced_caregiver_strengths_in": {
+                                        "type": "string"
+                                    },
+                                    "gave_constructive_feedback_on": {
+                                        "type": "string"
+                                    },
+                                    "recomended_more_practice_on": {
+                                        "type": "string"
+                                    },
+                                    "demonstrated_intervention_protocols": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "demonstrated_replacement_protocols": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "behavior_protocols": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "md": {
+                                        "type": "string",
+                                        "maxLength": 20
+                                    },
+                                    "md2": {
+                                        "type": "string",
+                                        "maxLength": 20
+                                    },
+                                    "md3": {
+                                        "type": "string",
+                                        "maxLength": 20
                                     }
                                 },
                                 "type": "object"
@@ -5694,6 +5974,411 @@
                 }
             }
         },
+        "/api/v2/weekly-reports": {
+            "get": {
+                "tags": [
+                    "WeeklyReports"
+                ],
+                "summary": "Get paginated weekly reports",
+                "description": "Retrieves a paginated list of weekly reports with optional filters",
+                "operationId": "0916d259b951e618ccd7dc1f2da39a5b",
+                "parameters": [
+                    {
+                        "name": "include",
+                        "in": "query",
+                        "description": "Include related models (comma-separated). Options: plan",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "plan_id",
+                        "in": "query",
+                        "description": "Filter by plan ID",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "date_start",
+                        "in": "query",
+                        "description": "Start date for filtering (Y-m-d)",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    },
+                    {
+                        "name": "date_end",
+                        "in": "query",
+                        "description": "End date for filtering (Y-m-d)",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    },
+                    {
+                        "name": "per_page",
+                        "in": "query",
+                        "description": "Number of items per page",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 15
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/PaginatedWeeklyReportResponse"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "WeeklyReports"
+                ],
+                "summary": "Create a new weekly report",
+                "description": "Creates a new weekly report with the provided data",
+                "operationId": "406cfdbe3a4fa0705ddc29f065e2f75f",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "plan_id",
+                                    "week_start",
+                                    "week_end",
+                                    "value"
+                                ],
+                                "properties": {
+                                    "plan_id": {
+                                        "type": "integer"
+                                    },
+                                    "week_start": {
+                                        "type": "string",
+                                        "format": "date"
+                                    },
+                                    "week_end": {
+                                        "type": "string",
+                                        "format": "date"
+                                    },
+                                    "value": {
+                                        "type": "integer"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Report created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Weekly report created successfully"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/WeeklyReport"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error"
+                    }
+                }
+            }
+        },
+        "/api/v2/weekly-reports/{id}": {
+            "get": {
+                "tags": [
+                    "WeeklyReports"
+                ],
+                "summary": "Get a single weekly report",
+                "description": "Retrieves a specific weekly report by its ID",
+                "operationId": "cc555432bca0f70f0386ed909581e4e5",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the weekly report",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "include",
+                        "in": "query",
+                        "description": "Include related models (comma-separated). Options: plan",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/WeeklyReport"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Report not found"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "WeeklyReports"
+                ],
+                "summary": "Update a weekly report",
+                "description": "Updates an existing weekly report",
+                "operationId": "427be47be5ecc1d4386e82f29c462d17",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the weekly report",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "plan_id",
+                                    "week_start",
+                                    "week_end",
+                                    "value"
+                                ],
+                                "properties": {
+                                    "plan_id": {
+                                        "type": "integer"
+                                    },
+                                    "week_start": {
+                                        "type": "string",
+                                        "format": "date"
+                                    },
+                                    "week_end": {
+                                        "type": "string",
+                                        "format": "date"
+                                    },
+                                    "value": {
+                                        "type": "integer"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Weekly report updated successfully"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/WeeklyReport"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Report not found"
+                    },
+                    "422": {
+                        "description": "Validation error"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "WeeklyReports"
+                ],
+                "summary": "Delete a weekly report",
+                "description": "Deletes an existing weekly report",
+                "operationId": "136e7a8c87ca553c39e8b79d7d6f45a7",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the weekly report",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Weekly report deleted successfully"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Report not found"
+                    }
+                }
+            },
+            "patch": {
+                "tags": [
+                    "WeeklyReports"
+                ],
+                "summary": "Partially update a weekly report",
+                "description": "Updates specific fields of an existing weekly report",
+                "operationId": "e52dadb3c1eed59e4da2c4d4a5bc2bad",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the weekly report",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "plan_id": {
+                                        "type": "integer"
+                                    },
+                                    "week_start": {
+                                        "type": "string",
+                                        "format": "date"
+                                    },
+                                    "week_end": {
+                                        "type": "string",
+                                        "format": "date"
+                                    },
+                                    "value": {
+                                        "type": "integer"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Weekly report updated successfully"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/WeeklyReport"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Report not found"
+                    },
+                    "422": {
+                        "description": "Validation error"
+                    }
+                }
+            }
+        },
         "/api/v2/claims": {
             "get": {
                 "tags": [
@@ -7291,6 +7976,61 @@
                 },
                 "type": "object"
             },
+            "PaginatedWeeklyReportResponse": {
+                "properties": {
+                    "current_page": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/WeeklyReport"
+                        }
+                    },
+                    "first_page_url": {
+                        "type": "string",
+                        "example": "http://example.com/api/v2/weekly-reports?page=1"
+                    },
+                    "from": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "last_page": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "last_page_url": {
+                        "type": "string",
+                        "example": "http://example.com/api/v2/weekly-reports?page=1"
+                    },
+                    "next_page_url": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "path": {
+                        "type": "string",
+                        "example": "http://example.com/api/v2/weekly-reports"
+                    },
+                    "per_page": {
+                        "type": "integer",
+                        "example": 15
+                    },
+                    "prev_page_url": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "to": {
+                        "type": "integer",
+                        "example": 15
+                    },
+                    "total": {
+                        "type": "integer",
+                        "example": 100
+                    }
+                },
+                "type": "object"
+            },
             "PaginatedClaimResponse": {
                 "properties": {
                     "current_page": {
@@ -8144,6 +8884,10 @@
                         "nullable": true
                     },
                     "patient_id": {
+                        "type": "integer",
+                        "nullable": true
+                    },
+                    "patient_identifier": {
                         "type": "string",
                         "nullable": true
                     },
@@ -8155,7 +8899,16 @@
                         "type": "integer",
                         "nullable": true
                     },
-                    "participants": {
+                    "diagnosis_code": {
+                        "type": "string",
+                        "maxLength": 50,
+                        "nullable": true
+                    },
+                    "cpt_code": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "meet_with_client_at": {
                         "type": "string",
                         "nullable": true
                     },
@@ -8163,45 +8916,50 @@
                         "type": "string",
                         "nullable": true
                     },
-                    "insurance_identifier": {
+                    "participants": {
                         "type": "string",
                         "nullable": true
                     },
-                    "diagnosis_code": {
-                        "type": "string",
-                        "maxLength": 50,
-                        "nullable": true
-                    },
-                    "meet_with_client_at": {
+                    "environmental_changes": {
                         "type": "string",
                         "nullable": true
                     },
                     "session_date": {
                         "type": "string",
-                        "format": "date-time",
+                        "format": "Y-m-d",
+                        "nullable": true
+                    },
+                    "next_session_is_scheduled_for": {
+                        "type": "string",
+                        "format": "Y-m-d",
                         "nullable": true
                     },
                     "time_in": {
                         "type": "string",
-                        "format": "H:i:s",
+                        "format": "H:i",
                         "nullable": true
                     },
                     "time_out": {
                         "type": "string",
-                        "format": "H:i:s",
+                        "format": "H:i",
                         "nullable": true
                     },
                     "time_in2": {
                         "type": "string",
-                        "format": "H:i:s",
+                        "format": "H:i",
                         "nullable": true
                     },
                     "time_out2": {
                         "type": "string",
-                        "format": "H:i:s",
+                        "format": "H:i",
                         "nullable": true
                     },
                     "session_length_total": {
+                        "type": "number",
+                        "format": "double",
+                        "nullable": true
+                    },
+                    "session_length_total2": {
                         "type": "number",
                         "format": "double",
                         "nullable": true
@@ -8218,20 +8976,12 @@
                         "type": "integer",
                         "nullable": true
                     },
-                    "caregiver_goals": {
-                        "type": "object",
-                        "nullable": true
-                    },
-                    "rbt_training_goals": {
-                        "type": "object",
+                    "provider_id": {
+                        "type": "integer",
                         "nullable": true
                     },
                     "provider_signature": {
                         "type": "string",
-                        "nullable": true
-                    },
-                    "provider_id": {
-                        "type": "integer",
                         "nullable": true
                     },
                     "supervisor_signature": {
@@ -8260,16 +9010,118 @@
                         "type": "boolean",
                         "default": false
                     },
-                    "cpt_code": {
-                        "type": "string",
-                        "nullable": true
-                    },
                     "location_id": {
                         "type": "integer",
                         "nullable": true
                     },
                     "pa_service_id": {
                         "type": "integer",
+                        "nullable": true
+                    },
+                    "insuranceId": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "insurance_identifier": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "md": {
+                        "type": "string",
+                        "maxLength": 20,
+                        "nullable": true
+                    },
+                    "md2": {
+                        "type": "string",
+                        "maxLength": 20,
+                        "nullable": true
+                    },
+                    "md3": {
+                        "type": "string",
+                        "maxLength": 20,
+                        "nullable": true
+                    },
+                    "subtype": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "BCBA_conducted_client_observations": {
+                        "type": "boolean",
+                        "nullable": true
+                    },
+                    "BCBA_conducted_assessments": {
+                        "type": "boolean",
+                        "nullable": true
+                    },
+                    "assessment_tools": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "nullable": true
+                    },
+                    "intake_outcome": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "nullable": true
+                    },
+                    "intervention_protocols": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "nullable": true
+                    },
+                    "replacement_protocols": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "nullable": true
+                    },
+                    "modifications_needed_at_this_time": {
+                        "type": "boolean",
+                        "nullable": true
+                    },
+                    "additional_goals_or_interventions": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "demonstrated_intervention_protocols": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "nullable": true
+                    },
+                    "demonstrated_replacement_protocols": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "nullable": true
+                    },
+                    "behavior_protocols": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "nullable": true
+                    },
+                    "caregiver_goals": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "nullable": true
+                    },
+                    "rbt_training_goals": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
                         "nullable": true
                     },
                     "created_at": {
@@ -8995,6 +9847,68 @@
                 },
                 "type": "object"
             },
+            "WeeklyReport": {
+                "required": [
+                    "plan_id",
+                    "week_start",
+                    "week_end",
+                    "value"
+                ],
+                "properties": {
+                    "id": {
+                        "description": "Weekly report unique identifier",
+                        "type": "integer",
+                        "format": "int64",
+                        "example": 1
+                    },
+                    "plan_id": {
+                        "description": "ID of the associated plan",
+                        "type": "integer",
+                        "format": "int64",
+                        "example": 1
+                    },
+                    "week_start": {
+                        "description": "Start date of the week",
+                        "type": "string",
+                        "format": "date",
+                        "example": "2024-01-01"
+                    },
+                    "week_end": {
+                        "description": "End date of the week",
+                        "type": "string",
+                        "format": "date",
+                        "example": "2024-01-07"
+                    },
+                    "value": {
+                        "description": "Value for the weekly report",
+                        "type": "integer",
+                        "example": 75
+                    },
+                    "created_at": {
+                        "description": "Timestamp of when the record was created",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2024-01-30T19:49:04.000000Z"
+                    },
+                    "updated_at": {
+                        "description": "Timestamp of when the record was last updated",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2024-01-30T19:49:04.000000Z"
+                    },
+                    "deleted_at": {
+                        "description": "Soft delete timestamp",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": null,
+                        "nullable": true
+                    },
+                    "plan": {
+                        "$ref": "#/components/schemas/Plan"
+                    }
+                },
+                "type": "object"
+            },
             "ConsentToTreatment": {
                 "title": "ConsentToTreatment",
                 "description": "Model for documenting consent to treatment agreements",
@@ -9301,6 +10215,10 @@
         {
             "name": "Admin/Roles",
             "description": "Admin/Roles"
+        },
+        {
+            "name": "WeeklyReports",
+            "description": "WeeklyReports"
         },
         {
             "name": "Claims",
