@@ -13,23 +13,30 @@ use Illuminate\Support\Facades\DB;
  *     @OA\Property(property="session_date", type="string", format="date", example="2024-11-05"),
  *     @OA\Property(property="next_session_is_scheduled_for", type="string", format="date-time", example="2024-11-12 14:43:31"),
  *     @OA\Property(
- *         property="interventions",
- *         type="object",
- *         @OA\Property(property="positive_reinforcement", type="boolean", example=true),
- *         @OA\Property(property="prompting", type="boolean", example=true),
- *         @OA\Property(property="redirection", type="boolean", example=true)
+ *       property="interventions",
+ *       type="array",
+ *       @OA\Items(type="string", example="positive_reinforcement")
  *     ),
  *     @OA\Property(
- *         property="replacements",
- *         type="object",
- *         @OA\Property(property="verbal_requests", type="integer", example=5),
- *         @OA\Property(property="waiting_quietly", type="integer", example=4)
+ *       property="replacements",
+ *       type="array",
+ *       @OA\Items(
+ *           type="object",
+ *           @OA\Property(property="id", type="integer", example=1),
+ *           @OA\Property(property="name", type="string", example="verbal_requests"),
+ *           @OA\Property(property="total_trials", type="integer", example=5),
+ *           @OA\Property(property="correct_responses", type="integer", example=4)
+ *       )
  *     ),
  *     @OA\Property(
  *         property="maladaptives",
- *         type="object",
- *         @OA\Property(property="tantrums", type="integer", example=3),
- *         @OA\Property(property="aggression", type="integer", example=1)
+ *         type="array",
+ *         @OA\Items(
+ *             type="object",
+ *             @OA\Property(property="id", type="integer", example=1),
+ *             @OA\Property(property="name", type="string", example="tantrums"),
+ *             @OA\Property(property="ocurrences", type="integer", example=3)
+ *         )
  *     ),
  *     @OA\Property(property="bip_id", type="integer", example=1),
  *     @OA\Property(property="insurance_identifier", type="string", example="123456789"),

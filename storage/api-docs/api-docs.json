@@ -9157,47 +9157,55 @@
                         "example": "2024-11-12 14:43:31"
                     },
                     "interventions": {
-                        "properties": {
-                            "positive_reinforcement": {
-                                "type": "boolean",
-                                "example": true
-                            },
-                            "prompting": {
-                                "type": "boolean",
-                                "example": true
-                            },
-                            "redirection": {
-                                "type": "boolean",
-                                "example": true
-                            }
-                        },
-                        "type": "object"
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "example": "positive_reinforcement"
+                        }
                     },
                     "replacements": {
-                        "properties": {
-                            "verbal_requests": {
-                                "type": "integer",
-                                "example": 5
+                        "type": "array",
+                        "items": {
+                            "properties": {
+                                "id": {
+                                    "type": "integer",
+                                    "example": 1
+                                },
+                                "name": {
+                                    "type": "string",
+                                    "example": "verbal_requests"
+                                },
+                                "total_trials": {
+                                    "type": "integer",
+                                    "example": 5
+                                },
+                                "correct_responses": {
+                                    "type": "integer",
+                                    "example": 4
+                                }
                             },
-                            "waiting_quietly": {
-                                "type": "integer",
-                                "example": 4
-                            }
-                        },
-                        "type": "object"
+                            "type": "object"
+                        }
                     },
                     "maladaptives": {
-                        "properties": {
-                            "tantrums": {
-                                "type": "integer",
-                                "example": 3
+                        "type": "array",
+                        "items": {
+                            "properties": {
+                                "id": {
+                                    "type": "integer",
+                                    "example": 1
+                                },
+                                "name": {
+                                    "type": "string",
+                                    "example": "tantrums"
+                                },
+                                "ocurrences": {
+                                    "type": "integer",
+                                    "example": 3
+                                }
                             },
-                            "aggression": {
-                                "type": "integer",
-                                "example": 1
-                            }
-                        },
-                        "type": "object"
+                            "type": "object"
+                        }
                     },
                     "bip_id": {
                         "type": "integer",

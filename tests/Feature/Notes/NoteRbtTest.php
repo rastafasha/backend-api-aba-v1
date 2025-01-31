@@ -12,6 +12,7 @@ use App\Models\PaService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Spatie\Permission\Models\Permission;
+use App\Models\Bip\Plan;
 
 class NoteRbtTest extends TestCase
 {
@@ -51,6 +52,7 @@ class NoteRbtTest extends TestCase
     {
         $sessionDate = now()->subDay();
         $nextSessionDate = $sessionDate->copy()->addDays(7);
+        $plans = Plan::factory()->count(2)->create();
 
         $noteData = [
             'patient_id' => $this->patient->id,
@@ -67,9 +69,27 @@ class NoteRbtTest extends TestCase
             'time_out2' => '15:00',
             'session_length_total' => 120,
             'environmental_changes' => $this->faker->sentence,
-            'maladaptives' => ['tantrums' => 3, 'aggression' => 1],
-            'replacements' => ['verbal_requests' => 5, 'waiting_quietly' => 4],
-            'interventions' => ['positive_reinforcement' => true, 'prompting' => true],
+            'maladaptives' => [
+                [
+                    'id' => $plans->first()->id,
+                    'name' => 'tantrums',
+                    'ocurrences' => 3,
+                ],
+                [
+                    'id' => $plans->last()->id,
+                    'name' => 'aggression',
+                    'ocurrences' => 1,
+                ],
+            ],
+            'replacements' => [
+                [
+                    'id' => $plans->first()->id,
+                    'name' => 'verbal_requests',
+                    'total_trials' => 5,
+                    'correct_responses' => 4,
+                ],
+            ],
+            'interventions' => ['positive_reinforcement', 'prompting'],
             'meet_with_client_at' => 'Home',
             'client_appeared' => $this->faker->sentence,
             'as_evidenced_by' => $this->faker->sentence,
