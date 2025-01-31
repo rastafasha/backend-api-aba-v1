@@ -89,13 +89,13 @@ class NotesSeeder extends Seeder
                 ],
                 'replacements' => [
                     [
-                        'id' => 1,
+                        'id' => 4,
                         'name' => 'Using appropriate words',
                         'total_trials' => 6,
                         'correct_responses' => 5
                     ],
                     [
-                        'id' => 2,
+                        'id' => 5,
                         'name' => 'Drawing on paper',
                         'total_trials' => 8,
                         'correct_responses' => 6
@@ -153,13 +153,13 @@ class NotesSeeder extends Seeder
                 ],
                 'replacements' => [
                     [
-                        'id' => 1,
+                        'id' => 4,
                         'name' => 'Using appropriate words',
                         'total_trials' => 6,
                         'correct_responses' => 5
                     ],
                     [
-                        'id' => 2,
+                        'id' => 5,
                         'name' => 'Drawing on paper',
                         'total_trials' => 8,
                         'correct_responses' => 6
@@ -207,25 +207,25 @@ class NotesSeeder extends Seeder
                 'participants' => 'The patient, the mother and the RBT',
                 'maladaptives' => [
                     [
-                        'id' => 1,
+                        'id' => 11,
                         'name' => 'Bad Words',
                         'ocurrences' => 12
                     ],
                     [
-                        'id' => 2,
+                        'id' => 12,
                         'name' => 'Drawing on walls',
                         'ocurrences' => 15
                     ],
                 ],
                 'replacements' => [
                     [
-                        'id' => 1,
+                        'id' => 14,
                         'name' => 'Using appropriate words',
                         'total_trials' => 6,
                         'correct_responses' => 5
                     ],
                     [
-                        'id' => 2,
+                        'id' => 15,
                         'name' => 'Drawing on paper',
                         'total_trials' => 8,
                         'correct_responses' => 6
@@ -271,20 +271,20 @@ class NotesSeeder extends Seeder
                 'participants' => 'The patient, the mother and the RBT',
                 'maladaptives' => [
                     [
-                        'id' => 2,
+                        'id' => 12,
                         'name' => 'Drawing on walls',
                         'ocurrences' => 15
                     ],
                 ],
                 'replacements' => [
                     [
-                        'id' => 1,
+                        'id' => 14,
                         'name' => 'Using appropriate words',
                         'total_trials' => 6,
                         'correct_responses' => 5
                     ],
                     [
-                        'id' => 2,
+                        'id' => 15,
                         'name' => 'Drawing on paper',
                         'total_trials' => 8,
                         'correct_responses' => 6

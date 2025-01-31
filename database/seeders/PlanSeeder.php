@@ -126,7 +126,7 @@ class PlanSeeder extends Seeder
     {
         // Get both BIPs created by BipSeeder
         $bips = Bip::take(2)->get();
-        $nextPlanId = 11; // Starting ID to avoid conflicts with BipSeeder
+        $nextPlanId = 1; // Starting ID to avoid conflicts with BipSeeder
 
         foreach ($bips as $bip) {
             // Maladaptive behaviors with realistic baselines

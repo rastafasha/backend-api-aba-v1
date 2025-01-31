@@ -21,6 +21,9 @@ class CreateWeeklyReportsTable extends Migration
             $table->integer('value');
             $table->timestamps();
             $table->softDeletes();
+
+            // only one row per combination of plan_id and week_start
+            $table->unique(['plan_id', 'week_start']);
         });
     }
 
