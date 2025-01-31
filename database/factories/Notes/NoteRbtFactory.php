@@ -35,18 +35,41 @@ class NoteRbtFactory extends Factory
             'session_length_total' => $this->faker->randomFloat(2, 0.5, 4),
             'environmental_changes' => $this->faker->sentence,
             'maladaptives' => [
-                'tantrums' => $this->faker->randomDigit(),
-                'aggression' => $this->faker->randomDigit(),
+                [
+                    'id' => $this->faker->numberBetween(1, 10),
+                    'name' => $this->faker->randomElement(['Tantrums', 'Aggression', 'Self-injury', 'Property destruction']),
+                    'ocurrences' => $this->faker->numberBetween(0, 20)
+                ],
+                [
+                    'id' => $this->faker->numberBetween(11, 20),
+                    'name' => $this->faker->randomElement(['Elopement', 'Non-compliance', 'Verbal aggression']),
+                    'ocurrences' => $this->faker->numberBetween(0, 15)
+                ]
             ],
             'replacements' => [
-                'verbal_requests' => $this->faker->randomDigit(),
-                'waiting_quietly' => $this->faker->randomDigit(),
+                [
+                    'id' => $this->faker->numberBetween(1, 10),
+                    'name' => $this->faker->randomElement(['Verbal requests', 'Waiting quietly', 'Using calming strategies']),
+                    'total_trials' => $trials = $this->faker->numberBetween(5, 20),
+                    'correct_responses' => $this->faker->numberBetween(0, $trials)
+                ],
+                [
+                    'id' => $this->faker->numberBetween(11, 20),
+                    'name' => $this->faker->randomElement(['Following directions', 'Using communication device', 'Taking turns']),
+                    'total_trials' => $trials2 = $this->faker->numberBetween(5, 15),
+                    'correct_responses' => $this->faker->numberBetween(0, $trials2)
+                ]
             ],
-            'interventions' => [
-                'positive_reinforcement' => $this->faker->boolean,
-                'prompting' => $this->faker->boolean,
-                'redirection' => $this->faker->boolean,
-            ],
+            'interventions' => $this->faker->randomElements([
+                'positive_reinforcement',
+                'prompting',
+                'redirection',
+                'token_economy',
+                'visual_schedule',
+                'social_stories',
+                'behavioral_momentum',
+                'errorless_teaching'
+            ], $this->faker->numberBetween(2, 5)),
             'meet_with_client_at' => $this->faker->randomElement(['Home', 'Office', 'School']),
             'client_appeared' => $this->faker->sentence,
             'as_evidenced_by' => $this->faker->sentence,

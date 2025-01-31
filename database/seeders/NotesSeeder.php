@@ -77,40 +77,34 @@ class NotesSeeder extends Seeder
                 'participants' => 'The patient, the mother and the RBT',
                 'maladaptives' => [
                     [
-                        'index' => 1,
+                        'id' => 1,
                         'name' => 'Bad Words',
-                        'topografical_definition' => 'Said bad word every day',
-                        'baseline_level' => 43,
-                        'baseline_date' => '2024-11-23T04:00:00.000Z',
-                        'initial_interesting' => 30,
-                        'current_intensity' => 58,
-                        'number_of_occurrences' => 12,
+                        'ocurrences' => 12
                     ],
                     [
-                        'index' => 2,
-                        'name' => 'Drawin walls',
-                        'topografical_definition' => 'draw wall til sleep',
-                        'baseline_level' => 30,
-                        'baseline_date' => '2024-11-24T04:00:00.000Z',
-                        'initial_interesting' => 30,
-                        'current_intensity' => 70,
-                        'number_of_occurrences' => 15,
+                        'id' => 2,
+                        'name' => 'Drawing on walls',
+                        'ocurrences' => 15
                     ],
                 ],
-
                 'replacements' => [
                     [
                         'id' => 1,
-                        'name' => 'test goal',
+                        'name' => 'Using appropriate words',
                         'total_trials' => 6,
-                        'number_of_correct_response' => 5
+                        'correct_responses' => 5
+                    ],
+                    [
+                        'id' => 2,
+                        'name' => 'Drawing on paper',
+                        'total_trials' => 8,
+                        'correct_responses' => 6
                     ]
                 ],
-
-
                 'interventions' => [
-                    'pairing' => true,
-                    'errorless_teaching' => true,
+                    'pairing',
+                    'errorless_teaching',
+                    'positive_reinforcement'
                 ],
                 'meet_with_client_at' => '03',
                 'client_appeared' => 'Alert and engaged',
@@ -147,42 +141,35 @@ class NotesSeeder extends Seeder
                 'participants' => 'The patient, the mother and the RBT',
                 'maladaptives' => [
                     [
-                        'index' => 1,
+                        'id' => 1,
                         'name' => 'Bad Words',
-                        'topografical_definition' => 'Said bad word every day',
-                        'baseline_level' => 43,
-                        'baseline_date' => '2024-11-23T04:00:00.000Z',
-                        'initial_interesting' => 30,
-                        'current_intensity' => 58,
-                        'number_of_occurrences' => 12,
+                        'ocurrences' => 12
                     ],
                     [
-                        'index' => 2,
-                        'name' => 'Drawin walls',
-                        'topografical_definition' => 'draw wall til sleep',
-                        'baseline_level' => 30,
-                        'baseline_date' => '2024-11-24T04:00:00.000Z',
-                        'initial_interesting' => 30,
-                        'current_intensity' => 70,
-                        'number_of_occurrences' => 15,
+                        'id' => 2,
+                        'name' => 'Drawing on walls',
+                        'ocurrences' => 15
                     ],
                 ],
-
                 'replacements' => [
                     [
                         'id' => 1,
-                        'name' => 'test goal',
+                        'name' => 'Using appropriate words',
                         'total_trials' => 6,
-                        'number_of_correct_response' => 5
+                        'correct_responses' => 5
+                    ],
+                    [
+                        'id' => 2,
+                        'name' => 'Drawing on paper',
+                        'total_trials' => 8,
+                        'correct_responses' => 6
                     ]
                 ],
-
-
                 'interventions' => [
-                    'pairing' => true,
-                    'errorless_teaching' => true,
+                    'pairing',
+                    'errorless_teaching',
+                    'positive_reinforcement'
                 ],
-
                 'meet_with_client_at' => '03',
                 'client_appeared' => 'Calm and cooperative',
                 'as_evidenced_by' => 'Following instructions consistently',
@@ -220,39 +207,34 @@ class NotesSeeder extends Seeder
                 'participants' => 'The patient, the mother and the RBT',
                 'maladaptives' => [
                     [
-                        'index' => 1,
-                        'maladaptive_behavior' => 'Bad Words',
-                        'topografical_definition' => 'Said bad word every day',
-                        'baseline_level' => 43,
-                        'baseline_date' => '2024-11-23T04:00:00.000Z',
-                        'initial_interesting' => 30,
-                        'current_intensity' => 58,
-                        'number_of_occurrences' => 12,
+                        'id' => 1,
+                        'name' => 'Bad Words',
+                        'ocurrences' => 12
                     ],
                     [
-                        'index' => 2,
-                        'maladaptive_behavior' => 'Drawin walls',
-                        'topografical_definition' => 'draw wall til sleep',
-                        'baseline_level' => 30,
-                        'baseline_date' => '2024-11-24T04:00:00.000Z',
-                        'initial_interesting' => 30,
-                        'current_intensity' => 70,
-                        'number_of_occurrences' => 15,
+                        'id' => 2,
+                        'name' => 'Drawing on walls',
+                        'ocurrences' => 15
                     ],
                 ],
-
                 'replacements' => [
                     [
                         'id' => 1,
-                        'name' => 'test goal',
+                        'name' => 'Using appropriate words',
                         'total_trials' => 6,
-                        'number_of_correct_response' => 5
+                        'correct_responses' => 5
+                    ],
+                    [
+                        'id' => 2,
+                        'name' => 'Drawing on paper',
+                        'total_trials' => 8,
+                        'correct_responses' => 6
                     ]
                 ],
-
                 'interventions' => [
-                    'pairing' => true,
-                    'errorless_teaching' => true,
+                    'pairing',
+                    'errorless_teaching',
+                    'positive_reinforcement'
                 ],
                 'meet_with_client_at' => '12',
                 'client_appeared' => 'Energetic but focused',
@@ -289,30 +271,29 @@ class NotesSeeder extends Seeder
                 'participants' => 'The patient, the mother and the RBT',
                 'maladaptives' => [
                     [
-                        'index' => 2,
-                        'maladaptive_behavior' => 'Drawin walls',
-                        'topografical_definition' => 'draw wall til sleep',
-                        'baseline_level' => 30,
-                        'baseline_date' => '2024-11-24T04:00:00.000Z',
-                        'initial_interesting' => 30,
-                        'current_intensity' => 70,
-                        'number_of_occurrences' => 15,
+                        'id' => 2,
+                        'name' => 'Drawing on walls',
+                        'ocurrences' => 15
                     ],
                 ],
-
                 'replacements' => [
                     [
                         'id' => 1,
-                        'name' => 'test goal',
+                        'name' => 'Using appropriate words',
                         'total_trials' => 6,
-                        'number_of_correct_response' => 5
+                        'correct_responses' => 5
+                    ],
+                    [
+                        'id' => 2,
+                        'name' => 'Drawing on paper',
+                        'total_trials' => 8,
+                        'correct_responses' => 6
                     ]
                 ],
-
-
                 'interventions' => [
-                    'pairing' => true,
-                    'errorless_teaching' => true,
+                    'pairing',
+                    'errorless_teaching',
+                    'positive_reinforcement'
                 ],
                 'meet_with_client_at' => '03',
                 'client_appeared' => 'Well-regulated',
