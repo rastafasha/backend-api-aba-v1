@@ -68,8 +68,8 @@ class BipRequest extends FormRequest
             'crisis_plan' => 'nullable|array',
             'crisis_plan.description' => 'nullable|string',
             'crisis_plan.prevention' => 'nullable|string',
-            'de_escalation_techniques' => 'nullable|json',
-            'de_escalation_techniques.*.description' => 'required|string',
+            'de_escalation_techniques' => 'nullable|array',
+            'de_escalation_techniques.*.description' => 'nullable|string',
         ];
     }
 

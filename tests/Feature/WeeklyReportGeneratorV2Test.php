@@ -66,18 +66,6 @@ class WeeklyReportGeneratorV2Test extends TestCase
             'current_intensity' => 4,
             'status' => 'active'
         ]);
-
-        // Debug info for plan creation
-        dump([
-            'maladaptive_plan' => [
-                'id' => $this->maladaptivePlan->id,
-                'exists' => Plan::find($this->maladaptivePlan->id) !== null
-            ],
-            'replacement_plan' => [
-                'id' => $this->replacementPlan->id,
-                'exists' => Plan::find($this->replacementPlan->id) !== null
-            ]
-        ]);
     }
 
     /** @test */
@@ -182,29 +170,6 @@ class WeeklyReportGeneratorV2Test extends TestCase
                 'end_date' => $weekTwoStart->format('Y-m-d')
             ]);
 
-        // Log the error response for debugging
-        if ($response->status() === 500) {
-            dump([
-                'error_response' => $response->json(),
-                'maladaptive_plan_id' => $this->maladaptivePlan->id,
-                'plan_exists' => Plan::find($this->maladaptivePlan->id) !== null,
-                'notes' => [
-                    'note1' => [
-                        'maladaptives' => $note1->maladaptives,
-                        'decoded' => json_decode($note1->maladaptives, true)
-                    ],
-                    'note2' => [
-                        'maladaptives' => $note2->maladaptives,
-                        'decoded' => json_decode($note2->maladaptives, true)
-                    ],
-                    'note3' => [
-                        'maladaptives' => $note3->maladaptives,
-                        'decoded' => json_decode($note3->maladaptives, true)
-                    ]
-                ]
-            ]);
-        }
-
         $response->assertStatus(200);
 
         // Check that only one report was created for week 1
@@ -246,22 +211,6 @@ class WeeklyReportGeneratorV2Test extends TestCase
                 'start_date' => $weekStart->format('Y-m-d'),
                 'end_date' => $weekStart->copy()->addDays(6)->format('Y-m-d')
             ]);
-
-        // Log the error response and debug info for debugging
-        if ($response->status() === 500) {
-            dump([
-                'error_response' => $response->json(),
-                'replacement_plan_id' => $this->replacementPlan->id,
-                'plan_exists' => Plan::find($this->replacementPlan->id) !== null,
-                'note_data' => [
-                    'raw_replacements' => $note->replacements,
-                    'decoded_replacements' => json_decode($note->replacements, true),
-                    'patient_id' => $note->patient_id,
-                    'bip_id' => $note->bip_id
-                ],
-                'all_plans' => Plan::all()->pluck('id')->toArray()
-            ]);
-        }
 
         $response->assertStatus(200);
 
@@ -314,28 +263,6 @@ class WeeklyReportGeneratorV2Test extends TestCase
                 'start_date' => $weekStart->format('Y-m-d'),
                 'end_date' => $weekStart->copy()->addDays(6)->format('Y-m-d')
             ]);
-
-        // Log the error response for debugging
-        if ($response->status() === 500) {
-            dump([
-                'error_response' => $response->json(),
-                'existing_report' => [
-                    'id' => $existingReport->id,
-                    'plan_id' => $existingReport->plan_id,
-                    'exists' => WeeklyReport::find($existingReport->id) !== null
-                ],
-                'note_data' => [
-                    'maladaptives' => $note->maladaptives,
-                    'decoded' => json_decode($note->maladaptives, true),
-                    'patient_id' => $note->patient_id,
-                    'bip_id' => $note->bip_id
-                ],
-                'plan_data' => [
-                    'id' => $this->maladaptivePlan->id,
-                    'exists' => Plan::find($this->maladaptivePlan->id) !== null
-                ]
-            ]);
-        }
 
         $response->assertStatus(200);
 

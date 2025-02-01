@@ -46,6 +46,7 @@ class BipTest extends TestCase
                 'description' => 'Crisis plan description',
                 'prevention' => 'Crisis plan prevention'
             ],
+            'de_escalation_techniques' => [],
             'documents_reviewed' => ['doc1', 'doc2', 'doc3']
         ];
 
