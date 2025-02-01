@@ -79,10 +79,6 @@ class BipTest extends TestCase
             'client_id' => $this->client->id,
             'type_of_assessment' => 4,
             'background_information' => 'Updated background information',
-            'maladaptives' => [
-                'tantrums' => false,
-                'aggression' => true
-            ]
         ];
 
         $response = $this->putJson("/api/v2/bips/{$bip->id}", $updatedData);

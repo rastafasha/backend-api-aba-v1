@@ -14,7 +14,6 @@ class CreateBipsTable extends Migration
             $table->string('patient_identifier', 50)->nullable();
             $table->foreignId('doctor_id')->nullable()->constrained('users')->nullOnDelete();
             $table->tinyInteger('type_of_assessment')->default(3);
-            $table->json('documents_reviewed')->nullable();
             $table->text('background_information')->nullable();
             $table->text('previus_treatment_and_result')->nullable();
             $table->text('current_treatment_and_progress')->nullable();
@@ -27,13 +26,24 @@ class CreateBipsTable extends Migration
             $table->text('assestment_conducted')->nullable();
             $table->json('assestment_conducted_options')->nullable();
             $table->json('assestment_evaluation_settings')->nullable();
-            $table->json('prevalent_setting_event_and_atecedents')->nullable();
+            $table->json('prevalent_setting_event_and_antecedents')->nullable();
             $table->text('hypothesis_based_intervention')->nullable();
             $table->json('interventions')->nullable();
             $table->json('tangibles')->nullable();
             $table->json('attention')->nullable();
             $table->json('escape')->nullable();
             $table->json('sensory')->nullable();
+
+            // new fields
+            $table->text('discharge_plan')->nullable();
+            $table->text('fading_plan')->nullable();
+            $table->text('risk_assessment')->nullable();
+            $table->text('generalization_training')->nullable();
+
+            $table->json('recommendations')->nullable();
+            $table->json('crisis_plan')->nullable();
+            $table->json('de_escalation_techniques')->nullable();
+            $table->json('documents_reviewed')->nullable();
 
             $table->timestamps();
             $table->softDeletes();

@@ -57,6 +57,19 @@ class BipRequest extends FormRequest
             'weakneses' => 'nullable|string',
             'assestment_conducted' => 'nullable|string',
             'hypothesis_based_intervention' => 'nullable|string',
+
+            // new fields
+            'discharge_plan' => 'nullable|string',
+            'fading_plan' => 'nullable|string',
+            'risk_assessment' => 'nullable|string',
+            'generalization_training' => 'nullable|string',
+
+            // Json fields
+            'crisis_plan' => 'nullable|json',
+            'crisis_plan.*.description' => 'required|string',
+            'crisis_plan.*.prevention' => 'required|string',
+            'de_escalation_techniques' => 'nullable|json',
+            'de_escalation_techniques.*.description' => 'required|string',
         ];
     }
 

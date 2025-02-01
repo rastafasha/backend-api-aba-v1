@@ -23,11 +23,6 @@ class GeneralizationTraining extends Model
         'transition_fading_plans' => 'array',
     ];
 
-    public function bip()
-    {
-        return $this->belongsTo(Bip::class, 'bip_id');
-    }
-
     public static function validate($data)
     {
         $rules = [

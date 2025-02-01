@@ -62,9 +62,6 @@ class BipV2Controller extends Controller
                 'replacements.objectives',
                 'caregiver_trainings.objectives',
                 'rbt_trainings.objectives',
-                'generalization_trainings',
-                'crisis_plans',
-                'de_escalation_techniques',
                 'consent_to_treatments'
             ])
             ->orderBy('created_at', 'desc')
@@ -144,9 +141,6 @@ class BipV2Controller extends Controller
             'replacements.objectives',
             'caregiver_trainings.objectives',
             'rbt_trainings.objectives',
-            'generalization_trainings',
-            'crisis_plans',
-            'de_escalation_techniques',
             'consent_to_treatments'
         ];
 
@@ -217,9 +211,6 @@ class BipV2Controller extends Controller
                 'replacements.objectives',
                 'caregiver_trainings.objectives',
                 'rbt_trainings.objectives',
-                'generalization_trainings',
-                'crisis_plans',
-                'de_escalation_techniques',
                 'consent_to_treatments'
             ])
         ]);

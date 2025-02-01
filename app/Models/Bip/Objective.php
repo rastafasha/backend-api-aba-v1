@@ -45,6 +45,13 @@ use Illuminate\Support\Facades\Validator;
  *         description="End date of the objective. Must be after initial_date. Required when status changes from 'not started'."
  *     ),
  *     @OA\Property(
+ *         property="name",
+ *         type="string",
+ *         example="Reduce inappropriate behavior to less than 5 instances per day",
+ *         nullable=true,
+ *         description="Name of the objective. Can be used to identify the objective in the UI."
+ *     ),
+ *     @OA\Property(
  *         property="description",
  *         type="string",
  *         example="Reduce inappropriate behavior to less than 5 instances per day",
@@ -115,6 +122,7 @@ class Objective extends Model
             'status' => 'required|in:in progress,mastered,not started,discontinued,maintenance',
             'initial_date' => 'nullable|date:Y-m-d',
             'end_date' => 'nullable|date:Y-m-d|after:initial_date',
+            'name' => 'nullable|string',
             'description' => 'required|string',
             'start_point' => 'nullable|numeric',
             'target' => 'nullable|numeric',
