@@ -110,11 +110,12 @@ class OpenAIController extends Controller
             'startTime2' => ['sometimes', 'nullable', new TimeFormat()],
             'endTime2' => ['sometimes', 'nullable', new TimeFormat()],
             'mood' => 'string',
+            'asEvidencedBy' => 'sometimes|nullable|string',
             'pos' => 'string',
             'participants' => 'sometimes|string',
             'cpt' => 'string',
             "progressNotedThisSessionComparedToPreviousSession" => 'string',
-            'clientResponseToTreatmentThisSession' => 'string',
+            'rbtModeledAndDemonstratedToCaregiver' => 'sometimes|nullable|string',
             'maladaptives' => 'required|array',
             'maladaptives.*.behavior' => 'required|string',
             'maladaptives.*.frequency' => 'required|integer',
@@ -196,8 +197,8 @@ class OpenAIController extends Controller
             $prompt .= "Child's mood: {$request->mood}\n";
         }
 
-        if ($request->clientResponseToTreatmentThisSession) {
-            $prompt .= "Child's response to treatment this session: {$request->clientResponseToTreatmentThisSession}\n";
+        if ($request->asEvidencedBy) {
+            $prompt .= "As evidenced by: {$request->asEvidencedBy}\n";
         }
 
         if ($request->progressNotedThisSessionComparedToPreviousSession) {
@@ -207,6 +208,10 @@ class OpenAIController extends Controller
         $prompt .= "\nMaladaptive behaviors: {$maladaptives}\n" .
             "Replacement behaviors: {$replacements}\n" .
             "Interventions used: {$interventions}";
+
+        if ($request->rbtModeledAndDemonstratedToCaregiver) {
+            $prompt .= "\nRBT Modeled and demonstrated to caregiver: {$request->rbtModeledAndDemonstratedToCaregiver}";
+        }
 
         return $prompt;
     }
