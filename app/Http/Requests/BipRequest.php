@@ -65,7 +65,7 @@ class BipRequest extends FormRequest
             'generalization_training' => 'nullable|string',
 
             // Json fields
-            'crisis_plan' => 'nullable|json',
+            'crisis_plan' => 'nullable|array',
             'crisis_plan.description' => 'nullable|string',
             'crisis_plan.prevention' => 'nullable|string',
             'de_escalation_techniques' => 'nullable|json',

@@ -42,6 +42,10 @@ class BipTest extends TestCase
                 'token_economy' => true,
                 'positive_reinforcement' => true
             ],
+            'crisis_plan' => [
+                'description' => 'Crisis plan description',
+                'prevention' => 'Crisis plan prevention'
+            ],
             'documents_reviewed' => ['doc1', 'doc2', 'doc3']
         ];
 

@@ -293,7 +293,7 @@ class Bip extends Model
         'escape' => 'json',
         'sensory' => 'json',
         'physical_and_medical' => 'json', //\App\Casts\PhysicalMedicalCast::class,
-        'crisis_plan' => 'json',
+        'crisis_plan' => 'array',
         'de_escalation_techniques' => 'json',
         'documents_reviewed' => 'json',
         'recommendations' => 'json',
