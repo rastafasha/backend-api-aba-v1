@@ -47,7 +47,6 @@ class NoteRbtFactory extends Factory
             'provider_signature' => $this->faker->name,
             'provider_credential' => 'RBT',
             'supervisor_signature' => $this->faker->name,
-            'supervisor_name' => User::factory(),
             'status' => $this->faker->randomElement(['pending', 'ok', 'no', 'review']),
             'summary_note' => $this->faker->paragraph,
             'cpt_code' => '97153',
