@@ -19,18 +19,18 @@ class BipFactory extends Factory
             'type_of_assessment' => $this->faker->numberBetween(1, 5),
             'documents_reviewed' => json_encode($this->faker->words(3)),
             'background_information' => $this->faker->paragraph(),
-            'previus_treatment_and_result' => $this->faker->paragraph(),
+            'previous_treatment_and_result' => $this->faker->paragraph(),
             'current_treatment_and_progress' => $this->faker->paragraph(),
             'education_status' => $this->faker->paragraph(),
             'physical_and_medical_status' => $this->faker->paragraph(),
             'strengths' => $this->faker->paragraph(),
-            'weakneses' => $this->faker->paragraph(),
+            'weaknesses' => $this->faker->paragraph(),
             'physical_and_medical' => json_encode([
                 [
                     'index' => 1,
                     'medication' => $this->faker->word(),
                     'dose' => $this->faker->numberBetween(5, 100) . 'mg',
-                    'frecuency' => $this->faker->randomElement(['Once daily', 'Twice daily', 'Three times daily']),
+                    'frequency' => $this->faker->randomElement(['Once daily', 'Twice daily', 'Three times daily']),
                     'reason' => $this->faker->sentence(),
                     'preescribing_physician' => 'Dr. ' . $this->faker->lastName()
                 ]
@@ -84,12 +84,12 @@ class BipFactory extends Factory
             'fading_plan' => $this->faker->paragraph(),
             'risk_assessment' => $this->faker->paragraph(),
             'generalization_training' => $this->faker->paragraph(),
-            'crisis_plan' => json_encode([
+            'crisis_plan' => json_encode(
                 [
                     'description' => $this->faker->paragraph(),
                     'prevention' => $this->faker->paragraph()
                 ]
-            ]),
+            ),
             'de_escalation_techniques' => json_encode([
                 [
                     'description' => $this->faker->paragraph()

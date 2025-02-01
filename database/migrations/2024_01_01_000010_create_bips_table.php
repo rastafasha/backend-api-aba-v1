@@ -15,12 +15,12 @@ class CreateBipsTable extends Migration
             $table->foreignId('doctor_id')->nullable()->constrained('users')->nullOnDelete();
             $table->tinyInteger('type_of_assessment')->default(3);
             $table->text('background_information')->nullable();
-            $table->text('previus_treatment_and_result')->nullable();
+            $table->text('previous_treatment_and_result')->nullable();
             $table->text('current_treatment_and_progress')->nullable();
             $table->text('education_status')->nullable();
             $table->text('physical_and_medical_status')->nullable();
             $table->text('strengths')->nullable();
-            $table->text('weakneses')->nullable();
+            $table->text('weaknesses')->nullable();
             $table->json('physical_and_medical')->nullable();
             $table->json('maladaptives')->nullable();
             $table->text('assestment_conducted')->nullable();

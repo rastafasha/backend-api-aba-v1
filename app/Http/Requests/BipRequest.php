@@ -36,7 +36,7 @@ class BipRequest extends FormRequest
             'physical_and_medical.*.index' => 'required|integer',
             'physical_and_medical.*.medication' => 'required|string',
             'physical_and_medical.*.dose' => 'required|string',
-            'physical_and_medical.*.frecuency' => 'required|string',
+            'physical_and_medical.*.frequency' => 'required|string',
             'physical_and_medical.*.reason' => 'required|string',
             'physical_and_medical.*.preescribing_physician' => 'required|string',
 
@@ -49,12 +49,12 @@ class BipRequest extends FormRequest
 
             // Text fields
             'background_information' => 'nullable|string',
-            'previus_treatment_and_result' => 'nullable|string',
+            'previous_treatment_and_result' => 'nullable|string',
             'current_treatment_and_progress' => 'nullable|string',
             'education_status' => 'nullable|string',
             'physical_and_medical_status' => 'nullable|string',
             'strengths' => 'nullable|string',
-            'weakneses' => 'nullable|string',
+            'weaknesses' => 'nullable|string',
             'assestment_conducted' => 'nullable|string',
             'hypothesis_based_intervention' => 'nullable|string',
 
@@ -66,8 +66,8 @@ class BipRequest extends FormRequest
 
             // Json fields
             'crisis_plan' => 'nullable|json',
-            'crisis_plan.description' => 'required|string',
-            'crisis_plan.prevention' => 'required|string',
+            'crisis_plan.description' => 'nullable|string',
+            'crisis_plan.prevention' => 'nullable|string',
             'de_escalation_techniques' => 'nullable|json',
             'de_escalation_techniques.*.description' => 'required|string',
         ];
@@ -86,7 +86,7 @@ class BipRequest extends FormRequest
             'physical_and_medical.*.index.required' => 'The index field is required for each medical record.',
             'physical_and_medical.*.medication.required' => 'The medication field is required for each medical record.',
             'physical_and_medical.*.dose.required' => 'The dose field is required for each medical record.',
-            'physical_and_medical.*.frecuency.required' => 'The frequency field is required for each medical record.',
+            'physical_and_medical.*.frequency.required' => 'The frequency field is required for each medical record.',
             'physical_and_medical.*.reason.required' => 'The reason field is required for each medical record.',
             'physical_and_medical.*.preescribing_physician.required' => 'The prescribing physician field is required for each medical record.',
         ];

@@ -144,19 +144,19 @@ use Illuminate\Support\Carbon;
  *     @OA\Property(property="type_of_assessment", type="integer", format="int32", example=3, description="Type of assessment performed"),
  *     @OA\Property(property="documents_reviewed", type="array", @OA\Items(type="string"), nullable=true, description="List of documents reviewed during assessment"),
  *     @OA\Property(property="background_information", type="string", nullable=true, description="Patient's background information"),
- *     @OA\Property(property="previus_treatment_and_result", type="string", nullable=true, description="History of previous treatments and their outcomes"),
+ *     @OA\Property(property="previous_treatment_and_result", type="string", nullable=true, description="History of previous treatments and their outcomes"),
  *     @OA\Property(property="current_treatment_and_progress", type="string", nullable=true, description="Current treatment details and progress"),
  *     @OA\Property(property="education_status", type="string", nullable=true, description="Patient's educational background and status"),
  *     @OA\Property(property="physical_and_medical_status", type="string", nullable=true, description="Patient's physical and medical conditions"),
  *     @OA\Property(property="strengths", type="string", nullable=true, description="Patient's identified strengths"),
- *     @OA\Property(property="weakneses", type="string", nullable=true, description="Patient's identified weaknesses"),
+ *     @OA\Property(property="weaknesses", type="string", nullable=true, description="Patient's identified weaknesses"),
  *     @OA\Property(property="physical_and_medical", type="array", description="List of patient's physical and medical information",
  *         @OA\Items(
  *             type="object",
  *             @OA\Property(property="index", type="integer", example=1, description="Index of the medical record"),
  *             @OA\Property(property="medication", type="string", example="Methylphenidate", description="Name of medication"),
  *             @OA\Property(property="dose", type="string", example="10mg", description="Medication dosage"),
- *             @OA\Property(property="frecuency", type="string", example="Twice daily", description="Medication frequency"),
+ *             @OA\Property(property="frequency", type="string", example="Twice daily", description="Medication frequency"),
  *             @OA\Property(property="reason", type="string", example="ADHD management", description="Reason for medication"),
  *             @OA\Property(property="preescribing_physician", type="string", example="Dr. Smith", description="Name of prescribing physician")
  *         )
@@ -239,7 +239,7 @@ class Bip extends Model
         'doctor_id',
         'patient_identifier',
         'background_information',
-        'previus_treatment_and_result',
+        'previous_treatment_and_result',
         'current_treatment_and_progress',
         'education_status',
         'assestment_conducted',
@@ -249,7 +249,7 @@ class Bip extends Model
         'interventions', //json
         'reduction_id',
         'strengths',
-        'weakneses',
+        'weaknesses',
         'hypothesis_based_intervention',
 
         'physical_and_medical_status',

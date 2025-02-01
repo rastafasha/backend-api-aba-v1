@@ -8528,7 +8528,7 @@
                         "type": "string",
                         "nullable": true
                     },
-                    "previus_treatment_and_result": {
+                    "previous_treatment_and_result": {
                         "description": "History of previous treatments and their outcomes",
                         "type": "string",
                         "nullable": true
@@ -8553,7 +8553,7 @@
                         "type": "string",
                         "nullable": true
                     },
-                    "weakneses": {
+                    "weaknesses": {
                         "description": "Patient's identified weaknesses",
                         "type": "string",
                         "nullable": true
@@ -8578,7 +8578,7 @@
                                     "type": "string",
                                     "example": "10mg"
                                 },
-                                "frecuency": {
+                                "frequency": {
                                     "description": "Medication frequency",
                                     "type": "string",
                                     "example": "Twice daily"

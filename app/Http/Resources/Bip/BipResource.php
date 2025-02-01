@@ -29,13 +29,13 @@ class BipResource extends JsonResource
                 ] : null,
             "patient_identifier" => $this->resource->patient_identifier,
             "background_information" => $this->resource->background_information,
-            "previus_treatment_and_result" => $this->resource->previus_treatment_and_result,
+            "previous_treatment_and_result" => $this->resource->previous_treatment_and_result,
             "current_treatment_and_progress" => $this->resource->current_treatment_and_progress,
             "education_status" => $this->resource->education_status,
             "phisical_and_medical_status" => $this->resource->phisical_and_medical_status,
             "assestment_conducted" => $this->resource->assestment_conducted,
             "strengths" => $this->resource->strengths,
-            "weakneses" => $this->resource->weakneses,
+            "weaknesses" => $this->resource->weaknesses,
             'documents_reviewed' =>
             is_string($this->resource->documents_reviewed)
                 ? json_decode($this->resource->documents_reviewed) : $this->resource->documents_reviewed,
