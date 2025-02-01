@@ -64,7 +64,6 @@ use Illuminate\Support\Facades\DB;
  *     @OA\Property(property="provider_name", type="string", nullable=true),
  *     @OA\Property(property="pa_service_id", type="integer", nullable=true),
  *     @OA\Property(property="supervisor_signature", type="string", example="Sarah BCBA"),
- *     @OA\Property(property="supervisor_name", type="integer", example=3),
  *     @OA\Property(
  *         property="supervisor",
  *         type="object",
@@ -139,7 +138,7 @@ class NoteRbt extends Note
         'provider_signature',
         'provider_credential',
         'supervisor_signature',
-        'supervisor_name',
+        // 'supervisor_name',
         'supervisor_id',
         'insuranceId',
         'pos',
