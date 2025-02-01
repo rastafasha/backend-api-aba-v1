@@ -42,7 +42,7 @@ class CreateNoteRbtsTable extends Migration
             // $table->foreignId('provider_name')->nullable()->constrained('users')->nullOnDelete();
             $table->string('supervisor_signature')->nullable();
             $table->foreignId('supervisor_id')->nullable()->constrained('users')->nullOnDelete();
-            $table->foreignId('supervisor_name')->nullable()->constrained('users')->nullOnDelete();
+            // $table->foreignId('supervisor_name')->nullable()->constrained('users')->nullOnDelete();
             $table->boolean('billed')->default(false);
             $table->boolean('paid')->default(false);
             $table->string('md', 20)->nullable();

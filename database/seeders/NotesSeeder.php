@@ -66,7 +66,6 @@ class NotesSeeder extends Seeder
                 'bip_id' => 1,
                 'insurance_identifier' => '123456789',
                 'provider_id' => 5,
-                'supervisor_name' => 3,
                 'supervisor_id' => 3,
                 'pos' => '03',
                 'session_date' => Carbon::now()->subDays(5),
@@ -89,13 +88,13 @@ class NotesSeeder extends Seeder
                 ],
                 'replacements' => [
                     [
-                        'id' => 1,
+                        'id' => 4,
                         'name' => 'Using appropriate words',
                         'total_trials' => 6,
                         'correct_responses' => 5
                     ],
                     [
-                        'id' => 2,
+                        'id' => 5,
                         'name' => 'Drawing on paper',
                         'total_trials' => 8,
                         'correct_responses' => 6
@@ -130,7 +129,6 @@ class NotesSeeder extends Seeder
                 'bip_id' => 1,
                 'insurance_identifier' => '123456789',
                 'provider_id' => 5,
-                'supervisor_name' => 3,
                 'supervisor_id' => 3,
                 'pos' => '12',
                 'session_date' => Carbon::now()->subDays(3),
@@ -153,13 +151,13 @@ class NotesSeeder extends Seeder
                 ],
                 'replacements' => [
                     [
-                        'id' => 1,
+                        'id' => 4,
                         'name' => 'Using appropriate words',
                         'total_trials' => 6,
                         'correct_responses' => 5
                     ],
                     [
-                        'id' => 2,
+                        'id' => 5,
                         'name' => 'Drawing on paper',
                         'total_trials' => 8,
                         'correct_responses' => 6
@@ -196,7 +194,6 @@ class NotesSeeder extends Seeder
                 'bip_id' => 2,
                 'insurance_identifier' => '987654321',
                 'provider_id' => 6,
-                'supervisor_name' => 4,
                 'supervisor_id' => 4,
                 'pos' => '12',
                 'session_date' => Carbon::now()->subDays(4),
@@ -207,25 +204,25 @@ class NotesSeeder extends Seeder
                 'participants' => 'The patient, the mother and the RBT',
                 'maladaptives' => [
                     [
-                        'id' => 1,
+                        'id' => 11,
                         'name' => 'Bad Words',
                         'ocurrences' => 12
                     ],
                     [
-                        'id' => 2,
+                        'id' => 12,
                         'name' => 'Drawing on walls',
                         'ocurrences' => 15
                     ],
                 ],
                 'replacements' => [
                     [
-                        'id' => 1,
+                        'id' => 14,
                         'name' => 'Using appropriate words',
                         'total_trials' => 6,
                         'correct_responses' => 5
                     ],
                     [
-                        'id' => 2,
+                        'id' => 15,
                         'name' => 'Drawing on paper',
                         'total_trials' => 8,
                         'correct_responses' => 6
@@ -260,7 +257,6 @@ class NotesSeeder extends Seeder
                 'bip_id' => 2,
                 'insurance_identifier' => '987654321',
                 'provider_id' => 6,
-                'supervisor_name' => 4,
                 'supervisor_id' => 4,
                 'pos' => '03',
                 'session_date' => Carbon::now()->subDays(2),
@@ -271,20 +267,20 @@ class NotesSeeder extends Seeder
                 'participants' => 'The patient, the mother and the RBT',
                 'maladaptives' => [
                     [
-                        'id' => 2,
+                        'id' => 12,
                         'name' => 'Drawing on walls',
                         'ocurrences' => 15
                     ],
                 ],
                 'replacements' => [
                     [
-                        'id' => 1,
+                        'id' => 14,
                         'name' => 'Using appropriate words',
                         'total_trials' => 6,
                         'correct_responses' => 5
                     ],
                     [
-                        'id' => 2,
+                        'id' => 15,
                         'name' => 'Drawing on paper',
                         'total_trials' => 8,
                         'correct_responses' => 6

@@ -107,7 +107,7 @@ class ClientReportController extends Controller
         $patient_identifier = $request->patient_identifier;
         $id = $request->provider_id;
         $provider_id = $request->provider_id;
-        $supervisor_name = $request->supervisor_name;
+        // $supervisor_name = $request->supervisor_name;
 
         $patient = Patient::where("patient_identifier", $patient_identifier)->first();
 
@@ -163,7 +163,7 @@ class ClientReportController extends Controller
 
         $doctor = NoteRbt::where("provider_id", $provider_id)->get();
         $tecnicoRbts = NoteRbt::where("provider_id", $provider_id)->get();
-        $supervisor = NoteRbt::where("supervisor_name", $supervisor_name)->get();
+        // $supervisor = NoteRbt::where("supervisor_name", $supervisor_name)->get();
 
         // if ($request->{'xe'}) {
         //     $request->request->add($xe);

@@ -34,42 +34,9 @@ class NoteRbtFactory extends Factory
             'time_out2' => !$isMorningSession ? $this->faker->dateTimeBetween($afternoonTime, date('H:i:s', strtotime($afternoonTime) + 4 * 3600))->format('H:i:s') : null,
             'session_length_total' => $this->faker->randomFloat(2, 0.5, 4),
             'environmental_changes' => $this->faker->sentence,
-            'maladaptives' => [
-                [
-                    'id' => $this->faker->numberBetween(1, 10),
-                    'name' => $this->faker->randomElement(['Tantrums', 'Aggression', 'Self-injury', 'Property destruction']),
-                    'ocurrences' => $this->faker->numberBetween(0, 20)
-                ],
-                [
-                    'id' => $this->faker->numberBetween(11, 20),
-                    'name' => $this->faker->randomElement(['Elopement', 'Non-compliance', 'Verbal aggression']),
-                    'ocurrences' => $this->faker->numberBetween(0, 15)
-                ]
-            ],
-            'replacements' => [
-                [
-                    'id' => $this->faker->numberBetween(1, 10),
-                    'name' => $this->faker->randomElement(['Verbal requests', 'Waiting quietly', 'Using calming strategies']),
-                    'total_trials' => $trials = $this->faker->numberBetween(5, 20),
-                    'correct_responses' => $this->faker->numberBetween(0, $trials)
-                ],
-                [
-                    'id' => $this->faker->numberBetween(11, 20),
-                    'name' => $this->faker->randomElement(['Following directions', 'Using communication device', 'Taking turns']),
-                    'total_trials' => $trials2 = $this->faker->numberBetween(5, 15),
-                    'correct_responses' => $this->faker->numberBetween(0, $trials2)
-                ]
-            ],
-            'interventions' => $this->faker->randomElements([
-                'positive_reinforcement',
-                'prompting',
-                'redirection',
-                'token_economy',
-                'visual_schedule',
-                'social_stories',
-                'behavioral_momentum',
-                'errorless_teaching'
-            ], $this->faker->numberBetween(2, 5)),
+            'maladaptives' => '[]',
+            'replacements' => '[]',
+            'interventions' => json_encode(['positive_reinforcement']),
             'meet_with_client_at' => $this->faker->randomElement(['Home', 'Office', 'School']),
             'client_appeared' => $this->faker->sentence,
             'as_evidenced_by' => $this->faker->sentence,
@@ -80,7 +47,6 @@ class NoteRbtFactory extends Factory
             'provider_signature' => $this->faker->name,
             'provider_credential' => 'RBT',
             'supervisor_signature' => $this->faker->name,
-            'supervisor_name' => User::factory(),
             'status' => $this->faker->randomElement(['pending', 'ok', 'no', 'review']),
             'summary_note' => $this->faker->paragraph,
             'cpt_code' => '97153',

@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\WeeklyReportV2Controller;
+use App\Http\Controllers\Admin\WeeklyReportGeneratorV2Controller;
 
 Route::prefix('v2')->group(function () {
         Route::get('weekly-reports', [WeeklyReportV2Controller::class, 'index'])->name('weekly-report.index');
@@ -10,4 +11,7 @@ Route::prefix('v2')->group(function () {
         Route::put('weekly-reports/{id}', [WeeklyReportV2Controller::class, 'update'])->name('weekly-report.update');
         Route::patch('weekly-reports/{id}', [WeeklyReportV2Controller::class, 'patch'])->name('weekly-report.patch');
         Route::delete('weekly-reports/{id}', [WeeklyReportV2Controller::class, 'destroy'])->name('weekly-report.destroy');
+
+        // Generator
+        Route::post('weekly-reports/generate', [WeeklyReportGeneratorV2Controller::class, 'generate'])->name('weekly-report.generate');
 });

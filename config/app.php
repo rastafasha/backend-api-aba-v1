@@ -186,6 +186,12 @@ return [
         App\Providers\ClaimMdServiceProvider::class,
         App\Providers\ClaimsServiceProvider::class,
 
+        /*
+         * Weekly Reports Service Providers...
+         * This service provider is used to generate weekly reports
+         * */
+        App\Providers\WeeklyReportServiceProvider::class,
+
     ],
 
     /*

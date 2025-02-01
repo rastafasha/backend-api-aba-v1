@@ -57,7 +57,7 @@ class NoteRbtRequest extends FormRequest
             'provider_signature' => 'nullable|string',
             'provider_credential' => 'nullable|string',
             'supervisor_signature' => 'nullable|string',
-            'supervisor_name' => 'nullable|exists:users,id',
+            // 'supervisor_name' => 'nullable|exists:users,id',
             'billed' => 'boolean',
             'paid' => 'boolean',
             'cpt_code' => 'nullable|string',
