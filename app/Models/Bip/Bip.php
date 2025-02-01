@@ -3,22 +3,14 @@
 namespace App\Models\Bip;
 
 use App\Models\User;
-use App\Models\Bip\CrisisPlan;
 use App\Models\Patient\Patient;
-use App\Models\Bip\ReductionGoal;
-use App\Models\Bip\FamilyEnvolment;
-use App\Models\Bip\SustitutionGoal;
 use App\Models\Bip\ConsentToTreatment;
+use App\Models\Recommendation;
 use App\Traits\CreatedAtFilterable;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Bip\MonitoringEvaluating;
-use App\Models\Bip\DeEscalationTechnique;
-use App\Models\Bip\GeneralizationTraining;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Carbon;
-use App\Models\Bip\Maladaptive;
-use App\Models\Bip\Replacement;
 
 /**
  * @OA\Schema(
@@ -152,19 +144,19 @@ use App\Models\Bip\Replacement;
  *     @OA\Property(property="type_of_assessment", type="integer", format="int32", example=3, description="Type of assessment performed"),
  *     @OA\Property(property="documents_reviewed", type="array", @OA\Items(type="string"), nullable=true, description="List of documents reviewed during assessment"),
  *     @OA\Property(property="background_information", type="string", nullable=true, description="Patient's background information"),
- *     @OA\Property(property="previus_treatment_and_result", type="string", nullable=true, description="History of previous treatments and their outcomes"),
+ *     @OA\Property(property="previous_treatment_and_result", type="string", nullable=true, description="History of previous treatments and their outcomes"),
  *     @OA\Property(property="current_treatment_and_progress", type="string", nullable=true, description="Current treatment details and progress"),
  *     @OA\Property(property="education_status", type="string", nullable=true, description="Patient's educational background and status"),
  *     @OA\Property(property="physical_and_medical_status", type="string", nullable=true, description="Patient's physical and medical conditions"),
  *     @OA\Property(property="strengths", type="string", nullable=true, description="Patient's identified strengths"),
- *     @OA\Property(property="weakneses", type="string", nullable=true, description="Patient's identified weaknesses"),
+ *     @OA\Property(property="weaknesses", type="string", nullable=true, description="Patient's identified weaknesses"),
  *     @OA\Property(property="physical_and_medical", type="array", description="List of patient's physical and medical information",
  *         @OA\Items(
  *             type="object",
  *             @OA\Property(property="index", type="integer", example=1, description="Index of the medical record"),
  *             @OA\Property(property="medication", type="string", example="Methylphenidate", description="Name of medication"),
  *             @OA\Property(property="dose", type="string", example="10mg", description="Medication dosage"),
- *             @OA\Property(property="frecuency", type="string", example="Twice daily", description="Medication frequency"),
+ *             @OA\Property(property="frequency", type="string", example="Twice daily", description="Medication frequency"),
  *             @OA\Property(property="reason", type="string", example="ADHD management", description="Reason for medication"),
  *             @OA\Property(property="preescribing_physician", type="string", example="Dr. Smith", description="Name of prescribing physician")
  *         )
@@ -172,7 +164,7 @@ use App\Models\Bip\Replacement;
  *     @OA\Property(property="assestment_conducted", type="string", nullable=true, description="Details of conducted assessments"),
  *     @OA\Property(property="assestment_conducted_options", type="array", @OA\Items(type="string"), nullable=true, description="Types of assessments performed"),
  *     @OA\Property(property="assestment_evaluation_settings", type="array", @OA\Items(type="string"), nullable=true, description="Settings where assessments were conducted"),
- *     @OA\Property(property="prevalent_setting_event_and_atecedents", type="array", @OA\Items(type="string"), nullable=true, description="Common triggers and antecedents"),
+ *     @OA\Property(property="prevalent_setting_event_and_antecedents", type="array", @OA\Items(type="string"), nullable=true, description="Common triggers and antecedents"),
  *     @OA\Property(property="hypothesis_based_intervention", type="string", nullable=true, description="Intervention strategy based on behavioral hypothesis"),
  *     @OA\Property(property="interventions", type="array", @OA\Items(type="string"), nullable=true, description="List of planned interventions"),
  *     @OA\Property(property="tangibles", type="array", @OA\Items(type="string"), nullable=true, description="Tangible reinforcers"),
@@ -247,18 +239,17 @@ class Bip extends Model
         'doctor_id',
         'patient_identifier',
         'background_information',
-        'previus_treatment_and_result',
+        'previous_treatment_and_result',
         'current_treatment_and_progress',
         'education_status',
-        // 'maladaptives', //json
         'assestment_conducted',
         'assestment_conducted_options', //json
-        'prevalent_setting_event_and_atecedents', //json
+        'prevalent_setting_event_and_antecedents', //json
         'assestment_evaluation_settings', //json
         'interventions', //json
         'reduction_id',
         'strengths',
-        'weakneses',
+        'weaknesses',
         'hypothesis_based_intervention',
 
         'physical_and_medical_status',
@@ -282,11 +273,18 @@ class Bip extends Model
         // 'shaping',
         // 'chaining',
         // 'maladaptive_id',
+
+        'discharge_plan',
+        'fading_plan',
+        'risk_assessment',
+        'generalization_training',
+
+        'crisis_plan', // json
+        'de_escalation_techniques', // json
+        'recommendations', // json
     ];
 
     protected $casts = [
-        'documents_reviewed' => 'json',
-        // 'maladaptives' => 'json',
         'assestment_conducted_options' => 'json',
         'prevalent_setting_event_and_atecedents' => 'json',
         'interventions' => 'json',
@@ -294,8 +292,18 @@ class Bip extends Model
         'attention' => 'json',
         'escape' => 'json',
         'sensory' => 'json',
-        'physical_and_medical' => \App\Casts\PhysicalMedicalCast::class,
+        'physical_and_medical' => 'json', //\App\Casts\PhysicalMedicalCast::class,
+        'crisis_plan' => 'array',
+        'de_escalation_techniques' => 'json',
+        'documents_reviewed' => 'json',
+        'recommendations' => 'json',
     ];
+
+
+    public function recommendations()
+    {
+        return $this->hasMany(Recommendation::class, 'bip_id');
+    }
 
 
     public function patient()
@@ -349,21 +357,6 @@ class Bip extends Model
     public function rbt_trainings()
     {
         return $this->hasMany(Plan::class, 'bip_id')->where('category', 'rbt_training');
-    }
-
-    public function generalization_trainings()
-    {
-        return $this->hasMany(GeneralizationTraining::class, 'bip_id');
-    }
-
-    public function crisis_plans()
-    {
-        return $this->hasMany(CrisisPlan::class, 'bip_id');
-    }
-
-    public function de_escalation_techniques()
-    {
-        return $this->hasMany(DeEscalationTechnique::class, 'bip_id');
     }
 
     public function consent_to_treatments()

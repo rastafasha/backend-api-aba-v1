@@ -8,7 +8,7 @@ class PhysicalMedicalRecord
         public ?int $index,
         public ?string $medication,
         public ?string $dose,
-        public ?string $frecuency,
+        public ?string $frequency,
         public ?string $reason,
         public ?string $preescribing_physician
     ) {
@@ -20,7 +20,7 @@ class PhysicalMedicalRecord
             index: $data['index'] ?? null,
             medication: $data['medication'] ?? null,
             dose: $data['dose'] ?? null,
-            frecuency: $data['frecuency'] ?? null,
+            frequency: $data['frequency'] ?? null,
             reason: $data['reason'] ?? null,
             preescribing_physician: $data['preescribing_physician'] ?? null
         );
@@ -32,7 +32,7 @@ class PhysicalMedicalRecord
             'index' => $this->index,
             'medication' => $this->medication,
             'dose' => $this->dose,
-            'frecuency' => $this->frecuency,
+            'frequency' => $this->frequency,
             'reason' => $this->reason,
             'preescribing_physician' => $this->preescribing_physician
         ];

@@ -38,15 +38,15 @@ class BipTest extends TestCase
             'doctor_id' => $doctor->id,
             'type_of_assessment' => $this->faker->numberBetween(1, 5),
             'background_information' => $this->faker->paragraph(),
-            'maladaptives' => [
-                'tantrums' => true,
-                'aggression' => false,
-                'self_stimming' => true
-            ],
             'interventions' => [
                 'token_economy' => true,
                 'positive_reinforcement' => true
             ],
+            'crisis_plan' => [
+                'description' => 'Crisis plan description',
+                'prevention' => 'Crisis plan prevention'
+            ],
+            'de_escalation_techniques' => [],
             'documents_reviewed' => ['doc1', 'doc2', 'doc3']
         ];
 
@@ -73,16 +73,16 @@ class BipTest extends TestCase
         $bip = Bip::factory()->create([
             'client_id' => $this->client->id,
             'doctor_id' => $this->doctor->id,
+            'crisis_plan' => [
+                'description' => 'Original crisis plan description',
+                'prevention' => 'Original crisis plan prevention'
+            ]
         ]);
 
         $updatedData = [
             'client_id' => $this->client->id,
             'type_of_assessment' => 4,
             'background_information' => 'Updated background information',
-            'maladaptives' => [
-                'tantrums' => false,
-                'aggression' => true
-            ]
         ];
 
         $response = $this->putJson("/api/v2/bips/{$bip->id}", $updatedData);

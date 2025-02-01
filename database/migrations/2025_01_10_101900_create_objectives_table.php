@@ -20,6 +20,7 @@ class CreateObjectivesTable extends Migration
             $table->enum('status', ['in progress', 'mastered', 'not started', 'discontinued', 'maintenance'])->default('not started');
             $table->date('initial_date')->nullable();
             $table->date('end_date')->nullable();
+            $table->string('name')->nullable();
             $table->text('description');
             $table->decimal('start_point', 8, 2)->nullable();
             $table->decimal('target', 8, 2)->nullable();
