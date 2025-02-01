@@ -17,7 +17,7 @@ Composed the topographical definitions for maladaptive behaviors. Information wi
 const SYSTEM_PROMPT =
 "You are an experienced expert in Applied Behavior Analysis (ABA), specializing in treating children with various developmental disorders.
 Your responses should be concise, professional and directly relevant to the request.
-Always format your response as a single paragraph between 4 and 7 lines long.
+Always format your response as a single paragraph between 5 and 9 lines long.
 Provide only the summary text without any additional explanations or information.
 Your tasks will always be to create a brief summary for a note as a RBT.
 Include all the relevant data in the summary, specially the maladaptives, replacements and interventions, in a brief way,
@@ -110,11 +110,12 @@ class OpenAIController extends Controller
             'startTime2' => ['sometimes', 'nullable', new TimeFormat()],
             'endTime2' => ['sometimes', 'nullable', new TimeFormat()],
             'mood' => 'string',
+            'evidencedBy' => 'sometimes|nullable|string',
             'pos' => 'string',
             'participants' => 'sometimes|string',
             'cpt' => 'string',
-            "progressNotedThisSessionComparedToPreviousSession" => 'string',
-            'clientResponseToTreatmentThisSession' => 'string',
+            "progressNoted" => 'string',
+            'rbtModeledAndDemonstrated' => 'sometimes|nullable|string',
             'maladaptives' => 'required|array',
             'maladaptives.*.behavior' => 'required|string',
             'maladaptives.*.frequency' => 'required|integer',
@@ -196,17 +197,21 @@ class OpenAIController extends Controller
             $prompt .= "Child's mood: {$request->mood}\n";
         }
 
-        if ($request->clientResponseToTreatmentThisSession) {
-            $prompt .= "Child's response to treatment this session: {$request->clientResponseToTreatmentThisSession}\n";
+        if ($request->evidencedBy) {
+            $prompt .= "As evidenced by: {$request->evidencedBy}\n";
         }
 
-        if ($request->progressNotedThisSessionComparedToPreviousSession) {
-            $prompt .= "Progress noted this session compared to previous session: {$request->progressNotedThisSessionComparedToPreviousSession}\n";
+        if ($request->progressNoted) {
+            $prompt .= "Progress noted this session compared to previous session: {$request->progressNoted}\n";
         }
 
         $prompt .= "\nMaladaptive behaviors: {$maladaptives}\n" .
             "Replacement behaviors: {$replacements}\n" .
             "Interventions used: {$interventions}";
+
+        if ($request->rbtModeledAndDemonstrated) {
+            $prompt .= "\nRBT Modeled and demonstrated to caregiver: {$request->rbtModeledAndDemonstrated}";
+        }
 
         return $prompt;
     }
