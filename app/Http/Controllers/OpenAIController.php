@@ -109,13 +109,15 @@ class OpenAIController extends Controller
             'endTime' => ['sometimes', 'nullable', new TimeFormat()],
             'startTime2' => ['sometimes', 'nullable', new TimeFormat()],
             'endTime2' => ['sometimes', 'nullable', new TimeFormat()],
+            'environmentalChanges' => 'required|string',
             'mood' => 'string',
-            'evidencedBy' => 'sometimes|nullable|string',
-            'pos' => 'string',
+            'evidencedBy' => 'required|string',
+            'pos' => 'required|string',
             'participants' => 'sometimes|string',
             'cpt' => 'string',
             "progressNoted" => 'string',
-            'rbtModeledAndDemonstrated' => 'sometimes|nullable|string',
+            'rbtModeledAndDemonstrated' => 'required|string',
+            'nextSession' => 'sometimes|nullable|string',
             'maladaptives' => 'required|array',
             'maladaptives.*.behavior' => 'required|string',
             'maladaptives.*.frequency' => 'required|integer',
@@ -185,6 +187,12 @@ class OpenAIController extends Controller
         if ($request->pos) {
             $prompt .= "Place of Service: {$request->pos}\n";
         }
+        if ($request->participants) {
+            $prompt .= "Participants: {$request->participants}\n";
+        }
+        if ($request->environmentalChanges) {
+            $prompt .= "Environmental changes: {$request->environmentalChanges}\n";
+        }
         if ($request->startTime && $request->endTime) {
             $prompt .= "Morning session: {$request->startTime} to {$request->endTime}\n";
         }
@@ -212,6 +220,12 @@ class OpenAIController extends Controller
         if ($request->rbtModeledAndDemonstrated) {
             $prompt .= "\nRBT Modeled and demonstrated to caregiver: {$request->rbtModeledAndDemonstrated}";
         }
+
+        if ($request->nextSession) {
+            $prompt .= "\nNext session scheduled for: {$request->nextSession}";
+        }
+
+        $prompt .= "\nAlso include:\nThe RBT will continue working with the goals as stated in behavior plan.";
 
         return $prompt;
     }

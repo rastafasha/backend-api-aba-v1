@@ -29,8 +29,8 @@ class BipFactory extends Factory
             'phiysical_and_medical_status' => null,
             'assestment_conducted' => null,
             'assestment_conducted_options' => null,
-            'assestmentEvaluationSettings' => null,
-            'prevalent_setting_event_and_atecedents' => null,
+            'assestment_evaluation_settings' => null,
+            'prevalent_setting_event_and_antecedents' => null,
             'hypothesis_based_intervention' => null,
             'interventions' => [
                 'token_economy' => $this->faker->boolean(),

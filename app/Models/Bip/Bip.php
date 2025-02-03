@@ -286,7 +286,7 @@ class Bip extends Model
 
     protected $casts = [
         'assestment_conducted_options' => 'json',
-        'prevalent_setting_event_and_atecedents' => 'json',
+        'prevalent_setting_event_and_antecedents' => 'json',
         'interventions' => 'json',
         'tangibles' => 'json',
         'attention' => 'json',
