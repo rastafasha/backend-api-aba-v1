@@ -52,8 +52,9 @@ php /opt/cpanel/composer/bin/composer update >> $DEPLOY_LOG 2>&1
 php artisan l5-swagger:generate >> $DEPLOY_LOG 2>&1
 
 # Migrar y sembrar la base de datos
+# if [ "$BRANCH" == "develop" ]; then
 php artisan migrate:fresh --seed >> $DEPLOY_LOG 2>&1
-
+# fi
 # Opcional: otros comandos de Artisan
 # php artisan migrate --force
 # php artisan config:cache
