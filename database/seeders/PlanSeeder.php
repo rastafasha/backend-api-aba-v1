@@ -7,7 +7,6 @@ use App\Models\Bip\Bip;
 use App\Models\Bip\Plan;
 use App\Models\Bip\Objective;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 
 class PlanSeeder extends Seeder
 {
@@ -61,29 +60,29 @@ class PlanSeeder extends Seeder
                 'description' => $ltoDescription,
                 'target' => $ltoTarget,
                 'initial_date' => now()->addMonths(6)->format('Y-m-d'),
-                'end_date' => now()->addYear()->format('Y-m-d'),
+                'end_date' => null, // now()->addYear()->format('Y-m-d'),
                 'order' => 999
             ]);
 
             // Create STOs with progressive targets
             foreach ($targetSteps as $index => $target) {
                 $baseDate = now()->addMonths($index * 2);
-                $status = $index === 0 ? 'in progress' : 'not started';
+                $status = $this->getStatusForSto($index);
 
                 Objective::create([
                     'plan_id' => $plan->id,
                     'type' => 'STO',
                     'status' => $status,
-                    'description' => "Phase " . ($index + 1) . " " .
+                    'description' => "STO " . ($index + 1) . ": " .
                         ($isMaladaptive ? "reduction" : "improvement") .
                         " of {$plan->name}" .
                         ($isMaladaptive
-                            ? " to {$target} occurrences or less"
-                            : " to achieve {$target}% success rate"),
+                            ? " to {$target} occurrences or less per week"
+                            : " to achieve {$target}% success rate per week"),
                     'target' => $target,
                     'start_point' => $startPointSteps[$index],
-                    'initial_date' => $baseDate->format('Y-m-d'),
-                    'end_date' => $baseDate->addMonths(2)->subDay()->format('Y-m-d'),
+                    'initial_date' => $status === 'not started' ? null : $baseDate->format('Y-m-d'),
+                    'end_date' => $status === 'mastered' ? $baseDate->addMonths(2)->subDay()->format('Y-m-d') : null,
                     'order' => $index + 1
                 ]);
             }
@@ -95,8 +94,8 @@ class PlanSeeder extends Seeder
                 'status' => 'not started',
                 'description' => "Achieve full competency in {$plan->name}",
                 'target' => 100,
-                'initial_date' => now()->format('Y-m-d'),
-                'end_date' => now()->addMonths(3)->format('Y-m-d'),
+                'initial_date' => null, // now()->format('Y-m-d'),
+                'end_date' => null, // now()->addMonths(3)->format('Y-m-d'),
                 'order' => 999
             ]);
 
@@ -108,14 +107,16 @@ class PlanSeeder extends Seeder
 
             foreach ($phases as $index => $phase) {
                 $baseDate = now()->addMonths($index);
+                $status = $this->getStatusForSto($index);
+
                 Objective::create([
                     'plan_id' => $plan->id,
                     'type' => 'STO',
-                    'status' => $index === 0 ? 'in progress' : 'not started',
+                    'status' => $status,
                     'description' => "{$phase['name']} phase of {$plan->name}",
                     'target' => $phase['target'],
-                    'initial_date' => $baseDate->format('Y-m-d'),
-                    'end_date' => $baseDate->addMonth()->subDay()->format('Y-m-d'),
+                    'initial_date' => $status === 'not started' ? null : $baseDate->format('Y-m-d'),
+                    'end_date' => $status === 'mastered' ? $baseDate->addMonth()->subDay()->format('Y-m-d') : null,
                     'order' => $index + 1
                 ]);
             }
@@ -253,6 +254,23 @@ class PlanSeeder extends Seeder
 
                 $this->createObjectivesForPlan($plan);
             }
+        }
+    }
+
+
+    private function getStatusForSto($index)
+    {
+        switch ($index) {
+            case 0:
+                return 'mastered';
+            case 1:
+                return 'mastered';
+            case 2:
+                return 'in progress';
+            case 3:
+                return 'not started';
+            default:
+                return 'not started';
         }
     }
 }
