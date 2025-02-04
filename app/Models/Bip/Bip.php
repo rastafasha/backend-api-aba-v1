@@ -217,9 +217,9 @@ use Illuminate\Support\Carbon;
  *         @OA\Items(ref="#/components/schemas/DeEscalationTechnique")
  *     ),
  *     @OA\Property(
- *         property="consent_to_treatments",
+ *         property="consent_to_treatment",
  *         type="array",
- *         description="Collection of consent to treatment records. These document patient/guardian consent for treatments.",
+ *         description="Single consent to treatment.",
  *         @OA\Items(ref="#/components/schemas/ConsentToTreatment")
  *     )
  * )
@@ -359,9 +359,9 @@ class Bip extends Model
         return $this->hasMany(Plan::class, 'bip_id')->where('category', 'rbt_training');
     }
 
-    public function consent_to_treatments()
+    public function consent_to_treatment()
     {
-        return $this->hasMany(ConsentToTreatment::class, 'bip_id');
+        return $this->hasOne(ConsentToTreatment::class, 'bip_id');
     }
 
 
