@@ -188,7 +188,7 @@ class OpenAIController extends Controller
             $prompt .= "Place of Service: {$request->pos}\n";
         }
         if ($request->participants) {
-            $prompt .= "Participants: {$request->participants}\n";
+            $prompt .= "Present this session: {$request->participants}\n";
         }
         if ($request->environmentalChanges) {
             $prompt .= "Environmental changes: {$request->environmentalChanges}\n";
@@ -369,7 +369,7 @@ class OpenAIController extends Controller
             $prompt .= "Place of Service: {$request->pos}\n";
         }
         if ($request->participants) {
-            $prompt .= "Participants: {$request->participants}\n";
+            $prompt .= "Present this session: {$request->participants}\n";
         }
         // if ($request->startTime && $request->endTime) {
         //     $prompt .= "Morning session: {$request->startTime} to {$request->endTime}\n";

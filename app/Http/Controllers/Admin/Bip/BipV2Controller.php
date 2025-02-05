@@ -62,7 +62,7 @@ class BipV2Controller extends Controller
                 'replacements.objectives',
                 'caregiver_trainings.objectives',
                 'rbt_trainings.objectives',
-                'consent_to_treatments'
+                'consent_to_treatment'
             ])
             ->orderBy('created_at', 'desc')
             ->paginate($perPage);
@@ -141,7 +141,7 @@ class BipV2Controller extends Controller
             'replacements.objectives',
             'caregiver_trainings.objectives',
             'rbt_trainings.objectives',
-            'consent_to_treatments'
+            'consent_to_treatment'
         ];
 
         if ($request->has('include')) {
@@ -211,7 +211,7 @@ class BipV2Controller extends Controller
                 'replacements.objectives',
                 'caregiver_trainings.objectives',
                 'rbt_trainings.objectives',
-                'consent_to_treatments'
+                'consent_to_treatment'
             ])
         ]);
     }
