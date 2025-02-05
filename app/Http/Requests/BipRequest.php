@@ -24,7 +24,7 @@ class BipRequest extends FormRequest
             'maladaptives' => 'nullable|array',
             'assestment_conducted_options' => 'nullable|array',
             'prevalent_setting_event_and_antecedents' => 'nullable|array',
-            'assestment_evaluation_settings' => 'nullable|array',
+            'assestment_evaluation_settings' => 'sometimes|nullable|array',
             'interventions' => 'nullable|array',
             'tangibles' => 'nullable|array',
             'attention' => 'nullable|array',

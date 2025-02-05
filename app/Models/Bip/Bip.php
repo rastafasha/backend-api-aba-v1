@@ -297,6 +297,7 @@ class Bip extends Model
         'de_escalation_techniques' => 'json',
         'documents_reviewed' => 'json',
         'recommendations' => 'json',
+        'assestment_evaluation_settings' => 'json',
     ];
 
 
