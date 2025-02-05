@@ -5,9 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Notes\NoteRbt;
 use App\Models\Notes\NoteBcba;
 use App\Models\Patient\Patient;
-use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Log;
+use App\Models\Bip\Bip;
 
 class PDFController extends Controller
 {
@@ -36,10 +36,15 @@ class PDFController extends Controller
             'insurance'
         ])->findOrFail($id);
 
+        $patient = Patient::with([
+            'location'
+        ])->findOrFail($note->patient_id);
+
         $data = [
             'note' => $note,
             'title' => 'APPOINTMENT NOTE',
             'date' => date('m/d/Y'),
+            'patient' => $patient,
             'center_name' => config('app.name', 'Your Center Name'),
             'center_address' => '123 Main Street',
             'center_city' => 'City, State ZIP',
@@ -64,7 +69,7 @@ class PDFController extends Controller
         $data = [
             'note' => $note,
             'title' => 'BCBA SUPERVISION NOTE',
-            'date' => date('m/d/Y')
+            'date' => date('m/d/Y'),
         ];
 
         $pdf = PDF::loadView('pdf.bcba-note', $data)->setPaper('a4', 'portrait');
@@ -84,7 +89,7 @@ class PDFController extends Controller
             // Load the patient with necessary relationships
             $patient = Patient::with([
                 'paServices',
-                'locals',
+                'location',
                 'insurances',
                 'insurance_secondary',
                 'rbt_home:id,name,surname',
@@ -139,7 +144,7 @@ class PDFController extends Controller
         try {
             $patient = Patient::with([
                 'pa_services',
-                'locals',
+                'location',
                 'insurer:id,name',
                 'insurance_secondary:id,name',
                 'rbt_home:id,name,surname',
@@ -166,5 +171,22 @@ class PDFController extends Controller
                 'error' => $e->getMessage()
             ], 500);
         }
+    }
+
+    public function generateBipPDF($id)
+    {
+        $bip = Bip::findOrFail($id);
+        $patient = Patient::with([
+            'location',
+        ])->findOrFail($bip->client_id);
+
+        $pdf = PDF::loadView('pdf.bip', [
+            'bip' => $bip,
+            'patient' => $patient
+        ]);
+
+        $pdf->setPaper('a4', 'portrait');
+
+        return $pdf->download('bip-' . $patient->patient_identifier . '.pdf');
     }
 }

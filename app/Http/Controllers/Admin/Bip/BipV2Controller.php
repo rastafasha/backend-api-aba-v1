@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\BipRequest;
 use App\Models\Bip\Bip;
 use Illuminate\Http\Request;
-use Illuminate\Support\Carbon;
 
 class BipV2Controller extends Controller
 {

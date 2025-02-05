@@ -413,7 +413,7 @@ class Patient extends Model
         return $this->hasMany(User::class, 'id');
     }
 
-    public function locals()
+    public function location()
     {
         return $this->belongsTo(Location::class, 'location_id');
     }

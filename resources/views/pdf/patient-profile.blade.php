@@ -1,130 +1,49 @@
+<?php
+
+use Carbon\Carbon;
+
+?>
+
 <!DOCTYPE html>
 <html>
 
 <head>
     <meta charset="utf-8">
     <title>Patient Profile</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.6;
-            margin: 40px;
-            font-size: 11px;
-        }
-
-        .header {
-            margin-bottom: 15px;
-            text-align: center;
-        }
-
-        .header img,
-        .logo {
-            max-width: 80px;
-            height: auto;
-        }
-
-        .header p {
-            margin: 0;
-            text-align: left;
-            font-size: 10px;
-            line-height: 1.2;
-        }
-
-        .logo {
-            margin-bottom: 0;
-        }
-
-        .title {
-            font-size: 18px;
-            font-weight: bold;
-            text-align: center;
-            margin: 20px 0;
-        }
-
-        .page-break {
-            page-break-before: always;
-        }
-
-        .section-header {
-            background-color: #f8f9fa;
-            padding: 5px;
-            font-weight: bold;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 20px;
-            page-break-inside: avoid;
-        }
-
-        table,
-        th,
-        td {
-            border: 1px solid #000;
-        }
-
-        td {
-            padding: 5px;
-            padding-top: 0px;
-            text-align: left;
-            vertical-align: top;
-        }
-
-        .footer {
-            text-align: center;
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            padding: 10px;
-            font-size: 10px;
-        }
-
-        .page-number {
-            text-align: right;
-            position: fixed;
-            bottom: 0;
-            right: 0;
-            padding: 10px;
-            font-size: 10px;
-        }
-        .pagenum:before {
-            content: counter(page);
-        }
-    </style>
+    <link rel="stylesheet" href="{{ base_path('resources/views/pdf/styles/base.css') }}">
 </head>
 
 <body>
     <footer class="footer">
-        {{ $patient->locals->title }}, {{ $patient->locals->city }}, {{ \Carbon\Carbon::now()->format('F j, Y') }}
+        {{ $patient->location->title }}, {{ $patient->location->city }}, {{ \Carbon\Carbon::now()->format('F j, Y') }}
     </footer>
     <footer class="page-number">
         Page <span class="pagenum"></span>
     </footer>
     <main>
         <div class="header">
-            <table style="width: 100%; border: none; border-collapse: collapse;">
+            <table class="header-logo-table">
                 <tr>
-                    <td style="width: 80px; vertical-align: middle; text-align: right; border: none;">
+                    <td class="header-logo-cell">
                         <img src="{{ public_path('assets/img/aba-logo-new.webp') }}" class="logo" alt="Logo">
                     </td>
-                    <td style="vertical-align: middle; text-align: left; padding-left: 15px; border: none;">
+                    <td class="header-info-cell">
                         <p>
-                            <strong>{{ $patient->locals->title }}</strong><br>
-                            {{ $patient->locals->address }}<br>
-                            {{ $patient->locals->city }}, {{ $patient->locals->state }} {{ $patient->locals->zip }}<br>
-                            Phone: {{ $patient->locals->phone }}<br>
-                            Email: {{ $patient->locals->email }}
+                            <strong>{{ $patient->location->title }}</strong><br>
+                            {{ $patient->location->address }}<br>
+                            {{ $patient->location->city }}, {{ $patient->location->state }}
+                            {{ $patient->location->zip }}<br>
+                            Phone: {{ $patient->location->phone }}<br>
+                            Email: {{ $patient->location->email }}
                         </p>
                     </td>
                 </tr>
             </table>
         </div>
 
-        <div class="title">
+        <h1>
             PATIENT PROFILE
-        </div>
+        </h1>
 
         <!-- General Information Section -->
         <table>
@@ -138,7 +57,8 @@
                 </td>
                 <td style="width: 33%">
                     <strong>Date of Birth:</strong><br>
-                    {{ $patient->birth_date->format('m/d/Y') }} ({{ $patient->age }} years)
+                    {{ is_string($patient->birth_date) ? Carbon::parse($patient->birth_date)->format('m/d/Y') : $patient->birth_date->format('m/d/Y') }}
+                    ({{ $patient->age }} years)
                 </td>
                 <td style="width: 33%">
                     <strong>Patient ID:</strong><br>
@@ -232,7 +152,7 @@
             <tr>
                 <td style="width: 33%">
                     <strong>Parent/Guardian Birth Date:</strong><br>
-                    {{ $patient->parent_birth_date ? $patient->parent_birth_date->format('m/d/Y') : 'N/A' }}
+                    {{ is_string($patient->parent_birth_date) ? Carbon::parse($patient->parent_birth_date)->format('m/d/Y') : $patient->parent_birth_date->format('m/d/Y') }}
                 </td>
                 <td style="width: 33%">
                     <strong>Parent/Guardian Address:</strong><br>
@@ -356,7 +276,7 @@
                 </td>
                 <td>
                     <strong>Eligibility Date:</strong><br>
-                    {{ $patient->elegibility_date ? $patient->elegibility_date->format('m/d/Y') : 'N/A' }}
+                    {{ is_string($patient->elegibility_date) ? Carbon::parse($patient->elegibility_date)->format('m/d/Y') : $patient->elegibility_date->format('m/d/Y') }}
                 </td>
                 <td>
                     <strong>POS Covered:</strong><br>
@@ -513,8 +433,10 @@
             @foreach ($patient->paServices as $pa)
                 <tr>
                     <td>{{ $pa->pa_service }}</td>
-                    <td>{{ $pa->start_date->format('m/d/Y') }}</td>
-                    <td>{{ $pa->end_date->format('m/d/Y') }}</td>
+                    <td>{{ is_string($pa->start_date) ? Carbon::parse($pa->start_date)->format('m/d/Y') : $pa->start_date->format('m/d/Y') }}
+                    </td>
+                    <td>{{ is_string($pa->end_date) ? Carbon::parse($pa->end_date)->format('m/d/Y') : $pa->end_date->format('m/d/Y') }}
+                    </td>
                     <td>{{ $pa->cpt }}</td>
                     <td>{{ $pa->n_units }}</td>
                     <td>{{ $pa->n_units }}</td>

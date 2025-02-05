@@ -13,7 +13,7 @@ class CreateBipsTable extends Migration
             $table->foreignId('client_id')->constrained('users');
             $table->string('patient_identifier', 50)->nullable();
             $table->foreignId('doctor_id')->nullable()->constrained('users')->nullOnDelete();
-            $table->tinyInteger('type_of_assessment')->default(3);
+            $table->tinyInteger('type_of_assessment')->default(1);
             $table->text('background_information')->nullable();
             $table->text('previous_treatment_and_result')->nullable();
             $table->text('current_treatment_and_progress')->nullable();

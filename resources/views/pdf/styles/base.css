@@ -1,0 +1,271 @@
+/* Base styles for PDF documents
+ * This file contains common styles shared across PDF templates
+ */
+
+/* Document Base
+ * ------------
+ * Basic document styling including font, margins, and line height
+ */
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    margin: 40px;
+    font-size: 11px;
+}
+
+/* Header Section
+ * -------------
+ * Styles for the document header including logo and company info
+ */
+.header {
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.header img,
+.logo {
+    max-width: 80px;
+    height: auto;
+}
+
+.header p {
+    margin: 0;
+    text-align: left;
+    font-size: 10px;
+    line-height: 1.2;
+}
+
+.logo {
+    margin-bottom: 0;
+}
+
+/* Document H1
+ * -------------
+ * Main document title styling
+ */
+h1 {
+    font-size: 18px;
+    font-weight: bold;
+    text-align: center;
+    margin: 20px 0;
+}
+
+/* Document H2
+ * -------------
+ * Subdocument title styling
+ */
+h2 {
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+    margin: 20px 0;
+}
+
+h3 {
+    font-size: 14px;
+    font-weight: bold;
+    text-decoration: underline;
+    text-align: left;
+    margin: 10px 0;
+}
+
+/* Tables
+ * ------
+ * Common table styles and utilities
+ */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+table,
+th,
+td {
+    border: 1px solid #000;
+}
+
+td {
+    padding: 5px;
+    padding-top: 0px;
+    text-align: left;
+}
+
+/* Table Utilities
+ * --------------
+ * Helper classes for common table layouts
+ */
+.table-borderless {
+    border: none;
+}
+
+.table-borderless td {
+    border: none;
+}
+
+/* Column Width Utilities
+ * --------------------
+ * Common column width classes
+ */
+.w-25 {
+    width: 25%;
+}
+
+.w-33 {
+    width: 33%;
+}
+
+.w-50 {
+    width: 50%;
+}
+
+.w-20 {
+    width: 20%;
+}
+
+.w-66 {
+    width: 66%;
+}
+
+/* Text Alignment
+ * -------------
+ * Text alignment utility classes
+ */
+.text-center {
+    text-align: center;
+}
+
+.text-left {
+    text-align: left;
+}
+
+.text-right {
+    text-align: right;
+}
+
+/* Spacing
+ * -------
+ * Margin and padding utilities
+ */
+.mb-20 {
+    margin-bottom: 20px;
+}
+
+.pl-15 {
+    padding-left: 15px;
+}
+
+/* Vertical Alignment
+ * ----------------
+ * Vertical alignment utilities for table cells
+ */
+.v-middle {
+    vertical-align: middle;
+}
+
+/* Signature Section
+ * ---------------
+ * Styles for signature areas
+ */
+.signature-line {
+    text-align: center;
+}
+
+.signature-line::before {
+    content: "___________________________";
+}
+
+/* Header Logo Table
+ * ---------------
+ * Special case for the header logo table
+ */
+.header-logo-table {
+    width: 100%;
+    border: none;
+    border-collapse: collapse;
+}
+
+.header-logo-cell {
+    width: 80px;
+    vertical-align: middle;
+    text-align: right;
+    border: none;
+}
+
+.header-info-cell {
+    vertical-align: middle;
+    text-align: left;
+    padding-left: 15px;
+    border: none;
+}
+
+/* Page Number
+* ------------
+* Styles for the page number
+*/
+.page-number {
+    text-align: right;
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    padding: 10px;
+    font-size: 10px;
+}
+
+.pagenum:before {
+    content: counter(page);
+}
+
+
+/* Footer
+* -------
+* Styles for the footer
+*/
+.footer {
+    text-align: center;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 10px;
+    font-size: 10px;
+}
+
+
+/* Page Break
+* ----------
+* Styles for the page break
+*/
+.page-break {
+    page-break-before: always;
+}
+
+/* Section Header
+* --------------
+* Styles for the section header to add a background color to the header
+*/
+.section-header {
+    background-color: #f8f9fa;
+    padding: 5px;
+    font-weight: bold;
+}
+
+/* Symbols
+* -------
+* Symbols require a specific font to display correctly.
+* This class is used to set the font for the symbols.
+*/
+.symbol {
+    font-family: 'DejaVu Sans', sans-serif;
+}
+
+/* Paragraph
+* ----------
+* Styles for the paragraph
+*/
+.paragraph {
+    margin-bottom: 10px;
+    text-align: justify;
+    text-indent: 40px;
+    break-inside: avoid-page;
+}
