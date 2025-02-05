@@ -33,7 +33,7 @@ class BipRequest extends FormRequest
 
             // Physical and medical records validation
             'physical_and_medical' => 'nullable|array',
-            'physical_and_medical.*.index' => 'required|integer',
+            // 'physical_and_medical.*.index' => 'required|integer',
             'physical_and_medical.*.medication' => 'required|string',
             'physical_and_medical.*.dose' => 'required|string',
             'physical_and_medical.*.frequency' => 'required|string',
@@ -42,7 +42,7 @@ class BipRequest extends FormRequest
 
             // Attention records validation
             'attention' => 'nullable|array',
-            'attention.*.index' => 'required|integer',
+            // 'attention.*.index' => 'required|integer',
             'attention.*.preventive_strategies' => 'required|string',
             'attention.*.replacement_skills' => 'required|string',
             'attention.*.manager_strategies' => 'required|string',
@@ -83,7 +83,7 @@ class BipRequest extends FormRequest
             'patient_id.max' => 'The patient ID may not be greater than 50 characters.',
 
             // Physical and medical records messages
-            'physical_and_medical.*.index.required' => 'The index field is required for each medical record.',
+            // 'physical_and_medical.*.index.required' => 'The index field is required for each medical record.',
             'physical_and_medical.*.medication.required' => 'The medication field is required for each medical record.',
             'physical_and_medical.*.dose.required' => 'The dose field is required for each medical record.',
             'physical_and_medical.*.frequency.required' => 'The frequency field is required for each medical record.',

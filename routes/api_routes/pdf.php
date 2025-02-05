@@ -17,3 +17,6 @@ Route::get('/v2/patient/{patientId}/profile/pdf', [PDFController::class, 'genera
 
 Route::get('/v2/patient/{patientId}/profile/stream', [PDFController::class, 'streamPatientProfile'])
     ->name('patient.profile.pdf.stream');
+
+Route::get('/v2/bip/{bipId}/pdf', [PDFController::class, 'generateBipPDF'])
+    ->name('bip.pdf');
