@@ -105,17 +105,19 @@ class NoteBcba extends Note
         'subtype',
         'BCBA_conducted_client_observations',
         'BCBA_conducted_assessments',
-        'assessment_tools',//json
-        'intake_outcome',//json
+        'assessment_tools', //json
+        'intake_outcome', //json
         // 97155
-        'intervention_protocols',//json
-        'replacement_protocols',//json
+        'was_the_rbt_present',
+        'maladaptives', //json
+        'intervention_protocols', //json
+        'replacement_protocols', //json
         'modifications_needed_at_this_time',
         'additional_goals_or_interventions',
         // 97156
         // 'demonstrated_replacement_protocols',//json
         // 'demonstrated_intervention_protocols',//json
-        'behavior_protocols',//json
+        'behavior_protocols', //json
         'caregiver_goals', //json
     ];
 
@@ -127,6 +129,8 @@ class NoteBcba extends Note
         'intake_outcome' => 'json',
         'assessment_tools' => 'json',
         'replacement_protocols' => 'json',
+        'was_the_rbt_present' => 'boolean',
+        'maladaptives' => 'json',
         // 'demonstrated_intervention_protocols' => 'json',
         // 'demonstrated_replacement_protocols' => 'json',
         'billed' => 'boolean',

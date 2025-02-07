@@ -110,10 +110,10 @@ class OpenAIController extends Controller
             'startTime2' => ['sometimes', 'nullable', new TimeFormat()],
             'endTime2' => ['sometimes', 'nullable', new TimeFormat()],
             'environmentalChanges' => 'required|string',
+            'participants' => 'sometimes|string',
             'mood' => 'string',
             'evidencedBy' => 'required|string',
             'pos' => 'required|string',
-            'participants' => 'sometimes|string',
             'cpt' => 'string',
             "progressNoted" => 'string',
             'rbtModeledAndDemonstrated' => 'required|string',
@@ -291,13 +291,18 @@ class OpenAIController extends Controller
             'startTime2' => ['sometimes', 'nullable', new TimeFormat()],
             'endTime2' => ['sometimes', 'nullable', new TimeFormat()],
             'pos' => 'string',
-            'participants' => 'sometimes|string',
+            'participants' => 'sometimes|nullable|string',
+            'wasTheRbtPresent' => 'sometimes|nullable|boolean',
+            'environmentalChanges' => 'sometimes|nullable|string',
             'cptCode' => 'string',
             'caregiverGoals' => 'sometimes|nullable|string',
             'rbtTrainingGoals' => 'sometimes|nullable|string',
             'procedure' => 'sometimes|string',
             'instruments' => 'sometimes|string',
             'cpt51type' => 'sometimes|string',
+            'maladaptives' => 'sometimes|nullable|array',
+            'maladaptives.*.behavior' => 'required|string',
+            'maladaptives.*.frequency' => 'required|integer',
             'intakeAndOutcomeMeasurements' => 'sometimes|string',
             'interventionProtocols' => 'sometimes|nullable|string',
             'replacementProtocols' => 'sometimes|nullable|string',
@@ -368,9 +373,6 @@ class OpenAIController extends Controller
         if ($request->pos) {
             $prompt .= "Place of Service: {$request->pos}\n";
         }
-        if ($request->participants) {
-            $prompt .= "Present this session: {$request->participants}\n";
-        }
         // if ($request->startTime && $request->endTime) {
         //     $prompt .= "Morning session: {$request->startTime} to {$request->endTime}\n";
         // }
@@ -404,6 +406,12 @@ class OpenAIController extends Controller
 
         // CPT 97155
         if ($request->cptCode === "97155") {
+            if ($request->participants) {
+                $prompt .= "Present this session: {$request->participants}\n";
+            }
+            if ($request->environmentalChanges) {
+                $prompt .= "Environmental changes: {$request->environmentalChanges}\n";
+            }
             $prompt .= "\nAll the intervention protocols were assessed.";
             if ($request->interventionProtocols && $request->interventionProtocols !== '') {
                 $prompt .= "\nIntervention protocols modified: {$request->interventionProtocols}\n";
@@ -417,11 +425,26 @@ class OpenAIController extends Controller
             if ($request->additionalGoalsOrInterventions && $request->additionalGoalsOrInterventions !== '') {
                 $prompt .= "\nAdditional goals or interventions: {$request->additionalGoalsOrInterventions}\n";
             }
+            if ($request->wasTheRbtPresent) {
+                $prompt .= "\nThe RBT was present (so we need to add that 'the RBT was trained on the protocol modifications made'.)\n";
+            }
+            if ($request->maladaptives && !$request->wasTheRbtPresent) {
+                $prompt .= "\nThe data for the Maladaptive behaviors was collected:\n";
+                foreach ($request->maladaptives as $maladaptive) {
+                    $prompt .= "{$maladaptive['behavior']}: {$maladaptive['frequency']} times\n";
+                }
+            }
         }
 
         // CPT 97156
         if ($request->cptCode === "97156") {
             $prompt .= "\nSession type: Caregiver Training\n";
+            if ($request->participants) {
+                $prompt .= "Present this session: {$request->participants}\n";
+            }
+            if ($request->environmentalChanges) {
+                $prompt .= "Environmental changes: {$request->environmentalChanges}\n";
+            }
             if ($request->demonstratedInterventionProtocols && $request->demonstratedInterventionProtocols !== '') {
                 $prompt .= "\nDemonstrated intervention protocols: {$request->demonstratedInterventionProtocols}\n";
             }
