@@ -32,12 +32,13 @@ This is the CPT code you'll be using:
 const BCBA_SYSTEM_PROMPT =
 "You are an experienced expert in Applied Behavior Analysis (ABA), specializing in treating children with various developmental disorders.
 Your responses should be concise, professional and directly relevant to the request.
-Always format your response as a single paragraph between 3 and 6 lines long, in a professional and clear style.
+Always format your response as a single paragraph between 3 and 9 lines long, in a professional and clear style.
 Provide only the summary text without any additional explanations or information.
 Your tasks will always be to create a brief summary for a note as a BCBA.
 Include all the relevant data in the summary, specially the maladaptives, replacements and interventions, in a brief way,
 but you don't need to include the patient's data like full name, diagnosis, age, etc., nor the session's date or times.
 Never include the CPT code in the summary.
+Be mindful not to add any information that is not in the request.
 Many people's jobs depend on this, I know you can do this!
 
 This is the CPT code you'll be using:
@@ -384,12 +385,9 @@ class OpenAIController extends Controller
         // if ($caregiverGoals) {
         //     $prompt .= "\nCaregiver Training Goals: {$caregiverGoals}\n";
         // }
-        if ($rbtTrainingGoals) {
-            $prompt .= "RBT Training Goals: {$rbtTrainingGoals}\n";
-        }
-        if (isset($request->noteDescription)) {
-            $prompt .= "Session Description: {$request->noteDescription}";
-        }
+        // if ($rbtTrainingGoals) {
+        //     $prompt .= "RBT Training Goals: {$rbtTrainingGoals}\n";
+        // }
 
         // CPT 97151
         if ($request->cptCode === "97151") {
@@ -426,7 +424,7 @@ class OpenAIController extends Controller
                 $prompt .= "\nAdditional goals or interventions: {$request->additionalGoalsOrInterventions}\n";
             }
             if ($request->wasTheRbtPresent) {
-                $prompt .= "\nThe RBT was present (so we need to add that 'the RBT was trained on the protocol modifications made'.)\n";
+                $prompt .= "\nThe RBT was present, so we need to add that 'the RBT was trained on the protocol modifications made'.\n";
             }
             if ($request->maladaptives && !$request->wasTheRbtPresent) {
                 $prompt .= "\nThe data for the Maladaptive behaviors was collected:\n";
@@ -439,6 +437,7 @@ class OpenAIController extends Controller
         // CPT 97156
         if ($request->cptCode === "97156") {
             $prompt .= "\nSession type: Caregiver Training\n";
+            $prompt .= "\nBCBA Reviewed principles of (ABA) relevant to the child’s behavior intervention plan.\n";
             if ($request->participants) {
                 $prompt .= "Present this session: {$request->participants}\n";
             }
@@ -452,11 +451,16 @@ class OpenAIController extends Controller
                 $prompt .= "\nDemonstrated replacement protocols: {$request->demonstratedReplacementProtocols}\n";
             }
             if ($request->discussedBehaviors && $request->discussedBehaviors !== '') {
-                $prompt .= "\nDiscussed maladaptivebehaviors: {$request->discussedBehaviors}\n";
+                $prompt .= "\nDiscussed ways to manage specific behaviors, such as: {$request->discussedBehaviors}\n";
             }
             if ($request->caregiverGoals && $request->caregiverGoals !== '') {
                 $prompt .= "\nCaregiver Training Goals: {$request->caregiverGoals}\n";
             }
+            $prompt .= "\nCaregiver Participation:\nCaregivers observed modeled interventions and participated in role-playing exercises to practice strategies.\n";
+        }
+
+        if ($request->nextSession) {
+            $prompt .= "\nNext session scheduled for: {$request->nextSession}\n";
         }
 
         return $prompt;
