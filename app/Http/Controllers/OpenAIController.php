@@ -385,12 +385,9 @@ class OpenAIController extends Controller
         // if ($caregiverGoals) {
         //     $prompt .= "\nCaregiver Training Goals: {$caregiverGoals}\n";
         // }
-        if ($rbtTrainingGoals) {
-            $prompt .= "RBT Training Goals: {$rbtTrainingGoals}\n";
-        }
-        if (isset($request->noteDescription)) {
-            $prompt .= "Session Description: {$request->noteDescription}";
-        }
+        // if ($rbtTrainingGoals) {
+        //     $prompt .= "RBT Training Goals: {$rbtTrainingGoals}\n";
+        // }
 
         // CPT 97151
         if ($request->cptCode === "97151") {
@@ -440,6 +437,7 @@ class OpenAIController extends Controller
         // CPT 97156
         if ($request->cptCode === "97156") {
             $prompt .= "\nSession type: Caregiver Training\n";
+            $prompt .= "\nBCBA Reviewed principles of (ABA) relevant to the child’s behavior intervention plan.\n";
             if ($request->participants) {
                 $prompt .= "Present this session: {$request->participants}\n";
             }
@@ -453,11 +451,16 @@ class OpenAIController extends Controller
                 $prompt .= "\nDemonstrated replacement protocols: {$request->demonstratedReplacementProtocols}\n";
             }
             if ($request->discussedBehaviors && $request->discussedBehaviors !== '') {
-                $prompt .= "\nDiscussed maladaptivebehaviors: {$request->discussedBehaviors}\n";
+                $prompt .= "\nDiscussed ways to manage specific behaviors, such as: {$request->discussedBehaviors}\n";
             }
             if ($request->caregiverGoals && $request->caregiverGoals !== '') {
                 $prompt .= "\nCaregiver Training Goals: {$request->caregiverGoals}\n";
             }
+            $prompt .= "\nCaregiver Participation:\nCaregivers observed modeled interventions and participated in role-playing exercises to practice strategies.\n";
+        }
+
+        if ($request->nextSession) {
+            $prompt .= "\nNext session scheduled for: {$request->nextSession}\n";
         }
 
         return $prompt;

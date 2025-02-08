@@ -77,6 +77,11 @@ class NoteBcbaRequest extends FormRequest
             'replacement_protocols.*.demonstrated' => 'nullable|boolean',
             'modifications_needed_at_this_time' => 'nullable|boolean',
             'additional_goals_or_interventions' => 'nullable|string',
+            'was_the_rbt_present' => 'nullable|boolean',
+            'maladaptives' => 'nullable|array',
+            'maladaptives.*.plan_id' => 'required|exists:plans,id',
+            'maladaptives.*.name' => 'required|string',
+            'maladaptives.*.frequency' => 'required|numeric',
             // 97156
             // 'demonstrated_intervention_protocols' => 'nullable|array',
             // 'demonstrated_replacement_protocols' => 'nullable|array',
@@ -102,6 +107,10 @@ class NoteBcbaRequest extends FormRequest
                 "Please ensure the date and time are accurate before saving.",
             'next_session_is_scheduled_for.after' => "Oops! It looks like you're trying to save a next session date that is before the current session date." .
                 "Please ensure the date and time are accurate before saving.",
+            'maladaptives.*.plan_id.exists' => "Oops! It looks like you're trying to save a maladaptive behavior that doesn't exist." .
+                "Please ensure the plan ID is valid before saving.",
+            'maladaptives.*.frequency.numeric' => "Oops! It looks like you're trying to save a maladaptive behavior that doesn't have a valid frequency." .
+                "Please ensure the frequency is a number before saving.",
         ];
     }
 

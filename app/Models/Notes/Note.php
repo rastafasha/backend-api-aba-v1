@@ -99,6 +99,8 @@ abstract class Note extends Model
         switch ($this->meet_with_client_at) {
             case '03':
                 return 'School';
+            case '11':
+                return 'Office';
             case '12':
                 return 'Home';
             case '02':
