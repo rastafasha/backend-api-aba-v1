@@ -17,6 +17,10 @@ else
 fi
 
 DEPLOY_LOG="$CURRENT_FOLDER/storage/logs/deploy_$TIMESTAMP.log"
+
+# Create logs directory if it doesn't exist
+mkdir -p "$CURRENT_FOLDER/storage/logs"
+
 # Exportar DEPLOYPATH
 export DEPLOYPATH
 export ENVFILE
