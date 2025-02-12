@@ -158,10 +158,6 @@ Route::group(['middleware' => 'api'], function ($router) {
         return "Send All notifications";
     });
 
-    Route::get('/oai', function () {
-        return env('OPENAI_API_KEY');
-    });
-
 
     //rutas libres
 
