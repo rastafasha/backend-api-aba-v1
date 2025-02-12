@@ -136,14 +136,14 @@ class PatientResource extends JsonResource
 
             "rbt_home_id" => $this->resource->rbt_home_id,
             'rbt_home' => $this->resource->rbt_home,
-            'rbt_home' => [
+            'rbt_home' => $this->resource->rbt_home ? [
                 // 'id'=> $this->resource->rbt_home->rbt_home_id,
-                'name' => $this->resource->rbt_home->name,
-                'surname' => $this->resource->rbt_home->surname,
-                'npi' => $this->resource->rbt_home->npi,
+                'name' => $this->resource->rbt_home ? $this->resource->rbt_home->name : null,
+                'surname' => $this->resource->rbt_home ? $this->resource->rbt_home->surname : null,
+                'npi' => $this->resource->rbt_home ? $this->resource->rbt_home->npi : null,
                 // "avatar"=> $this->resource->rbt_home->avatar ? env("APP_URL")."storage/".$this->resource->rbt_home->avatar : null,
                 "avatar" => $this->resource->rbt_home->avatar ? env("APP_URL") . $this->resource->rbt_home->avatar : null,
-            ],
+            ] : null,
 
             "rbt2_school_id" => $this->resource->rbt2_school_id,
             'rbt2_school' => $this->resource->rbt2_school ? [

@@ -424,7 +424,7 @@ class OpenAIController extends Controller
                 $prompt .= "\nAdditional goals or interventions: {$request->additionalGoalsOrInterventions}\n";
             }
             if ($request->wasTheRbtPresent) {
-                $prompt .= "\nThe RBT was present, so we need to add that 'the RBT was trained on the protocol modifications made'.\n";
+                $prompt .= "\nThe RBT was present, so we must add this phrase: 'the RBT was trained on the protocol modifications made'.\n";
             }
             if ($request->maladaptives && !$request->wasTheRbtPresent) {
                 $prompt .= "\nThe data for the Maladaptive behaviors was collected:\n";

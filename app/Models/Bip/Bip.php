@@ -301,11 +301,6 @@ class Bip extends Model
     ];
 
 
-    public function recommendations()
-    {
-        return $this->hasMany(Recommendation::class, 'bip_id');
-    }
-
 
     public function patient()
     {

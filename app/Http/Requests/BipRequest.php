@@ -70,6 +70,12 @@ class BipRequest extends FormRequest
             'crisis_plan.prevention' => 'nullable|string',
             'de_escalation_techniques' => 'nullable|array',
             'de_escalation_techniques.*.description' => 'nullable|string',
+            'recommendations' => 'nullable|array',
+            'recommendations.*.cpt' => 'nullable|string',
+            'recommendations.*.location' => 'nullable|string',
+            'recommendations.*.num_units' => 'nullable|integer',
+            'recommendations.*.breakdown_per_week' => 'nullable|string',
+            'recommendations.*.description_service' => 'nullable|string',
         ];
     }
 
@@ -89,6 +95,21 @@ class BipRequest extends FormRequest
             'physical_and_medical.*.frequency.required' => 'The frequency field is required for each medical record.',
             'physical_and_medical.*.reason.required' => 'The reason field is required for each medical record.',
             'physical_and_medical.*.preescribing_physician.required' => 'The prescribing physician field is required for each medical record.',
+
+            // Crisis plan messages
+            'crisis_plan.description.required' => 'The description field is required.',
+            'crisis_plan.prevention.required' => 'The prevention field is required.',
+
+            // De-escalation techniques messages
+            'de_escalation_techniques.*.description.required' => 'The description field is required.',
+
+            // Recommendations messages
+            'recommendations.*.cpt.required' => 'The CPT field is required.',
+            'recommendations.*.location.required' => 'The location field is required.',
+            'recommendations.*.num_units.required' => 'The number of units field is required.',
+            'recommendations.*.breakdown_per_week.required' => 'The breakdown per week field is required.',
+            'recommendations.*.description_service.required' => 'The description service field is required.',
+
         ];
     }
 }
